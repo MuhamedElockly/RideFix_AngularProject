@@ -1,0 +1,25 @@
+{
+  "preRequests": [
+    {
+      "carOwnerId": 1,
+      "pin": "1911"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "CategoryId": 1,
+      "Name": "عفشجي"
+    },
+    {
+      "id": 2,
+      "CategoryId": 2,
+      "Name": "كهرباء سيارات"
+    },
+    {
+      "id": 3,
+      "CategoryId": 3,
+      "Name": "ميكانيكي"
+    }
+  ]
+}

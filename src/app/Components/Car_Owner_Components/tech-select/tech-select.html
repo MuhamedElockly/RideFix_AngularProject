@@ -1,0 +1,71 @@
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1><i class="fas fa-users me-3"></i>اختيار الفنيين المتاحين</h1>
+    <p>اختر الفنيين المناسبين لمشكلة سيارتك - يمكنك اختيار أكثر من فني واحد</p>
+  </div>
+
+  <!-- Technicians Grid -->
+  <div class="technicians-grid" id="techniciansGrid">
+    <div class="technician-card" onclick="toggleTechnician(this, 'tech1')">
+      <input
+        type="checkbox"
+        class="technician-checkbox"
+        id="tech1"
+        onchange="updateSelection()"
+      />
+      <div class="technician-header">
+        <img
+          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+          alt="أحمد محمد الفقي"
+          class="technician-avatar"
+        />
+        <div class="technician-info">
+          <div class="technician-name">أحمد محمد الفقي</div>
+          <div class="technician-rating">
+            <span class="rating-stars">★★★★★</span>
+            <span class="rating-number">4.8</span>
+            <span class="rating-count">(156 تقييم)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="technician-description">
+        فني متخصص في إصلاح المحركات والمشاكل الكهربائية مع خبرة 8 سنوات في
+        المجال
+      </div>
+
+      <div class="technician-actions">
+        <button
+          class="action-btn view-profile-btn"
+          onclick="event.stopPropagation(); viewProfile('tech1')"
+        >
+          <i class="fas fa-user"></i>
+          الملف الشخصي
+        </button>
+      </div>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="submit-section">
+      <div class="submit-info">
+        <div class="selected-technicians-count" id="selectedTechniciansCount">
+          لم يتم اختيار أي فني
+        </div>
+        <div class="submit-description">
+          سيتم إرسال طلبك إلى الفنيين المختارين وسيقوم أول فني متاح بالرد عليك
+        </div>
+      </div>
+      <button
+        class="submit-btn"
+        id="submitBtn"
+        onclick="submitSelection()"
+        disabled
+      >
+        <i class="fas fa-paper-plane me-2"></i>
+        إرسال الطلب للفنيين المختارين
+      </button>
+    </div>
+  </div>
+</div>

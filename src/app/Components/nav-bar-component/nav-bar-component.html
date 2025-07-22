@@ -1,0 +1,41 @@
+<!-- Car Owner Navigation Component -->
+<nav class="top-navbar">
+  <div class="navbar-container">
+    <!-- Left Section - User Profile -->
+    <div class="navbar-left">
+      <div class="user-profile">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <p class="user-greeting">أهلاً، أحمد</p>
+          <p class="user-role">صاحب سيارة</p>
+        </div>
+      </div>
+      <div class="notification-btn">
+        <i class="fas fa-bell"></i>
+        <div class="notification-badge">4</div>
+      </div>
+    </div>
+
+    <!-- Center Section - Logo -->
+    <div class="navbar-center">
+      <a routerLink="/" class="brand-logo">
+        <div class="logo-icon">
+          <i class="fas fa-tools"></i>
+        </div>
+        <span class="logo-text">RideFix</span>
+      </a>
+    </div>
+
+    <!-- Right Section - Actions (Customizable per page)
+    <div class="navbar-right">
+      <a
+        *ngFor="let action of customActions"
+        class="nav-action-btn"
+        [class.secondary]="action.isSecondary"
+      >
+        <i [class]="action.icon"></i>
+        <span *ngIf="action.text">{{ action.text }}</span>
+      </a>
+    </div> -->
+  </div>
+</nav>

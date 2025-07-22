@@ -1,0 +1,96 @@
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1><i class="fas fa-exclamation-triangle me-3"></i>طلب خدمة الطوارئ</h1>
+    <p>املأ النموذج أدناه وسيتم توصيلك بأقرب فني معتمد في أقل من 15 دقيقة</p>
+  </div>
+
+  <!-- Emergency Form -->
+  <form
+    class="emergency-form"
+    id="emergencyForm"
+    (submit)="onSubmit()"
+    #FormVar="ngForm"
+  >
+    <!-- Problem Category -->
+    <div class="form-section">
+      <h3 class="section-title">
+        <i class="fas fa-tools"></i>
+        نوع المشكلة *
+      </h3>
+
+      <select
+        class="form-select"
+        [(ngModel)]="selectedCategory"
+        name="selectedCategory"
+        required
+        (change)="onChange()"
+      >
+        <option value="" disabled>اختر نوع المشكلة</option>
+        @for (item of categories; track $index) {
+        <option [value]="item.CategoryId">{{ item.Name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Problem Description -->
+    <div class="form-section">
+      <h3 class="section-title">
+        <i class="fas fa-comment-alt"></i>
+        وصف المشكلة *
+      </h3>
+      <div class="form-group">
+        <label class="form-label">اشرح المشكلة بالتفصيل</label>
+        <textarea
+          [(ngModel)]="Description"
+          name="Description"
+          class="form-control"
+          id="problemDescription"
+          rows="5"
+          required
+          placeholder="اكتب وصفاً مفصلاً للمشكلة التي تواجهها مع سيارتك..."
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="form-section">
+      <h3 class="section-title">
+        <i class="fas fa-camera"></i>
+        صور المشكلة (اختياري)
+      </h3>
+      <div
+        class="image-upload-area"
+        onclick="document.getElementById('imageUpload').click()"
+      >
+        <div class="upload-icon">
+          <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <div class="upload-text">اضغط لرفع الصور أو اسحبها هنا</div>
+        <div class="upload-subtext">
+          يمكنك رفع حتى 5 صور (JPG, PNG, حد أقصى 5MB لكل صورة)
+        </div>
+        <input
+          type="file"
+          id="imageUpload"
+          multiple
+          accept="image/*"
+          style="display: none"
+        />
+      </div>
+      <div class="image-preview-grid" id="imagePreviewGrid"></div>
+    </div>
+
+    <!-- Submit Button -->
+    <!-- <button type="submit" class="submit-btn" id="submitBtn">
+        <i class="fas fa-paper-plane me-2"></i>
+        إرسال طلب الطوارئ
+      </button> -->
+
+    <button type="submit" class="submit-btn" [disabled]="!FormVar.valid">
+      <i class="fas fa-paper-plane me-2"></i>
+      إرسال طلب الطوارئ
+    </button>
+  </form>
+</div>
