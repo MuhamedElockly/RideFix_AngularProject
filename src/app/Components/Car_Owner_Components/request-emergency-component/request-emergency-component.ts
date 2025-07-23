@@ -28,6 +28,7 @@ export class RequestEmergencyComponent implements OnInit {
   categories: ICategory[];
   PreRequest: IPreRequest;
   Description: string = '';
+  Imgs: string[] = [];
 
   routeService = inject(Router);
   requestService = inject(RequestService);
@@ -109,11 +110,14 @@ export class RequestEmergencyComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         this.PreRequest.pin = result.value;
-        console.log(this.PreRequest.latitude);
-        console.log(this.PreRequest.longitude);
         this.requestService.CreatePreRequest(this.PreRequest).subscribe({
           next: (res) => {
             if (res.status == 200) {
+              this.requestService.SetRealRequestData(
+                this.PreRequest,
+                this.Description,
+                this.Imgs
+              );
               this.techService.setFilteredTechs(res.body?.data);
               this.routeService.navigateByUrl('/CarOwner/SelectTech');
             } else if (res.status == 400) {

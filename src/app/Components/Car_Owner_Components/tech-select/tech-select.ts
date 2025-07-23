@@ -29,4 +29,5 @@ export class TechSelect {
     }
     this.SelectedCount = this.SelectedTechs.length;
   }
+  submitSelection() {}
 }
