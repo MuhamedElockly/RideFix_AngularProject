@@ -5,29 +5,26 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GetLocation {
-  ngOnInit() {
-    this.getLocation();
-  }
-
-  getLocation(): ILocationData | null {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const locationData: ILocationData = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          };
-          console.log('Latitude:', locationData.latitude);
-          console.log('Longitude:', locationData.longitude);
-          return locationData;
-        },
-        (error) => {
-          console.error('Error getting location', error);
-        }
-      );
-    } else {
-      alert('المتصفح لا يدعم تحديد الموقع الجغرافي');
-    }
-    return null;
+  getLocation(): Promise<ILocationData | null> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const locationData: ILocationData = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            };
+            resolve(locationData);
+          },
+          (error) => {
+            console.error('Error getting location', error);
+            reject(null);
+          }
+        );
+      } else {
+        alert('المتصفح لا يدعم تحديد الموقع الجغرافي');
+        resolve(null);
+      }
+    });
   }
 }

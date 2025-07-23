@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { GetLocation } from '../../../Services/LocationService/get-location';
 import { RequestService } from '../../../Services/RequestService/request-service';
+import { TechnicianService } from '../../../Services/TechnicianService/technician-service';
 
 @Component({
   selector: 'app-request-emergency-component',
@@ -30,6 +31,7 @@ export class RequestEmergencyComponent implements OnInit {
 
   routeService = inject(Router);
   requestService = inject(RequestService);
+  techService = inject(TechnicianService);
 
   //#region Location Service
   locationService = inject(GetLocation);
@@ -51,21 +53,29 @@ export class RequestEmergencyComponent implements OnInit {
       categoryId: 0,
       latitude: 30,
       longitude: 33,
-      pin: '',
+      pin: 0,
     };
   }
 
   async ngOnInit(): Promise<void> {
     try {
       const location = await this.locationService.getLocation();
-      this.longitude = location?.longitude ?? null;
-      this.latitude = location?.latitude ?? null;
+      if (location != null) {
+        this.longitude = location.longitude;
+        this.latitude = location.latitude;
+
+        // 👇 ضيفهم مباشرة بعد ما يوصلوا
+        this.PreRequest.longitude = location.longitude;
+        this.PreRequest.latitude = location.latitude;
+      } else {
+        this.PreRequest.longitude = null;
+        this.PreRequest.latitude = null;
+      }
     } catch (error) {
       console.error('Failed to get location:', error);
-      // Optionally show an error message to the user
+      this.PreRequest.longitude = null;
+      this.PreRequest.latitude = null;
     }
-    this.PreRequest.longitude = this.longitude;
-    this.PreRequest.latitude = this.latitude;
   }
 
   onChange() {
@@ -91,7 +101,7 @@ export class RequestEmergencyComponent implements OnInit {
       inputValidator: (value) => {
         if (!value) {
           return 'من فضلك أدخل رمز PIN';
-        } else if (!/^\d{4}$/.test(value)) {
+        } else if (!/^\d{2}$/.test(value)) {
           return 'الرمز يجب أن يكون 4 أرقام فقط';
         }
         return null;
@@ -99,25 +109,36 @@ export class RequestEmergencyComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         this.PreRequest.pin = result.value;
-
-        this.requestService.GetPinCode(this.PreRequest).subscribe({
+        console.log(this.PreRequest.latitude);
+        console.log(this.PreRequest.longitude);
+        this.requestService.CreatePreRequest(this.PreRequest).subscribe({
           next: (res) => {
-            if (String(this.PreRequest.pin) === String(res[0].pin)) {
+            if (res.status == 200) {
+              this.techService.setFilteredTechs(res.body?.data);
               this.routeService.navigateByUrl('/CarOwner/SelectTech');
-            } else {
+            } else if (res.status == 400) {
+            }
+          },
+          error: (err) => {
+            if (err.status == 400) {
               Swal.fire({
                 icon: 'error',
                 title: 'خطأ',
                 text: 'رمز PIN غير صحيح ❌',
               });
+            } else if ((err.status = 404)) {
+              Swal.fire({
+                icon: 'error',
+                title: 'للاسف',
+                text: 'لا يوجد فني يخدم في هذه المنطقة الان',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'حدث خطأ',
+                text: 'لم يتم التحقق من الرمز. حاول مرة أخرى لاحقًا.',
+              });
             }
-          },
-          error: (err) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'حدث خطأ',
-              text: 'لم يتم التحقق من الرمز. حاول مرة أخرى لاحقًا.',
-            });
           },
         });
       }

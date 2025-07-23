@@ -21,5 +21,74 @@
       "CategoryId": 3,
       "Name": "ميكانيكي"
     }
+  ],
+
+  "Technichians": [
+    {
+      "TechId": 1,
+      "Name": "أحمد محمد",
+      "imageUrl": "https://example.com/images/ahmed.jpg",
+      "startWorking": "08:00",
+      "endWorking": "16:00",
+      "description": "Expert in car engine repairs with 10 years of experience.",
+      "tCategories": [
+        {
+          "id": 1,
+          "name": "عفشجي"
+        },
+        {
+          "id": 2,
+          "name": "ميكانيكي"
+        }
+      ],
+      "reviews": {
+        "Rate": 4.5,
+        "Count": 23
+      }
+    },
+    {
+      "TechId": 2,
+      "Name": "محمود علي",
+      "imageUrl": "https://example.com/images/mahmoud.jpg",
+      "startWorking": "09:30",
+      "endWorking": "18:00",
+      "description": "Specialist in electrical and diagnostic services.",
+      "tCategories": [
+        {
+          "id": 1,
+          "name": "عفشجي"
+        },
+        {
+          "id": 2,
+          "name": "ميكانيكي"
+        }
+      ],
+      "reviews": {
+        "Rate": 4.8,
+        "Count": 17
+      }
+    },
+    {
+      "TechId": 3,
+      "Name": "يوسف خالد",
+      "imageUrl": "https://example.com/images/youssef.jpg",
+      "startWorking": "10:00",
+      "endWorking": "19:00",
+      "description": "Brake and suspension expert.",
+      "tCategories": [
+        {
+          "id": 5,
+          "name": "Brakes"
+        },
+        {
+          "id": 6,
+          "name": "Suspension"
+        }
+      ],
+      "reviews": {
+        "Rate": 4.2,
+        "Count": 10
+      }
+    }
   ]
 }
