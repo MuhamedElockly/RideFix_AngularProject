@@ -48,5 +48,15 @@ export class RequestService {
     );
   }
 
-  // public CreateRequests();
+  public CreateRequest(techs: number[]): Observable<any> {
+    this.realRequest.technicianIDs = techs;
+    {
+      return this.clientService.post<any>(
+        `http://localhost:5038/api/Request`,
+        this.realRequest,
+        { observe: 'response' }
+      );
+    }
+    // public CreateRequests();
+  }
 }
