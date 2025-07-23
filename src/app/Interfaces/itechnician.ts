@@ -1,10 +1,13 @@
 import { ICategory } from './icategory';
 import { IReview } from './ireview';
 
-export interface FilteredTechniciansDTO {
-  startWorking: string; // TimeOnly → string (مثلاً "08:00")
+export interface ITechnician {
+  id: number;
+  name: string;
+  faceImageURL: string;
+  startWorking: string;
   endWorking: string;
   description: string;
   tCategories: ICategory[];
-  reviews: IReview[];
+  reviews: IReview;
 }

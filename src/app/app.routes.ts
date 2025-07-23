@@ -6,6 +6,7 @@ import { TechSelect } from './Components/Car_Owner_Components/tech-select/tech-s
 import { CarOwnerModule } from './Components/Car_Owner_Components/car-owner-module/car-owner-module';
 import { Requests } from './Components/technical/requests/requests';
 import { TechServieces } from './Components/technical/tech-servieces/tech-servieces';
+import { WaitingComponent } from './Components/Car_Owner_Components/waiting-component/waiting-component';
 
 export const routes: Routes = [
   {
@@ -15,7 +16,7 @@ export const routes: Routes = [
       { path: 'Home', component: CarOwnerHomeComponent },
       { path: 'RequestEmergency', component: RequestEmergencyComponent },
       { path: 'SelectTech', component: TechSelect },
-
+      { path: 'Waiting', component: WaitingComponent },
     ],
   },
   { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
