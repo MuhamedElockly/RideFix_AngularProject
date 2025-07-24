@@ -8,6 +8,7 @@ import { authRoutes } from './routes/auth.routes';
 import { Requests } from './Components/technical/requests/requests';
 import { TechServieces } from './Components/technical/tech-servieces/tech-servieces';
 import { WaitingComponent } from './Components/Car_Owner_Components/waiting-component/waiting-component';
+import { Techchat } from './Components/technical/techchat/techchat';
 
 
 export const routes: Routes = [
@@ -28,5 +29,7 @@ export const routes: Routes = [
   { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
 { path: 'requests',component:Requests},
 { path: 'techservieces',component:TechServieces},
+{ path: 'techchat',component:Techchat},
+
 
 ];

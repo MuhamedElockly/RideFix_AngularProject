@@ -1,9 +1,12 @@
 export interface ItechRequect {
-// isCompleted: string,
+isCompleted: boolean;
+technicianId:number;
 requestId: number;
-  description: string;
-  carOwnerId: number;
-  carOwnerName: string,
-      // faceImageUrl: string
+description: string;
+carOwnerId: number;
+carOwnerName: string;
+faceImageUrl: string
+
+
 
 }
