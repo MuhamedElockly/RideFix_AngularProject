@@ -9,12 +9,12 @@
   <!-- Technicians Grid -->
   <div class="technicians-grid" id="techniciansGrid">
     @for (item of filteredTech; track $index) {
-    <div class="technician-card" onclick="toggleTechnician(this, 'tech1')">
+    <div class="technician-card">
       <input
         type="checkbox"
         class="technician-checkbox"
         id="tech1"
-        (change)="onCheckboxChange($event, item.TechId)"
+        (change)="onCheckboxChange($event, item.id)"
       />
       <div class="technician-header">
         <img
@@ -70,7 +70,7 @@
       <button
         class="submit-btn"
         id="submitBtn"
-        onclick="submitSelection()"
+        (click)="submitSelection()"
         [disabled]="!(SelectedCount > 0)"
       >
         <i class="fas fa-paper-plane me-2"></i>

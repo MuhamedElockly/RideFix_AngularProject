@@ -1,0 +1,42 @@
+.modal-content {
+            border-radius: 20px;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #b5c7d3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem auto;
+        }
+        .modal-icon i {
+            font-size: 2.5rem;
+            color: #b5c7d3;
+        }
+        .btn-orange {
+              background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+
+            /* background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%); */
+            color: #fff;
+            border: none;
+        }
+        .btn-orange:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+        .btn-darkgray {
+            background: #555e68;
+            color: #fff;
+            border: none;
+        }
+        .btn-darkgray:hover {
+            opacity: 0.9;
+            /* color: #fff; */
+            color: black;
+            outline: 1px solid black;
+
+        }

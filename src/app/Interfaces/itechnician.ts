@@ -2,7 +2,7 @@ import { ICategory } from './icategory';
 import { IReview } from './ireview';
 
 export interface ITechnician {
-  TechId: Number;
+  id: number;
   name: string;
   faceImageURL: string;
   startWorking: string;
