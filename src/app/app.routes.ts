@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { CarOwnerHomeComponent } from './Components/Car_Owner_Components/car-owner-home-component/car-owner-home-component';
 import { RequestEmergencyComponent } from './Components/Car_Owner_Components/request-emergency-component/request-emergency-component';
 import { TechSelect } from './Components/Car_Owner_Components/tech-select/tech-select';
 import { CarOwnerModule } from './Components/Car_Owner_Components/car-owner-module/car-owner-module';
+import { authRoutes } from './routes/auth.routes';
 
 export const routes: Routes = [
+  ...authRoutes,
   {
     path: 'CarOwner',
     component: CarOwnerModule,
@@ -15,5 +16,6 @@ export const routes: Routes = [
       { path: 'SelectTech', component: TechSelect },
     ],
   },
-  { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
+
+  { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' }, // لو المستخدم مش مسجل
 ];
