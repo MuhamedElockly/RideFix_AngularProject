@@ -15,7 +15,7 @@
         class="card-body d-flex flex-column flex-md-row align-items-md-center"
       >
         <img
-          src="https://randomuser.me/api/portraits/men/31.jpg"
+          src="{{item.faceImageUrl}}"
           class="ms-md-4 mb-3 mb-md-0"
           style="
             width: 60px;
@@ -28,7 +28,7 @@
         <div class="flex-grow-1">
           <div class="d-flex align-items-center mb-2">
             <span class="fw-bold fs-5 ms-2"
-              >جون سميث {{ item.carOwnerId }}</span
+              >  {{item.carOwnerName}}</span
             >
             <!-- <span class="badge badge-high text-white me-2">عاجل</span> -->
           </div>
@@ -41,15 +41,15 @@
           <div class="fw-bold fs-4 text-success">150-200 دولار</div> -->
         </div>
         <div class="d-flex flex-column gap-2 me-md-4 mt-3 mt-md-0">
-          <button class="btn btn-outline-dark">
+          <button class="btn btn-outline-dark"  >
             <i class="bi bi-eye"></i> عرض التفاصيل
           </button>
           @if(showBookingButton){
           <!-- <button class="btn btn-success">قبول الطلب</button> -->
-          <button class="btn btn-apply">تقديم الآن</button>
+          <button class="btn btn-apply" (click)="confirmApprovalWithPassword(item)">تقديم الآن</button>
 
           }@else{
-          <button class="btn btn-outline-success">
+          <button class="btn btn-outline-success"  (click)="confirmApprovalWithPassword(item)">
             <i class="bi bi-check-circle"></i> موافقة
           </button>
 
