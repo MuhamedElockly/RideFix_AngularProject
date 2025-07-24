@@ -25,6 +25,21 @@
         <span class="logo-text">RideFix</span>
       </a>
     </div>
+    <div class="navbar-right">
+      <a
+        *ngIf="!isLoggedIn() && !isLoginPage()"
+        (click)="loginPage()"
+        class="nav-action-btn"
+      >
+        <i class="fas fa-sign-in-alt"></i>
+        <span>تسجيل الدخول</span>
+      </a>
+
+      <a *ngIf="isLoggedIn()" class="nav-action-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>تسجيل الخروج</span>
+      </a>
+    </div>
 
     <!-- Right Section - Actions (Customizable per page)
     <div class="navbar-right">
