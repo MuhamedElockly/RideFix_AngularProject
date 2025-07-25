@@ -5,6 +5,12 @@ import { CarOwnerHomeComponent } from './Components/Car_Owner_Components/car-own
 import { FooterComponent } from './Components/footer-component/footer-component';
 import { CarOwnerModule } from './Components/Car_Owner_Components/car-owner-module/car-owner-module';
 
+import { LoginComponent } from './Components/login/login';
+import { FormsModule } from '@angular/forms';
+import { Sidebar } from './Components/technical/sidebar/sidebar';
+import { Requests } from './Components/technical/requests/requests';
+import { TemplateSweet } from './Components/technical/template-sweet/template-sweet';
+
 @Component({
   selector: 'app-root',
   imports: [
@@ -13,6 +19,11 @@ import { CarOwnerModule } from './Components/Car_Owner_Components/car-owner-modu
     NavBarComponent,
     CarOwnerHomeComponent,
     FooterComponent,
+    LoginComponent,
+    FormsModule,
+    Sidebar,
+    Requests,
+    TemplateSweet
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
