@@ -17,12 +17,14 @@ export class TechSelect implements OnInit {
   routeService = inject(Router);
   techService = inject(TechnicianService);
   requestService = inject(RequestService);
+  pinvalue: Number = 0;
 
   filteredTech: ITechnician[] = [];
   SelectedTechs: number[] = [];
   SelectedCount: number = 0;
 
   ngOnInit(): void {
+    this.requestService.SetRealRequestFromLocal();
     this.filteredTech = this.techService.getFilteredTechs();
   }
   onCheckboxChange(event: Event, selectedId: number) {
@@ -36,26 +38,91 @@ export class TechSelect implements OnInit {
     this.SelectedCount = this.SelectedTechs.length;
   }
 
-  submitSelection() {
-    this.requestService.CreateRequest(this.SelectedTechs).subscribe({
-      next: (res) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'تم بنجاح',
-          text: 'تم إرسال الطلب بنجاح',
-          confirmButtonText: 'حسناً',
-        }).then(() => {
-          this.routeService.navigateByUrl('CarOwner/Waiting');
-        });
+  // submitSelection() {
+  //   this.requestService.CreateRequest(this.SelectedTechs).subscribe({
+  //     next: (res) => {
+  //       Swal.fire({
+  //         icon: 'success',
+  //         title: 'تم بنجاح',
+  //         text: 'تم إرسال الطلب بنجاح',
+  //         confirmButtonText: 'حسناً',
+  //       }).then(() => {
+  //         this.routeService.navigateByUrl('CarOwner/Waiting');
+  //       });
+  //     },
+  //     error: (err) => {
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'خطأ',
+  //         text: 'حدث خطأ أثناء إرسال الطلب، حاول مرة أخرى',
+  //         confirmButtonText: 'حسناً',
+  //       });
+  //     },
+  //   });
+  // }
+
+  public viewProfile(Id: number) {
+    this.techService.profileViewId = Id;
+    this.routeService.navigateByUrl('/CarOwner/TechViewDetails');
+  }
+
+  onSubmit() {
+    Swal.fire({
+      title: 'أدخل رمز PIN',
+      input: 'text',
+      inputLabel: 'الرمز السري المكوّن من 4 أرقام',
+      inputPlaceholder: '••••',
+      inputAttributes: {
+        maxlength: '4',
+        pattern: '[0-9]*',
+        autocapitalize: 'off',
+        autocorrect: 'off',
       },
-      error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'خطأ',
-          text: 'حدث خطأ أثناء إرسال الطلب، حاول مرة أخرى',
-          confirmButtonText: 'حسناً',
-        });
+      showCancelButton: true,
+      confirmButtonText: 'تأكيد',
+      cancelButtonText: 'إلغاء',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'من فضلك أدخل رمز PIN';
+        } else if (!/^\d{2}$/.test(value)) {
+          return 'الرمز يجب أن يكون 4 أرقام فقط';
+        }
+        return null;
       },
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        this.pinvalue = result.value;
+        this.requestService
+          .CreateRequest(this.SelectedTechs, this.pinvalue)
+          .subscribe({
+            next: (res) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'تم بنجاح',
+                text: 'تم إرسال الطلب بنجاح',
+                confirmButtonText: 'حسناً',
+              }).then(() => {
+                this.routeService.navigateByUrl('CarOwner/Waiting');
+              });
+            },
+            error: (err) => {
+              if (err.status == 400) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'خطأ',
+                  text: 'رمز PIN غير صحيح ❌',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'خطأ',
+                  text: 'حدث خطأ أثناء إرسال الطلب، حاول مرة أخرى',
+                  confirmButtonText: 'حسناً',
+                });
+              }
+            },
+          });
+      }
     });
   }
 }

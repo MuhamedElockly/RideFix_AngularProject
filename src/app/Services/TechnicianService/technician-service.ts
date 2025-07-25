@@ -1,13 +1,17 @@
+import { ITechnichianDetails } from '../../Interfaces/ItechnichianDetails';
 import { IPreRequest } from './../../Interfaces/ipre-request';
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITechnician } from '../../Interfaces/itechnician';
+import { IProfileResponse } from '../../Interfaces/iprofile-Response';
 @Injectable({
   providedIn: 'root',
 })
 export class TechnicianService {
+  clientService = inject(HttpClient);
   FilteredTechs: ITechnician[];
+  profileViewId: number = 0;
   /**
    *
    */
@@ -21,5 +25,14 @@ export class TechnicianService {
 
   public getFilteredTechs(): ITechnician[] {
     return this.FilteredTechs;
+  }
+
+  public getTechDetails(
+    Id: number
+  ): Observable<HttpResponse<IProfileResponse>> {
+    return this.clientService.get<IProfileResponse>(
+      `http://localhost:5038/api/Technician/${this.profileViewId}`,
+      { observe: 'response' }
+    );
   }
 }
