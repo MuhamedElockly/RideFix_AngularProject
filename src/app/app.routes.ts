@@ -9,6 +9,10 @@ import { Requests } from './Components/technical/requests/requests';
 import { TechServieces } from './Components/technical/tech-servieces/tech-servieces';
 import { WaitingComponent } from './Components/Car_Owner_Components/waiting-component/waiting-component';
 
+import { ProfileView } from './Components/Car_Owner_Components/profile-view/profile-view';
+import { Techchat } from './Components/technical/techchat/techchat';
+import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history-component/request-history-component';
+
 export const routes: Routes = [
   ...authRoutes,
   {
@@ -19,6 +23,8 @@ export const routes: Routes = [
       { path: 'RequestEmergency', component: RequestEmergencyComponent },
       { path: 'SelectTech', component: TechSelect },
       { path: 'Waiting', component: WaitingComponent },
+      { path: 'TechViewDetails', component: ProfileView },
+      { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
   },
 
@@ -28,4 +34,5 @@ export const routes: Routes = [
   { path: 'techservieces', component: TechServieces },
 
   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
+  { path: 'techchat', component: Techchat },
 ];

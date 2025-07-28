@@ -1,42 +1,62 @@
+/* .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.message-box {
+  background-color: white;
+  padding: 20px 40px;
+  border-radius: 8px;
+  font-size: 24px;
+  color: green;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+} */
+
+
 .modal-content {
-            border-radius: 20px;
-            text-align: center;
-            padding: 2rem 1rem;
-        }
-        .modal-icon {
-            width: 80px;
-            height: 80px;
-            border: 3px solid #b5c7d3;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem auto;
-        }
-        .modal-icon i {
-            font-size: 2.5rem;
-            color: #b5c7d3;
-        }
-        .btn-orange {
-              background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
-
-            /* background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%); */
-            color: #fff;
-            border: none;
-        }
-        .btn-orange:hover {
-            opacity: 0.9;
-            color: #fff;
-        }
-        .btn-darkgray {
-            background: #555e68;
-            color: #fff;
-            border: none;
-        }
-        .btn-darkgray:hover {
-            opacity: 0.9;
-            /* color: #fff; */
-            color: black;
-            outline: 1px solid black;
-
-        }
+  border-radius: 20px;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+.modal-icon {
+  width: 80px;
+  height: 80px;
+  border: 3px solid #b5c7d3;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+}
+.modal-icon i {
+  font-size: 2.5rem;
+  color: #b5c7d3;
+}
+.btn-orange {
+  background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+  color: #fff;
+  border: none;
+}
+.btn-orange:hover {
+  opacity: 0.9;
+  color: #fff;
+}
+.btn-darkgray {
+  background: #555e68;
+  color: #fff;
+  border: none;
+}
+.btn-darkgray:hover {
+  opacity: 0.9;
+  color: black;
+  outline: 1px solid black;
+}

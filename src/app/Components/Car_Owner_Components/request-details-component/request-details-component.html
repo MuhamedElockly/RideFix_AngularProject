@@ -1,0 +1,168 @@
+<!-- Enhanced Request Details Modal -->
+<div class="enhanced-modal-overlay" *ngIf="isVisible" (click)="closeModal()">
+  <div class="enhanced-request-modal" (click)="$event.stopPropagation()">
+    <!-- Enhanced Header -->
+    <div class="enhanced-modal-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-file-alt"></i>
+        </div>
+        <div class="header-text">
+          <h2 class="modal-title">تفاصيل الطلب</h2>
+          <p class="modal-subtitle">معلومات شاملة عن طلب الخدمة</p>
+        </div>
+      </div>
+      <button class="enhanced-close-btn" (click)="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Enhanced Body -->
+    <div class="enhanced-modal-body">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="enhanced-loading">
+        <div class="loading-animation">
+          <div class="loading-circle"></div>
+          <div class="loading-circle"></div>
+          <div class="loading-circle"></div>
+        </div>
+        <p class="loading-text">جاري تحميل البيانات...</p>
+      </div>
+
+      <!-- Request Details Content -->
+      <div *ngIf="!isLoading && requestDetails" class="enhanced-content">
+        <!-- Enhanced Info Grid -->
+        <div class="enhanced-info-grid">
+          <!-- Request Number -->
+          <div class="enhanced-info-card primary">
+            <div class="card-icon">
+              <i class="fas fa-hashtag"></i>
+            </div>
+            <div class="card-content">
+              <span class="card-label">رقم الطلب</span>
+              <span class="card-value"
+                >REQ-{{ Id.toString().padStart(3, "0") }}</span
+              >
+            </div>
+          </div>
+
+          <!-- Date -->
+          <div class="enhanced-info-card secondary">
+            <div class="card-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="card-content">
+              <span class="card-label">التاريخ</span>
+              <span class="card-value">{{
+                formatDate(requestDetails.requestDate)
+              }}</span>
+            </div>
+          </div>
+
+          <!-- Technician -->
+          <div class="enhanced-info-card success">
+            <div class="card-icon">
+              <i class="fas fa-user-cog"></i>
+            </div>
+            <div class="card-content">
+              <span class="card-label">اسم الفني</span>
+              <span class="card-value">{{
+                requestDetails.technicianName
+              }}</span>
+            </div>
+          </div>
+
+          <!-- Service Type -->
+          <div class="enhanced-info-card info">
+            <div class="card-icon">
+              <i class="fas fa-tools"></i>
+            </div>
+            <div class="card-content">
+              <span class="card-label">نوع الخدمة</span>
+              <span class="card-value service-badge">{{
+                requestDetails.categoryName
+              }}</span>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="enhanced-info-card success">
+            <div class="card-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="card-content">
+              <span class="card-label">الموقع</span>
+              <span class="card-value">{{ requestDetails.city }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Description Section -->
+        <div class="enhanced-section">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h3 class="section-title">وصف المشكلة</h3>
+          </div>
+          <div class="section-content">
+            <div class="description-box">
+              <p>{{ requestDetails.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Rating Section -->
+        <div class="enhanced-section" *ngIf="requestDetails.rate > 0">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <h3 class="section-title">تقييم الخدمة</h3>
+          </div>
+          <div class="section-content">
+            <div class="rating-display">
+              <div class="stars-container">
+                <i
+                  *ngFor="let star of generateStars(requestDetails.rate)"
+                  [class]="star"
+                ></i>
+              </div>
+              <div class="rating-info">
+                <span class="rating-text">{{
+                  getRatingText(requestDetails.rate)
+                }}</span>
+                <span class="rating-score">({{ requestDetails.rate }}/5)</span>
+              </div>
+            </div>
+            <div class="customer-comment" *ngIf="requestDetails.comment">
+              <h4>تعليق العميل:</h4>
+              <p>{{ requestDetails.comment }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Error State -->
+      <div *ngIf="!isLoading && !requestDetails" class="enhanced-error">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3>لم يتم العثور على البيانات</h3>
+        <p>عذراً، لا يمكن تحميل تفاصيل هذا الطلب</p>
+      </div>
+    </div>
+
+    <!-- Enhanced Footer -->
+    <div class="enhanced-modal-footer">
+      <button class="enhanced-btn primary" (click)="printDetails()">
+        <i class="fas fa-print"></i>
+        <span>طباعة التفاصيل</span>
+      </button>
+      <button class="enhanced-btn secondary" (click)="closeModal()">
+        <i class="fas fa-times"></i>
+        <span>إغلاق</span>
+      </button>
+    </div>
+  </div>
+</div>
