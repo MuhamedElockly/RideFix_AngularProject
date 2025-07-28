@@ -1,0 +1,57 @@
+<!-- Sidebar for desktop -->
+<div class="sidebar d-none d-lg-block" dir="rtl">
+  <div class="mb-4 d-flex align-items-center gap-2">
+    <div>
+      <div class="fw-bold fs-5">تيك برو</div>
+      <div class="small text-secondary">منصة المستقلين</div>
+    </div>
+  </div>
+  <ul class="nav flex-column mb-auto">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/x" routerLinkActive="active"><i class="bi bi-tools ms-2"></i>الدعم الفني</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " routerLink="/requests" routerLinkActive="active"><i class="bi bi-list-task ms-2"></i>الطلبات</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"routerLink="/techservieces" routerLinkActive="active"><i class="bi bi-truck ms-2"></i>الخدمات</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/y" routerLinkActive="active"><i class="bi bi-chat-dots ms-2"></i>المحادثات</a>
+    </li>
+  </ul>
+  <div class="profile mt-auto d-flex align-items-center gap-2">
+    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe" width="40" class="rounded-circle" />
+    <div>
+      <div class="fw-bold">جون دو</div>
+      <div class="small text-secondary">فني</div>
+    </div>
+    <i class="bi bi-gear me-auto"></i>
+  </div>
+</div>
+
+<!-- Navbar for mobile -->
+<nav class="sidebar-top d-lg-none" dir="rtl">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="fw-bold fs-4">تيك برو</div>
+    <button class="btn btn-sm btn-light" (click)="toggleMenu()">
+      <i class="bi bi-list"></i> القائمة
+    </button>
+  </div>
+  <div class="mt-2" [style.display]="menuVisible ? 'block' : 'none'">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/x" routerLinkActive="active" ><i class="bi bi-tools ms-2"></i>الدعم الفني</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link "routerLink="/requests" routerLinkActive="active" ><i class="bi bi-list-task ms-2"></i>الطلبات</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/techservieces" routerLinkActive="active"  ><i class="bi bi-truck ms-2"></i>الخدمات</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"routerLink="/y" routerLinkActive="active"  ><i class="bi bi-chat-dots ms-2"></i>المحادثات</a>
+      </li>
+    </ul>
+  </div>
+</nav>

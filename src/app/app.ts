@@ -4,8 +4,12 @@ import { NavBarComponent } from './Components/nav-bar-component/nav-bar-componen
 import { CarOwnerHomeComponent } from './Components/Car_Owner_Components/car-owner-home-component/car-owner-home-component';
 import { FooterComponent } from './Components/footer-component/footer-component';
 import { CarOwnerModule } from './Components/Car_Owner_Components/car-owner-module/car-owner-module';
+
 import { LoginComponent } from './Components/login/login';
 import { FormsModule } from '@angular/forms';
+import { Sidebar } from './Components/technical/sidebar/sidebar';
+import { Requests } from './Components/technical/requests/requests';
+import { TemplateSweet } from './Components/technical/template-sweet/template-sweet';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -19,6 +23,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginComponent,
     FormsModule,
     ReactiveFormsModule,
+    Sidebar,
+    Requests,
+    TemplateSweet,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
