@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { Sidebar } from './Components/technical/sidebar/sidebar';
 import { Requests } from './Components/technical/requests/requests';
 import { TemplateSweet } from './Components/technical/template-sweet/template-sweet';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -21,9 +22,10 @@ import { TemplateSweet } from './Components/technical/template-sweet/template-sw
     FooterComponent,
     LoginComponent,
     FormsModule,
+    ReactiveFormsModule,
     Sidebar,
     Requests,
-    TemplateSweet
+    TemplateSweet,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

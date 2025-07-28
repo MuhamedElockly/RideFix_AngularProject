@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { loginInterceptor } from './interceptors/login-interceptor';
-
+import { authRoutes } from './routes/auth.routes';
 import { routes } from './app.routes';
 import {
   provideHttpClient,
@@ -18,6 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptors([loginInterceptor])),
+    provideHttpClient(withInterceptors([loginInterceptor])),
   ],
 };
