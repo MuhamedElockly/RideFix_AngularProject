@@ -17,5 +17,5 @@ export const routes: Routes = [
     ],
   },
 
-  { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' }, // لو المستخدم مش مسجل
+  { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
 ];
