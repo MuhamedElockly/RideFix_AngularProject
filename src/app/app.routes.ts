@@ -10,6 +10,7 @@ import { TechServieces } from './Components/technical/tech-servieces/tech-servie
 import { WaitingComponent } from './Components/Car_Owner_Components/waiting-component/waiting-component';
 import { ProfileView } from './Components/Car_Owner_Components/profile-view/profile-view';
 import { Techchat } from './Components/technical/techchat/techchat';
+import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history-component/request-history-component';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -22,6 +23,7 @@ export const routes: Routes = [
       { path: 'SelectTech', component: TechSelect },
       { path: 'Waiting', component: WaitingComponent },
       { path: 'TechViewDetails', component: ProfileView },
+      { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
   },
 

@@ -24,9 +24,20 @@ export class TechSelect implements OnInit {
   SelectedCount: number = 0;
 
   ngOnInit(): void {
-    this.requestService.SetRealRequestFromLocal();
-    this.filteredTech = this.techService.getFilteredTechs();
+    const preRequest = this.requestService.SetRealRequestFromLocal();
+
+    if (preRequest) {
+      this.requestService.CreatePreRequest(preRequest).subscribe({
+        next: (res) => {
+          this.filteredTech = res.body?.data!;
+        },
+        error: (err) => {
+          console.error('Error loading filtered techs', err);
+        },
+      });
+    }
   }
+
   onCheckboxChange(event: Event, selectedId: number) {
     const isChecked = (event.target as HTMLInputElement).checked;
 
@@ -102,6 +113,7 @@ export class TechSelect implements OnInit {
                 text: 'تم إرسال الطلب بنجاح',
                 confirmButtonText: 'حسناً',
               }).then(() => {
+                localStorage.removeItem('realRequest');
                 this.routeService.navigateByUrl('CarOwner/Waiting');
               });
             },
@@ -111,6 +123,12 @@ export class TechSelect implements OnInit {
                   icon: 'error',
                   title: 'خطأ',
                   text: 'رمز PIN غير صحيح ❌',
+                });
+              } else if (err.status == 409) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'خطأ',
+                  text: 'يوجد طلب قيد التنفيذ❌',
                 });
               } else {
                 Swal.fire({
