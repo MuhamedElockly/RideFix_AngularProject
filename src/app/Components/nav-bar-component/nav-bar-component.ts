@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../Services/AuthService/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar-component',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './nav-bar-component.html',
   styleUrl: './nav-bar-component.css',
   encapsulation: ViewEncapsulation.None, // ✨ الحل هنا

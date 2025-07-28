@@ -1,0 +1,107 @@
+<div class="completion-modal-overlay" [class.visible]="isVisible">
+  <div class="completion-modal">
+    <div class="completion-modal-header">
+      <div class="completion-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2 class="completion-title">تأكيد إنجاز الخدمة</h2>
+      <p class="completion-subtitle">يرجى تقييم الخدمة المقدمة وإضافة تعليقك</p>
+    </div>
+
+    <div class="completion-modal-body">
+      <!-- Service Info -->
+      <div class="service-info-section">
+        <div class="service-info-item">
+          <i class="fas fa-user-cog"></i>
+          <div class="service-info-content">
+            <span class="service-info-label">الفني</span>
+            <span class="service-info-value">{{ technicianName }}</span>
+          </div>
+        </div>
+        <div class="service-info-item">
+          <i class="fas fa-tools"></i>
+          <div class="service-info-content">
+            <span class="service-info-label">نوع الخدمة</span>
+            <span class="service-info-value">{{ categoryName }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rating Section -->
+      <div class="rating-section">
+        <h3 class="rating-title">
+          <i class="fas fa-star"></i>
+          تقييم الخدمة
+        </h3>
+        <div class="rating-stars">
+          <button
+            *ngFor="let star of stars"
+            class="star-button"
+            [class.filled]="isStarFilled(star)"
+            [class.hovered]="star <= hoveredRating"
+            (click)="setRating(star)"
+            (mouseenter)="setHoveredRating(star)"
+            (mouseleave)="clearHoveredRating()"
+            type="button"
+          >
+            <i class="fas fa-star"></i>
+          </button>
+        </div>
+        <div class="rating-text" *ngIf="rating > 0">
+          <span class="rating-value">{{ rating }}</span>
+          <span class="rating-description">
+            {{
+              rating === 1
+                ? "ضعيف جداً"
+                : rating === 2
+                ? "ضعيف"
+                : rating === 3
+                ? "متوسط"
+                : rating === 4
+                ? "جيد"
+                : "ممتاز"
+            }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Comment Section -->
+      <div class="comment-section">
+        <h3 class="comment-title">
+          <i class="fas fa-comment"></i>
+          تعليقك على الخدمة
+          <span class="optional">(اختياري)</span>
+        </h3>
+        <textarea
+          class="comment-textarea"
+          [(ngModel)]="comment"
+          placeholder="شاركنا رأيك في الخدمة المقدمة... كيف كانت تجربتك؟ هل هناك ملاحظات أو اقتراحات؟"
+          rows="4"
+          maxlength="500"
+        ></textarea>
+        <div class="character-count">
+          <span [class.warning]="comment.length > 450">{{
+            comment.length
+          }}</span
+          >/500
+        </div>
+      </div>
+    </div>
+
+    <div class="completion-modal-footer">
+      <button class="btn btn-cancel" (click)="closeModal()" type="button">
+        <i class="fas fa-times"></i>
+        إلغاء
+      </button>
+      <button
+        class="btn btn-complete"
+        (click)="onSubmit()"
+        type="button"
+        [disabled]="rating === 0"
+      >
+        <i class="fas fa-check-circle"></i>
+        تأكيد الإنجاز
+      </button>
+    </div>
+  </div>
+</div>
