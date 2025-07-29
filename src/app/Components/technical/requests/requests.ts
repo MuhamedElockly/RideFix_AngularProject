@@ -3,6 +3,7 @@ import { TechrequestService } from '../../../Services/techRequestService/techreq
 import { ItechRequect } from '../../../Interfaces/itech-requect';
 import { TemplateRequest } from '../template-request/template-request';
 import { TemplateSweet } from '../template-sweet/template-sweet';
+import { Ihistorytech } from '../../../Interfaces/ihistorytech';
 
 @Component({
   selector: 'app-requests',
@@ -15,14 +16,24 @@ export class Requests implements OnInit {
 
   }
   ngOnInit(): void {
-    this.techrequest.getAll().subscribe({
+    this.techrequest.getAllbyid().subscribe({
       next:b=>{
         this.request = Array.isArray(b) ? b : [b];
         console.log(this.request)
       }
     })
+
+    this.techrequest.getacceptrequest().subscribe({
+      next:b=>{
+        this.Acecctrequest = Array.isArray(b) ? b : [b];
+        // console.log(this.request)
+      }
+    }
+    )
+
   }
 
+Acecctrequest:Ihistorytech[]=[];
   request:ItechRequect[]=[];
 
   //  @ViewChild(TemplateSweet) alertModal!: TemplateSweet;
