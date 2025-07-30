@@ -1,26 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 import { AuthService } from '../../Services/AuthService/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register-step2',
   standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './register-step2.html',
+  styleUrls: ['./register-step2.css'],
+  imports: [CommonModule, FormsModule],
 })
-export class RegisterStep2Component {
+export class RegisterStep2Component implements OnDestroy {
+  @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
+
   email: string = '';
+  stream: MediaStream | null = null;
+  showCamera: boolean = false;
+  cameraTarget: 'identity' | 'face' | null = null;
+  isSubmitting = false;
 
   identityImage!: File;
   faceImage!: File;
 
   identityPreview: string | null = null;
   facePreview: string | null = null;
-
-  triedSubmit: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -32,71 +37,90 @@ export class RegisterStep2Component {
     });
   }
 
-  onFileSelected(event: any, type: 'identity' | 'face') {
-    const file = event.target.files[0];
-    if (!file) return;
+  openCamera(type: 'identity' | 'face') {
+    this.cameraTarget = type;
+    this.showCamera = true;
 
-    if (!file.type.startsWith('image/')) {
-      Swal.fire({
-        icon: 'error',
-        title: 'ملف غير صالح',
-        text: 'يرجى اختيار صورة صالحة.',
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        this.stream = stream;
+        if (this.videoElement?.nativeElement) {
+          this.videoElement.nativeElement.srcObject = stream;
+        }
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'فشل في تشغيل الكاميرا',
+          text: 'يرجى السماح باستخدام الكاميرا من إعدادات المتصفح.',
+        });
       });
-      return;
-    }
+  }
 
-    const maxSizeInBytes = 5 * 1024 * 1024;
-    if (file.size > maxSizeInBytes) {
-      Swal.fire({
-        icon: 'error',
-        title: 'حجم الصورة كبير',
-        text: 'الحد الأقصى للصورة هو 5 ميجا.',
+  captureImage() {
+    const video = this.videoElement.nativeElement;
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+
+      const file = new File([blob], `${this.cameraTarget}.jpg`, {
+        type: 'image/jpeg',
       });
-      return;
-    }
+      const previewUrl = URL.createObjectURL(blob);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (type === 'identity') {
+      if (this.cameraTarget === 'identity') {
         this.identityImage = file;
-        this.identityPreview = reader.result as string;
-      } else {
+        this.identityPreview = previewUrl;
+      } else if (this.cameraTarget === 'face') {
         this.faceImage = file;
-        this.facePreview = reader.result as string;
+        this.facePreview = previewUrl;
       }
-    };
-    reader.readAsDataURL(file);
+
+      this.stopCamera();
+    }, 'image/jpeg');
+  }
+
+  stopCamera() {
+    if (this.stream) {
+      this.stream.getTracks().forEach((track) => track.stop());
+      this.stream = null;
+    }
+    this.showCamera = false;
+    this.cameraTarget = null;
+  }
+
+  closeCamera() {
+    this.stopCamera();
   }
 
   submit() {
-    this.triedSubmit = true;
-
     if (!this.identityImage || !this.faceImage) {
       Swal.fire({
         icon: 'error',
         title: 'الصور مطلوبة',
-        text: 'يرجى رفع صورة البطاقة وصورة الوجه معًا.',
+        text: 'يرجى التقاط صورة البطاقة وصورة الوجه.',
       });
       return;
     }
 
-    const formData = new FormData();
-    formData.append('email', this.email);
-    formData.append('identityImage', this.identityImage);
-    formData.append('faceImage', this.faceImage);
+    this.isSubmitting = true;
 
-    Swal.fire({
-      title: '....جاري التحقق',
-      text: 'يتم الآن التحقق من هويتك. قد يستغرق هذا بعض الوقت.',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
+    const formData = new FormData();
+    formData.append('Email', this.email); // ✅ Uppercase E
+    formData.append('IdentityImage', this.identityImage); // ✅ Exact match
+    formData.append('FaceImage', this.faceImage); // ✅ Exact match
 
     this.authService.registerStep2(formData).subscribe({
-      next: (_) => {
-        Swal.close();
+      next: () => {
+        this.isSubmitting = false;
         Swal.fire({
           icon: 'success',
           title: 'تم التسجيل بنجاح',
@@ -106,16 +130,17 @@ export class RegisterStep2Component {
         });
       },
       error: (err) => {
-        Swal.close();
-        console.error(err);
+        this.isSubmitting = false;
         Swal.fire({
           icon: 'error',
           title: 'فشل التحقق',
-          text:
-            err?.error?.[0]?.description ??
-            'حدث خطأ أثناء التحقق، حاول لاحقًا.',
+          text: err?.error?.[0]?.description || 'حدث خطأ أثناء التحقق.',
         });
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.stopCamera();
   }
 }
