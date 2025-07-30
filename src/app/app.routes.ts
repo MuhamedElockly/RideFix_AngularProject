@@ -28,8 +28,7 @@ export const routes: Routes = [
     ],
   },
 
-  { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' }, // لو المستخدم مش مسجل
-  { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
+  { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   { path: 'requests', component: Requests },
   { path: 'techservieces', component: TechServieces },
 

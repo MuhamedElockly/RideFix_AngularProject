@@ -1,254 +1,507 @@
 <!-- register-step1.component.html -->
-<div class="container mt-5 mb-5" dir="rtl">
-  <div class="row justify-content-center">
-    <div class="col-lg-10 col-md-12">
-      <div class="card shadow-sm border rounded-4 p-4 bg-white">
-        <h3 class="text-center text-primary mb-4">تسجيل حساب - الخطوة ١</h3>
-        <p class="text-center text-muted mb-4">الخطوة ١ من ٢</p>
-
-        <form #registerForm="ngForm" (ngSubmit)="submit()" novalidate>
-          <div class="row gy-3">
-            <!-- الاسم الكامل -->
-            <div class="col-md-6">
-              <label>الاسم الكامل</label>
-              <input
-                type="text"
-                class="form-control"
-                name="name"
-                [(ngModel)]="model.name"
-                required
-                [ngClass]="{ 'is-invalid': nameInvalid }"
-                (blur)="validateField('name')"
-              />
-              <div class="text-danger" *ngIf="nameInvalid">
-                الاسم الكامل مطلوب.
-              </div>
-            </div>
-
-            <!-- البريد الإلكتروني -->
-            <div class="col-md-6">
-              <label>البريد الإلكتروني</label>
-              <input
-                type="email"
-                class="form-control"
-                name="email"
-                [(ngModel)]="model.email"
-                required
-                email
-                (blur)="
-                  validateField('email'); checkEmailAvailability(model.email)
-                "
-                [ngClass]="{
-                  'is-invalid': emailInvalid || emailExists === true,
-                  'is-valid':
-                    model.email && emailExists === false && !emailInvalid
-                }"
-              />
-
-              <div class="text-danger" *ngIf="emailInvalid">
-                البريد الإلكتروني غير صالح.
-              </div>
-
-              <div class="text-danger" *ngIf="emailExists === true">
-                هذا البريد الإلكتروني مستخدم بالفعل.
-              </div>
-            </div>
-
-            <!-- كلمة المرور -->
-            <div class="col-md-6">
-              <label>كلمة المرور</label>
-              <input
-                type="password"
-                class="form-control"
-                name="password"
-                [(ngModel)]="model.password"
-                required
-                minlength="6"
-                [ngClass]="{ 'is-invalid': passwordInvalid }"
-                (blur)="validateField('password')"
-              />
-              <div class="text-danger" *ngIf="passwordInvalid">
-                كلمة المرور يجب أن تكون على الأقل 6 أحرف.
-              </div>
-            </div>
-
-            <!-- تأكيد كلمة المرور -->
-            <div class="col-md-6">
-              <label>تأكيد كلمة المرور</label>
-              <input
-                type="password"
-                class="form-control"
-                name="confirmPassword"
-                [(ngModel)]="model.confirmPassword"
-                required
-                [ngClass]="{ 'is-invalid': confirmPasswordInvalid }"
-                (blur)="validateField('confirmPassword')"
-              />
-              <div class="text-danger" *ngIf="confirmPasswordInvalid">
-                كلمة المرور غير متطابقة.
-              </div>
-            </div>
-
-            <!-- الرقم القومي -->
-            <div class="col-md-6">
-              <label>الرقم القومي</label>
-              <input
-                type="text"
-                class="form-control"
-                name="ssn"
-                [(ngModel)]="model.ssn"
-                required
-                minlength="14"
-                maxlength="14"
-                pattern="\\d{14}"
-                [ngClass]="{ 'is-invalid': ssnInvalid }"
-                (blur)="validateField('ssn')"
-              />
-              <div class="text-danger" *ngIf="ssnInvalid">
-                يجب أن يكون الرقم القومي مكون من 14 رقمًا.
-              </div>
-            </div>
-
-            <!-- تاريخ الميلاد -->
-            <div class="col-md-6">
-              <label>تاريخ الميلاد</label>
-              <input
-                type="date"
-                class="form-control"
-                name="birthDate"
-                [(ngModel)]="model.birthDate"
-                required
-                [ngClass]="{ 'is-invalid': birthDateInvalid }"
-                (blur)="validateField('birthDate')"
-              />
-              <div class="text-danger" *ngIf="birthDateInvalid">
-                تاريخ الميلاد مطلوب.
-              </div>
-            </div>
-
-            <!-- النوع -->
-            <div class="col-md-6">
-              <label>النوع</label>
-              <select
-                class="form-select"
-                name="gender"
-                [(ngModel)]="model.gender"
-                required
-                [ngClass]="{ 'is-invalid': genderInvalid }"
-                (blur)="validateField('gender')"
-              >
-                <option value="">اختر</option>
-                <option value="Male">ذكر</option>
-                <option value="Female">أنثى</option>
-              </select>
-              <div class="text-danger" *ngIf="genderInvalid">
-                النوع مطلوب.
-              </div>
-            </div>
-
-            <!-- العنوان -->
-            <div class="col-md-6">
-              <label>العنوان</label>
-              <input
-                type="text"
-                class="form-control"
-                name="address"
-                [(ngModel)]="model.address"
-                required
-                [ngClass]="{ 'is-invalid': addressInvalid }"
-                (blur)="validateField('address')"
-              />
-              <div class="text-danger" *ngIf="addressInvalid">
-                العنوان مطلوب.
-              </div>
-            </div>
-
-            <!-- كود PIN -->
-            <div class="col-md-6">
-              <label>الرقم السري (PIN)</label>
-              <input
-                type="number"
-                class="form-control"
-                name="pin"
-                [(ngModel)]="model.pin"
-                required
-                min="1000"
-                max="999999"
-                [ngClass]="{ 'is-invalid': pinInvalid }"
-                (blur)="validateField('pin')"
-                placeholder="لا تنساه أبدًا"
-              />
-              <div class="text-danger" *ngIf="pinInvalid">
-                يجب أن يكون الرقم السري من 4 إلى 6 أرقام.
-              </div>
-            </div>
-
-            <!-- الدور -->
-            <div class="col-md-6">
-              <label>الدور</label>
-              <select
-                class="form-select"
-                name="role"
-                [(ngModel)]="model.role"
-                required
-                [ngClass]="{ 'is-invalid': roleInvalid }"
-                (blur)="validateField('role')"
-              >
-                <option value="">اختر</option>
-                <option value="CarOwner">صاحب سيارة</option>
-                <option value="Technician">فني</option>
-              </select>
-              <div class="text-danger" *ngIf="roleInvalid">
-                الدور مطلوب.
-              </div>
-            </div>
-
-            <!-- بيانات الفني -->
-            <div *ngIf="model.role === 'Technician'" class="col-12">
-              <div class="row">
-                <div class="col-md-6">
-                  <label>بداية العمل</label>
-                  <input
-                    type="time"
-                    class="form-control"
-                    name="startWorking"
-                    [(ngModel)]="model.startWorking"
-                    required
-                  />
-                </div>
-                <div class="col-md-6">
-                  <label>نهاية العمل</label>
-                  <input
-                    type="time"
-                    class="form-control"
-                    name="endWorking"
-                    [(ngModel)]="model.endWorking"
-                    required
-                  />
-                </div>
-                <div class="col-12">
-                  <label>الوصف</label>
-                  <textarea
-                    class="form-control"
-                    name="description"
-                    [(ngModel)]="model.description"
-                    required
-                  ></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="d-grid mt-4">
-            <button
-              type="submit"
-              class="btn btn-success btn-lg"
-              [disabled]="!isFormValid"
+<div
+  class="min-vh-100 d-flex align-items-center justify-content-center"
+  style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+  dir="rtl"
+>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10 col-xl-8">
+        <!-- Progress Bar -->
+        <div
+          class="card border-0 shadow-lg mb-4"
+          style="
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+          "
+        >
+          <div class="card-body p-4">
+            <div
+              class="progress mb-3"
+              style="height: 8px; background: rgba(255, 255, 255, 0.2)"
             >
-              المتابعة إلى الخطوة التالية
-            </button>
+              <div
+                class="progress-bar bg-warning"
+                role="progressbar"
+                style="
+                  width: 50%;
+                  background: linear-gradient(
+                    90deg,
+                    #fd7e14,
+                    #ff8c42
+                  ) !important;
+                "
+              ></div>
+            </div>
+            <div class="d-flex justify-content-between text-white">
+              <span class="fw-bold fs-6">الخطوة ١</span>
+              <span class="text-white-50">من ٢</span>
+            </div>
           </div>
-        </form>
+        </div>
+
+        <!-- Main Form Card -->
+        <div
+          class="card border-0 shadow-lg"
+          style="
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+          "
+        >
+          <div class="card-body p-4 p-md-5">
+            <!-- Header -->
+            <div class="text-center mb-5">
+              <div
+                class="d-inline-flex align-items-center justify-content-center bg-warning rounded-circle mb-3"
+                style="
+                  width: 80px;
+                  height: 80px;
+                  background: linear-gradient(
+                    135deg,
+                    #fd7e14,
+                    #ff8c42
+                  ) !important;
+                "
+              >
+                <i class="fas fa-user-plus text-white fs-2"></i>
+              </div>
+              <h2 class="fw-bold text-dark mb-2">إنشاء حساب جديد</h2>
+              <p class="text-muted mb-0">أدخل بياناتك الشخصية للبدء</p>
+            </div>
+
+            <!-- Form -->
+            <form #registerForm="ngForm" (ngSubmit)="submit()" novalidate>
+              <div class="row g-4">
+                <!-- الاسم الكامل -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      [(ngModel)]="model.name"
+                      required
+                      [ngClass]="{
+                        'is-invalid': nameInvalid,
+                        'is-valid': model.name && !nameInvalid
+                      }"
+                      (blur)="validateField('name')"
+                      placeholder="الاسم الكامل"
+                    />
+                    <label for="name">
+                      <i class="fas fa-user text-warning me-2"></i>
+                      الاسم الكامل
+                    </label>
+                    <div class="invalid-feedback" *ngIf="nameInvalid">
+                      الاسم الكامل مطلوب
+                    </div>
+                  </div>
+                </div>
+
+                <!-- البريد الإلكتروني -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      [(ngModel)]="model.email"
+                      required
+                      email
+                      (blur)="
+                        validateField('email');
+                        checkEmailAvailability(model.email)
+                      "
+                      [ngClass]="{
+                        'is-invalid': emailInvalid || emailExists === true,
+                        'is-valid':
+                          model.email && emailExists === false && !emailInvalid
+                      }"
+                      placeholder="البريد الإلكتروني"
+                    />
+                    <label for="email">
+                      <i class="fas fa-envelope text-warning me-2"></i>
+                      البريد الإلكتروني
+                    </label>
+                    <div class="invalid-feedback" *ngIf="emailInvalid">
+                      البريد الإلكتروني غير صالح
+                    </div>
+                    <div class="invalid-feedback" *ngIf="emailExists === true">
+                      هذا البريد الإلكتروني مستخدم بالفعل
+                    </div>
+                  </div>
+                </div>
+
+                <!-- كلمة المرور -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      [type]="showPassword ? 'text' : 'password'"
+                      class="form-control"
+                      id="password"
+                      name="password"
+                      [(ngModel)]="model.password"
+                      required
+                      minlength="6"
+                      [ngClass]="{
+                        'is-invalid': passwordInvalid,
+                        'is-valid': model.password && !passwordInvalid
+                      }"
+                      (blur)="validateField('password')"
+                      placeholder="كلمة المرور"
+                    />
+                    <label for="password">
+                      <i class="fas fa-lock text-warning me-2"></i>
+                      كلمة المرور
+                    </label>
+                    <div class="invalid-feedback" *ngIf="passwordInvalid">
+                      كلمة المرور يجب أن تكون على الأقل 6 أحرف
+                    </div>
+                  </div>
+                  <div class="text-center mt-2">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-warning"
+                      (click)="showPassword = !showPassword"
+                      style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
+                    >
+                      <i
+                        [class]="
+                          showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
+                        "
+                        class="me-1"
+                      ></i>
+                      {{ showPassword ? 'إخفاء' : 'إظهار' }} كلمة المرور
+                    </button>
+                  </div>
+                </div>
+
+                <!-- تأكيد كلمة المرور -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      [type]="showConfirmPassword ? 'text' : 'password'"
+                      class="form-control"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      [(ngModel)]="model.confirmPassword"
+                      required
+                      [ngClass]="{
+                        'is-invalid': confirmPasswordInvalid,
+                        'is-valid':
+                          model.confirmPassword && !confirmPasswordInvalid
+                      }"
+                      (blur)="validateField('confirmPassword')"
+                      placeholder="تأكيد كلمة المرور"
+                    />
+                    <label for="confirmPassword">
+                      <i class="fas fa-lock text-warning me-2"></i>
+                      تأكيد كلمة المرور
+                    </label>
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="confirmPasswordInvalid"
+                    >
+                      كلمة المرور غير متطابقة
+                    </div>
+                  </div>
+                  <div class="text-center mt-2">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-warning"
+                      (click)="showConfirmPassword = !showConfirmPassword"
+                      style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
+                    >
+                      <i
+                        [class]="
+                          showConfirmPassword
+                            ? 'fas fa-eye-slash'
+                            : 'fas fa-eye'
+                        "
+                        class="me-1"
+                      ></i>
+                      {{ showConfirmPassword ? 'إخفاء' : 'إظهار' }} التأكيد
+                    </button>
+                  </div>
+                </div>
+
+                <!-- الرقم القومي -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ssn"
+                      name="ssn"
+                      [(ngModel)]="model.ssn"
+                      required
+                      minlength="14"
+                      maxlength="14"
+                      pattern="\\d{14}"
+                      [ngClass]="{
+                        'is-invalid': ssnInvalid,
+                        'is-valid': model.ssn && !ssnInvalid
+                      }"
+                      (blur)="validateField('ssn')"
+                      placeholder="الرقم القومي"
+                    />
+                    <label for="ssn">
+                      <i class="fas fa-id-card text-warning me-2"></i>
+                      الرقم القومي
+                    </label>
+                    <div class="invalid-feedback" *ngIf="ssnInvalid">
+                      يجب أن يكون الرقم القومي مكون من 14 رقمًا
+                    </div>
+                  </div>
+                </div>
+
+                <!-- تاريخ الميلاد -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="birthDate"
+                      name="birthDate"
+                      [(ngModel)]="model.birthDate"
+                      required
+                      [ngClass]="{
+                        'is-invalid': birthDateInvalid,
+                        'is-valid': model.birthDate && !birthDateInvalid
+                      }"
+                      (blur)="validateField('birthDate')"
+                      style="padding-right: 0.75rem;"
+                    />
+                    <label for="birthDate">
+                      <i class="fas fa-calendar text-warning me-2"></i>
+                      تاريخ الميلاد
+                    </label>
+                    <div class="invalid-feedback" *ngIf="birthDateInvalid">
+                      تاريخ الميلاد مطلوب
+                    </div>
+                  </div>
+                </div>
+
+                <!-- النوع -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <select
+                      class="form-select"
+                      id="gender"
+                      name="gender"
+                      [(ngModel)]="model.gender"
+                      required
+                      [ngClass]="{
+                        'is-invalid': genderInvalid,
+                        'is-valid': model.gender && !genderInvalid
+                      }"
+                      (blur)="validateField('gender')"
+                    >
+                      <option value="">اختر النوع</option>
+                      <option value="Male">ذكر</option>
+                      <option value="Female">أنثى</option>
+                    </select>
+                    <label for="gender">
+                      <i class="fas fa-venus-mars text-warning me-2"></i>
+                      النوع
+                    </label>
+                    <div class="invalid-feedback" *ngIf="genderInvalid">
+                      النوع مطلوب
+                    </div>
+                  </div>
+                </div>
+
+                <!-- العنوان -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      name="address"
+                      [(ngModel)]="model.address"
+                      required
+                      [ngClass]="{
+                        'is-invalid': addressInvalid,
+                        'is-valid': model.address && !addressInvalid
+                      }"
+                      (blur)="validateField('address')"
+                      placeholder="العنوان"
+                    />
+                    <label for="address">
+                      <i class="fas fa-map-marker-alt text-warning me-2"></i>
+                      العنوان
+                    </label>
+                    <div class="invalid-feedback" *ngIf="addressInvalid">
+                      العنوان مطلوب
+                    </div>
+                  </div>
+                </div>
+
+                <!-- كود PIN -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="pin"
+                      name="pin"
+                      [(ngModel)]="model.pin"
+                      required
+                      min="1000"
+                      max="999999"
+                      [ngClass]="{
+                        'is-invalid': pinInvalid,
+                        'is-valid': model.pin && !pinInvalid
+                      }"
+                      (blur)="validateField('pin')"
+                      placeholder=" لا تنساه ابدا"
+                    />
+                    <label for="pin">
+                      <i class="fas fa-key text-warning me-2"></i>
+                      الرقم السري (PIN)
+                    </label>
+                    <div class="invalid-feedback" *ngIf="pinInvalid">
+                      يجب أن يكون الرقم السري من 4 إلى 6 أرقام
+                    </div>
+                  </div>
+                </div>
+
+                <!-- الدور -->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating">
+                    <select
+                      class="form-select"
+                      id="role"
+                      name="role"
+                      [(ngModel)]="model.role"
+                      required
+                      [ngClass]="{
+                        'is-invalid': roleInvalid,
+                        'is-valid': model.role && !roleInvalid
+                      }"
+                      (blur)="validateField('role')"
+                    >
+                      <option value="">اختر الدور</option>
+                      <option value="CarOwner">صاحب سيارة</option>
+                      <option value="Technician">فني</option>
+                    </select>
+                    <label for="role">
+                      <i class="fas fa-user-tag text-warning me-2"></i>
+                      الدور
+                    </label>
+                    <div class="invalid-feedback" *ngIf="roleInvalid">
+                      الدور مطلوب
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- بيانات الفني -->
+              <div *ngIf="model.role === 'Technician'" class="mt-5">
+                <div class="card border-0 bg-light">
+                  <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                      <i class="fas fa-tools text-warning fs-4 me-3"></i>
+                      <h5 class="mb-0 fw-bold">بيانات الفني</h5>
+                    </div>
+
+                    <div class="row g-4">
+                      <div class="col-12 col-md-6">
+                        <div class="form-floating">
+                          <input
+                            type="time"
+                            class="form-control"
+                            id="startWorking"
+                            name="startWorking"
+                            [(ngModel)]="model.startWorking"
+                            required
+                          />
+                          <label for="startWorking">
+                            <i class="fas fa-clock text-warning me-2"></i>
+                            بداية العمل
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-6">
+                        <div class="form-floating">
+                          <input
+                            type="time"
+                            class="form-control"
+                            id="endWorking"
+                            name="endWorking"
+                            [(ngModel)]="model.endWorking"
+                            required
+                          />
+                          <label for="endWorking">
+                            <i class="fas fa-clock text-warning me-2"></i>
+                            نهاية العمل
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-floating">
+                          <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            [(ngModel)]="model.description"
+                            required
+                            placeholder="الوصف"
+                            style="height: 100px"
+                          ></textarea>
+                          <label for="description">
+                            <i class="fas fa-align-left text-warning me-2"></i>
+                            الوصف
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="text-center mt-5">
+                <button
+                  type="submit"
+                  class="btn btn-warning btn-lg px-5 py-3 fw-bold shadow"
+                  [disabled]="!isFormValid || isSubmitting"
+                  [ngClass]="{ 'opacity-50': !isFormValid || isSubmitting }"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #fd7e14,
+                      #ff8c42
+                    ) !important;
+                    border: none;
+                  "
+                >
+                  <div class="d-flex align-items-center justify-content-center">
+                    <div
+                      class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      *ngIf="isSubmitting"
+                    ></div>
+                    <i
+                      class="fas fa-arrow-right me-2"
+                      *ngIf="!isSubmitting"
+                    ></i>
+                    {{
+                      isSubmitting
+                        ? "جاري الإرسال..."
+                        : "المتابعة إلى الخطوة التالية"
+                    }}
+                  </div>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>

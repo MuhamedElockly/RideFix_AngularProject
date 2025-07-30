@@ -10,10 +10,16 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-register-step1',
   templateUrl: './register-step1.html',
+  styleUrls: ['./register-step1.css'],
   standalone: true,
   imports: [FormsModule, CommonModule],
 })
 export class RegisterStep1Component {
+  // Password visibility toggles
+  showPassword = false;
+  showConfirmPassword = false;
+  isSubmitting = false;
+
   // النموذج الرئيسي للتسجيل
   model: IRegisterStep1 = {
     email: '',
@@ -163,6 +169,8 @@ export class RegisterStep1Component {
       return;
     }
 
+    this.isSubmitting = true;
+
     const cleanedModel = {
       ...this.model,
       startWorking: this.formatTimeWithSeconds(this.model.startWorking),
@@ -172,6 +180,7 @@ export class RegisterStep1Component {
     // استدعاء API للتسجيل
     this.authService.registerStep1(cleanedModel).subscribe({
       next: (_) => {
+        this.isSubmitting = false;
         Swal.fire({
           icon: 'success',
           title: 'تم إكمال الخطوة الأولى',
@@ -185,6 +194,7 @@ export class RegisterStep1Component {
         });
       },
       error: (err) => {
+        this.isSubmitting = false;
         console.error(err);
         Swal.fire({
           icon: 'error',
