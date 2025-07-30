@@ -1,0 +1,85 @@
+<!-- Emergency Alert Section -->
+<div class="emergency-alert-section" id="emergencyAlert">
+  <div class="emergency-alert-card">
+    <div class="emergency-alert-header">
+      <div class="emergency-status-indicator">
+        <div class="status-pulse"></div>
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="emergency-alert-info">
+        <h3 class="emergency-alert-title">
+          <i class="fas fa-tools me-2"></i>
+          لديك طلب طوارئ نشط
+        </h3>
+        <p class="emergency-alert-subtitle" id="categoryName">
+          {{ requestBrief?.categoryName }}
+        </p>
+      </div>
+      <div class="emergency-alert-actions">
+        <!-- <button class="btn emergency-close-btn" onclick="hideEmergencyAlert()">
+          <i class="fas fa-times"></i>
+        </button> -->
+      </div>
+    </div>
+
+    <div class="emergency-alert-body">
+      <div class="emergency-details">
+        <div class="emergency-detail-item">
+          <i class="fas fa-user-cog"></i>
+          <div class="emergency-detail-content">
+            <span class="emergency-detail-label">{{
+              requestBrief?.technicianName
+            }}</span>
+            <span class="emergency-detail-value" id="technicianName">{{
+              requestBrief?.technicianName
+            }}</span>
+          </div>
+        </div>
+
+        <div class="emergency-detail-item">
+          <i class="fas fa-tools"></i>
+          <div class="emergency-detail-content">
+            <span class="emergency-detail-label">نوع الخدمة</span>
+            <span class="emergency-detail-value" id="categoryNameDetail">{{
+              requestBrief?.categoryName
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="emergency-description">
+        <h4><i class="fas fa-info-circle"></i>وصف المشكلة</h4>
+        <p id="requestDescription">{{ requestBrief?.description }}</p>
+      </div>
+
+      <div class="emergency-actions">
+        <button
+          class="btn emergency-details-btn"
+          onclick="showFullDetails()"
+          [disabled]="!requestBrief?.technicianName"
+        >
+          <i class="fas fa-eye me-2"></i>
+          عرض التفاصيل الكاملة
+        </button>
+        <button
+          class="btn emergency-complete-btn"
+          (click)="markAsCompleted()"
+          [disabled]="!requestBrief?.technicianName"
+        >
+          <i class="fas fa-check-circle me-2"></i>
+          تم الانتهاء
+        </button>
+        <button class="btn emergency-cancel-btn" (click)="cancelRequest()">
+          <i class="fas fa-times-circle me-2"></i>
+          إلغاء الطلب
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+@if (ReviewFlag) {
+<app-review-model-controller
+  [technicianName]="requestBrief?.technicianName || ''"
+  [categoryName]="requestBrief?.categoryName || ''"
+></app-review-model-controller>
+}

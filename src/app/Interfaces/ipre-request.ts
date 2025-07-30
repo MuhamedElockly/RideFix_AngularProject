@@ -3,5 +3,4 @@ export interface IPreRequest {
   carOwnerId: Number;
   latitude: Number | null;
   longitude: Number | null;
-  pin: number;
 }

@@ -6,7 +6,7 @@ import { TokenService } from '../../Services/TokenService/tokenservice';
 
 @Component({
   selector: 'app-nav-bar-component',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './nav-bar-component.html',
   styleUrl: './nav-bar-component.css',
   encapsulation: ViewEncapsulation.None, // ✨ الحل هنا

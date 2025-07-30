@@ -1,0 +1,144 @@
+<div class="main-content">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1><i class="fas fa-user-cog me-3"></i>ملف الفني الشخصي</h1>
+    <p>تفاصيل شاملة عن الفني وخبراته وتقييمات العملاء</p>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Main Profile Section -->
+      <div class="col-lg-8">
+        <!-- Basic Info Card -->
+        <div class="profile-card mb-4">
+          <div class="profile-header-section">
+            <div class="profile-image-container">
+              <img
+                [src]="technician?.faceImageUrl"
+                [alt]="technician?.name"
+                class="profile-main-image"
+              />
+              <div class="online-status"></div>
+            </div>
+
+            <div class="profile-basic-info">
+              <h2 class="profile-main-name">{{ technician?.name }}</h2>
+              <!-- 
+              <div class="profile-main-rating">
+                <span class="rating-stars">★★★★★</span>
+                <span class="rating-number">4.8</span>
+                <span class="rating-count"
+                  >({{ technician.reviews.length }} تقييمات)</span
+                >
+              </div> -->
+
+              <div class="profile-stats">
+                <div class="stat-item">
+                  <div class="stat-number">
+                    {{ technician?.categories?.length }}
+                  </div>
+                  <div class="stat-label">تخصصات</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description Card -->
+        <div class="info-card mb-4">
+          <div class="card-header">
+            <h3><i class="fas fa-info-circle"></i>نبذة عن الفني</h3>
+          </div>
+          <div class="card-content">
+            <p>
+              {{ technician?.description }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Categories Card -->
+        <div class="info-card mb-4">
+          <div class="card-header">
+            <h3><i class="fas fa-tools"></i>التخصصات والخدمات</h3>
+          </div>
+          <div class="card-content">
+            <div class="categories-grid">
+              @for (item of technician?.categories; track $index) {
+              <div class="category-item">
+                <i class="fas fa-cog">{{ item.name }}</i>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+        <!-- Reviews Card -->
+        <div class="info-card mb-4">
+          <div class="card-header">
+            <h3><i class="fas fa-star"></i>تقييمات العملاء</h3>
+          </div>
+          <div class="card-content">
+            <div class="reviews-list">
+              @for (item of technician?.reviews; track $index) {
+              <div class="review-item">
+                <div class="review-header">
+                  <div class="reviewer-info"></div>
+                  <p class="review-comment">{{ item.comment }}</p>
+                  <div class="review-meta">
+                    <span class="review-rating">★★★★★ {{ item.rate }}</span>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <!-- Working Hours -->
+        <div class="sidebar-card mb-4">
+          <div class="card-header">
+            <h3><i class="fas fa-clock"></i>ساعات العمل</h3>
+          </div>
+          <div class="card-content">
+            <div class="working-hours">
+              <div class="time-item">
+                <span class="time-label">بداية العمل</span>
+                <span class="time-value">{{ technician?.startWorking }}</span>
+              </div>
+              <div class="time-item">
+                <span class="time-label">نهاية العمل</span>
+                <span class="time-value">{{ technician?.endWorking }}</span>
+              </div>
+              <div class="availability-status available">
+                <i class="fas fa-check-circle"></i>
+                متاح الآن
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Government/Location -->
+        <div class="sidebar-card mb-4">
+          <div class="card-header">
+            <h3><i class="fas fa-map-marker-alt"></i>المحافظة</h3>
+          </div>
+          <div class="card-content">
+            <div class="location-info">
+              <div class="location-item">
+                <i class="fas fa-city"></i>
+                <div class="location-details">
+                  <span class="government-name">{{
+                    technician?.government
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
