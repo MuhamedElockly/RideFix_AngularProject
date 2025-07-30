@@ -11,6 +11,8 @@ import { Sidebar } from './Components/technical/sidebar/sidebar';
 import { Requests } from './Components/technical/requests/requests';
 import { UserStorageService } from './Services/UserStorageService/user-storage-service';
 import { CommonModule } from '@angular/common';
+import { TemplateSweet } from './Components/technical/template-sweet/template-sweet';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -22,9 +24,11 @@ import { CommonModule } from '@angular/common';
     FooterComponent,
     LoginComponent,
     FormsModule,
+    ReactiveFormsModule,
     Sidebar,
     Requests,
-    
+    TemplateSweet,
+
     CommonModule
   ],
   templateUrl: './app.html',

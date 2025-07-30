@@ -23,4 +23,19 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
+  registerStep1(data: any) {
+    const cleanedData = {
+      ...data,
+      startWorking: data.startWorking?.trim() ? data.startWorking : null,
+      endWorking: data.endWorking?.trim() ? data.endWorking : null,
+    };
+    return this.http.post(`${this.baseUrl}/register-step1`, cleanedData);
+  }
+
+  registerStep2(formData: FormData) {
+    return this.http.post(`${this.baseUrl}/register-step2`, formData);
+  }
+  checkEmailExists(email: string) {
+    return this.http.get<boolean>(`${this.baseUrl}/check-email?email=${email}`);
+  }
 }

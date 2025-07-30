@@ -7,7 +7,8 @@ export interface IRegisterStep1 {
   birthDate: string;
   address: string;
   gender: string;
-  role: "CarOwner" | "Technician";
+  pin: number | null;
+  role: string;
   startWorking?: string;
   endWorking?: string;
   description?: string;
