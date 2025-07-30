@@ -2,12 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import { ItechRequect } from '../../../Interfaces/itech-requect';
 import { TemplateRequest } from '../template-request/template-request';
-import { TemplateSweet } from '../template-sweet/template-sweet';
 import { Ihistorytech } from '../../../Interfaces/ihistorytech';
 
 @Component({
   selector: 'app-requests',
-  imports: [TemplateRequest,TemplateSweet],
+  imports: [TemplateRequest],
   templateUrl: './requests.html',
   styleUrl: './requests.css'
 })

@@ -9,7 +9,6 @@ import { LoginComponent } from './Components/login/login';
 import { FormsModule } from '@angular/forms';
 import { Sidebar } from './Components/technical/sidebar/sidebar';
 import { Requests } from './Components/technical/requests/requests';
-import { TemplateSweet } from './Components/technical/template-sweet/template-sweet';
 import { UserStorageService } from './Services/UserStorageService/user-storage-service';
 import { CommonModule } from '@angular/common';
 
@@ -25,7 +24,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     Sidebar,
     Requests,
-    TemplateSweet,
+    
     CommonModule
   ],
   templateUrl: './app.html',

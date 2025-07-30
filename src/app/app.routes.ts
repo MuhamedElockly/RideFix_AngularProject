@@ -9,7 +9,6 @@ import { Requests } from './Components/technical/requests/requests';
 import { TechServieces } from './Components/technical/tech-servieces/tech-servieces';
 import { WaitingComponent } from './Components/Car_Owner_Components/waiting-component/waiting-component';
 import { Techchat } from './Components/technical/techchat/techchat';
-import { TechnicianLayoutComponent } from './Components/technical/technician-layout-component/technician-layout-component';
 import { RequestDetails } from './Components/technical/request-details/request-details';
 import { RequestDetailsalltech } from './Components/technical/request-detailsalltech/request-detailsalltech';
 import { Profiletech } from './Components/technical/profiletech/profiletech';
@@ -49,7 +48,7 @@ export const routes: Routes = [
   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' }, // لو المستخدم مش مسجل
   { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
 
-  
+
 
 
 
