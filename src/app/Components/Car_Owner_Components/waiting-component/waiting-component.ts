@@ -3,6 +3,7 @@ import { NavBarComponent } from '../../nav-bar-component/nav-bar-component';
 import { FooterComponent } from '../../footer-component/footer-component';
 import { RequestService } from '../../../Services/RequestService/request-service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-waiting-component',
@@ -15,7 +16,18 @@ export class WaitingComponent {
   requestService = inject(RequestService);
   routeService = inject(Router);
   cancelRequest() {
-    this.requestService.CancelRequest(1);
-    this.routeService.navigateByUrl('/CarOwner/SelectTech');
+    this.requestService.CancelRequest(1).subscribe({
+      next: (res) => {
+        window.location.reload();
+        this.routeService.navigateByUrl('/CarOwner/SelectTech');
+      },
+      error: (res) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ',
+          text: 'لقد حدث خطأ',
+        });
+      },
+    });
   }
 }

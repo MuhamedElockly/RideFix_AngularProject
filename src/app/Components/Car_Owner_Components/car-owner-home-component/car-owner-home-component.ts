@@ -4,6 +4,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { RequestAlertComponent } from '../request-alert-component/request-alert-component';
 import { RequestService } from '../../../Services/RequestService/request-service';
 import { ReviewModelController } from '../review-model-controller/review-model-controller';
+import { ChatComponent } from '../../chat-component/chat-component';
 
 @Component({
   selector: 'app-car-owner-home-component',
@@ -12,6 +13,7 @@ import { ReviewModelController } from '../review-model-controller/review-model-c
     RouterLink,
     RequestAlertComponent,
     ReviewModelController,
+    ChatComponent,
   ],
   templateUrl: './car-owner-home-component.html',
   styleUrl: './car-owner-home-component.css',
