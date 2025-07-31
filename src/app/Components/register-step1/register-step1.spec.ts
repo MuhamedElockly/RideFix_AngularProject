@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemplateSweet } from './template-sweet';
+import { RegisterStep1 } from './register-step1';
 
-describe('TemplateSweet', () => {
-  let component: TemplateSweet;
-  let fixture: ComponentFixture<TemplateSweet>;
+describe('RegisterStep1', () => {
+  let component: RegisterStep1;
+  let fixture: ComponentFixture<RegisterStep1>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TemplateSweet]
+      imports: [RegisterStep1]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TemplateSweet);
+    fixture = TestBed.createComponent(RegisterStep1);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

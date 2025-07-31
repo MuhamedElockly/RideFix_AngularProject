@@ -1,0 +1,43 @@
+
+<div class="main-content">
+  <div class="request-details-container">
+
+  <h4 class="fw-bold mb-4">Network Connectivity Issue in Building A</h4>
+
+    <div class="request-header">
+      <!-- الصورة -->
+      <div class="request-image text-center">
+        <img src="{{item?.faceImageUrl}}" alt="Problem Image" />
+      </div>
+
+      <!-- معلومات المشكلة -->
+      <div class="request-info">
+
+        <p><strong>ID:</strong> {{item?.requestId}}</p>
+        <p><strong>Reported By:</strong> {{item?.carOwnerName}}</p>
+        <!-- <p><strong>Date Reported:</strong> 2024-01-15</p> -->
+        <p><strong>Category:</strong> {{item?.requestId}}</p>
+      </div>
+    </div>
+
+    <!-- الوصف داخل صندوق -->
+    <div class="mt-4 p-3 bg-light rounded">
+      <h5 class="fw-semibold">Description</h5>
+      <p class="mb-0">
+        {{item?.description}}
+      </p>
+    </div>
+
+    <!-- الأزرار -->
+    <div class="d-flex justify-content-end mt-4 gap-2">
+      @if(url==="/RequestDetailsalltech"){
+              <button class="btn btn-outline-warning" (click)="confirmApprovalWithPasswordApply(item)"> تقديم الآن</button>
+
+      }@else{
+        <button class="btn btn-outline-danger" (click)="rejectApprovalWithPassword(item)">Reject</button>
+        <button class="btn btn-outline-success" (click)="confirmApprovalWithPassword(item)">Accept</button>
+      }
+
+    </div>
+  </div>
+</div>

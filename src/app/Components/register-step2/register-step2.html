@@ -1,0 +1,161 @@
+<div class="register-container" dir="rtl">
+  <div class="register-wrapper">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="100"></div>
+      </div>
+      <div class="progress-text">
+        <span class="current-step">الخطوة ٢</span>
+        <span class="total-steps">من ٢</span>
+      </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="register-card">
+      <!-- Header -->
+      <div class="card-header">
+        <div class="header-icon">
+          <i class="fas fa-camera"></i>
+        </div>
+        <h2 class="card-title">إكمال عملية التسجيل</h2>
+        <p class="card-subtitle">قم بتصوير البطاقة والوجه لإكمال التسجيل</p>
+      </div>
+
+      <!-- Form -->
+      <form (ngSubmit)="submit()" class="register-form">
+        <!-- Camera Section -->
+        <div *ngIf="showCamera" class="camera-section">
+          <div class="camera-container">
+            <video
+              #video
+              autoplay
+              muted
+              playsinline
+              class="camera-video"
+            ></video>
+            <div class="camera-overlay">
+              <div class="camera-frame">
+                <div class="frame-corner top-left"></div>
+                <div class="frame-corner top-right"></div>
+                <div class="frame-corner bottom-left"></div>
+                <div class="frame-corner bottom-right"></div>
+              </div>
+            </div>
+          </div>
+          <div class="camera-controls">
+            <button type="button" class="capture-btn" (click)="captureImage()">
+              <i class="fas fa-camera"></i>
+              التقاط صورة
+              {{ cameraTarget === "identity" ? "البطاقة" : "الوجه" }}
+            </button>
+            <button type="button" class="cancel-btn" (click)="closeCamera()">
+              <i class="fas fa-times"></i>
+              إلغاء
+            </button>
+          </div>
+        </div>
+
+        <!-- Identity Card Section -->
+        <div class="upload-section">
+          <div class="section-header">
+            <i class="fas fa-id-card"></i>
+            <h3>صورة البطاقة</h3>
+          </div>
+
+          <div
+            class="upload-container"
+            *ngIf="identityPreview; else identityPlaceholder"
+          >
+            <div class="image-preview">
+              <img
+                [src]="identityPreview"
+                alt="صورة البطاقة"
+                class="preview-image"
+              />
+              <div class="image-overlay">
+                <button
+                  type="button"
+                  class="retake-btn"
+                  (click)="openCamera('identity')"
+                >
+                  <i class="fas fa-redo"></i>
+                  إعادة التصوير
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #identityPlaceholder>
+            <div class="upload-placeholder" (click)="openCamera('identity')">
+              <div class="placeholder-icon">
+                <i class="fas fa-camera"></i>
+              </div>
+              <h4>تصوير البطاقة</h4>
+              <p>اضغط هنا لتصوير البطاقة بالكاميرا</p>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Face Photo Section -->
+        <div class="upload-section">
+          <div class="section-header">
+            <i class="fas fa-user"></i>
+            <h3>صورة الوجه</h3>
+          </div>
+
+          <div
+            class="upload-container"
+            *ngIf="facePreview; else facePlaceholder"
+          >
+            <div class="image-preview">
+              <img [src]="facePreview" alt="صورة الوجه" class="preview-image" />
+              <div class="image-overlay">
+                <button
+                  type="button"
+                  class="retake-btn"
+                  (click)="openCamera('face')"
+                >
+                  <i class="fas fa-redo"></i>
+                  إعادة التصوير
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #facePlaceholder>
+            <div class="upload-placeholder" (click)="openCamera('face')">
+              <div class="placeholder-icon">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <h4>تصوير الوجه</h4>
+              <p>اضغط هنا لتصوير الوجه بالكاميرا</p>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="submit-section">
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="!identityPreview || !facePreview || isSubmitting"
+            [ngClass]="{
+              disabled: !identityPreview || !facePreview,
+              loading: isSubmitting
+            }"
+          >
+            <div class="btn-content" *ngIf="!isSubmitting">
+              <i class="fas fa-check-circle"></i>
+              إرسال التسجيل
+            </div>
+            <div class="loading-content" *ngIf="isSubmitting">
+              <div class="spinner"></div>
+              جاري الإرسال...
+            </div>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
