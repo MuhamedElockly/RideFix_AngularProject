@@ -16,6 +16,7 @@ import { RequestDetailsalltech } from './Components/technical/request-detailsall
 import { Profiletech } from './Components/technical/profiletech/profiletech';
 import { Historytech } from './Components/technical/historytech/historytech';
 import { TechnicianModule } from './Components/technical/technician-module/technician-module';
+// import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history/request-history';
 
 
 export const routes: Routes = [
@@ -29,7 +30,7 @@ export const routes: Routes = [
       { path: 'SelectTech', component: TechSelect },
       { path: 'Waiting', component: WaitingComponent },
       { path: 'TechViewDetails', component: ProfileView },
-      { path: 'RequestsHistory', component: RequestHistoryComponent },
+      // { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
   },
 

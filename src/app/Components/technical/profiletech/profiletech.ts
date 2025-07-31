@@ -17,7 +17,9 @@ constructor(private techServieces:Technincalservice){}
   ngOnInit(): void {
       this.techServieces.gettechnician().subscribe({
         next:b=>{
+
           this.tech=b;
+          console.log('Technician details:', this.tech);
         }
       })
   }

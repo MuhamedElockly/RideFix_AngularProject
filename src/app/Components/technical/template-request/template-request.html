@@ -54,7 +54,7 @@
     </button>
   } @else {
     <!-- ❌ لم يُقدَّم من قبل -->
-    <button class="btn btn-outline-dark" [routerLink]="['/technician/RequestDetailsalltech']" [state]="{ data: item }">
+    <button class="btn btn-outline-dark" [routerLink]="['/technician/requestdetailsalltech']" [state]="{ data: item }">
       <i class="bi bi-eye"></i> عرض التفاصيل
     </button>
     <button class="btn btn-apply" (click)="confirmApprovalWithPasswordApply(item)">
