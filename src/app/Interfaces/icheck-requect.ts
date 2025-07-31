@@ -1,7 +1,7 @@
 export interface IcheckRequect {
-isCompleted:boolean;
+// isCompleted:boolean;
 technicianId:number;
 requestId:number;
-newStatus:number;
+requestState:number;
 pin:number;
 }

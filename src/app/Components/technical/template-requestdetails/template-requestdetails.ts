@@ -1,54 +1,47 @@
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ItechRequect } from '../../../Interfaces/itech-requect';
-
-  import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
+import Swal from 'sweetalert2';
 import { IcheckRequect } from '../../../Interfaces/icheck-requect';
-import { Router, RouterLink, RouterModule } from '@angular/router';
 import { IRequestApply } from '../../../Interfaces/irequest-apply';
 import { UserStorageService } from '../../../Services/UserStorageService/user-storage-service';
-import { Ickeekapply } from '../../../Interfaces/ickeekapply';
 import { Ihistorytech } from '../../../Interfaces/ihistorytech';
 
-
 @Component({
-  selector: 'app-template-request',
-  imports: [RouterLink,RouterModule],
-  templateUrl: './template-request.html',
-  styleUrls: ['./template-request.css']
+  selector: 'app-template-requestdetails',
+  imports: [],
+  templateUrl: './template-requestdetails.html',
+  styleUrl: './template-requestdetails.css'
 })
-export class TemplateRequest {
-
-@Input() request!:ItechRequect[];
+export class TemplateRequestdetails implements OnInit {
+@Input() item:ItechRequect|null=null;
 @Input() showBookingButton: boolean = false;
-@Input() applyrequest:Ickeekapply[]=[];
 @Input() Acecctrequest:Ihistorytech[]=[];
+constructor(private router: Router,private techRequestService:TechrequestService,private userStorage:UserStorageService) {}
+url:string='';
+ngOnInit(): void {
+this.url = this.router.url;
 
-
-hasAlreadyApplied(requestId: number): boolean {
-  console.log("Checking if already applied for request ID:");
-  console.log(requestId)
-
-  return Array.isArray(this.applyrequest) &&
-         this.applyrequest.some(app => app.carOwnerRequestId === requestId);
 }
 
 
 
+confirmApprovalWithPassword(item: ItechRequect | null) {
+  console.log(item)
+  if (!item) return;
 
-constructor(private techRequestService:TechrequestService ,private router:Router ,private userStorage:UserStorageService){}
+  if (this.Acecctrequest.length >= 2) {
+    Swal.fire({
+    icon: 'warning',
+    title: 'لا يمكن الموافقة',
+    text: 'لقد قمت بالفعل بالموافقة على طلبين، لا يمكنك الموافقة على طلبات إضافية.',
+    confirmButtonText: 'حسناً'
+  });
+      return;
+    }
+      // return;
 
-confirmApprovalWithPassword(item: ItechRequect) {
-
-   if (this.Acecctrequest.length >= 2) {
-  Swal.fire({
-  icon: 'warning',
-  title: 'لا يمكن الموافقة',
-  text: 'لقد قمت بالفعل بالموافقة على طلبين، لا يمكنك الموافقة على طلبات إضافية.',
-  confirmButtonText: 'حسناً'
-});
-    return;
-  }
   Swal.fire({
     title: 'هل أنت متأكد؟',
     text: 'من فضلك أدخل رمز PIN' ,
@@ -70,17 +63,18 @@ confirmApprovalWithPassword(item: ItechRequect) {
       }
     }
   }).then((result) => {
-    if (result.isConfirmed && result.value) {
+    if (result.isConfirmed && result.value && item) {
       const password = result.value;
 
-      const dto:IcheckRequect = {
-        // isCompleted:true,
-technicianId:item.technicianId,
-requestId:item.requestId,
-requestState:1,
-pin:password,
+      const dto: IcheckRequect = {
+        // isCompleted: true,
+        technicianId: item.technicianId,
+        requestId: item.requestId,
+        requestState: 1,
+        pin: password,
       };
-console.log("Data Sent to API:", dto);
+
+      console.log("Data Sent to API:", dto);
 
       this.techRequestService.putcheck(dto).subscribe({
         next: (res) => {
@@ -88,11 +82,9 @@ console.log("Data Sent to API:", dto);
             Swal.fire({
               icon: 'success',
               title: 'تمت الموافقة',
-              // text: res.message
             }).then(() => {
-      // الانتقال إلى مكون آخر بعد الضغط على "موافق"
-      this.router.navigate(['/technician/techchat']);
-    });
+              this.router.navigate(['/technician/techchat']);
+            });
           } else {
             Swal.fire({
               icon: 'error',
@@ -101,21 +93,23 @@ console.log("Data Sent to API:", dto);
             });
           }
         },
-        error: (err) => {
+        error: () => {
           Swal.fire({
             icon: 'error',
             title: 'حدث خطأ',
             text: 'كلمة المرور غير صحيحة'
-
           });
-          // console.error(err);
         }
       });
     }
   });
 }
 
-confirmApprovalWithPasswordApply(item:ItechRequect){
+
+
+confirmApprovalWithPasswordApply(item:ItechRequect| null) {
+    console.log(item)
+  if (!item) return;
   Swal.fire({
     title: 'هل أنت متأكد؟',
     text: 'من فضلك أدخل رمز PIN' ,
@@ -182,5 +176,77 @@ console.log("Data Sent to API:", dto);
     }
   });
 }
+
+
+rejectApprovalWithPassword(item: ItechRequect | null) {
+  console.log(item)
+  if (!item) return;
+
+  Swal.fire({
+    title: 'هل أنت متأكد؟',
+    text: 'يرجى إدخال كلمة المرور لتأكيد الموافقة',
+    input: 'password',
+    inputLabel: 'كلمة المرور',
+    inputPlaceholder: 'اكتب كلمة المرور هنا',
+    showCancelButton: true,
+    confirmButtonText: 'تأكيد',
+    cancelButtonText: 'إلغاء',
+    inputAttributes: {
+      autocapitalize: 'off',
+      autocorrect: 'off'
+    },
+    preConfirm: (password) => {
+      if (!password) {
+        Swal.showValidationMessage('كلمة المرور مطلوبة');
+      } else {
+        return password;
+      }
+    }
+  }).then((result) => {
+    if (result.isConfirmed && result.value && item) {
+      const password = result.value;
+
+      const dto: IcheckRequect = {
+        // isCompleted: true,
+        technicianId: item.technicianId,
+        requestId: item.requestId,
+        requestState: 2,
+        pin: password,
+      };
+
+      console.log("Data Sent to API:", dto);
+
+      this.techRequestService.putcheck(dto).subscribe({
+        next: (res) => {
+          if (res.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'تمت الرفض',
+            }).then(() => {
+              this.router.navigate(['/technician/requests']);
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'خطأ',
+              text: res.message
+            });
+          }
+        },
+        error: () => {
+          Swal.fire({
+            icon: 'error',
+            title: 'حدث خطأ',
+            text: 'كلمة المرور غير صحيحة'
+          });
+        }
+      });
+    }
+  });
+}
+
+
+
+
 
 }

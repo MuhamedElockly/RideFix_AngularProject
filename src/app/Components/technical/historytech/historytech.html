@@ -1,0 +1,102 @@
+<div class="main-content" dir="rtl">
+  <div class="request-details-container">
+
+
+    <!-- Page Header for History -->
+    <div class="container">
+        <div class="page-header">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <i class="fas fa-history header-icon"></i>
+                <h1 class="page-title">تاريخ الخدمات الفنية</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content - Service History -->
+    <div class="container">
+        <div class="row g-4">
+
+@if(requestcomplete.length === 0) {
+  <div class="col-12">
+        <div class="alert alert-info text-center" role="alert">
+          لا توجد خدمات مكتملة حالياً.
+        </div>
+      </div>
+} @else {
+
+            <!-- Service History Card 4 (Example) -->
+             @for(item of requestcomplete ;track item.requestId){
+              <div class="col-lg-6">
+                <div class="service-card">
+                    <div class="service-header">
+                        <div>
+                            <h4 class="service-title">{{item.category}}</h4>
+                            <div class="service-meta">
+                                <span class="service-status completed">مكتمل</span>
+                                <!-- <span class="service-date">20 نوفمبر 2023</span>
+                                <span class="service-id">REQ-004#</span> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-details">
+                        <div class="detail-row">
+                             <div class="detail-item">
+                                <img src="https://th.bing.com/th/id/R.5d62dcd549d458dcd882f4ed1be93af1?rik=snYjPVpwYOQpng&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2f8%2f88%2fFlowers_in_the_English_Garden_Guelph_Arboretum.jpg&ehk=eInA25sVuucm5Za23MUP10Ijckq26cPa70%2fyte07NLQ%3d&risl=&pid=ImgRaw&r=0" alt="صورة مالك السيارة" class="owner-img">
+                                <div class="detail-content">
+                                    <span class="detail-label">مالك</span>
+                                    <span class="detail-value"> {{item.carOwnerName}}</span>
+                                </div>
+                            </div>
+
+                            <div class="detail-item">
+                                <i class="fas fa-tools detail-icon"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">نوع الخدمة</span>
+                                    <span class="detail-value"> {{item.category}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-row">
+                            <div class="detail-item">
+                                <i class="fas fa-play-circle detail-icon"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">وقت البدء</span>
+                                    <span class="detail-value">{{ item.timeStamp | date:'dd/MM/yyyy' }}</span>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-stop-circle detail-icon"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">وقت الانتهاء</span>
+                                    <span class="detail-value"> {{ item.endTimeStamp |  date:'dd/MM/yyyy' }} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-description">
+                        <h5><i class="fas fa-info-circle me-2"></i>وصف المشكلة</h5>
+                        <p>{{item.description}}</p>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+             }
+            }
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 كار فيكس. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+  </div>
+</div>

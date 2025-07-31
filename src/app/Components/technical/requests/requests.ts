@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import { ItechRequect } from '../../../Interfaces/itech-requect';
 import { TemplateRequest } from '../template-request/template-request';
-import { TemplateSweet } from '../template-sweet/template-sweet';
+import { Ihistorytech } from '../../../Interfaces/ihistorytech';
 
 @Component({
   selector: 'app-requests',
-  imports: [TemplateRequest,TemplateSweet],
+  imports: [TemplateRequest],
   templateUrl: './requests.html',
   styleUrl: './requests.css'
 })
@@ -15,14 +15,24 @@ export class Requests implements OnInit {
 
   }
   ngOnInit(): void {
-    this.techrequest.getAll().subscribe({
+    this.techrequest.getAllbyid().subscribe({
       next:b=>{
         this.request = Array.isArray(b) ? b : [b];
         console.log(this.request)
       }
     })
+
+    this.techrequest.getacceptrequest().subscribe({
+      next:b=>{
+        this.Acecctrequest = Array.isArray(b) ? b : [b];
+        // console.log(this.request)
+      }
+    }
+    )
+
   }
 
+Acecctrequest:Ihistorytech[]=[];
   request:ItechRequect[]=[];
 
   //  @ViewChild(TemplateSweet) alertModal!: TemplateSweet;
