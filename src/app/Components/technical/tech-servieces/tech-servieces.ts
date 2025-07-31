@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { TemplateRequest } from '../template-request/template-request';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import { ItechRequect } from '../../../Interfaces/itech-requect';
+import { IRequestApply } from '../../../Interfaces/irequest-apply';
+import { Ickeekapply } from '../../../Interfaces/ickeekapply';
 
 @Component({
   selector: 'app-tech-servieces',
@@ -20,7 +22,17 @@ export class TechServieces {
         console.log(this.request)
       }
     })
-  }
 
+    // techrequest.
+    this.techrequest.getapplyrequest().subscribe({
+      next:b=>{
+        this.applyrequest=Array.isArray(b) ? b : [b];
+      }
+    })
+
+
+
+  }
+applyrequest:Ickeekapply[]=[];
   request:ItechRequect[]=[];
 }

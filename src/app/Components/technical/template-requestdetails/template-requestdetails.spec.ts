@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemplateSweet } from './template-sweet';
+import { TemplateRequestdetails } from './template-requestdetails';
 
-describe('TemplateSweet', () => {
-  let component: TemplateSweet;
-  let fixture: ComponentFixture<TemplateSweet>;
+describe('TemplateRequestdetails', () => {
+  let component: TemplateRequestdetails;
+  let fixture: ComponentFixture<TemplateRequestdetails>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TemplateSweet]
+      imports: [TemplateRequestdetails]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TemplateSweet);
+    fixture = TestBed.createComponent(TemplateRequestdetails);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

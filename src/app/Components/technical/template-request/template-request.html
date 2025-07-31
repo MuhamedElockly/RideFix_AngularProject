@@ -1,15 +1,20 @@
-<!-- <div class="back"> -->
-<div class="main-content" dir="rtl">
-  <main class="col px-4 py-4">
-    <div class="mb-4">
-      <h2 class="fw-bold">طلبات الخدمة</h2>
-      <div class="text-secondary mb-3">إدارة طلبات الخدمة الفنية الخاصة بك</div>
-    </div>
+  <!-- <div class="back"> -->
+  <div class="main-content" dir="rtl">
+    <main class="col px-4 py-4">
+      <div class="mb-4">
+        <h2 class="fw-bold">طلبات الخدمة</h2>
+        <div class="text-secondary mb-3">إدارة طلبات الخدمة الفنية الخاصة بك</div>
+      </div>
 
-    <!-- سيتم تكرار الكروت هنا حسب الطلبات -->
-    <!-- مثال على كرت واحد فقط مترجم -->
+      <!-- سيتم تكرار الكروت هنا حسب الطلبات -->
+      <!-- مثال على كرت واحد فقط مترجم -->
+@if(request.length === 0) {
+  <div class="alert alert-info" role="alert">
+    لا توجد طلبات حالياً.
+  </div>
+} @else {
 
-    @for(item of request ;track item.requestId) {
+@for(item of request ;track item.requestId) {
     <div class="card card-request">
       <div
         class="card-body d-flex flex-column flex-md-row align-items-md-center"
@@ -28,7 +33,7 @@
         <div class="flex-grow-1">
           <div class="d-flex align-items-center mb-2">
             <span class="fw-bold fs-5 ms-2"
-              >  {{item.carOwnerName}}</span
+              >  {{item.carOwnerName}} {{item.carOwnerId}}</span
             >
             <!-- <span class="badge badge-high text-white me-2">عاجل</span> -->
           </div>
@@ -41,14 +46,30 @@
           <div class="fw-bold fs-4 text-success">150-200 دولار</div> -->
         </div>
         <div class="d-flex flex-column gap-2 me-md-4 mt-3 mt-md-0">
-          <button class="btn btn-outline-dark"  >
-            <i class="bi bi-eye"></i> عرض التفاصيل
-          </button>
-          @if(showBookingButton){
-          <!-- <button class="btn btn-success">قبول الطلب</button> -->
-          <button class="btn btn-apply" (click)="confirmApprovalWithPassword(item)">تقديم الآن</button>
+          @if (showBookingButton) {
+  @if (hasAlreadyApplied(item.requestId)) {
+    <!-- ✅ إذا مقدم قبل كده -->
+    <button class="btn btn-apply " >
+       تم التقديم
+    </button>
+  } @else {
+    <!-- ❌ لم يُقدَّم من قبل -->
+    <button class="btn btn-outline-dark" [routerLink]="['/technician/RequestDetailsalltech']" [state]="{ data: item }">
+      <i class="bi bi-eye"></i> عرض التفاصيل
+    </button>
+    <button class="btn btn-apply" (click)="confirmApprovalWithPasswordApply(item)">
+      تقديم الآن
+    </button>
+  }
+}
 
-          }@else{
+
+@else{
+            <button class="btn btn-outline-dark" [routerLink]="['/technician/requestdetails']" [state]="{ data: item }"  >
+            <!-- requestdetails l -->
+               <i class="bi bi-eye"   ></i> عرض التفاصيل
+
+          </button>
           <button class="btn btn-outline-success"  (click)="confirmApprovalWithPassword(item)">
             <i class="bi bi-check-circle"></i> موافقة
           </button>
@@ -60,6 +81,8 @@
     </div>
 
     }
-  </main>
-</div>
-<!-- </div> -->
+
+  }
+    </main>
+  </div>
+  <!-- </div> -->

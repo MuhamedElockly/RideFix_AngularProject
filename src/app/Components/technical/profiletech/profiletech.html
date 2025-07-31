@@ -1,0 +1,338 @@
+<div class="main-content" dir="rtl">
+  <div class="request-details-container">
+
+    <!-- Page Header -->
+    <div class="container">
+        <div class="page-header">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <i class="fas fa-user-circle header-icon"></i>
+                <h1 class="page-title">الملف الشخصي للفني</h1>
+            </div>
+            <p class="page-subtitle">عرض جميع طلبات الخدمة الفنية والطلبات السابقة</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row g-4">
+            <!-- Profile Summary -->
+            <div class="col-12">
+                <div class="profile-header">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2 text-center mb-3 mb-lg-0">
+                            <!-- <img src="{{tech?.faceImageURL}}"
+                                 alt="أحمد محمد"
+                                 class="profile-img"> -->
+
+                                   <img src="https://th.bing.com/th/id/R.5d62dcd549d458dcd882f4ed1be93af1?rik=snYjPVpwYOQpng&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2f8%2f88%2fFlowers_in_the_English_Garden_Guelph_Arboretum.jpg&ehk=eInA25sVuucm5Za23MUP10Ijckq26cPa70%2fyte07NLQ%3d&risl=&pid=ImgRaw&r=0"
+                                 alt="أحمد محمد"
+                                 class="profile-img">
+                            <div class="status-badge">
+                                <i class="fas fa-circle me-1"></i>
+                                متاح
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h2 class="profile-name">{{tech?.name}} </h2>
+                            <p class="profile-title">فني سيارات محترف</p>
+                            <div class="profile-meta">
+                                <span class="meta-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+
+                                    {{tech?.government}}
+                                </span>
+                                <span class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    متاح 24/7
+                                </span>
+                                <span class="meta-item">
+                                    <i class="fas fa-id-card"></i>
+                                    #5
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 text-center">
+                            <div class="d-flex gap-2 flex-wrap justify-content-center">
+                                <!-- <button class="btn btn-details">
+                                    <i class="fas fa-eye"></i>
+                                    عرض التفاصيل
+                                </button> -->
+                                <button class="btn btn-success-custom">
+                                    <i class="fas fa-phone"></i>
+                                     {{tech?.phoneNumber}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Card 1 -->
+            <div class="col-lg-6">
+                <div class="service-card">
+                    <div class="service-header">
+                        <div>
+                            <h4 class="service-title">خدمات فنية متخصصة</h4>
+                            <div class="service-meta">
+                                <span class="service-status completed">متاح</span>
+                                <span class="service-date">15 يناير 2024</span>
+                                <span class="service-id">REQ-001#</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-details">
+                        <div class="detail-row">
+                            <div class="detail-item">
+                                <i class="fas fa-dollar-sign detail-icon"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">التكلفة</span>
+                                    <span class="detail-value">حسب الخدمة</span>
+                                </div>
+                            </div>
+                            <!-- @for (let categ of tech.category) {
+                               <div class="detail-item">
+                                <i class="fas fa-tools detail-icon"></i>
+                                <div class="detail-content">
+                                    <span class="detail-label">نوع الخدمة</span>
+                                    <span class="detail-value">{{ categ }} </span>
+                                </div>
+                            </div>
+                              } -->
+
+                              <!-- @for (let categ of tech.category) {
+  <div class="detail-item">
+    <i class="fas fa-tools detail-icon"></i>
+    <div class="detail-content">
+      <span class="detail-label">نوع الخدمة</span>
+      <span class="detail-value">{{ categ }}</span>
+    </div>
+  </div>
+} -->
+
+
+<div class="detail-item" *ngFor="let categ of tech?.category">
+  <i class="fas fa-tools detail-icon"></i>
+  <div class="detail-content">
+    <span class="detail-label">نوع الخدمة</span>
+    <span class="detail-value">{{ categ }}</span>
+  </div>
+</div>
+
+
+
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-user detail-icon"></i>
+                            <div class="detail-content">
+                                <span class="detail-label">اسم الفني</span>
+                                <span class="detail-value">{{tech?.name}}  </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-description">
+                        <h5><i class="fas fa-info-circle me-2"></i>وصف المشكلة</h5>
+                        <p>فني سيارات ذو خبرة تزيد عن 10 سنوات في مجال إصلاح وصيانة السيارات. متخصص في خدمات نقل وترتيب الأثاث مع وجود أدوات غريبة عند التشغيل. لم يتم فحص المحرك وتحديد مشكل الغيار التالفة وإجراء صيانة شاملة.</p>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-details">
+                            <i class="fas fa-eye"></i>
+                            عرض التفاصيل
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Working Hours Card -->
+            <div class="col-lg-6">
+                <div class="service-card">
+                    <div class="service-header">
+                        <div>
+                            <h4 class="service-title">مواعيد العمل</h4>
+                            <div class="service-meta">
+                                <span class="service-status available">نشط</span>
+                                <!-- <span class="service-date">12 يناير 2024</span> -->
+                                <!-- <span class="service-id">REQ-002#</span> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="time-card">
+                                <i class="fas fa-sun time-icon"></i>
+                                <h5>بداية العمل</h5>
+                                <div class="time-value">{{tech?.startWorking}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="time-card">
+                                <i class="fas fa-moon time-icon"></i>
+                                <h5>نهاية العمل</h5>
+                                <div class="time-value">{{tech?.endWorking}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="service-description">
+                        <h5><i class="fas fa-info-circle me-2"></i>معلومات إضافية</h5>
+                        <p>متاح للعمل على مدار الساعة طوال أيام الأسبوع. يمكن التواصل في أي وقت لطلب الخدمات المختلفة. خدمة سريعة وموثوقة مع ضمان الجودة.</p>
+                    </div> -->
+
+                    <!-- <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-details">
+                            <i class="fas fa-calendar"></i>
+                            عرض التفاصيل
+                        </button>
+                    </div> -->
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <!-- <div class="col-lg-8">
+                <div class="stats-section">
+                    <h4 class="mb-4">
+                        <i class="fas fa-chart-bar me-2" style="color: #ff6b35;"></i>
+                        إحصائيات الأداء
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="stat-item">
+                                <div class="stat-value">10+</div>
+                                <div class="stat-label">سنوات خبرة</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-item">
+                                <div class="stat-value">24/7</div>
+                                <div class="stat-label">متاح</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-item">
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">تقييمات</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-item">
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">خدمات</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Reviews Section -->
+            <!-- <div class="col-lg-4">
+                <div class="service-card">
+                    <h4 class="service-title mb-3">
+                        <i class="fas fa-star me-2" style="color: #ff6b35;"></i>
+                        التقييمات
+                    </h4>
+
+                    <div class="no-reviews">
+                        <i class="fas fa-star-half-alt no-reviews-icon"></i>
+                        <h5>لا توجد تقييمات بعد</h5>
+                        <p>كن أول من يقيم خدمات هذا الفني</p>
+                        <button class="btn btn-details" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                            <i class="fas fa-plus"></i>
+                            إضافة تقييم
+                        </button>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Contact Section -->
+            <div class="col-12">
+                <div class="service-card">
+                    <h4 class="service-title mb-4 text-center">
+                        <i class="fas fa-phone me-2" style="color: #ff6b35;"></i>
+                        معلومات الاتصال
+                    </h4>
+
+                    <div class="row g-4 text-center">
+                        <div class="col-md-4">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h5>الموقع</h5>
+                            <p class="text-muted mb-3"> {{tech?.address}}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <h5>الهاتف</h5>
+                            <p class="text-muted mb-3"> {{tech?.phoneNumber}}</p>
+                            <!-- <button class="btn btn-success-custom">اتصل الآن</button> -->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h5>البريد الإلكتروني</h5>
+                            <p class="text-muted mb-3">{{tech?.email}}</p>
+                            <!-- <button class="btn btn-details">إرسال رسالة</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <!-- <div class="modal fade" id="reviewModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">إضافة تقييم جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="reviewerName" class="form-label">الاسم</label>
+                            <input type="text" class="form-control" id="reviewerName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">التقييم</label>
+                            <select class="form-select" id="rating" required>
+                                <option value="">اختر التقييم</option>
+                                <option value="5">⭐⭐⭐⭐⭐ (ممتاز)</option>
+                                <option value="4">⭐⭐⭐⭐ (جيد جداً)</option>
+                                <option value="3">⭐⭐⭐ (جيد)</option>
+                                <option value="2">⭐⭐ (مقبول)</option>
+                                <option value="1">⭐ (ضعيف)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reviewText" class="form-label">نص التقييم</label>
+                            <textarea class="form-control" id="reviewText" rows="4" required placeholder="اكتب تقييمك للخدمة المقدمة..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-details">إرسال التقييم</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 كار فيكس. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  </div>
+</div>
+
