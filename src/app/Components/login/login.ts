@@ -31,12 +31,14 @@ export class LoginComponent {
 
 
   login() {
+
+
     this.authService.login(this.loginData).subscribe({
       next: (res) => {
         const token = res.token;
         console.log('Login successful, token:', token);
-        
 
+let decodedToken: any = jwtDecode(token);
         this.tokenService.setToken(token);
         if(decodedToken.Role==="CarOwner"){
         this.router.navigate(['/CarOwner/Home']);
