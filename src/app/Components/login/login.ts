@@ -32,15 +32,20 @@ export class LoginComponent {
         const token = res.token;
         console.log('Login successful, token:', token);
         this.tokenService.setToken(token);
-        // let decodedToken: any = jwtDecode(token);
-        // console.log('Decoded token:', decodedToken.Role);
-        // console.log('User ID:', decodedToken.Id);
-        // console.log('User Email:', decodedToken.Email);
-        // console.log('User Name:', decodedToken.Name);
+        let decodedToken: any = jwtDecode(token);
+        console.log('Decoded token:', decodedToken.Role);
+        console.log('User ID:', decodedToken.Id);
+        console.log('User Email:', decodedToken.Email);
+        console.log('User Name:', decodedToken.Name);
 
         setTimeout(() => {
+          if (decodedToken.Role === 'CarOwner') {
+            this.router.navigate(['/CarOwner/Home']);
+          } else if (decodedToken.Role === 'Technician') {
+            this.router.navigate(['/techservieces']);
+          }
           this.router.navigate(['/CarOwner/Home']);
-        }, 2000);
+        }, 100);
       },
       error: () => {
         alert('Login failed.');

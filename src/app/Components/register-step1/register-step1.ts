@@ -35,6 +35,7 @@ export class RegisterStep1Component {
     startWorking: '',
     endWorking: '',
     description: '',
+    categories: [],
   };
 
   // حالة التحقق لكل حقل
