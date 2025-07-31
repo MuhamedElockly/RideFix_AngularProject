@@ -34,6 +34,7 @@ export const routes: Routes = [
     ],
   },
 
+
   {
   path: 'technician',
   component: TechnicianModule,
@@ -56,7 +57,7 @@ export const routes: Routes = [
 
 
 
+//   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
+//   { path: 'techchat', component: Techchat },
 
-  { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
-  { path: 'techchat', component: Techchat },
 ];
