@@ -1,5 +1,8 @@
 <!-- Main Content -->
 <div class="main-content">
+  @if(alertFlag == true){
+  <app-request-alert-component></app-request-alert-component>
+  }
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="hero-content">
@@ -118,7 +121,7 @@
       </div>
     </a>
 
-    <a href="/history" class="service-card">
+    <a href="/CarOwner/RequestsHistory" class="service-card">
       <div class="service-icon-large history">
         <i class="fas fa-history"></i>
       </div>

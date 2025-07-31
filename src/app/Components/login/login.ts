@@ -6,6 +6,7 @@ import { ILogin } from '../../Interfaces/Account/ILogin';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { UserStorageService } from '../../Services/UserStorageService/user-storage-service';
+import { TokenService } from '../../Services/TokenService/tokenservice';
 
 @Component({
   selector: 'app-login',
@@ -20,33 +21,32 @@ export class LoginComponent {
     password: '',
   };
 
-  constructor(private authService: AuthService, private router: Router,private userStorage:UserStorageService ) {}
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private tokenService: TokenService,
+    private  userStorage:UserStorageService,
+  ) {}
+
 
   login() {
     this.authService.login(this.loginData).subscribe({
-      next: (token) => {
+      next: (res) => {
+        const token = res.token;
         console.log('Login successful, token:', token);
-        localStorage.setItem('token', token);
-        let decodedToken: any = jwtDecode(token);
-        console.log('Decoded token:', decodedToken.Role);
-        console.log('User ID:', decodedToken.Id);
-        console.log('User Email:', decodedToken.Email);
-        console.log('User Name:', decodedToken.Name);
-        console.log(decodedToken)
-        // alert('Login successful!');
+        
+
+        this.tokenService.setToken(token);
         if(decodedToken.Role==="CarOwner"){
         this.router.navigate(['/CarOwner/Home']);
         }else if(decodedToken.Role==="Technician") {
             this.router.navigate(['/technician/requests']);
           this.userStorage.setUserId(decodedToken.Id);
           this.userStorage.setUserName(decodedToken.Name);
-
             //  this.userStorage.setUserimg(decodedToken.Id);
-
-
         }
         this.userStorage.setUserRole(decodedToken.Role);
-
       },
       error: () => {
         alert('Login failed.');

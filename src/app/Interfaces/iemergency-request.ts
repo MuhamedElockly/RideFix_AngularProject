@@ -6,4 +6,5 @@ export interface IEmergencyRequest {
   carOwnerId: Number;
   latitude: Number;
   longitude: Number;
+  pin: Number;
 }
