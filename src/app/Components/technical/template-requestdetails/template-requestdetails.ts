@@ -7,10 +7,11 @@ import { IcheckRequect } from '../../../Interfaces/icheck-requect';
 import { IRequestApply } from '../../../Interfaces/irequest-apply';
 import { UserStorageService } from '../../../Services/UserStorageService/user-storage-service';
 import { Ihistorytech } from '../../../Interfaces/ihistorytech';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-template-requestdetails',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './template-requestdetails.html',
   styleUrl: './template-requestdetails.css'
 })
@@ -133,7 +134,7 @@ confirmApprovalWithPasswordApply(item:ItechRequect| null) {
   }).then((result) => {
     if (result.isConfirmed && result.value) {
       const password = result.value;
-const userId = this.userStorage.getUserId();
+const userId = localStorage.getItem('techid');
 
       const dto:IRequestApply = {
         requestId:item.requestId,
@@ -150,9 +151,7 @@ console.log("Data Sent to API:", dto);
             Swal.fire({
               icon: 'success',
               title: 'تمت الموافقة',
-              // text: res.message
             }).then(() => {
-      // الانتقال إلى مكون آخر بعد الضغط على "موافق"
       this.router.navigate(['/technician/techservieces']);
     });
           } else {
