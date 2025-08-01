@@ -44,6 +44,8 @@ let decodedToken: any = jwtDecode(token);
         this.router.navigate(['/CarOwner/Home']);
         }else if(decodedToken.Role==="Technician") {
             this.router.navigate(['/technician/requests']);
+            localStorage.setItem('techid', decodedToken.Id);
+            localStorage.getItem('techid');
           this.userStorage.setUserId(decodedToken.Id);
           this.userStorage.setUserName(decodedToken.Name);
             //  this.userStorage.setUserimg(decodedToken.Id);
