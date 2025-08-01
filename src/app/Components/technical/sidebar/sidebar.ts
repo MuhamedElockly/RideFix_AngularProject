@@ -49,7 +49,7 @@ ngOnInit(): void {
 
  isRequestsOrDetailsall(): boolean {
   const url = this.router.url;
-  return url === '/technician/techservieces' || url === '/technician/RequestDetailsalltech';
+  return url === '/technician/techservieces' || url === '/technician/requestdetailsalltech';
 }
 
 logout() {
