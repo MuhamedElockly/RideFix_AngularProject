@@ -9,12 +9,9 @@ import { LoginComponent } from './Components/login/login';
 import { FormsModule } from '@angular/forms';
 import { Sidebar } from './Components/technical/sidebar/sidebar';
 import { Requests } from './Components/technical/requests/requests';
-
 import { UserStorageService } from './Services/UserStorageService/user-storage-service';
 import { CommonModule } from '@angular/common';
-
 import { ReactiveFormsModule } from '@angular/forms';
-
 
 @Component({
   selector: 'app-root',
@@ -28,7 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     Sidebar,
-    Requests,   
+    Requests,
+
     CommonModule
   ],
   templateUrl: './app.html',

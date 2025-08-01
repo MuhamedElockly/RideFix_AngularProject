@@ -5,7 +5,9 @@ requestId: number;
 description: string;
 carOwnerId: number;
 carOwnerName: string;
-faceImageUrl: string
+faceImageUrl: string;
+
+category: string;
 
 
 
