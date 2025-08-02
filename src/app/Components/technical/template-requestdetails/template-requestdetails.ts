@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ItechRequect } from '../../../Interfaces/itech-requect';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import Swal from 'sweetalert2';
 import { IcheckRequect } from '../../../Interfaces/icheck-requect';
@@ -10,7 +10,7 @@ import { Ihistorytech } from '../../../Interfaces/ihistorytech';
 
 @Component({
   selector: 'app-template-requestdetails',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './template-requestdetails.html',
   styleUrl: './template-requestdetails.css'
 })

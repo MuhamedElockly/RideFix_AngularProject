@@ -1,0 +1,25 @@
+/* Technician Module Layout */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 10, 0.85) 0%,
+    rgba(26, 26, 26, 0.75) 25%,
+    rgba(45, 45, 45, 0.7) 50%,
+    rgba(26, 26, 26, 0.75) 75%,
+    rgba(10, 10, 10, 0.85) 100%
+  );
+}
+
+/* Navigation bar is sticky, so content flows normally */
+router-outlet {
+  display: block;
+}
+
+/* Ensure proper spacing for content below navbar */
+:host ::ng-deep router-outlet + * {
+  display: block;
+  padding-top: 0; /* Navbar is sticky, no extra padding needed */
+}
+
