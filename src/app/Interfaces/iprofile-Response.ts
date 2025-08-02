@@ -1,4 +1,4 @@
-import { ITechnichianDetails } from './ItechnichianDetails';
+import { ITechnichianDetails } from './Technichan/ItechnichianDetails';
 
 export interface IProfileResponse {
   success: boolean;

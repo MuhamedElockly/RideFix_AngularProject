@@ -57,4 +57,14 @@ export class AuthService {
     // console.log('Decoded Name:', name);
     return name || '';
   }
+
+  getUserId(): string {
+    const token = this.tokenservice.getToken();
+    if (!token) return '';
+    let decodedToken: any = jwtDecode(token);
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userid = decodedToken.userId.split(' ')[0];
+    console.log('Decoded Name:', userid);
+    return userid || '';
+  }
 }

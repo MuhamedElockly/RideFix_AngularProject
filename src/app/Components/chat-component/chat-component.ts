@@ -44,7 +44,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    // this.liveChatService.stopConnection;
+    this.liveChatService.stopConnection;
   }
   ShowDetails(id: Number) {
     this.selectedChatId = id;

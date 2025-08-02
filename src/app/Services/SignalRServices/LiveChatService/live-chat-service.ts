@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { inject, Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import Swal from 'sweetalert2';
@@ -6,16 +5,15 @@ import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root',
 })
-export class RequestWatchDogHub {
+export class LiveChatService {
   private hubConnection: signalR.HubConnection | undefined;
-  routerService = inject(Router);
   constructor() {}
 
   public startConnection() {
     const token = localStorage.getItem('token'); // لو التوكن مخزن في localStorage
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5038/requestWatchDogHub', {
+      .withUrl('http://localhost:5038/chathub', {
         accessTokenFactory: () => token || '', // تمرير التوكن عبر الـ Authorization header
       }) // المسار للـ Hub
       .build();
@@ -35,20 +33,14 @@ export class RequestWatchDogHub {
       this.hubConnection.stop();
     }
   }
-  public addreceivemessagelistener() {
-    this.hubConnection?.on('addreceivemessagelistener', (message: string) => {
-      console.log('Received notification: ' + message);
-      Swal.fire({
-        icon: 'success',
-        title: 'تم التنفيذ',
-        text: 'تم الموافقة علي الطلب',
-      }).then(() => {
-        this.routerService.navigateByUrl(`CarOwner/Home`);
-      });
-    });
+
+  public printConnectionState() {
+    setInterval(() => {
+      console.log('LiveChat Connection State:', this.hubConnection?.state);
+    }, 5000); // تطبع الحالة كل 5 ثواني
   }
 
-  public acceptrequest(CarOwnerId: Number) {
+  public sendmessage(ChatSessionId: Number, message: string) {
     if (this.hubConnection?.state === signalR.HubConnectionState.Disconnected) {
       Swal.fire({
         icon: 'error',
@@ -57,16 +49,11 @@ export class RequestWatchDogHub {
       });
       return;
     }
-    this.hubConnection?.invoke('acceptrequest', CarOwnerId).then(() => {
-      console.log('Request accepted and notification sent to CarOwner');
-    });
-  }
-  public printConnectionState() {
-    setInterval(() => {
-      console.log(
-        'RequestWatchDog Connection State:',
-        this.hubConnection?.state
-      );
-    }, 10000); // تطبع الحالة كل 5 ثواني
+
+    this.hubConnection
+      ?.invoke('sendmessage', ChatSessionId, message)
+      .then(() => {
+        console.log('Message Sent');
+      });
   }
 }

@@ -1,45 +1,44 @@
-<div class="chat-details-container">
-  <!-- Chat Messages -->
-  <div class="chat-messages-container">
-    @for (message of chatDetails?.messages; track $index) { @if
-    (message.applicationId === userId) {
-    <!-- رسالتي أنا -->
-    <div class="message-group client">
-      <div class="message-content">
-        <div class="message-bubble">
-          {{ message.text }}
-        </div>
-        <div class="message-timestamp">
-          {{ message.sentAt | date : "hh:mm a" }}
-        </div>
+<!-- Chat Messages -->
+<div class="chat-messages-container">
+  @if (chatDetails?.messages && chatDetails?.messages) { @for (message of
+  chatDetails?.messages; track $index) { @if (message.applicationId === userId)
+  {
+  <!-- رسالتي أنا -->
+  <div class="message-group client">
+    <div class="message-content">
+      <div class="message-bubble">
+        {{ message.text }}
       </div>
-      <div class="message-avatar-container">
-        <div class="role-badge client">
-          <i class="fas fa-user"></i>
-        </div>
+      <div class="message-timestamp">
+        {{ message.sentAt | date : "hh:mm a" }}
       </div>
     </div>
-    } @else {
-    <!-- رسالة من الطرف التاني -->
-    <div class="message-group technician">
-      <div class="message-avatar-container">
-        <div class="role-badge technician">
-          <i class="fas fa-wrench"></i>
-        </div>
-      </div>
-      <div class="message-content">
-        <div class="message-bubble">
-          {{ message.text }}
-        </div>
-        <div class="message-timestamp">
-          {{ message.sentAt | date : "hh:mm a" }}
-        </div>
+    <div class="message-avatar-container">
+      <div class="role-badge client">
+        <i class="fas fa-user"></i>
       </div>
     </div>
-    } }
   </div>
-
-  @if (!true) {
+  } @else {
+  <!-- رسالة من الطرف التاني -->
+  <div class="message-group technician">
+    <div class="message-avatar-container">
+      <div class="role-badge technician">
+        <i class="fas fa-wrench"></i>
+      </div>
+    </div>
+    <div class="message-content">
+      <div class="message-bubble">
+        {{ message.text }}
+      </div>
+      <div class="message-timestamp">
+        {{ message.sentAt | date : "hh:mm a" }}
+      </div>
+    </div>
+  </div>
+  } } } @else {
+  <div class="no-messages">لا توجد رسائل حتى الآن</div>
+  }
   <!-- Chat Input -->
   <div class="chat-input-section">
     <div class="input-container">
@@ -55,17 +54,13 @@
           <i class="fas fa-smile"></i>
         </button>
       </div>
-      <button class="send-message-btn">
+      <button
+        class="send-message-btn"
+        [ngModel]="Message"
+        (click)="SendMessage()"
+      >
         <i class="fas fa-paper-plane"></i>
       </button>
     </div>
   </div>
-  } @else {
-  <div class="chat-input-section locked">
-    <div class="locked-message">
-      <i class="fas fa-lock"></i>
-      <span>تم إغلاق المحادثة، الطلب تم الانتهاء منه.</span>
-    </div>
-  </div>
-  }
 </div>
