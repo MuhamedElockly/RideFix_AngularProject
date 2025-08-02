@@ -33,7 +33,20 @@ hasAlreadyApplied(requestId: number): boolean {
          this.applyrequest.some(app => app.carOwnerRequestId === requestId);
 }
 
-
+navigateToDetails(item: ItechRequect) {
+  console.log('Navigating to details with item:', item);
+  console.log('showBookingButton:', this.showBookingButton);
+  
+  if (this.showBookingButton) {
+    // Navigate to RequestDetailsalltech for booking view
+    console.log('Navigating to /technician/requestdetailsalltech');
+    this.router.navigate(['/technician/requestdetailsalltech'], { state: { data: item } });
+  } else {
+    // Navigate to requestdetails for regular view
+    console.log('Navigating to /technician/requestdetails');
+    this.router.navigate(['/technician/requestdetails'], { state: { data: item } });
+  }
+}
 
 
 constructor(private techRequestService:TechrequestService ,private router:Router ,private userStorage:UserStorageService){}

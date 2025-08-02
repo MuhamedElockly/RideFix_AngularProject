@@ -1,0 +1,106 @@
+<!-- Font Awesome CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <!-- Brand Logo - Amazing Design -->
+    <a class="navbar-brand" routerLink="/">
+      <div class="logo-container">
+        <div class="logo-icon-wrapper">
+          <div class="logo-icon">
+            <i class="fas fa-wrench"></i>
+          </div>
+          <div class="logo-glow"></div>
+          <div class="logo-pulse"></div>
+        </div>
+        <div class="logo-text-container">
+          <span class="logo-text-primary">Ride</span>
+          <span class="logo-text-secondary">Fix</span>
+        </div>
+        <div class="logo-tagline">حلول السيارات الذكية</div>
+      </div>
+    </a>
+
+    <!-- Mobile Toggle Button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navigation Items -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Center Section - Navigation Links (when logged in) -->
+      <ul class="navbar-nav mx-auto" *ngIf="isLoggedIn()">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/technician/requests" routerLinkActive="active">
+            <i class="fas fa-clipboard-list"></i>
+            <span>الطلبات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/technician/techservieces" routerLinkActive="active">
+            <i class="fas fa-tools"></i>
+            <span>الخدمات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/technician/historytech" routerLinkActive="active">
+            <i class="fas fa-history"></i>
+            <span>التاريخ</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/technician/profiletech" routerLinkActive="active">
+            <i class="fas fa-user-circle"></i>
+            <span>الملف الشخصي</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Right Section - User Profile & Actions -->
+      <div class="navbar-right">
+        <!-- User Profile (when logged in) -->
+        <div *ngIf="isLoggedIn()" class="user-section">
+          <div class="user-profile">
+            <div class="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="user-info">
+              <div class="user-name">أهلاً {{ userName }}</div>
+              <div class="user-role">فني</div>
+            </div>
+          </div>
+
+          <div class="notification-btn">
+            <i class="fas fa-bell"></i>
+            <div class="notification-badge">2</div>
+          </div>
+
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>تسجيل الخروج</span>
+          </button>
+        </div>
+
+        <!-- Login/Register Buttons (when not logged in) -->
+        <div *ngIf="!isLoggedIn()" class="auth-buttons">
+          <a routerLink="/login" class="btn btn-outline-light btn-sm me-2">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>تسجيل الدخول</span>
+          </a>
+          <a routerLink="/register-step1" class="btn btn-warning btn-sm">
+            <i class="fas fa-user-plus"></i>
+            <span>إنشاء حساب</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav> 
