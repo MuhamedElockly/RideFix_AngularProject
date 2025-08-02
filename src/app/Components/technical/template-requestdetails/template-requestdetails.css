@@ -683,3 +683,109 @@ body::after {
 }
 
 
+/***/
+    :root {
+            --orange-primary: #FF8C00;
+            --blue-primary: #007bff;
+            --green-success: #28a745;
+            --red-destructive: #dc3545; /* Bootstrap's danger color */
+            --light-grey-bg: #f8f9fa;
+            --text-dark: #343a40;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--light-grey-bg);
+            color: var(--text-dark);
+            direction: rtl;
+            text-align: right;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .card {
+            border-radius: 0.75rem; /* Slightly more rounded corners */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Stronger shadow */
+        }
+
+        .card-header {
+            background-color: white; /* Ensure header background is white */
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.75rem; /* Larger title */
+            font-weight: bold;
+        }
+
+        .card-description {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            aspect-ratio: 1 / 1; /* Make image square */
+            border: 1px solid var(--border-color);
+        }
+
+        .separator {
+            border-top: 1px solid var(--border-color);
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge-secondary-custom {
+            background-color: #6c757d; /* Bootstrap secondary */
+            color: white;
+            padding: 0.35em 0.65em;
+            border-radius: 0.25rem;
+            font-size: 0.8em;
+        }
+
+        .badge-outline-custom {
+            border: 1px solid #6c757d; /* Outline style */
+            color: #6c757d;
+            background-color: transparent;
+            padding: 0.35em 0.65em;
+            border-radius: 0.25rem;
+            font-size: 0.8em;
+        }
+
+        .card-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            background-color: white; /* Ensure footer background is white */
+        }
+
+        .btn-destructive {
+            background-color: var(--red-destructive);
+            border-color: var(--red-destructive);
+            color: white;
+        }
+        .btn-destructive:hover {
+            background-color: #c82333; /* Darker red */
+            border-color: #bd2130;
+        }
+
+        .btn-primary-custom {
+            background-color: var(--blue-primary);
+            border-color: var(--blue-primary);
+            color: white;
+        }
+        .btn-primary-custom:hover {
+            background-color: #0056b3; /* Darker blue */
+            border-color: #0056b3;
+        }
+
+

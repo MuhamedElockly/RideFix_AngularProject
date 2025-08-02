@@ -152,7 +152,7 @@ confirmApprovalWithPasswordApply(item:ItechRequect){
   }).then((result) => {
     if (result.isConfirmed && result.value) {
       const password = result.value;
-const userId = this.userStorage.getUserId();
+const userId = localStorage.getItem('techid');
 
       const dto:IRequestApply = {
         requestId:item.requestId,
