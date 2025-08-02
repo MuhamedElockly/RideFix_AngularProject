@@ -1,4 +1,4 @@
-import { IRequestBrief } from './../../../Interfaces/irequest-brief';
+import { IRequestBrief } from '../../../Interfaces/Requests/irequest-brief';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { RequestAlertComponent } from '../request-alert-component/request-alert-component';

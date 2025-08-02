@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 // import { TechnicianService } from '../../../Services/TechnicianService/technician-service';
-import { ITechnician } from '../../../Interfaces/itechnician';
+import { ITechnician } from '../../../Interfaces/Technichan/itechnician';
 import { TechnicianService } from '../../../Services/TechnicianService/technician-service';
 import { RequestService } from '../../../Services/RequestService/request-service';
 import { Router } from '@angular/router';

@@ -1,12 +1,12 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { ItechRequect } from '../../../Interfaces/itech-requect';
+import { ItechRequect } from '../../../Interfaces/Technichan/itech-requect';
 import { Router, RouterLink } from '@angular/router';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import Swal from 'sweetalert2';
-import { IcheckRequect } from '../../../Interfaces/icheck-requect';
-import { IRequestApply } from '../../../Interfaces/irequest-apply';
+import { IcheckRequect } from '../../../Interfaces/Requests/icheck-requect';
+import { IRequestApply } from '../../../Interfaces/Requests/irequest-apply';
 import { UserStorageService } from '../../../Services/UserStorageService/user-storage-service';
-import { Ihistorytech } from '../../../Interfaces/ihistorytech';
+import { Ihistorytech } from '../../../Interfaces/Technichan/ihistorytech';
 import { RequestWatchDogHub } from '../../../Services/SignalRServices/RequestWatchDogHub/request-watch-dog-hub';
 import { CommonModule } from '@angular/common';
 

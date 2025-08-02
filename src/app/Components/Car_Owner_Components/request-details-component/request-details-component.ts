@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import { RequestService } from '../../../Services/RequestService/request-service';
-import type { IRequestDetails } from './../../../Interfaces/irequest-details';
+import type { IRequestDetails } from '../../../Interfaces/Requests/irequest-details';
 import {
   Component,
   inject,

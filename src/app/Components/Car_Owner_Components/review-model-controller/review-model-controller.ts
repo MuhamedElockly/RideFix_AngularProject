@@ -8,7 +8,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IReviewRequest } from '../../../Interfaces/ireview-request';
+import { IReviewRequest } from '../../../Interfaces/Reviews/ireview-request';
 import { ReviewService } from '../../../Services/ReviewService/review-service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
