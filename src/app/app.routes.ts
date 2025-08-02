@@ -9,15 +9,20 @@ import { Requests } from './Components/technical/requests/requests';
 import { TechServieces } from './Components/technical/tech-servieces/tech-servieces';
 import { WaitingComponent } from './Components/Car_Owner_Components/waiting-component/waiting-component';
 
+
+
 import { RequestDetails } from './Components/technical/request-details/request-details';
 import { RequestDetailsalltech } from './Components/technical/request-detailsalltech/request-detailsalltech';
 import { Profiletech } from './Components/technical/profiletech/profiletech';
 import { Historytech } from './Components/technical/historytech/historytech';
 import { TechnicianModule } from './Components/technical/technician-module/technician-module';
+// import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history/request-history';
+
 
 import { ProfileView } from './Components/Car_Owner_Components/profile-view/profile-view';
 import { Techchat } from './Components/technical/techchat/techchat';
 import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history-component/request-history-component';
+
 
 export const routes: Routes = [
   ...authRoutes,
@@ -30,7 +35,7 @@ export const routes: Routes = [
       { path: 'SelectTech', component: TechSelect },
       { path: 'Waiting', component: WaitingComponent },
       { path: 'TechViewDetails', component: ProfileView },
-      { path: 'RequestsHistory', component: RequestHistoryComponent },
+      // { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
   },
 
@@ -55,6 +60,14 @@ export const routes: Routes = [
   //   { path: 'requests', component: Requests },
   //   { path: 'techservieces', component: TechServieces },
 
+
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   //   { path: 'techchat', component: Techchat },
+
+
+
+//   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
+//   { path: 'techchat', component: Techchat },
+
+
 ];

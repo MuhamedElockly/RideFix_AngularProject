@@ -29,17 +29,31 @@ export class LoginComponent {
   ) {}
 
   login() {
+
+
     this.authService.login(this.loginData).subscribe({
       next: (res) => {
         const token = res.token;
         console.log('Login successful, token:', token);
-        this.tokenService.setToken(token);
-        let decodedToken: any = jwtDecode(token);
 
-        if (decodedToken.Role === 'CarOwner') {
-          this.router.navigate(['/CarOwner/Home']);
-        } else if (decodedToken.Role === 'Technician') {
-          this.router.navigate(['/technician/requests']);
+//         this.tokenService.setToken(token);
+//         let decodedToken: any = jwtDecode(token);
+
+//         if (decodedToken.Role === 'CarOwner') {
+//           this.router.navigate(['/CarOwner/Home']);
+//         } else if (decodedToken.Role === 'Technician') {
+//           this.router.navigate(['/technician/requests']);
+
+
+let decodedToken: any = jwtDecode(token);
+        this.tokenService.setToken(token);
+        if(decodedToken.Role==="CarOwner"){
+        this.router.navigate(['/CarOwner/Home']);
+        }else if(decodedToken.Role==="Technician") {
+            this.router.navigate(['/technician/requests']);
+            localStorage.setItem('techid', decodedToken.Id);
+            localStorage.getItem('techid');
+
           this.userStorage.setUserId(decodedToken.Id);
           this.userStorage.setUserName(decodedToken.Name);
           //  this.userStorage.setUserimg(decodedToken.Id);

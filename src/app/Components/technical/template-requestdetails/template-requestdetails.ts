@@ -7,18 +7,22 @@ import {
   OnInit,
 } from '@angular/core';
 import { ItechRequect } from '../../../Interfaces/itech-requect';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import Swal from 'sweetalert2';
 import { IcheckRequect } from '../../../Interfaces/icheck-requect';
 import { IRequestApply } from '../../../Interfaces/irequest-apply';
 import { UserStorageService } from '../../../Services/UserStorageService/user-storage-service';
 import { Ihistorytech } from '../../../Interfaces/ihistorytech';
+
 import { RequestWatchDogHub } from '../../../Services/SignalRServices/RequestWatchDogHub/request-watch-dog-hub';
+
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-template-requestdetails',
-  imports: [],
+
   templateUrl: './template-requestdetails.html',
   styleUrl: './template-requestdetails.css',
 })
@@ -113,6 +117,31 @@ export class TemplateRequestdetails implements OnInit {
           },
         });
       }
+
+    }
+  }).then((result) => {
+    if (result.isConfirmed && result.value) {
+      const password = result.value;
+const userId = localStorage.getItem('techid');
+
+      const dto:IRequestApply = {
+        requestId:item.requestId,
+        userId: userId !== null ? Number(userId) : 0,
+        timeStamp:new Date().toISOString(),
+        pin:Number(password),
+
+      };
+console.log("Data Sent to API:", dto);
+
+      this.techRequestService.putapply(dto).subscribe({
+        next: (res) => {
+          if (res.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'تمت الموافقة',
+            }).then(() => {
+      this.router.navigate(['/technician/techservieces']);
+
     });
   }
 

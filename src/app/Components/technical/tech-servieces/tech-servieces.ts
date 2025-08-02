@@ -16,6 +16,7 @@ export class TechServieces {
 
   }
   ngOnInit(): void {
+    //get all requests
     this.techrequest.getAll().subscribe({
       next:b=>{
         this.request = Array.isArray(b) ? b : [b];
@@ -32,7 +33,9 @@ export class TechServieces {
 
 
 
+
   }
 applyrequest:Ickeekapply[]=[];
   request:ItechRequect[]=[];
+   requests:ItechRequect[]=[];
 }

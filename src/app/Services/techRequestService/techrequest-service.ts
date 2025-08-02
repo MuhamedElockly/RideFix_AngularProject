@@ -17,14 +17,14 @@ export class TechrequestService {
 
   ///get request by techid
    getAllbyid(){
-  const technid=this.userStorage.getUserId();
+  const technid=localStorage.getItem('techid');
 // console.log(technid);
     return this.http.get<any>(`http://localhost:5038/api/TRequestEmergency/assigned/${technid}`).pipe( map(res => res.data));
   }
 
   ///get all request
   getAll(){
-      const technid=this.userStorage.getUserId();
+      const technid=localStorage.getItem('techid');
 // console.log(technid);
     return this.http.get<any>(`http://localhost:5038/api/TRequestEmergency/active/${technid}`).pipe( map(res => res.data));
   }
@@ -36,14 +36,14 @@ export class TechrequestService {
 
   ///get the history of request
    gethistory(){
-      const technid=this.userStorage.getUserId();
+      const technid=localStorage.getItem('techid');
 // console.log(technid);
     return this.http.get<any>(`http://localhost:5038/api/TRequestEmergency/completed/${technid}`).pipe( map(res => res.data));
   }
 
   //get the apply request
   getapplyrequest(){
-          const technid=this.userStorage.getUserId();
+          const technid=localStorage.getItem('techid');
           console.log(technid);
     return this.http.get<any>(`http://localhost:5038/api/TRequestEmergency/applied/${technid}`).pipe( map(res => res.data));
 
@@ -59,7 +59,7 @@ export class TechrequestService {
 
   //get the accept request
   getacceptrequest(){
-          const technid=this.userStorage.getUserId();
+          const technid=localStorage.getItem('techid');
           console.log(technid);
     return this.http.get<any>(`http://localhost:5038/api/TRequestEmergency/accepted/${technid}`).pipe( map(res => res.data));
 
