@@ -1,11 +1,4 @@
-import {
-  Component,
-  inject,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ItechRequect } from '../../../Interfaces/itech-requect';
 import { Router, RouterLink } from '@angular/router';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
@@ -14,36 +7,34 @@ import { IcheckRequect } from '../../../Interfaces/icheck-requect';
 import { IRequestApply } from '../../../Interfaces/irequest-apply';
 import { UserStorageService } from '../../../Services/UserStorageService/user-storage-service';
 import { Ihistorytech } from '../../../Interfaces/ihistorytech';
-
 import { RequestWatchDogHub } from '../../../Services/SignalRServices/RequestWatchDogHub/request-watch-dog-hub';
-
-import { DatePipe } from '@angular/common';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-template-requestdetails',
-
   templateUrl: './template-requestdetails.html',
-  styleUrl: './template-requestdetails.css',
+  styleUrls: ['./template-requestdetails.css'],
+  imports: [CommonModule, RouterLink],
 })
 export class TemplateRequestdetails implements OnInit {
   @Input() item: ItechRequect | null = null;
   @Input() showBookingButton: boolean = false;
   @Input() Acecctrequest: Ihistorytech[] = [];
+
   requestWatchDog = inject(RequestWatchDogHub);
+  url: string = '';
 
   constructor(
     private router: Router,
     private techRequestService: TechrequestService,
     private userStorage: UserStorageService
   ) {}
-  url: string = '';
+
   ngOnInit(): void {
     this.url = this.router.url;
   }
 
   confirmApprovalWithPassword(item: ItechRequect | null) {
-    console.log(item);
     if (!item) return;
 
     if (this.Acecctrequest.length >= 2) {
@@ -55,7 +46,6 @@ export class TemplateRequestdetails implements OnInit {
       });
       return;
     }
-    // return;
 
     Swal.fire({
       title: 'هل أنت متأكد؟',
@@ -81,19 +71,18 @@ export class TemplateRequestdetails implements OnInit {
       if (result.isConfirmed && result.value && item) {
         const password = result.value;
 
-        const dto: IcheckRequect = {
-          // isCompleted: true,
+        const checkDto: IcheckRequect = {
           technicianId: item.technicianId,
           requestId: item.requestId,
           requestState: 1,
           pin: password,
         };
 
-        console.log('Data Sent to API:', dto);
-
-        this.techRequestService.putcheck(dto).subscribe({
+        this.techRequestService.putcheck(checkDto).subscribe({
           next: (res) => {
             if (res.success) {
+              this.requestWatchDog.acceptrequest(1);
+
               Swal.fire({
                 icon: 'success',
                 title: 'تمت الموافقة',
@@ -116,38 +105,34 @@ export class TemplateRequestdetails implements OnInit {
             });
           },
         });
+
+        const userId = localStorage.getItem('techid');
+        const applyDto: IRequestApply = {
+          requestId: item.requestId,
+          userId: userId !== null ? Number(userId) : 0,
+          timeStamp: new Date().toISOString(),
+          pin: Number(password),
+        };
+
+        this.techRequestService.putapply(applyDto).subscribe({
+          next: (res) => {
+            if (res.success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'تمت الموافقة',
+              }).then(() => {
+                this.router.navigate(['/technician/techservieces']);
+              });
+            }
+          },
+        });
       }
-
-    }
-  }).then((result) => {
-    if (result.isConfirmed && result.value) {
-      const password = result.value;
-const userId = localStorage.getItem('techid');
-
-      const dto:IRequestApply = {
-        requestId:item.requestId,
-        userId: userId !== null ? Number(userId) : 0,
-        timeStamp:new Date().toISOString(),
-        pin:Number(password),
-
-      };
-console.log("Data Sent to API:", dto);
-
-      this.techRequestService.putapply(dto).subscribe({
-        next: (res) => {
-          if (res.success) {
-            Swal.fire({
-              icon: 'success',
-              title: 'تمت الموافقة',
-            }).then(() => {
-      this.router.navigate(['/technician/techservieces']);
-
     });
   }
 
   confirmApprovalWithPasswordApply(item: ItechRequect | null) {
-    console.log(item);
     if (!item) return;
+
     Swal.fire({
       title: 'هل أنت متأكد؟',
       text: 'من فضلك أدخل رمز PIN',
@@ -179,7 +164,6 @@ console.log("Data Sent to API:", dto);
           timeStamp: new Date().toISOString(),
           pin: Number(password),
         };
-        console.log('Data Sent to API:', dto);
 
         this.techRequestService.putapply(dto).subscribe({
           next: (res) => {
@@ -187,9 +171,7 @@ console.log("Data Sent to API:", dto);
               Swal.fire({
                 icon: 'success',
                 title: 'تمت الموافقة',
-                // text: res.message
               }).then(() => {
-                // الانتقال إلى مكون آخر بعد الضغط على "موافق"
                 this.router.navigate(['/technician/techservieces']);
               });
             } else {
@@ -200,13 +182,12 @@ console.log("Data Sent to API:", dto);
               });
             }
           },
-          error: (err) => {
+          error: () => {
             Swal.fire({
               icon: 'error',
               title: 'حدث خطأ',
               text: 'كلمة المرور غير صحيحة',
             });
-            // console.error(err);
           },
         });
       }
@@ -214,12 +195,11 @@ console.log("Data Sent to API:", dto);
   }
 
   rejectApprovalWithPassword(item: ItechRequect | null) {
-    console.log(item);
     if (!item) return;
 
     Swal.fire({
       title: 'هل أنت متأكد؟',
-      text: 'يرجى إدخال كلمة المرور لتأكيد الموافقة',
+      text: 'يرجى إدخال كلمة المرور لتأكيد الرفض',
       input: 'password',
       inputLabel: 'كلمة المرور',
       inputPlaceholder: 'اكتب كلمة المرور هنا',
@@ -242,21 +222,18 @@ console.log("Data Sent to API:", dto);
         const password = result.value;
 
         const dto: IcheckRequect = {
-          // isCompleted: true,
           technicianId: item.technicianId,
           requestId: item.requestId,
           requestState: 2,
           pin: password,
         };
 
-        console.log('Data Sent to API:', dto);
-
         this.techRequestService.putcheck(dto).subscribe({
           next: (res) => {
             if (res.success) {
               Swal.fire({
                 icon: 'success',
-                title: 'تمت الرفض',
+                title: 'تم الرفض',
               }).then(() => {
                 this.router.navigate(['/technician/requests']);
               });
