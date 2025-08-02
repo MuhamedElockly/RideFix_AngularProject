@@ -1,39 +1,37 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import { ItechRequect } from '../../../Interfaces/itech-requect';
 import { TemplateRequest } from '../template-request/template-request';
 import { Ihistorytech } from '../../../Interfaces/ihistorytech';
+import { RequestWatchDogHub } from '../../../Services/SignalRServices/RequestWatchDogHub/request-watch-dog-hub';
 
 @Component({
   selector: 'app-requests',
   imports: [TemplateRequest],
   templateUrl: './requests.html',
-  styleUrl: './requests.css'
+  styleUrl: './requests.css',
 })
 export class Requests implements OnInit {
-  constructor(private techrequest:TechrequestService,){
-
-  }
+  requestWatchDog = inject(RequestWatchDogHub);
+  constructor(private techrequest: TechrequestService) {}
   ngOnInit(): void {
     this.techrequest.getAllbyid().subscribe({
-      next:b=>{
+      next: (b) => {
         this.request = Array.isArray(b) ? b : [b];
-        console.log(this.request)
-      }
-    })
+        console.log(this.request);
+      },
+    });
 
     this.techrequest.getacceptrequest().subscribe({
-      next:b=>{
+      next: (b) => {
         this.Acecctrequest = Array.isArray(b) ? b : [b];
         // console.log(this.request)
-      }
-    }
-    )
-
+      },
+    });
   }
 
-Acecctrequest:Ihistorytech[]=[];
-  request:ItechRequect[]=[];
+  Acecctrequest: Ihistorytech[] = [];
+  request: ItechRequect[] = [];
 
   //  @ViewChild(TemplateSweet) alertModal!: TemplateSweet;
 
@@ -53,14 +51,12 @@ Acecctrequest:Ihistorytech[]=[];
   //   console.log('تم تأكيد الطلب:', item);
   //   // مثلاً تروحي تعملِ API call لقبول الطلب
   // }
-////*** */
-// showSuccess = false;
-//   handleApprove() {
-//     this.showSuccess = true;
-//     setTimeout(() => {
-//       this.showSuccess = false;
-//     }, 2000); // تختفي بعد ثانيتين
-//   }
-
-
+  ////*** */
+  // showSuccess = false;
+  //   handleApprove() {
+  //     this.showSuccess = true;
+  //     setTimeout(() => {
+  //       this.showSuccess = false;
+  //     }, 2000); // تختفي بعد ثانيتين
+  //   }
 }

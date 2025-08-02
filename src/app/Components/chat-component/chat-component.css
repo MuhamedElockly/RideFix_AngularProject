@@ -531,3 +531,13 @@
     padding: 16px;
   }
 }
+.messages-body {
+  max-height: 400px; /* حدد الحد الأقصى للارتفاع */
+  overflow-y: auto; /* تفعيل السكرول العمودي */
+  padding-right: 10px; /* إضافة هامش للسكرول */
+}
+
+.messages-list {
+  max-height: 100%; /* حدد الارتفاع المناسب لقائمة الرسائل */
+  overflow-y: auto; /* تمكين التمرير العمودي */
+}

@@ -9,50 +9,53 @@ import { AuthService } from '../../../Services/AuthService/auth.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink,RouterModule,CommonModule],
+  imports: [RouterLink, RouterModule, CommonModule],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.css'
+  styleUrl: './sidebar.css',
 })
 export class Sidebar implements OnInit {
+  menuVisible = false;
+  Name: string | null = null;
+  tech: Itechiciandetails | null = null;
 
- menuVisible = false;
- Name:string|null=null;
- tech:Itechiciandetails|null=null;
+  constructor(
+    private router: Router,
+    private usersorage: UserStorageService,
+    private technincalserviec: Technincalservice,
+    private authService: AuthService
+  ) {}
 
-constructor(private router: Router,private usersorage:UserStorageService,private technincalserviec:Technincalservice,private authService:AuthService) {}
-
-ngOnInit(): void {
+  ngOnInit(): void {
     // this.Name=this.usersorage.getUserName();
     // this.tech=this.technincalserviec.gettechnician();
-    this.technincalserviec.gettechnician().subscribe(
-      {
-        next:b=>{
-          this.tech=b;
-          console.log("sidbar",this.tech);
-        }
-      }
-    )
-
-
-}
+    this.technincalserviec.gettechnician().subscribe({
+      next: (b) => {
+        this.tech = b;
+        console.log('sidbar', this.tech);
+      },
+    });
+  }
 
   toggleMenu() {
     this.menuVisible = !this.menuVisible;
   }
 
-
-
   isRequestsOrDetails(): boolean {
-  const url = this.router.url;
-  return url === '/technician/requests' || url === '/technician/requestdetails';
-}
+    const url = this.router.url;
+    return (
+      url === '/technician/requests' || url === '/technician/requestdetails'
+    );
+  }
 
- isRequestsOrDetailsall(): boolean {
-  const url = this.router.url;
-  return url === '/technician/techservieces' || url === '/technician/RequestDetailsalltech';
-}
+  isRequestsOrDetailsall(): boolean {
+    const url = this.router.url;
+    return (
+      url === '/technician/techservieces' ||
+      url === '/technician/RequestDetailsalltech'
+    );
+  }
 
-logout() {
+  logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

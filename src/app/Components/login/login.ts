@@ -21,30 +21,28 @@ export class LoginComponent {
     password: '',
   };
 
-
   constructor(
     private authService: AuthService,
     private router: Router,
     private tokenService: TokenService,
-    private  userStorage:UserStorageService,
+    private userStorage: UserStorageService
   ) {}
-
 
   login() {
     this.authService.login(this.loginData).subscribe({
       next: (res) => {
         const token = res.token;
         console.log('Login successful, token:', token);
-        
-
         this.tokenService.setToken(token);
-        if(decodedToken.Role==="CarOwner"){
-        this.router.navigate(['/CarOwner/Home']);
-        }else if(decodedToken.Role==="Technician") {
-            this.router.navigate(['/technician/requests']);
+        let decodedToken: any = jwtDecode(token);
+
+        if (decodedToken.Role === 'CarOwner') {
+          this.router.navigate(['/CarOwner/Home']);
+        } else if (decodedToken.Role === 'Technician') {
+          this.router.navigate(['/technician/requests']);
           this.userStorage.setUserId(decodedToken.Id);
           this.userStorage.setUserName(decodedToken.Name);
-            //  this.userStorage.setUserimg(decodedToken.Id);
+          //  this.userStorage.setUserimg(decodedToken.Id);
         }
         this.userStorage.setUserRole(decodedToken.Role);
       },
