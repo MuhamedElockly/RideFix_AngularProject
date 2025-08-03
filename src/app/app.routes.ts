@@ -20,6 +20,8 @@ import { TechnicianModule } from './Components/technical/technician-module/techn
 import { ProfileView } from './Components/Car_Owner_Components/profile-view/profile-view';
 import { Techchat } from './Components/technical/techchat/techchat';
 import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history-component/request-history-component';
+
+
 import { UnauthorizedComponent } from './Components/unauthorized-component/unauthorized-component';
 import { carOwnerGuard } from './Gaurds/car-owner-guard';
 import { techGuard } from './Gaurds/tech-guard';
@@ -69,4 +71,9 @@ export const routes: Routes = [
 
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   //   { path: 'techchat', component: Techchat },
+
+
+  //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
+  //   { path: 'techchat', component: Techchat },
+
 ];
