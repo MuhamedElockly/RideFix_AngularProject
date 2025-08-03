@@ -7,7 +7,7 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <!-- Brand Logo - Amazing Design -->
-    <a class="navbar-brand" routerLink="/">
+    <a class="navbar-brand">
       <div class="logo-container">
         <div class="logo-icon-wrapper">
           <div class="logo-icon">
@@ -38,30 +38,38 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <!-- Center Section - Navigation Links (when logged in) -->
       <ul class="navbar-nav mx-auto" *ngIf="isLoggedIn()">
+        @if(userRole == 'CarOwner'){
         <li class="nav-item">
-          <a class="nav-link" routerLink="/Home" routerLinkActive="active">
+          <a
+            class="nav-link"
+            routerLink="/CarOwner/Home"
+            routerLinkActive="active"
+          >
             <i class="fas fa-home"></i>
             <span>الرئيسية</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/services" routerLinkActive="active">
-            <i class="fas fa-tools"></i>
-            <span>الخدمات</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/requests" routerLinkActive="active">
+          <a
+            class="nav-link"
+            routerLink="/CarOwner/RequestsHistory"
+            routerLinkActive="active"
+          >
             <i class="fas fa-clipboard-list"></i>
-            <span>الطلبات</span>
+            <span>تاريخ الطلبات</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/profile" routerLinkActive="active">
-            <i class="fas fa-user-circle"></i>
-            <span>الملف الشخصي</span>
+          <a
+            class="nav-link"
+            routerLink="/CarOwner/RequestEmergency"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <span>طلب خدمة طوارئ</span>
           </a>
         </li>
+        }
       </ul>
 
       <!-- Right Section - User Profile & Actions -->
