@@ -1,0 +1,115 @@
+<div class="unauthorized-container">
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+    <div class="floating-icons">
+      <i class="fas fa-car floating-icon icon-1"></i>
+      <i class="fas fa-wrench floating-icon icon-2"></i>
+      <i class="fas fa-cog floating-icon icon-3"></i>
+      <i class="fas fa-tools floating-icon icon-4"></i>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-tools"></i>
+        </div>
+        <span class="logo-text">RideFix</span>
+      </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="main-card">
+      <!-- Lock Animation -->
+      <div class="lock-animation">
+        <div class="lock-container">
+          <div class="lock-body">
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="lock-glow"></div>
+          <div class="security-rings">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error Content -->
+      <div class="error-content">
+        <h1 class="error-title">غير مصرح لك بالدخول</h1>
+        <h2 class="error-code">401 - غير مخول</h2>
+
+        <div class="error-description">
+          <p>عذراً، لا تملك الصلاحية للوصول إلى هذه الصفحة</p>
+          <p>
+            يرجى تسجيل الدخول أو التواصل مع الإدارة للحصول على الصلاحيات
+            المطلوبة
+          </p>
+        </div>
+
+        <!-- Security Features -->
+        <div class="security-features">
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <span>منطقة محمية</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-user-check"></i>
+            </div>
+            <span>تحتاج تسجيل دخول</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-key"></i>
+            </div>
+            <span>صلاحيات خاصة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-section">
+      @if (Role == '') {
+      <button class="action-btn primary-btn" (click)="goToLogin()">
+        <div class="btn-content">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>تسجيل الدخول</span>
+        </div>
+        <div class="btn-glow"></div></button
+      >} @if (Role != '') {
+      <button class="action-btn secondary-btn" (click)="goHome()">
+        <div class="btn-content">
+          <i class="fas fa-home"></i>
+          <span>العودة للرئيسية</span>
+        </div>
+        <div class="btn-glow"></div>
+      </button>
+      }
+    </div>
+
+    <!-- Help Section -->
+    <div class="help-section">
+      <div class="help-card">
+        <div class="help-icon">
+          <i class="fas fa-question-circle"></i>
+          <div class="help-pulse"></div>
+        </div>
+        <div class="help-content">
+          <h3>تحتاج مساعدة؟</h3>
+          <p>تواصل مع فريق الدعم الفني على مدار الساعة</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
