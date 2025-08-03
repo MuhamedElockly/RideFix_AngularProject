@@ -5,7 +5,7 @@ import { FooterComponent } from '../../footer-component/footer-component';
 
 @Component({
   selector: 'app-car-owner-module',
-  imports: [RouterOutlet,NavBarComponent,FooterComponent],
+  imports: [RouterOutlet, NavBarComponent, FooterComponent],
   templateUrl: './car-owner-module.html',
   styleUrl: './car-owner-module.css',
 })

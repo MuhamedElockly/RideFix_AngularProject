@@ -33,6 +33,7 @@ export class LoginComponent {
       next: (res) => {
         const token = res.token;
         console.log('Login successful, token:', token);
+        let decodedToken: any = jwtDecode(token);
 
         this.tokenService.setToken(token);
         if (decodedToken.Role === 'CarOwner') {
@@ -41,7 +42,7 @@ export class LoginComponent {
           this.router.navigate(['/technician/requests']);
           this.userStorage.setUserId(decodedToken.Id);
           this.userStorage.setUserName(decodedToken.Name);
-          //  this.userStorage.setUserimg(decodedToken.Id);
+          this.userStorage.setUserimg(decodedToken.Id);
         }
         this.userStorage.setUserRole(decodedToken.Role);
       },

@@ -7,6 +7,4 @@ export const authRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register-step1', component: RegisterStep1Component },
   { path: 'register-step2', component: RegisterStep2Component },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  // { path: '**', redirectTo: 'login' },
 ];
