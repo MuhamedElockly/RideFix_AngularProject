@@ -1,12 +1,17 @@
 import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { IChatDetails } from '../../../Interfaces/Chat/ichat-details';
 import * as signalR from '@microsoft/signalr';
 import Swal from 'sweetalert2';
+import { IChatSessionResponse } from '../../../Interfaces/CurrentChat/ichat-session-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LiveChatService {
   private hubConnection: signalR.HubConnection | undefined;
+  private http = inject(HttpClient);
   constructor() {}
 
   public startConnection() {
@@ -40,7 +45,7 @@ export class LiveChatService {
     }, 5000); // تطبع الحالة كل 5 ثواني
   }
 
-  public sendmessage(ChatSessionId: Number, message: string) {
+  public SendMessage(ChatSessionId: Number, message: string) {
     if (this.hubConnection?.state === signalR.HubConnectionState.Disconnected) {
       Swal.fire({
         icon: 'error',
@@ -56,4 +61,16 @@ export class LiveChatService {
         console.log('Message Sent');
       });
   }
+
+
+  public addReceiveMessageListener(callback: (message: any) => void) {
+    this.hubConnection?.on('ReceiveMessage', callback);
+  }
+
+  public getCurrentChat(): Observable<IChatSessionResponse> {
+  return this.http.get<IChatSessionResponse>('http://localhost:5038/api/Chat/LoadCurrentChat');
+}
+
+
+
 }
