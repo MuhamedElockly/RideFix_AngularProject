@@ -1,7 +1,7 @@
-import { IReviewDetails } from './../../../Interfaces/ireview-details';
-import { IReview } from './../../../Interfaces/ireview';
+import { IReviewDetails } from '../../../Interfaces/Reviews/ireview-details';
+import { IReview } from '../../../Interfaces/Reviews/ireview';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { ITechnichianDetails } from '../../../Interfaces/ItechnichianDetails';
+import { ITechnichianDetails } from '../../../Interfaces/Technichan/ItechnichianDetails';
 import { TechnicianService } from '../../../Services/TechnicianService/technician-service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { ICategory } from './icategory';
-import { IReview } from './ireview';
-import { IReviewDetails } from './ireview-details';
+import { IReview } from '../Reviews/ireview';
+import { IReviewDetails } from '../Reviews/ireview-details';
 
 export interface ITechnichianDetails {
   id: number;

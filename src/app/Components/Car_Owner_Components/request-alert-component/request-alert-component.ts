@@ -1,6 +1,6 @@
 import { RequestService } from './../../../Services/RequestService/request-service';
 import { Component, inject, OnInit } from '@angular/core';
-import { IRequestBrief } from '../../../Interfaces/irequest-brief';
+import { IRequestBrief } from '../../../Interfaces/Requests/irequest-brief';
 import { Router, RouterOutlet } from '@angular/router';
 import Swal from 'sweetalert2';
 import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';

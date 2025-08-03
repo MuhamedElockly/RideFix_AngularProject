@@ -24,7 +24,7 @@
                                  alt="أحمد محمد"
                                  class="profile-img"> -->
 
-                                   <img src="https://th.bing.com/th/id/R.5d62dcd549d458dcd882f4ed1be93af1?rik=snYjPVpwYOQpng&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2f8%2f88%2fFlowers_in_the_English_Garden_Guelph_Arboretum.jpg&ehk=eInA25sVuucm5Za23MUP10Ijckq26cPa70%2fyte07NLQ%3d&risl=&pid=ImgRaw&r=0"
+                                   <img src="https://static.vecteezy.com/system/resources/previews/028/569/170/original/single-man-icon-people-icon-user-profile-symbol-person-symbol-businessman-stock-vector.jpg"
                                  alt="أحمد محمد"
                                  class="profile-img">
                             <div class="status-badge">
@@ -57,10 +57,10 @@
                                     <i class="fas fa-eye"></i>
                                     عرض التفاصيل
                                 </button> -->
-                                <button class="btn btn-success-custom">
+                                <!-- <button class="btn btn-success-custom">
                                     <i class="fas fa-phone"></i>
                                      {{tech?.phoneNumber}}
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                     </div>
@@ -132,16 +132,16 @@
                     </div>
 
                     <div class="service-description">
-                        <h5><i class="fas fa-info-circle me-2"></i>وصف المشكلة</h5>
-                        <p>فني سيارات ذو خبرة تزيد عن 10 سنوات في مجال إصلاح وصيانة السيارات. متخصص في خدمات نقل وترتيب الأثاث مع وجود أدوات غريبة عند التشغيل. لم يتم فحص المحرك وتحديد مشكل الغيار التالفة وإجراء صيانة شاملة.</p>
+                        <h5><i class="fas fa-info-circle me-2"></i>وصف </h5>
+                        <p>{{tech?.description}}</p>
                     </div>
 
-                    <div class="d-flex gap-2 flex-wrap">
+                    <!-- <div class="d-flex gap-2 flex-wrap">
                         <button class="btn btn-details">
                             <i class="fas fa-eye"></i>
                             عرض التفاصيل
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -255,22 +255,22 @@
                     </h4>
 
                     <div class="row g-4 text-center">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="contact-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <h5>الموقع</h5>
                             <p class="text-muted mb-3"> {{tech?.address}}</p>
                         </div>
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <div class="contact-icon">
                                 <i class="fas fa-phone"></i>
-                            </div>
-                            <h5>الهاتف</h5>
-                            <p class="text-muted mb-3"> {{tech?.phoneNumber}}</p>
+                            </div> -->
+                            <!-- <h5>الهاتف</h5> -->
+                            <!-- <p class="text-muted mb-3"> {{tech?.phoneNumber}}</p> -->
                             <!-- <button class="btn btn-success-custom">اتصل الآن</button> -->
-                        </div>
-                        <div class="col-md-4">
+                        <!-- </div> -->
+                        <div class="col-md-6">
                             <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>

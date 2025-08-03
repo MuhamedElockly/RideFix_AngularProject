@@ -45,16 +45,26 @@ export class AuthService {
   }
   getUserName(): string {
     const token = this.tokenservice.getToken();
-    console.log('Token in getUserName:', token);
+    // console.log('Token in getUserName:', token);
     if (!token) return '';
 
     let decodedToken: any = jwtDecode(token);
 
     // console.log('User Name:', decodedToken.Name);
 
-    // const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = JSON.parse(atob(token.split('.')[1]));
     const name = decodedToken.Name.split(' ')[0]; // Get the first name
-    console.log('Decoded Name:', name);
+    // console.log('Decoded Name:', name);
     return name || '';
+  }
+
+  getUserId(): string {
+    const token = this.tokenservice.getToken();
+    if (!token) return '';
+    let decodedToken: any = jwtDecode(token);
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userid = decodedToken.userId.split(' ')[0];
+    console.log('Decoded Name:', userid);
+    return userid || '';
   }
 }

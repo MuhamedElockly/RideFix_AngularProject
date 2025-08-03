@@ -1,4 +1,4 @@
-import { IPreRequest } from './../../../Interfaces/ipre-request';
+import { IPreRequest } from '../../../Interfaces/Requests/ipre-request';
 import { Router } from '@angular/router';
 
 import {
@@ -8,7 +8,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { ICategory } from '../../../Interfaces/icategory';
+import { ICategory } from '../../../Interfaces/Technichan/icategory';
 import { NgClass, NumberSymbol } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';

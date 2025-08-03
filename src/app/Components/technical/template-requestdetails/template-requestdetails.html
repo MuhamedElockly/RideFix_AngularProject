@@ -1,43 +1,116 @@
+<div class="request-actions">
+  @if(url==="/RequestDetailsalltech"){
+  <button
+    class="btn btn-apply"
+    (click)="confirmApprovalWithPasswordApply(item)"
+  >
+    <i class="fas fa-paper-plane"></i>
+    تقديم الآن
+  </button>
+  } @else {
+  <button class="btn btn-reject" (click)="rejectApprovalWithPassword(item)">
+    <i class="fas fa-times-circle"></i>
+    رفض الطلب
+  </button>
+  <!-- <button class="btn btn-approve" (click)="confirmApprovalWithPassword(item)">
+    <i class="fas fa-check-circle"></i>
+    موافقة على الطلب
+  </button> -->
+  }
+</div>
 
-<div class="main-content">
-  <div class="request-details-container">
-
-  <h4 class="fw-bold mb-4">Network Connectivity Issue in Building A</h4>
-
-    <div class="request-header">
-      <!-- الصورة -->
-      <div class="request-image text-center">
-        <img src="{{item?.faceImageUrl}}" alt="Problem Image" />
+<div class="card w-100" style="max-width: 600px">
+  <div class="card-header pb-3">
+    <h2 class="card-title">تفاصيل المشكلة</h2>
+  </div>
+  <div class="card-body">
+    <div class="row g-4">
+      @if(item?.requestImageUrl==""){
+      <div
+        class="col-md-6 d-flex flex-column align-items-center justify-content-center"
+      >
+        <img
+          src="{{ item?.requestImageUrl }}"
+          alt="صورة المشكلة"
+          class="img-fluid"
+        />
+        <p class="text-muted mt-2" style="font-size: 0.9em">
+          صورة توضيحية للمشكلة
+        </p>
       </div>
-
-      <!-- معلومات المشكلة -->
-      <div class="request-info">
-
-        <p><strong>ID:</strong> {{item?.requestId}}</p>
-        <p><strong>Reported By:</strong> {{item?.carOwnerName}}</p>
-        <!-- <p><strong>Date Reported:</strong> 2024-01-15</p> -->
-        <p><strong>Category:</strong> {{item?.requestId}}</p>
-      </div>
-    </div>
-
-    <!-- الوصف داخل صندوق -->
-    <div class="mt-4 p-3 bg-light rounded">
-      <h5 class="fw-semibold">Description</h5>
-      <p class="mb-0">
-        {{item?.description}}
-      </p>
-    </div>
-
-    <!-- الأزرار -->
-    <div class="d-flex justify-content-end mt-4 gap-2">
-      @if(url==="/RequestDetailsalltech"){
-              <button class="btn btn-outline-warning" (click)="confirmApprovalWithPasswordApply(item)"> تقديم الآن</button>
-
-      }@else{
-        <button class="btn btn-outline-danger" (click)="rejectApprovalWithPassword(item)">Reject</button>
-        <button class="btn btn-outline-success" (click)="confirmApprovalWithPassword(item)">Accept</button>
       }
-
+      <div class="col-md-6 col-12">
+        <div class="mb-3">
+          <h3 class="font-weight-bold h5">الوصف:</h3>
+          <p class="text-muted">
+            {{ item?.description }}
+          </p>
+        </div>
+        <div class="separator"></div>
+        <div class="d-grid gap-2">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="font-weight-bold">النوع:</span>
+            <span class="badge badge-secondary-custom"
+              >{{ item?.category }}
+            </span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="font-weight-bold">الحالة:</span>
+            <span class="badge badge-outline-custom">قيد الانتظار</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="font-weight-bold">تاريخ الإبلاغ:</span>
+            <span class="text-muted">
+              {{ item?.timeStamp | date : "yyyy/MM/dd" }}
+            </span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="font-weight-bold">المبلغ عنه بواسطة:</span>
+            <span class="text-muted">{{ item?.carOwnerName }}</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="font-weight-bold">الموقع:</span>
+            <span class="text-muted">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query={{
+                  item?.latitude
+                }},{{ item?.longitude }}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                عرض على الخريطة
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+  <div
+    class="card-footer d-flex flex-column flex-sm-row justify-content-end gap-2"
+  >
+    @if(url==="/technician/requestdetailsalltech"){
+    <button
+      class="btn btn-outline-warning"
+      (click)="confirmApprovalWithPasswordApply(item)"
+    >
+      تقديم الآن
+    </button>
+    }@else{
+
+    <button
+      class="btn btn-outline-danger"
+      (click)="rejectApprovalWithPassword(item)"
+    >
+      رفض المشكلة
+    </button>
+    <!-- <button
+      class="btn btn-outline-success"
+      (click)="confirmApprovalWithPassword(item)"
+    >
+      الموافقة على الإصلاح
+    </button> -->
+
+    }
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { ICategory } from './icategory';
-import { IReview } from './ireview';
+import { IReview } from '../Reviews/ireview';
 
 export interface ITechnician {
   id: number;

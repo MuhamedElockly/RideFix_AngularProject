@@ -14,6 +14,7 @@ import { RequestDetailsalltech } from './Components/technical/request-detailsall
 import { Profiletech } from './Components/technical/profiletech/profiletech';
 import { Historytech } from './Components/technical/historytech/historytech';
 import { TechnicianModule } from './Components/technical/technician-module/technician-module';
+// import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history/request-history';
 
 import { ProfileView } from './Components/Car_Owner_Components/profile-view/profile-view';
 import { Techchat } from './Components/technical/techchat/techchat';
@@ -30,7 +31,7 @@ export const routes: Routes = [
       { path: 'SelectTech', component: TechSelect },
       { path: 'Waiting', component: WaitingComponent },
       { path: 'TechViewDetails', component: ProfileView },
-      { path: 'RequestsHistory', component: RequestHistoryComponent },
+      // { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
   },
 
@@ -48,12 +49,18 @@ export const routes: Routes = [
     ],
   },
 
-  // { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' }, // لو المستخدم مش مسجل
-  // { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
+  { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' }, // لو المستخدم مش مسجل
+  { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
 
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   //   { path: 'requests', component: Requests },
   //   { path: 'techservieces', component: TechServieces },
+
+  //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
+  //   { path: 'techchat', component: Techchat },
+
+  //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
+  //   { path: 'techchat', component: Techchat },
 
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   //   { path: 'techchat', component: Techchat },

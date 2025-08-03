@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { IRequestBrief } from '../../../Interfaces/irequest-brief';
+import { IRequestBrief } from '../../../Interfaces/Requests/irequest-brief';
 import { RequestService } from '../../../Services/RequestService/request-service';
 import Swal from 'sweetalert2';
 import { RequestDetailsComponent } from '../request-details-component/request-details-component';

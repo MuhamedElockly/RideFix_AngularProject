@@ -1,9 +1,9 @@
-import { ITechnichianDetails } from '../../Interfaces/ItechnichianDetails';
-import { IPreRequest } from './../../Interfaces/ipre-request';
+import { ITechnichianDetails } from '../../Interfaces/Technichan/ItechnichianDetails';
+import { IPreRequest } from '../../Interfaces/Requests/ipre-request';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ITechnician } from '../../Interfaces/itechnician';
+import { ITechnician } from '../../Interfaces/Technichan/itechnician';
 import { IProfileResponse } from '../../Interfaces/iprofile-Response';
 @Injectable({
   providedIn: 'root',
