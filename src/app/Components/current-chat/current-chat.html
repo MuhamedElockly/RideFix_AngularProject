@@ -1,5 +1,5 @@
 <!-- Chat Messages -->
-<div class="chat-messages-container">
+<div class="chat-messages-container" #scrollContainer>
   @if (chatDetails?.messages && chatDetails?.messages) { @for (message of
   chatDetails?.messages; track $index) { @if (message.applicationId === userId)
   {
@@ -49,16 +49,18 @@
         <i class="fas fa-paperclip"></i>
       </button>
       <div class="message-input-wrapper">
-        <input type="text" placeholder="اكتب رسالة..." class="message-input" />
+        <input
+          type="text"
+          placeholder="اكتب رسالة..."
+          class="message-input"
+          [(ngModel)]="Message"
+        />
         <button class="emoji-btn">
           <i class="fas fa-smile"></i>
         </button>
       </div>
-      <button
-        class="send-message-btn"
-        [ngModel]="Message"
-        (click)="SendMessage()"
-      >
+
+      <button class="send-message-btn" (click)="SendMessage()">
         <i class="fas fa-paper-plane"></i>
       </button>
     </div>
