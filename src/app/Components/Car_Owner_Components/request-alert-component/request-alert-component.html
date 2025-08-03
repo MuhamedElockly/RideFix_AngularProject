@@ -54,14 +54,6 @@
 
       <div class="emergency-actions">
         <button
-          class="btn emergency-details-btn"
-          onclick="showFullDetails()"
-          [disabled]="!requestBrief?.technicianName"
-        >
-          <i class="fas fa-eye me-2"></i>
-          عرض التفاصيل الكاملة
-        </button>
-        <button
           class="btn emergency-complete-btn"
           (click)="markAsCompleted()"
           [disabled]="!requestBrief?.technicianName"

@@ -11,6 +11,7 @@ import { RequestService } from '../../../Services/RequestService/request-service
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { RequestWatchDogHub } from '../../../Services/SignalRServices/RequestWatchDogHub/request-watch-dog-hub';
+import { AuthService } from '../../../Services/AuthService/auth.service';
 
 @Component({
   selector: 'app-waiting-component',
@@ -23,8 +24,10 @@ export class WaitingComponent implements OnInit, OnDestroy {
   requestService = inject(RequestService);
   routeService = inject(Router);
   watchDogService = inject(RequestWatchDogHub);
+  authService = inject(AuthService);
+
   cancelRequest() {
-    this.requestService.CancelRequest(1).subscribe({
+    this.requestService.CancelRequest(this.authService.getRoleId()).subscribe({
       next: (res) => {
         window.location.reload();
         this.routeService.navigateByUrl('/CarOwner/SelectTech');

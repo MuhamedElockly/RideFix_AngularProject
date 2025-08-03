@@ -3,6 +3,7 @@ import { IRequestBrief } from '../../../Interfaces/Requests/irequest-brief';
 import { RequestService } from '../../../Services/RequestService/request-service';
 import Swal from 'sweetalert2';
 import { RequestDetailsComponent } from '../request-details-component/request-details-component';
+import { AuthService } from '../../../Services/AuthService/auth.service';
 
 @Component({
   selector: 'app-request-history-component',
@@ -16,20 +17,23 @@ export class RequestHistoryComponent implements OnInit {
   requests: IRequestBrief[] | null = null;
   selectedRequestId: Number | null = null;
   showModal = false;
+  authService = inject(AuthService);
 
   ngOnInit(): void {
-    this.requestService.getRequestsHistory(1).subscribe({
-      next: (res) => {
-        this.requests = res.data;
-      },
-      error: (res) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'تافه!!!!!!',
-          text: 'لا يوجد تاريخ انت تافه',
-        });
-      },
-    });
+    this.requestService
+      .getRequestsHistory(this.authService.getRoleId())
+      .subscribe({
+        next: (res) => {
+          this.requests = res.data;
+        },
+        error: (res) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'تافه!!!!!!',
+            text: 'لا يوجد تاريخ انت تافه',
+          });
+        },
+      });
   }
 
   showRequestDetails(id: Number) {
