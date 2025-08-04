@@ -20,7 +20,7 @@ import { TechnicianModule } from './Components/technical/technician-module/techn
 import { ProfileView } from './Components/Car_Owner_Components/profile-view/profile-view';
 import { Techchat } from './Components/technical/techchat/techchat';
 import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history-component/request-history-component';
-
+import { AcceptedRequestsComponent } from './Components/technical/accepted-requests/accepted-requests';
 
 import { UnauthorizedComponent } from './Components/unauthorized-component/unauthorized-component';
 import { carOwnerGuard } from './Gaurds/car-owner-guard';
@@ -49,6 +49,7 @@ export const routes: Routes = [
     component: TechnicianModule,
     children: [
       { path: 'requests', component: Requests },
+      { path: 'accepted-requests', component: AcceptedRequestsComponent },
       { path: 'requestdetails', component: RequestDetails },
       { path: 'requestdetailsalltech', component: RequestDetailsalltech },
       { path: 'profiletech', component: Profiletech },

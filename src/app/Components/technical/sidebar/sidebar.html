@@ -14,6 +14,9 @@
       <a class="nav-link " routerLink="/technician/requests" [ngClass]="{ 'active': isRequestsOrDetails() }"><i class="bi bi-list-task ms-2"></i>الطلبات</a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" routerLink="/technician/accepted-requests" routerLinkActive="active"><i class="fas fa-check-circle ms-2"></i>الطلبات المقبولة</a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link"routerLink="/technician/techservieces" [ngClass]="{ 'active': isRequestsOrDetailsall() }"><i class="bi bi-truck ms-2"></i>الخدمات</a>
     </li>
     <li class="nav-item">
@@ -58,6 +61,9 @@
       </li>
       <li class="nav-item">
         <a class="nav-link "routerLink="/technician/requests" [ngClass]="{ 'active': isRequestsOrDetails() }" ><i class="bi bi-list-task ms-2"></i>الطلبات</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/technician/accepted-requests" routerLinkActive="active"><i class="fas fa-check-circle ms-2"></i>الطلبات المقبولة</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/technician/techservieces" [ngClass]="{ 'active': isRequestsOrDetailsall() }"  ><i class="bi bi-truck ms-2"></i>الخدمات</a>
