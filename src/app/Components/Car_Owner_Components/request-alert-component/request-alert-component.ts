@@ -1,10 +1,11 @@
 import { RequestService } from './../../../Services/RequestService/request-service';
 import { Component, inject, OnInit } from '@angular/core';
-import { IRequestBrief } from '../../../Interfaces/irequest-brief';
+import { IRequestBrief } from '../../../Interfaces/Requests/irequest-brief';
 import { Router, RouterOutlet } from '@angular/router';
 import Swal from 'sweetalert2';
 import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 import { ReviewModelController } from '../review-model-controller/review-model-controller';
+import { AuthService } from '../../../Services/AuthService/auth.service';
 @Component({
   selector: 'app-request-alert-component',
   imports: [RouterOutlet, ReviewModelController],
@@ -16,11 +17,13 @@ export class RequestAlertComponent implements OnInit {
   requestService = inject(RequestService);
   routeServie = inject(Router);
   ReviewFlag: boolean = false;
+  authService = inject(AuthService);
+
   ngOnInit(): void {
     this.requestBrief = this.requestService.alertBriefRequest;
   }
   cancelRequest() {
-    this.requestService.CancelRequest(1).subscribe({
+    this.requestService.CancelRequest(this.authService.getRoleId()).subscribe({
       next: (res) => {
         this.routeServie.navigateByUrl('/CarOwner/Home');
         window.location.reload();

@@ -26,15 +26,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     Sidebar,
     Requests,
+    CommonModule,
+    Requests,
 
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App implements OnInit{
+export class App implements OnInit {
   protected title = 'RideFix';
-    userRole: string | null = null;
+  userRole: string | null = null;
 
   constructor(private userStorage: UserStorageService) {}
 

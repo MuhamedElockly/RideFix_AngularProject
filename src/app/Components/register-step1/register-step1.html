@@ -1,7 +1,6 @@
 <!-- register-step1.component.html -->
 <div
   class="min-vh-100 d-flex align-items-center justify-content-center"
-  style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
   dir="rtl"
 >
   <div class="container">
@@ -11,14 +10,19 @@
         <div
           class="card border-0 shadow-lg mb-4"
           style="
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
           "
         >
           <div class="card-body p-4">
             <div
               class="progress mb-3"
-              style="height: 8px; background: rgba(255, 255, 255, 0.2)"
+              style="
+                height: 10px;
+                background: rgba(255, 255, 255, 0.25);
+                border-radius: 12px;
+              "
             >
               <div
                 class="progress-bar bg-warning"
@@ -27,15 +31,23 @@
                   width: 50%;
                   background: linear-gradient(
                     90deg,
-                    #fd7e14,
-                    #ff8c42
+                    var(--accent-orange),
+                    var(--accent-orange-light)
                   ) !important;
                 "
               ></div>
             </div>
             <div class="d-flex justify-content-between text-white">
-              <span class="fw-bold fs-6">الخطوة ١</span>
-              <span class="text-white-50">من ٢</span>
+              <span
+                class="fw-bold fs-6"
+                style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5)"
+                >الخطوة ١</span
+              >
+              <span
+                class="text-white-50"
+                style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3)"
+                >من ٢</span
+              >
             </div>
           </div>
         </div>
@@ -45,7 +57,8 @@
           class="card border-0 shadow-lg"
           style="
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
           "
         >
           <div class="card-body p-4 p-md-5">
@@ -58,14 +71,29 @@
                   height: 80px;
                   background: linear-gradient(
                     135deg,
-                    #fd7e14,
-                    #ff8c42
+                    var(--accent-orange),
+                    var(--accent-orange-light)
                   ) !important;
+                  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
                 "
               >
                 <i class="fas fa-user-plus text-white fs-2"></i>
               </div>
-              <h2 class="fw-bold text-dark mb-2">إنشاء حساب جديد</h2>
+              <h2
+                class="fw-bold text-dark mb-2"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    var(--primary-black),
+                    var(--accent-orange)
+                  );
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                "
+              >
+                إنشاء حساب جديد
+              </h2>
               <p class="text-muted mb-0">أدخل بياناتك الشخصية للبدء</p>
             </div>
 
@@ -90,7 +118,10 @@
                       placeholder="الاسم الكامل"
                     />
                     <label for="name">
-                      <i class="fas fa-user text-warning me-2"></i>
+                      <i
+                        class="fas fa-user text-warning me-2"
+                        style="color: var(--accent-orange) !important"
+                      ></i>
                       الاسم الكامل
                     </label>
                     <div class="invalid-feedback" *ngIf="nameInvalid">
@@ -122,7 +153,10 @@
                       placeholder="البريد الإلكتروني"
                     />
                     <label for="email">
-                      <i class="fas fa-envelope text-warning me-2"></i>
+                      <i
+                        class="fas fa-envelope text-warning me-2"
+                        style="color: var(--accent-orange) !important"
+                      ></i>
                       البريد الإلكتروني
                     </label>
                     <div class="invalid-feedback" *ngIf="emailInvalid">
@@ -153,7 +187,10 @@
                       placeholder="كلمة المرور"
                     />
                     <label for="password">
-                      <i class="fas fa-lock text-warning me-2"></i>
+                      <i
+                        class="fas fa-lock text-warning me-2"
+                        style="color: var(--accent-orange) !important"
+                      ></i>
                       كلمة المرور
                     </label>
                     <div class="invalid-feedback" *ngIf="passwordInvalid">
@@ -165,7 +202,7 @@
                       type="button"
                       class="btn btn-sm btn-outline-warning"
                       (click)="showPassword = !showPassword"
-                      style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
+                      style="font-size: 0.875rem; padding: 0.25rem 0.75rem"
                     >
                       <i
                         [class]="
@@ -173,7 +210,7 @@
                         "
                         class="me-1"
                       ></i>
-                      {{ showPassword ? 'إخفاء' : 'إظهار' }} كلمة المرور
+                      {{ showPassword ? "إخفاء" : "إظهار" }} كلمة المرور
                     </button>
                   </div>
                 </div>
@@ -197,7 +234,10 @@
                       placeholder="تأكيد كلمة المرور"
                     />
                     <label for="confirmPassword">
-                      <i class="fas fa-lock text-warning me-2"></i>
+                      <i
+                        class="fas fa-lock text-warning me-2"
+                        style="color: var(--accent-orange) !important"
+                      ></i>
                       تأكيد كلمة المرور
                     </label>
                     <div
@@ -212,7 +252,7 @@
                       type="button"
                       class="btn btn-sm btn-outline-warning"
                       (click)="showConfirmPassword = !showConfirmPassword"
-                      style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
+                      style="font-size: 0.875rem; padding: 0.25rem 0.75rem"
                     >
                       <i
                         [class]="
@@ -222,7 +262,7 @@
                         "
                         class="me-1"
                       ></i>
-                      {{ showConfirmPassword ? 'إخفاء' : 'إظهار' }} التأكيد
+                      {{ showConfirmPassword ? "إخفاء" : "إظهار" }} التأكيد
                     </button>
                   </div>
                 </div>
@@ -248,7 +288,10 @@
                       placeholder="الرقم القومي"
                     />
                     <label for="ssn">
-                      <i class="fas fa-id-card text-warning me-2"></i>
+                      <i
+                        class="fas fa-id-card text-warning me-2"
+                        style="color: var(--accent-orange) !important"
+                      ></i>
                       الرقم القومي
                     </label>
                     <div class="invalid-feedback" *ngIf="ssnInvalid">
@@ -272,7 +315,7 @@
                         'is-valid': model.birthDate && !birthDateInvalid
                       }"
                       (blur)="validateField('birthDate')"
-                      style="padding-right: 0.75rem;"
+                      style="padding-right: 0.75rem"
                     />
                     <label for="birthDate">
                       <i class="fas fa-calendar text-warning me-2"></i>
@@ -401,14 +444,146 @@
 
               <!-- بيانات الفني -->
               <div *ngIf="model.role === 'Technician'" class="mt-5">
-                <div class="card border-0 bg-light">
+                <div
+                  class="card border-0"
+                  style="
+                    background: rgba(255, 255, 255, 0.9);
+                    backdrop-filter: blur(20px);
+                    border: 2px solid rgba(255, 107, 53, 0.1);
+                  "
+                >
                   <div class="card-body p-4">
                     <div class="d-flex align-items-center mb-4">
-                      <i class="fas fa-tools text-warning fs-4 me-3"></i>
-                      <h5 class="mb-0 fw-bold">بيانات الفني</h5>
+                      <div
+                        class="bg-warning rounded-circle p-3 me-3"
+                        style="
+                          background: linear-gradient(
+                            135deg,
+                            var(--accent-orange),
+                            var(--accent-orange-light)
+                          ) !important;
+                        "
+                      >
+                        <i class="fas fa-tools text-white fs-4"></i>
+                      </div>
+                      <h5
+                        class="mb-0 fw-bold text-dark"
+                        style="
+                          padding: 0.5rem;
+                          background: linear-gradient(
+                            135deg,
+                            /* var(--primary-black), */ var(--accent-orange)
+                          );
+                          -webkit-background-clip: text;
+                          -webkit-text-fill-color: transparent;
+                          background-clip: text;
+                        "
+                      >
+                        بيانات الفني
+                      </h5>
+                    </div>
+                    <div class="form-group full-width">
+                      <label
+                        for="categories"
+                        class="form-label fw-bold text-dark mb-3"
+                      >
+                        <i class="fas fa-tags text-warning me-2"></i>
+                        التخصص
+                      </label>
+
+                      <!-- الانبوت الفيك اللي بيعرض التاجز -->
+                      <div class="tag-input" (click)="toggleCategoryList()">
+                        <span *ngFor="let cat of model.categories" class="tag">
+                          {{ cat }}
+                          <span class="remove-tag" (click)="removeCategory(cat)"
+                            >×</span
+                          >
+                        </span>
+                        <input
+                          type="text"
+                          placeholder="اختر تخصص أو أكثر"
+                          readonly
+                          class="invisible-input"
+                        />
+                        <i
+                          class="fas fa-chevron-down text-muted ms-2"
+                          style="font-size: 14px"
+                        ></i>
+                      </div>
+
+                      <!-- القائمة الأفقية -->
+                      <div class="category-options" *ngIf="showCategories">
+                        <div
+                          *ngFor="let cat of allCategories"
+                          (click)="toggleCategory(cat)"
+                          [class.selected]="isSelected(cat)"
+                          class="category-item"
+                        >
+                          <i
+                            class="fas fa-tag me-2"
+                            style="font-size: 12px"
+                          ></i>
+                          {{ cat }}
+                        </div>
+                      </div>
                     </div>
 
+                    <!-- <div class="col-md-6 mb-4">
+                      <div class="form-floating">
+                        <select
+                          id="categories"
+                          name="categories"
+                          class="form-select"
+                          multiple
+                          [(ngModel)]="model.categories"
+                          [ngClass]="{
+                            'is-invalid':
+                              validationState.role &&
+                              (!model.categories ||
+                                model.categories.length === 0),
+                            'is-valid':
+                              model.categories && model.categories.length > 0
+                          }"
+                        >
+                          <option
+                            *ngFor="let option of availableCategories"
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </option>
+                        </select>
+                        <label for="categories">اختر التخصصات</label>
+                      </div>
+                      <div
+                        *ngIf="
+                          validationState.role &&
+                          (!model.categories || model.categories.length === 0)
+                        "
+                        class="invalid-feedback"
+                      >
+                        يجب اختيار تخصص واحد على الأقل.
+                      </div>
+                    </div> -->
+
                     <div class="row g-4">
+                      <div class="col-12">
+                        <div class="form-floating">
+                          <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            [(ngModel)]="model.description"
+                            required
+                            placeholder="الوصف"
+                            style="height: 100px"
+                          ></textarea>
+                          <label for="description">
+                            <i class="fas fa-align-left text-warning me-2"></i>
+                            الوصف
+                          </label>
+                        </div>
+                      </div>
+
                       <div class="col-12 col-md-6">
                         <div class="form-floating">
                           <input
@@ -419,7 +594,7 @@
                             [(ngModel)]="model.startWorking"
                             required
                           />
-                          <label for="startWorking">
+                          <label for="startWorking" class="time-label">
                             <i class="fas fa-clock text-warning me-2"></i>
                             بداية العمل
                           </label>
@@ -436,27 +611,9 @@
                             [(ngModel)]="model.endWorking"
                             required
                           />
-                          <label for="endWorking">
+                          <label for="endWorking" class="time-label">
                             <i class="fas fa-clock text-warning me-2"></i>
                             نهاية العمل
-                          </label>
-                        </div>
-                      </div>
-
-                      <div class="col-12">
-                        <div class="form-floating">
-                          <textarea
-                            class="form-control"
-                            id="description"
-                            name="description"
-                            [(ngModel)]="model.description"
-                            required
-                            placeholder="الوصف"
-                            style="height: 100px"
-                          ></textarea>
-                          <label for="description">
-                            <i class="fas fa-align-left text-warning me-2"></i>
-                            الوصف
                           </label>
                         </div>
                       </div>
@@ -475,10 +632,11 @@
                   style="
                     background: linear-gradient(
                       135deg,
-                      #fd7e14,
-                      #ff8c42
+                      var(--accent-orange),
+                      var(--accent-orange-light)
                     ) !important;
                     border: none;
+                    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
                   "
                 >
                   <div class="d-flex align-items-center justify-content-center">

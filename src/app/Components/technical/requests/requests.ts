@@ -1,8 +1,8 @@
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
-import { ItechRequect } from '../../../Interfaces/itech-requect';
+import { ItechRequect } from '../../../Interfaces/Technichan/itech-requect';
 import { TemplateRequest } from '../template-request/template-request';
-import { Ihistorytech } from '../../../Interfaces/ihistorytech';
+import { Ihistorytech } from '../../../Interfaces/Technichan/ihistorytech';
 import { RequestWatchDogHub } from '../../../Services/SignalRServices/RequestWatchDogHub/request-watch-dog-hub';
 
 @Component({

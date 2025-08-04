@@ -57,15 +57,16 @@ export class RequestWatchDogHub {
       });
       return;
     }
-
     this.hubConnection?.invoke('acceptrequest', CarOwnerId).then(() => {
       console.log('Request accepted and notification sent to CarOwner');
     });
   }
   public printConnectionState() {
     setInterval(() => {
-      console.log('Working');
-      console.log('SignalR Connection State:', this.hubConnection?.state);
-    }, 5000); // تطبع الحالة كل 5 ثواني
+      console.log(
+        'RequestWatchDog Connection State:',
+        this.hubConnection?.state
+      );
+    }, 10000); // تطبع الحالة كل 5 ثواني
   }
 }

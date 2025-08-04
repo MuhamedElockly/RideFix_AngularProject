@@ -8,10 +8,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IReviewRequest } from '../../../Interfaces/ireview-request';
+import { IReviewRequest } from '../../../Interfaces/Reviews/ireview-request';
 import { ReviewService } from '../../../Services/ReviewService/review-service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../Services/AuthService/auth.service';
 
 @Component({
   selector: 'app-review-model-controller',
@@ -31,6 +32,7 @@ export class ReviewModelController {
   hoveredRating = 0;
   routeServie = inject(Router);
   stars = [1, 2, 3, 4, 5];
+  authService = inject(AuthService);
 
   setRating(rating: number) {
     this.rating = rating;
@@ -58,7 +60,7 @@ export class ReviewModelController {
       rate: this.rating,
       comment: this.comment,
       requestId: reqId,
-      carOwnerId: 1,
+      carOwnerId: this.authService.getRoleId(),
     };
     this.reviewService.AddReview(completionData).subscribe({
       next: (res) => {

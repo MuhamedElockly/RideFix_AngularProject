@@ -12,4 +12,5 @@ export interface IRegisterStep1 {
   startWorking?: string;
   endWorking?: string;
   description?: string;
+  categories: string[];
 }

@@ -4,7 +4,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { UserStorageService } from '../../../Services/UserStorageService/user-storage-service';
 import { Technincalservice } from '../../../Services/Technincalservice/technincalservice';
 // import { ITechnician } from '../../../Interfaces/itechnician';
-import { Itechiciandetails } from '../../../Interfaces/itechiciandetails';
+import { Itechiciandetails } from '../../../Interfaces/Technichan/itechiciandetails';
 import { AuthService } from '../../../Services/AuthService/auth.service';
 
 @Component({
@@ -47,10 +47,13 @@ export class Sidebar implements OnInit {
     );
   }
 
- isRequestsOrDetailsall(): boolean {
-  const url = this.router.url;
-  return url === '/technician/techservieces' || url === '/technician/requestdetailsalltech';
-}
+  isRequestsOrDetailsall(): boolean {
+    const url = this.router.url;
+    return (
+      url === '/technician/techservieces' ||
+      url === '/technician/requestdetailsalltech'
+    );
+  }
 
   logout() {
     this.authService.logout();

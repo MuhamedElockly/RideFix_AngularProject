@@ -57,4 +57,30 @@ export class AuthService {
     // console.log('Decoded Name:', name);
     return name || '';
   }
+
+  getUserId(): string {
+    const token = this.tokenservice.getToken();
+    if (!token) return '';
+    let decodedToken: any = jwtDecode(token);
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userid = decodedToken.userId.split(' ')[0];
+    return userid || '';
+  }
+
+  getRoleId() {
+    const token = this.tokenservice.getToken();
+    if (!token) return '';
+    let decodedToken: any = jwtDecode(token);
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const roleId = decodedToken.Id.split(' ')[0];
+    return roleId || '';
+  }
+  getRole() {
+    const token = this.tokenservice.getToken();
+    if (!token) return '';
+    let decodedToken: any = jwtDecode(token);
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const rolename = decodedToken.Role.split(' ')[0];
+    return rolename || '';
+  }
 }

@@ -1,22 +1,25 @@
+import { AuthService } from './../../Services/AuthService/auth.service';
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AuthService } from '../../Services/AuthService/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { TokenService } from '../../Services/TokenService/tokenservice';
 
 @Component({
   selector: 'app-nav-bar-component',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './nav-bar-component.html',
   styleUrl: './nav-bar-component.css',
   encapsulation: ViewEncapsulation.None, // ✨ الحل هنا
 })
 export class NavBarComponent {
+  userRole: string = '';
   constructor(
     private authService: AuthService,
     private router: Router,
     private tokenservice: TokenService
-  ) {}
+  ) {
+    this.userRole = authService.getRole();
+  }
 
   logout() {
     this.authService.logout();

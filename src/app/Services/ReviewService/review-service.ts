@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
-import { IReviewRequest } from '../../Interfaces/ireview-request';
+import { IReviewRequest } from '../../Interfaces/Reviews/ireview-request';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
