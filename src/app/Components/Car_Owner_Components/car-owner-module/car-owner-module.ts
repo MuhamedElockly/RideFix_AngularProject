@@ -7,7 +7,6 @@ import { ChatComponent } from '../../chat-component/chat-component';
 
 @Component({
   selector: 'app-car-owner-module',
-  imports: [RouterOutlet, NavBarComponent, FooterComponent],
   imports: [RouterOutlet, NavBarComponent, FooterComponent, ChatComponent],
 
   templateUrl: './car-owner-module.html',
