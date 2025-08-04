@@ -12,12 +12,17 @@ import { DatePipe } from '@angular/common';
 })
 export class Historytech implements OnInit {
   requestcomplete: Ihistorytech[] = [];
+   isLoading: boolean = true;
   constructor(private techrequest: TechrequestService) {}
   ngOnInit(): void {
     this.techrequest.gethistory().subscribe({
       next: (b) => {
         this.requestcomplete = b;
         console.log(this.requestcomplete);
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false; // حتى لا يعلق على التحميل في حال الخطأ
       },
     });
   }

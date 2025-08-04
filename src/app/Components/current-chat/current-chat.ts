@@ -16,29 +16,33 @@ import { IChatSession } from '../../Interfaces/CurrentChat/ichat-session';
   templateUrl: './current-chat.html',
   styleUrl: './current-chat.css',
 })
-export class CurrentChat implements AfterViewChecked  {
-  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+export class CurrentChat implements AfterViewChecked{
+  @ViewChild('bottomOfMessages') bottomOfMessages!: ElementRef;
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+
   chatDetails: IChatSession | null = null;
   userId: string = '';
   chatService = inject(ChatService);
   authService = inject(AuthService);
   liveChatService = inject(LiveChatService);
   Message: string = '';
+// scroll
+ngAfterViewChecked() {
+  this.scrollToBottomIfNearBottom();
+}
+scrollToBottomIfNearBottom(): void {
+  const container = this.scrollContainer?.nativeElement;
+  if (!container) return;
 
-//scroll
-   ngAfterViewChecked(): void {
-    this.scrollToBottom();
-  }
-   private scrollToBottom(): void {
-    try {
-      this.scrollContainer.nativeElement.scrollTop =
-        this.scrollContainer.nativeElement.scrollHeight;
-    } catch (err) {
-      console.error('Scroll error:', err);
-    }
-  }
-//////
+  const threshold = 100; // لو أقل من 100px من تحت نعمل سكرول
+  const position = container.scrollTop + container.clientHeight;
+  const height = container.scrollHeight;
 
+  if (height - position <= threshold) {
+    this.bottomOfMessages.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+  //
 
 
   ngOnInit(): void {
