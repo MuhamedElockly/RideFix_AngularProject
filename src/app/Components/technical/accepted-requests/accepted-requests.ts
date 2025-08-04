@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import { Ihistorytech } from '../../../Interfaces/Technichan/ihistorytech';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-accepted-requests',
   templateUrl: './accepted-requests.html',
   styleUrls: ['./accepted-requests.css'],
-  imports: [NgClass]
+  imports: [NgClass,DatePipe]
 })
 export class AcceptedRequestsComponent implements OnInit {
   acceptedRequests: Ihistorytech[] = [];
@@ -93,4 +93,4 @@ export class AcceptedRequestsComponent implements OnInit {
   getTotalRequestsCount(): number {
     return this.acceptedRequests.length;
   }
-} 
+}

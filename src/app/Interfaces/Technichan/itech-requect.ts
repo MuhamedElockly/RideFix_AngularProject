@@ -7,7 +7,7 @@ carOwnerId: number;
 carOwnerName: string;
 faceImageUrl: string;
 timeStamp:string
-
+requestState:number | null;
 category: string;
 latitude: number;
 longitude: number;

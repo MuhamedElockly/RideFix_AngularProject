@@ -116,7 +116,7 @@ export class TemplateRequest implements OnInit, OnDestroy {
                 icon: 'success',
                 title: 'تمت الموافقة',
               }).then(() => {
-                this.router.navigate(['/technician/techchat']);
+                this.router.navigate(['/technician/accepted-requests']);
               });
             } else {
               Swal.fire({

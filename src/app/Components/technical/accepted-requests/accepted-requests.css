@@ -147,6 +147,10 @@
   color: #667eea;
 }
 
+.section-title  {
+  color: #667eea;
+}
+
 .requests-summary {
   display: flex;
   gap: 2rem;
@@ -438,28 +442,28 @@
   .accepted-requests-container {
     padding: 1rem;
   }
-  
+
   .page-title {
     font-size: 2rem;
   }
-  
+
   .requests-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .requests-summary {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .request-actions {
     flex-direction: column;
   }
-  
+
   .btn {
     width: 100%;
     justify-content: center;
@@ -470,13 +474,13 @@
   .stats-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .request-header {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .request-status {
     align-items: flex-start;
   }
-} 
+}
