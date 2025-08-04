@@ -1,0 +1,188 @@
+<!-- Main Container -->
+<div class="container">
+  <!-- Add Car Form Section -->
+  <div class="add-car-section">
+    <div class="form-header">
+      <div class="form-icon">
+        <i class="fas fa-car-side"></i>
+        <div class="icon-decoration"></div>
+      </div>
+      <h1 class="form-title">إضافة سيارة جديدة</h1>
+      <p class="form-subtitle">
+        أدخل بيانات سيارتك للحصول على أفضل خدمات الصيانة والمتابعة
+      </p>
+    </div>
+
+    <!-- Form Fields Grid -->
+    <div class="form-grid">
+      <!-- Vendor Field -->
+      <div class="form-group">
+        <label for="vendor" class="form-label">
+          <i class="fas fa-industry"></i>
+          الشركة المصنعة
+        </label>
+        <select
+          id="vendor"
+          [(ngModel)]="car.vendor"
+          class="form-input"
+          required
+        >
+          <option value="">اختر الشركة المصنعة</option>
+          @for (item of vendors; track $index) {
+          <option value="{{ item }}">{{ item }}</option>
+
+          }
+        </select>
+        <div class="form-icon">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+
+      <!-- Model Name Field -->
+      <div class="form-group">
+        <label for="modelName" class="form-label">
+          <i class="fas fa-car"></i>
+          اسم الموديل
+        </label>
+        <input
+          type="text"
+          id="modelName"
+          name="modelName"
+          [(ngModel)]="car.modelName"
+          class="form-input"
+          placeholder="مثال: كامري، أكورد، التيما"
+          required
+        />
+      </div>
+
+      <!-- Type of Car Field -->
+      <div class="form-group">
+        <label for="typeOfCar" class="form-label">
+          <i class="fas fa-car-side"></i>
+          نوع السيارة
+        </label>
+        <select
+          id="typeOfCar"
+          name="typeOfCar"
+          [(ngModel)]="car.typeOfCar"
+          class="form-input"
+          required
+        >
+          <option value="">اختر نوع السيارة</option>
+          @for (item of typesOfCar; track $index) {
+          <option value="{{ item }}">{{ item }}</option>
+          }
+        </select>
+        <div class="form-icon">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+
+      <!-- Type of Fuel Field -->
+      <div class="form-group">
+        <label for="typeOfFuel" class="form-label">
+          <i class="fas fa-gas-pump"></i>
+          نوع الوقود
+        </label>
+        <select
+          id="typeOfFuel"
+          name="typeOfFuel"
+          class="form-input"
+          required
+          [(ngModel)]="car.typeOfFuel"
+        >
+          <option value="">اختر نوع الوقود</option>
+          @for (item of fuelTypes; track $index) {
+          <option value="{{ item }}">{{ item }}</option>
+          }
+        </select>
+        <div class="form-icon">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+
+      <!-- Model Year Field -->
+      <div class="form-group">
+        <label for="modelYear" class="form-label">
+          <i class="fas fa-calendar-alt"></i>
+          سنة الصنع
+        </label>
+        <select
+          id="modelYear"
+          [(ngModel)]="car.modelYear"
+          name="modelYear"
+          class="form-input"
+          required
+        >
+          <option value="">اختر سنة الصنع</option>
+          @for (item of modelYears; track $index) {
+          <option value="{{ item }}">{{ item }}</option>
+          }
+        </select>
+        <div class="form-icon">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+
+      <!-- Average KM Per Month Field -->
+      <div class="form-group">
+        <label for="avgKmPerMonth" class="form-label">
+          <i class="fas fa-tachometer-alt"></i>
+          متوسط الكيلومترات شهرياً
+        </label>
+        <input
+          type="number"
+          [(ngModel)]="car.avgKmPerMonth"
+          id="avgKmPerMonth"
+          name="avgKmPerMonth"
+          class="form-input"
+          placeholder="مثال: 1500"
+          min="0"
+          max="10000"
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="goBack()">
+        <i class="fas fa-times"></i>
+        <span>إلغاء</span>
+      </button>
+      <button class="btn-primary" (click)="submitForm()">
+        <i class="fas fa-plus-circle"></i>
+        <span>إضافة السيارة</span>
+        <div class="btn-shine"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Features Preview -->
+  <div class="features-section">
+    <h3 class="features-title">ماذا ستحصل عليه؟</h3>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-wrench"></i>
+        </div>
+        <h4>متابعة الصيانة</h4>
+        <p>تتبع جميع عمليات الصيانة وتواريخها</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h4>إحصائيات مفصلة</h4>
+        <p>تقارير شاملة عن حالة سيارتك</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-bell"></i>
+        </div>
+        <h4>تذكير الخدمات</h4>
+        <p>إشعارات لمواعيد الصيانة القادمة</p>
+      </div>
+    </div>
+  </div>
+</div>

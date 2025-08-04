@@ -20,11 +20,15 @@ import { TechnicianModule } from './Components/technical/technician-module/techn
 import { ProfileView } from './Components/Car_Owner_Components/profile-view/profile-view';
 import { Techchat } from './Components/technical/techchat/techchat';
 import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history-component/request-history-component';
+
 import { AcceptedRequestsComponent } from './Components/technical/accepted-requests/accepted-requests';
+
 
 import { UnauthorizedComponent } from './Components/unauthorized-component/unauthorized-component';
 import { carOwnerGuard } from './Gaurds/car-owner-guard';
 import { techGuard } from './Gaurds/tech-guard';
+import { CarProfileComponent } from './Components/Car_Owner_Components/car-profile-component/car-profile-component';
+import { AddCarComponent } from './Components/Car_Owner_Components/add-car-component/add-car-component';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -39,6 +43,8 @@ export const routes: Routes = [
       { path: 'Waiting', component: WaitingComponent },
       { path: 'TechViewDetails', component: ProfileView },
       { path: 'RequestsHistory', component: RequestHistoryComponent },
+      { path: 'MyCar', component: CarProfileComponent },
+      { path: 'AddNewCar', component: AddCarComponent },
       // { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
     canActivate: [carOwnerGuard],
@@ -73,8 +79,6 @@ export const routes: Routes = [
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   //   { path: 'techchat', component: Techchat },
 
-
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   //   { path: 'techchat', component: Techchat },
-
 ];

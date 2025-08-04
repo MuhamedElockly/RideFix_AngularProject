@@ -1,0 +1,291 @@
+@if(car != null){
+
+<!-- Main Container -->
+<div class="container">
+  <!-- Car Profile Section -->
+  <div class="car-profile-section">
+    <!-- Car Image Section -->
+    <div class="car-image-section">
+      <div
+        class="car-image-container"
+        style="
+          height: 300px;
+          background: linear-gradient(135deg, #f8f9fa, #e6e9ef);
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+          flex-direction: column;
+          text-align: center;
+        "
+      >
+        <i class="fas fa-car-side" style="font-size: 70px; color: #4a4a4a"></i>
+        <h2 style="margin-top: 10px; font-weight: 600; color: #333">
+          تويوتا كامري 2022
+        </h2>
+      </div>
+
+      <div class="car-status">
+        <div class="status-indicator active">
+          <i class="fas fa-circle"></i>
+          <span>نشطة</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Car Details Section -->
+    <div class="car-details-section">
+      <div class="car-header">
+        <div class="car-title-section">
+          <h1 class="car-title">تويوتا كامري</h1>
+          <div class="car-subtitle">موديل 2022 - سيدان فاخرة</div>
+        </div>
+        <div class="car-year-badge">
+          <i class="fas fa-calendar-alt"></i>
+          <span>2022</span>
+        </div>
+      </div>
+
+      <!-- Car Specifications Grid -->
+      <div class="specs-grid">
+        <div class="spec-card">
+          <div class="spec-icon">
+            <i class="fas fa-industry"></i>
+          </div>
+          <div class="spec-content">
+            <div class="spec-label">الشركة المصنعة</div>
+            <div class="spec-value">تويوتا</div>
+          </div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-icon">
+            <i class="fas fa-car"></i>
+          </div>
+          <div class="spec-content">
+            <div class="spec-label">اسم الموديل</div>
+            <div class="spec-value">كامري</div>
+          </div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="spec-content">
+            <div class="spec-label">سنة الصنع</div>
+            <div class="spec-value">2022</div>
+          </div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-icon">
+            <i class="fas fa-tachometer-alt"></i>
+          </div>
+          <div class="spec-content">
+            <div class="spec-label">متوسط الكيلومترات شهرياً</div>
+            <div class="spec-value">1,500 كم</div>
+          </div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-icon">
+            <i class="fas fa-gas-pump"></i>
+          </div>
+          <div class="spec-content">
+            <div class="spec-label">نوع الوقود</div>
+            <div class="spec-value">بنزين</div>
+          </div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-icon">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <div class="spec-content">
+            <div class="spec-label">نوع السيارة</div>
+            <div class="spec-value">SUV</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button
+          class="action-btn primary-btn"
+          onclick="showMaintenanceHistory()"
+        >
+          <i class="fas fa-history"></i>
+          <span>تاريخ الصيانة</span>
+        </button>
+
+        <button
+          class="action-btn secondary-btn"
+          onclick="addMaintenanceRecord()"
+        >
+          <i class="fas fa-plus-circle"></i>
+          <span>إضافة سجل صيانة</span>
+        </button>
+
+        <button class="action-btn outline-btn" onclick="editCarDetails()">
+          <i class="fas fa-edit"></i>
+          <span>تعديل البيانات</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats Section -->
+  <div class="quick-stats-section">
+    <h2 class="section-title">
+      <i class="fas fa-chart-line"></i>
+      إحصائيات سريعة
+    </h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-wrench"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">12</div>
+          <div class="stat-label">عمليات صيانة</div>
+        </div>
+        <div class="stat-trend positive">
+          <i class="fas fa-arrow-up"></i>
+          <span>+2 هذا الشهر</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-calendar-day"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">45</div>
+          <div class="stat-label">يوم منذ آخر صيانة</div>
+        </div>
+        <div class="stat-trend neutral">
+          <i class="fas fa-clock"></i>
+          <span>في الموعد</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">2,450</div>
+          <div class="stat-label">إجمالي تكلفة الصيانة</div>
+        </div>
+        <div class="stat-trend negative">
+          <i class="fas fa-arrow-down"></i>
+          <span>-15% من العام الماضي</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity Section -->
+  <div class="recent-activity-section">
+    <h2 class="section-title">
+      <i class="fas fa-clock"></i>
+      النشاط الأخير
+    </h2>
+
+    <div class="activity-list">
+      <div class="activity-item">
+        <div class="activity-icon">
+          <i class="fas fa-oil-can"></i>
+        </div>
+        <div class="activity-content">
+          <div class="activity-title">تغيير زيت المحرك</div>
+          <div class="activity-description">
+            تم تغيير زيت المحرك وفلتر الزيت
+          </div>
+          <div class="activity-date">15 نوفمبر 2024</div>
+        </div>
+        <div class="activity-status completed">
+          <i class="fas fa-check-circle"></i>
+          <span>مكتمل</span>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <div class="activity-icon">
+          <i class="fas fa-car-battery"></i>
+        </div>
+        <div class="activity-content">
+          <div class="activity-title">فحص البطارية</div>
+          <div class="activity-description">
+            فحص شامل لبطارية السيارة والشحن
+          </div>
+          <div class="activity-date">10 نوفمبر 2024</div>
+        </div>
+        <div class="activity-status completed">
+          <i class="fas fa-check-circle"></i>
+          <span>مكتمل</span>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <div class="activity-icon">
+          <i class="fas fa-tire"></i>
+        </div>
+        <div class="activity-content">
+          <div class="activity-title">فحص الإطارات</div>
+          <div class="activity-description">فحص ضغط الهواء وح لة الإطارات</div>
+          <div class="activity-date">5 نوفمبر 2024</div>
+        </div>
+        <div class="activity-status pending">
+          <i class="fas fa-clock"></i>
+          <span>قيد المراجعة</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+} @else {
+<div class="container">
+  <!-- Empty State Section -->
+  <div class="empty-state-section">
+    <div class="empty-state-content">
+      <div class="empty-state-icon">
+        <i class="fas fa-car-side"></i>
+        <div class="icon-decoration"></div>
+      </div>
+
+      <div class="empty-state-text">
+        <h2 class="empty-state-title">لم تقم بإضافة سيارتك</h2>
+        <p class="empty-state-description">
+          ابدأ رحلتك معنا بإضافة سيارتك الأولى للحصول على أفضل خدمات الصيانة
+          والمتابعة
+        </p>
+      </div>
+
+      <a class="add-car-btn" routerLink="/CarOwner/AddNewCar">
+        <i class="fas fa-plus-circle"></i>
+        <span>أضف سيارتك</span>
+        <div class="btn-shine"></div>
+      </a>
+
+      <div class="features-preview">
+        <div class="feature-item">
+          <i class="fas fa-wrench"></i>
+          <span>متابعة الصيانة</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-chart-line"></i>
+          <span>إحصائيات مفصلة</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-bell"></i>
+          <span>تذكير الخدمات</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
