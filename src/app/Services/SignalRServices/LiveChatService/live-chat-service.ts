@@ -15,8 +15,6 @@ export class LiveChatService {
   constructor() {}
 
   public startConnection() {
-
-    
     const token = localStorage.getItem('token'); // لو التوكن مخزن في localStorage
 
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -61,34 +59,31 @@ export class LiveChatService {
     this.hubConnection
       ?.invoke('sendmessage', ChatSessionId, message)
       .then(() => {
-        console.log()
+        console.log();
         console.log('Message Sent');
       });
   }
 
-
-  // public addReceiveMessageListener(callback: (message: any) => void) {
-  //   this.hubConnection?.on('ReceiveMessage', callback);
-  // }
-
-  public addReceiveMessageListener() {
-  
-    this.hubConnection?.on('receivemessage', (message: string) => {
-        console.log('Received notification: ' + message);
-        Swal.fire({
-          icon: 'success',
-          title: 'تم التنفيذ',
-          text: 'تم الموافقة علي الطلب',
-        }).then(() => {
-          // this.routerService.navigateByUrl(`CarOwner/Home`);
-        });
-      });
+  public addReceiveMessageListener(callback: (message: any) => void) {
+    this.hubConnection?.on('ReceiveMessage', callback);
   }
 
+  // public addReceiveMessageListener() {
+  //   this.hubConnection?.on('receivemessage', (message: string) => {
+  //     console.log('Received notification: ' + message);
+  //     Swal.fire({
+  //       icon: 'success',
+  //       title: 'تم التنفيذ',
+  //       text: 'تم الموافقة علي الطلب',
+  //     }).then(() => {
+  //       // this.routerService.navigateByUrl(`CarOwner/Home`);
+  //     });
+  //   });
+  // }
+
   public getCurrentChat(): Observable<IChatSessionResponse> {
-  return this.http.get<IChatSessionResponse>('http://localhost:5038/api/Chat/LoadCurrentChat');
-}
-
-
-
+    return this.http.get<IChatSessionResponse>(
+      'http://localhost:5038/api/Chat/LoadCurrentChat'
+    );
+  }
 }

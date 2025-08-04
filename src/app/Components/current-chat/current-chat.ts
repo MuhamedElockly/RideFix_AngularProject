@@ -1,4 +1,11 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { IChatDetails } from '../../Interfaces/Chat/ichat-details';
 import { ChatService } from '../../Services/ChatService/chat-service';
 import { AuthService } from '../../Services/AuthService/auth.service';
@@ -16,7 +23,7 @@ import { IChatSession } from '../../Interfaces/CurrentChat/ichat-session';
   templateUrl: './current-chat.html',
   styleUrl: './current-chat.css',
 })
-export class CurrentChat implements AfterViewChecked {
+export class CurrentChat implements AfterViewChecked, OnInit {
   @ViewChild('bottomOfMessages') bottomOfMessages!: ElementRef;
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
@@ -47,38 +54,31 @@ export class CurrentChat implements AfterViewChecked {
   }
   //
 
-ngOnInit(): void {
-  this.userId = this.authService.getUserId();
+  ngOnInit(): void {
+    this.userId = this.authService.getUserId();
 
-  this.liveChatService.startConnection(); 
-  this.liveChatService.addReceiveMessageListener();
-  console.log("✅ SignalR connection started (inside ngOnInit)");
+    // this.liveChatService.addReceiveMessageListener();
+    // console.log('✅ SignalR connection started (inside ngOnInit)');
 
-    // this.liveChatService.addReceiveMessageListener((message) => {
-
-    //   console.log("📥 Message received:", message); 
-    //   if (message.applicationId !== this.userId && this.chatDetails?.messages) {
-    //     console.log("📥 Message received:", message); 
-    //     this.chatDetails.messages = [...this.chatDetails.messages, message];
-    //     this.scrollToBottomIfNearBottom();
-    //   }
-    // });
-
-
+    this.liveChatService.addReceiveMessageListener((message) => {
+      console.log('📥 Message received:', message);
+      if (message.applicationId !== this.userId && this.chatDetails?.messages) {
+        console.log('📥 Message received:', message);
+        this.chatDetails.messages.push(message);
+        this.scrollToBottomIfNearBottom();
+      }
+    });
 
     this.liveChatService.getCurrentChat().subscribe({
       next: (chat) => {
         this.chatDetails = chat.data;
-        console.log("✅ Chat loaded:", chat.data);
+        console.log('✅ Chat loaded:', chat.data);
       },
       error: (err) => {
-        console.error("❌ Error loading chat:", err);
+        console.error('❌ Error loading chat:', err);
       },
     });
-
-  
-}
-
+  }
 
   SendMessage() {
     console.log('test');
