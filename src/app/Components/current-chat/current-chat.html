@@ -1,7 +1,8 @@
 <!-- Chat Messages -->
 <div class="chat-messages-container" #scrollContainer>
-  @if (chatDetails?.messages && chatDetails?.messages) { @for (message of
-  chatDetails?.messages; track $index) { @if (message.applicationId === userId)
+  @if (chatDetails?.messages) {
+     @for (message of chatDetails?.messages; track $index) {
+       @if (message.applicationId === userId)
   {
   <!-- رسالتي أنا -->
   <div class="message-group client">
@@ -36,7 +37,8 @@
       </div>
     </div>
   </div>
-  } } } @else {
+  } } 
+} @else {
   <div class="no-messages">لا توجد رسائل حتى الآن</div>
   }
   <div #bottomOfMessages></div>

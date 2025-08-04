@@ -15,12 +15,15 @@ export class LiveChatService {
   constructor() {}
 
   public startConnection() {
+
+    
     const token = localStorage.getItem('token'); // لو التوكن مخزن في localStorage
 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('http://localhost:5038/chathub', {
         accessTokenFactory: () => token || '', // تمرير التوكن عبر الـ Authorization header
       }) // المسار للـ Hub
+      // .withAutomaticReconnect()
       .build();
 
     // بدء الاتصال
@@ -58,13 +61,28 @@ export class LiveChatService {
     this.hubConnection
       ?.invoke('sendmessage', ChatSessionId, message)
       .then(() => {
+        console.log()
         console.log('Message Sent');
       });
   }
 
 
-  public addReceiveMessageListener(callback: (message: any) => void) {
-    this.hubConnection?.on('ReceiveMessage', callback);
+  // public addReceiveMessageListener(callback: (message: any) => void) {
+  //   this.hubConnection?.on('ReceiveMessage', callback);
+  // }
+
+  public addReceiveMessageListener() {
+  
+    this.hubConnection?.on('receivemessage', (message: string) => {
+        console.log('Received notification: ' + message);
+        Swal.fire({
+          icon: 'success',
+          title: 'تم التنفيذ',
+          text: 'تم الموافقة علي الطلب',
+        }).then(() => {
+          // this.routerService.navigateByUrl(`CarOwner/Home`);
+        });
+      });
   }
 
   public getCurrentChat(): Observable<IChatSessionResponse> {
