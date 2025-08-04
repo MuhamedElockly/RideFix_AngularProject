@@ -27,7 +27,7 @@ export class RequestWatchDogHub {
         console.log('SignalR Connected');
         // عند بدء الاتصال نعمل subscribe على إشعارات الـ CarOwner
       })
-      .catch((err) => console.log('Error while starting connection: ' + err));
+      .catch((err: any) => console.log('Error while starting connection: ' + err));
   }
 
   public stopConnection() {
