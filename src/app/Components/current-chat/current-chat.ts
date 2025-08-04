@@ -16,7 +16,7 @@ import { IChatSession } from '../../Interfaces/CurrentChat/ichat-session';
   templateUrl: './current-chat.html',
   styleUrl: './current-chat.css',
 })
-export class CurrentChat implements AfterViewChecked{
+export class CurrentChat implements AfterViewChecked {
   @ViewChild('bottomOfMessages') bottomOfMessages!: ElementRef;
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
@@ -26,45 +26,59 @@ export class CurrentChat implements AfterViewChecked{
   authService = inject(AuthService);
   liveChatService = inject(LiveChatService);
   Message: string = '';
-// scroll
-ngAfterViewChecked() {
-  this.scrollToBottomIfNearBottom();
-}
-scrollToBottomIfNearBottom(): void {
-  const container = this.scrollContainer?.nativeElement;
-  if (!container) return;
 
-  const threshold = 100; // لو أقل من 100px من تحت نعمل سكرول
-  const position = container.scrollTop + container.clientHeight;
-  const height = container.scrollHeight;
-
-  if (height - position <= threshold) {
-    this.bottomOfMessages.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  // scroll
+  ngAfterViewChecked() {
+    this.scrollToBottomIfNearBottom();
   }
-}
+  scrollToBottomIfNearBottom(): void {
+    const container = this.scrollContainer?.nativeElement;
+    if (!container) return;
+
+    const threshold = 100; // لو أقل من 100px من تحت نعمل سكرول
+    const position = container.scrollTop + container.clientHeight;
+    const height = container.scrollHeight;
+
+    if (height - position <= threshold) {
+      this.bottomOfMessages.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }
   //
 
+ngOnInit(): void {
+  this.userId = this.authService.getUserId();
 
-  ngOnInit(): void {
-    console.log('Khoooooooooly');
-    this.userId = this.authService.getUserId();
-    console.log(this.userId);
+  this.liveChatService.startConnection(); 
+  this.liveChatService.addReceiveMessageListener();
+  console.log("✅ SignalR connection started (inside ngOnInit)");
+
+    // this.liveChatService.addReceiveMessageListener((message) => {
+
+    //   console.log("📥 Message received:", message); 
+    //   if (message.applicationId !== this.userId && this.chatDetails?.messages) {
+    //     console.log("📥 Message received:", message); 
+    //     this.chatDetails.messages = [...this.chatDetails.messages, message];
+    //     this.scrollToBottomIfNearBottom();
+    //   }
+    // });
+
+
 
     this.liveChatService.getCurrentChat().subscribe({
       next: (chat) => {
         this.chatDetails = chat.data;
-        console.log('✅ Chat loaded:', chat.data);
+        console.log("✅ Chat loaded:", chat.data);
       },
       error: (err) => {
-        console.error('❌ Error loading chat:', err);
+        console.error("❌ Error loading chat:", err);
       },
     });
 
-    this.liveChatService.startConnection();
-    this.liveChatService.addReceiveMessageListener((message) => {
-      this.chatDetails?.messages?.push(message); // ✅ بس لو مش رسالتي أنا
-    });
-  }
+  
+}
+
 
   SendMessage() {
     console.log('test');
@@ -81,9 +95,9 @@ scrollToBottomIfNearBottom(): void {
         sentAt: new Date().toISOString(),
         applicationId: this.userId,
         isSeen: false,
-        chatSessionId : this.chatDetails.id       
+        chatSessionId: this.chatDetails.id,
       });
-      
+
       this.Message = '';
     }
   }
