@@ -22,7 +22,7 @@
       >
         <i class="fas fa-car-side" style="font-size: 70px; color: #4a4a4a"></i>
         <h2 style="margin-top: 10px; font-weight: 600; color: #333">
-          تويوتا كامري 2022
+          {{ car.modelName + car.modelYear }}
         </h2>
       </div>
 
@@ -38,12 +38,14 @@
     <div class="car-details-section">
       <div class="car-header">
         <div class="car-title-section">
-          <h1 class="car-title">تويوتا كامري</h1>
-          <div class="car-subtitle">موديل 2022 - سيدان فاخرة</div>
+          <h1 class="car-title">{{ car.vendor + car.modelName }}</h1>
+          <div class="car-subtitle">
+            موديل {{ car.modelYear }} - {{ car.typeOfCar }}
+          </div>
         </div>
         <div class="car-year-badge">
           <i class="fas fa-calendar-alt"></i>
-          <span>2022</span>
+          <span>{{ car.modelYear }}</span>
         </div>
       </div>
 
@@ -55,7 +57,7 @@
           </div>
           <div class="spec-content">
             <div class="spec-label">الشركة المصنعة</div>
-            <div class="spec-value">تويوتا</div>
+            <div class="spec-value">{{ car.vendor }}</div>
           </div>
         </div>
 
@@ -65,7 +67,7 @@
           </div>
           <div class="spec-content">
             <div class="spec-label">اسم الموديل</div>
-            <div class="spec-value">كامري</div>
+            <div class="spec-value">{{ car.modelName }}</div>
           </div>
         </div>
 
@@ -75,7 +77,7 @@
           </div>
           <div class="spec-content">
             <div class="spec-label">سنة الصنع</div>
-            <div class="spec-value">2022</div>
+            <div class="spec-value">{{ car.modelYear }}</div>
           </div>
         </div>
 
@@ -85,7 +87,7 @@
           </div>
           <div class="spec-content">
             <div class="spec-label">متوسط الكيلومترات شهرياً</div>
-            <div class="spec-value">1,500 كم</div>
+            <div class="spec-value">{{ car.avgKmPerMonth }} كم</div>
           </div>
         </div>
 
@@ -95,7 +97,7 @@
           </div>
           <div class="spec-content">
             <div class="spec-label">نوع الوقود</div>
-            <div class="spec-value">بنزين</div>
+            <div class="spec-value">{{ car.typeOfFuel }}</div>
           </div>
         </div>
 
@@ -105,33 +107,27 @@
           </div>
           <div class="spec-content">
             <div class="spec-label">نوع السيارة</div>
-            <div class="spec-value">SUV</div>
+            <div class="spec-value">{{ car.typeOfCar }}</div>
           </div>
         </div>
       </div>
 
       <!-- Action Buttons -->
       <div class="action-buttons">
-        <button
-          class="action-btn primary-btn"
-          onclick="showMaintenanceHistory()"
-        >
+        <a class="action-btn primary-btn" routerLink="">
           <i class="fas fa-history"></i>
           <span>تاريخ الصيانة</span>
-        </button>
+        </a>
 
-        <button
-          class="action-btn secondary-btn"
-          onclick="addMaintenanceRecord()"
-        >
+        <a class="action-btn secondary-btn" routerLink="/CarOwner/AddNewM">
           <i class="fas fa-plus-circle"></i>
           <span>إضافة سجل صيانة</span>
-        </button>
+        </a>
 
-        <button class="action-btn outline-btn" onclick="editCarDetails()">
+        <a class="action-btn outline-btn" routerLink="">
           <i class="fas fa-edit"></i>
           <span>تعديل البيانات</span>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -149,12 +145,11 @@
           <i class="fas fa-wrench"></i>
         </div>
         <div class="stat-content">
-          <div class="stat-number">12</div>
+          <div class="stat-number">{{ car.maintenanceCount }}</div>
           <div class="stat-label">عمليات صيانة</div>
         </div>
         <div class="stat-trend positive">
           <i class="fas fa-arrow-up"></i>
-          <span>+2 هذا الشهر</span>
         </div>
       </div>
 
@@ -168,7 +163,6 @@
         </div>
         <div class="stat-trend neutral">
           <i class="fas fa-clock"></i>
-          <span>في الموعد</span>
         </div>
       </div>
 
@@ -177,12 +171,11 @@
           <i class="fas fa-dollar-sign"></i>
         </div>
         <div class="stat-content">
-          <div class="stat-number">2,450</div>
+          <div class="stat-number">{{ car.totalMaintenanceCost }}</div>
           <div class="stat-label">إجمالي تكلفة الصيانة</div>
         </div>
         <div class="stat-trend negative">
           <i class="fas fa-arrow-down"></i>
-          <span>-15% من العام الماضي</span>
         </div>
       </div>
     </div>

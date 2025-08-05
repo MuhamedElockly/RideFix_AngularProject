@@ -1,0 +1,166 @@
+<!-- Main Container -->
+<div class="container">
+  <!-- Form Header -->
+  <div class="form-header">
+    <div class="header-icon">
+      <i class="fas fa-plus-circle"></i>
+    </div>
+    <h1 class="form-title">إضافة سجل صيانة جديد</h1>
+    <p class="form-subtitle">أضف تفاصيل عملية الصيانة التي تمت لسيارتك</p>
+  </div>
+
+  <!-- Add Maintenance Form -->
+  <div class="form-container">
+    <form id="addMaintenanceForm" class="maintenance-form">
+      <!-- Maintenance Type -->
+      <div class="form-group">
+        <label for="maintenanceType" class="form-label">
+          <i class="fas fa-tools"></i>
+          نوع الصيانة
+        </label>
+        <select
+          id="maintenanceType"
+          name="maintenanceTypeId"
+          class="form-input"
+          required
+        >
+          <option value="">اختر نوع الصيانة</option>
+          <option value="1">تغيير زيت المحرك</option>
+          <option value="2">فحص الفرامل</option>
+          <option value="3">تغيير فلتر الهواء</option>
+          <option value="4">فحص البطارية</option>
+          <option value="5">تغيير الإطارات</option>
+          <option value="6">فحص نظام التبريد</option>
+          <option value="7">تغيير شمعات الإشعال</option>
+          <option value="8">فحص ناقل الحركة</option>
+          <option value="9">تغيير فلتر الوقود</option>
+          <option value="10">صيانة دورية شاملة</option>
+          <option value="11">إصلاح المحرك</option>
+          <option value="12">إصلاح نظام العادم</option>
+          <option value="13">فحص نظام التوجيه</option>
+          <option value="14">تغيير سائل الفرامل</option>
+          <option value="15">أخرى</option>
+        </select>
+        <div class="form-error" id="maintenanceTypeError"></div>
+      </div>
+
+      <!-- Date and Time -->
+      <div class="form-group">
+        <label for="performedAt" class="form-label">
+          <i class="fas fa-calendar-alt"></i>
+          تاريخ ووقت الصيانة
+        </label>
+        <input
+          type="datetime-local"
+          id="performedAt"
+          name="performedAt"
+          class="form-input"
+          required
+        />
+        <div class="form-error" id="performedAtError"></div>
+      </div>
+
+      <!-- Car Kilometers -->
+      <div class="form-group">
+        <label for="carKMs" class="form-label">
+          <i class="fas fa-tachometer-alt"></i>
+          عداد الكيلومترات وقت الصيانة
+        </label>
+        <input
+          type="number"
+          id="carKMs"
+          name="carKMsAtTime"
+          class="form-input"
+          placeholder="مثال: 45000"
+          min="0"
+          max="999999"
+          required
+        />
+        <div class="input-hint">
+          أدخل قراءة عداد الكيلومترات وقت إجراء الصيانة
+        </div>
+        <div class="form-error" id="carKMsError"></div>
+      </div>
+
+      <!-- Maintenance Center -->
+      <div class="form-group">
+        <label for="maintenanceCenter" class="form-label">
+          <i class="fas fa-map-marker-alt"></i>
+          مركز الصيانة
+        </label>
+        <input
+          type="text"
+          id="maintenanceCenter"
+          name="maintenanceCenter"
+          class="form-input"
+          placeholder="مثال: مركز الخليج للصيانة"
+          required
+        />
+        <div class="input-hint">اسم المركز أو الورشة التي تمت فيها الصيانة</div>
+        <div class="form-error" id="maintenanceCenterError"></div>
+      </div>
+
+      <!-- Comment -->
+      <div class="form-group">
+        <label for="comment" class="form-label">
+          <i class="fas fa-comment-alt"></i>
+          ملاحظات إضافية (اختياري)
+        </label>
+        <textarea
+          id="comment"
+          name="comment"
+          class="form-input textarea"
+          placeholder="أضف أي ملاحظات أو تفاصيل إضافية حول عملية الصيانة..."
+          rows="4"
+        ></textarea>
+        <div class="input-hint">
+          يمكنك إضافة تفاصيل إضافية مثل قطع الغيار المستبدلة أو التكلفة
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goBack()">
+          <i class="fas fa-arrow-right"></i>
+          <span>إلغاء</span>
+        </button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <i class="fas fa-save"></i>
+          <span>حفظ سجل الصيانة</span>
+          <div class="btn-loading" id="btnLoading">
+            <i class="fas fa-spinner fa-spin"></i>
+          </div>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Success/Error Messages -->
+  <div class="notification success" id="successNotification">
+    <div class="notification-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <div class="notification-content">
+      <h3>تم الحفظ بنجاح!</h3>
+      <p>تم إضافة سجل الصيانة بنجاح إلى قاعدة البيانات</p>
+    </div>
+    <button class="notification-close" onclick="closeNotification('success')">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="notification error" id="errorNotification">
+    <div class="notification-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </div>
+    <div class="notification-content">
+      <h3>حدث خطأ!</h3>
+      <p id="errorMessage">
+        حدث خطأ أثناء حفظ البيانات. يرجى المحاولة مرة أخرى.
+      </p>
+    </div>
+    <button class="notification-close" onclick="closeNotification('error')">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>

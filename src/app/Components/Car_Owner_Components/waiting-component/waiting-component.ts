@@ -29,7 +29,6 @@ export class WaitingComponent implements OnInit, OnDestroy {
   cancelRequest() {
     this.requestService.CancelRequest(this.authService.getRoleId()).subscribe({
       next: (res) => {
-        window.location.reload();
         this.routeService.navigateByUrl('/CarOwner/SelectTech');
       },
       error: (res) => {
