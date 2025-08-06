@@ -68,18 +68,7 @@ export class LiveChatService {
     this.hubConnection?.on('ReceiveMessage', callback);
   }
 
-  // public addReceiveMessageListener() {
-  //   this.hubConnection?.on('receivemessage', (message: string) => {
-  //     console.log('Received notification: ' + message);
-  //     Swal.fire({
-  //       icon: 'success',
-  //       title: 'تم التنفيذ',
-  //       text: 'تم الموافقة علي الطلب',
-  //     }).then(() => {
-  //       // this.routerService.navigateByUrl(`CarOwner/Home`);
-  //     });
-  //   });
-  // }
+
 
   public getCurrentChat(): Observable<IChatSessionResponse> {
     return this.http.get<IChatSessionResponse>(

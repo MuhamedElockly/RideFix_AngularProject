@@ -1,6 +1,6 @@
 import { ICar } from './icar';
 
-export interface CarResponse {
+export interface ICarResponse {
   success: boolean;
   message: string;
   data: ICar;
