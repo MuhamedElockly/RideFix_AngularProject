@@ -23,12 +23,12 @@ import { RequestHistoryComponent } from './Components/Car_Owner_Components/reque
 
 import { AcceptedRequestsComponent } from './Components/technical/accepted-requests/accepted-requests';
 
-
 import { UnauthorizedComponent } from './Components/unauthorized-component/unauthorized-component';
 import { carOwnerGuard } from './Gaurds/car-owner-guard';
 import { techGuard } from './Gaurds/tech-guard';
 import { CarProfileComponent } from './Components/Car_Owner_Components/car-profile-component/car-profile-component';
 import { AddCarComponent } from './Components/Car_Owner_Components/add-car-component/add-car-component';
+import { AddMComponent } from './Components/Car_Owner_Components/add-mcomponent/add-mcomponent';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -45,6 +45,7 @@ export const routes: Routes = [
       { path: 'RequestsHistory', component: RequestHistoryComponent },
       { path: 'MyCar', component: CarProfileComponent },
       { path: 'AddNewCar', component: AddCarComponent },
+      { path: 'AddNewM', component: AddMComponent },
       // { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
     canActivate: [carOwnerGuard],
