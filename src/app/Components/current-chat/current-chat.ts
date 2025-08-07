@@ -86,7 +86,7 @@ export class CurrentChat implements AfterViewChecked, OnInit {
     if (this.Message.trim() !== '' && this.chatDetails) {
       console.log(this.chatDetails);
       console.log(this.Message);
-      this.liveChatService.SendMessage(6, this.Message); //this.chatDetails.id
+      this.liveChatService.SendMessage(this.chatDetails.id, this.Message); //this.chatDetails.id
       if (!Array.isArray(this.chatDetails.messages)) {
         this.chatDetails.messages = [];
       }
