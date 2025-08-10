@@ -1,0 +1,151 @@
+<form #maintenanceForm="ngForm" (ngSubmit)="Submit(maintenanceForm)" novalidate>
+  <div class="container">
+    <!-- Form Header -->
+    <div class="form-header">
+      <div class="header-icon">
+        <i class="fas fa-plus-circle"></i>
+      </div>
+      <h1 class="form-title">إضافة سجل صيانة جديد</h1>
+      <p class="form-subtitle">أضف تفاصيل عملية الصيانة التي تمت لسيارتك</p>
+    </div>
+
+    <!-- Add Maintenance Form -->
+    <div class="form-container">
+      <!-- Maintenance Type -->
+      <div class="form-group">
+        <label for="maintenanceType" class="form-label">
+          <i class="fas fa-tools"></i>
+          نوع الصيانة
+        </label>
+        <select
+          id="maintenanceType"
+          name="maintenanceTypeId"
+          class="form-input"
+          required
+          [(ngModel)]="newRecord.maintenanceTypeId"
+          #typeInput="ngModel"
+        >
+          <option value="">اختر نوع الصيانة</option>
+          @for (item of Mtypes; track $index) {
+          <option [value]="item.id">{{ item.name }}</option>
+          }
+        </select>
+        <div class="form-error" *ngIf="typeInput.invalid && typeInput.touched">
+          <span *ngIf="typeInput.errors?.['required']">نوع الصيانة مطلوب</span>
+        </div>
+      </div>
+
+      <!-- Date and Time -->
+      <div class="form-group">
+        <label for="performedAt" class="form-label">
+          <i class="fas fa-calendar-alt"></i>
+          تاريخ ووقت الصيانة
+        </label>
+        <input
+          type="datetime-local"
+          id="performedAt"
+          name="performedAt"
+          class="form-input"
+          required
+          [(ngModel)]="newRecord.performedAt"
+          #dateInput="ngModel"
+        />
+        <div class="form-error" *ngIf="dateInput.invalid && dateInput.touched">
+          <span *ngIf="dateInput.errors?.['required']">التاريخ مطلوب</span>
+        </div>
+      </div>
+
+      <!-- Car Kilometers -->
+      <div class="form-group">
+        <label for="carKMs" class="form-label">
+          <i class="fas fa-tachometer-alt"></i>
+          عداد الكيلومترات وقت الصيانة
+        </label>
+        <input
+          type="number"
+          id="carKMs"
+          name="carKMsAtTime"
+          class="form-input"
+          placeholder="مثال: 45000"
+          min="0"
+          max="999999"
+          required
+          [(ngModel)]="newRecord.carKMsAtTime"
+          #kmInput="ngModel"
+        />
+        <div class="input-hint">
+          أدخل قراءة عداد الكيلومترات وقت إجراء الصيانة
+        </div>
+        <div class="form-error" *ngIf="kmInput.invalid && kmInput.touched">
+          <span *ngIf="kmInput.errors?.['required']">العداد مطلوب</span>
+          <span *ngIf="kmInput.errors?.['min']">القيمة أقل من 0</span>
+          <span *ngIf="kmInput.errors?.['max']">القيمة أكبر من المسموح</span>
+        </div>
+      </div>
+
+      <!-- Maintenance Center -->
+      <div class="form-group">
+        <label for="maintenanceCenter" class="form-label">
+          <i class="fas fa-map-marker-alt"></i>
+          مركز الصيانة
+        </label>
+        <input
+          type="text"
+          id="maintenanceCenter"
+          name="maintenanceCenter"
+          class="form-input"
+          placeholder="مثال: مركز الخليج للصيانة"
+          [(ngModel)]="newRecord.maintenanceCenter"
+          required
+          #centerInput="ngModel"
+        />
+        <div class="input-hint">اسم المركز أو الورشة التي تمت فيها الصيانة</div>
+        <div
+          class="form-error"
+          *ngIf="centerInput.invalid && centerInput.touched"
+        >
+          <span *ngIf="centerInput.errors?.['required']">اسم المركز مطلوب</span>
+        </div>
+      </div>
+
+      <!-- Comment -->
+      <div class="form-group">
+        <label for="comment" class="form-label">
+          <i class="fas fa-comment-alt"></i>
+          ملاحظات إضافية (اختياري)
+        </label>
+        <textarea
+          id="comment"
+          name="comment"
+          class="form-input textarea"
+          placeholder="أضف أي ملاحظات أو تفاصيل إضافية حول عملية الصيانة..."
+          [(ngModel)]="newRecord.comment"
+          rows="4"
+        ></textarea>
+        <div class="input-hint">
+          يمكنك إضافة تفاصيل إضافية مثل قطع الغيار المستبدلة أو التكلفة
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="goBack()">
+          <i class="fas fa-arrow-right"></i>
+          <p>إلغاء</p>
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          id="submitBtn"
+          [disabled]="maintenanceForm.invalid"
+        >
+          <i class="fas fa-save"></i>
+          <p>حفظ سجل الصيانة</p>
+          <div class="btn-loading" id="btnLoading">
+            <i class="fas fa-spinner fa-spin"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

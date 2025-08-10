@@ -1,4 +1,4 @@
-import { LoginComponent } from './../../Components/login/login';
+import { LoginComponent } from '../../Components/General/login/login';
 import { IRequestBrief } from '../../Interfaces/Requests/irequest-brief';
 import { IPreRequest } from '../../Interfaces/Requests/ipre-request';
 import { inject, Injectable } from '@angular/core';

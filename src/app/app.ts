@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavBarComponent } from './Components/nav-bar-component/nav-bar-component';
+import { NavBarComponent } from './Components/General/nav-bar-component/nav-bar-component';
 import { CarOwnerHomeComponent } from './Components/Car_Owner_Components/car-owner-home-component/car-owner-home-component';
-import { FooterComponent } from './Components/footer-component/footer-component';
+import { FooterComponent } from './Components/General/footer-component/footer-component';
 import { CarOwnerModule } from './Components/Car_Owner_Components/car-owner-module/car-owner-module';
 
-import { LoginComponent } from './Components/login/login';
+import { LoginComponent } from './Components/General/login/login';
 import { FormsModule } from '@angular/forms';
 import { Sidebar } from './Components/technical/sidebar/sidebar';
 import { Requests } from './Components/technical/requests/requests';
