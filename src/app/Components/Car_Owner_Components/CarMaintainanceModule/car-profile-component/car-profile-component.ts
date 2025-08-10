@@ -19,6 +19,7 @@ export class CarProfileComponent implements OnInit {
     this.carService.GetMyCar().subscribe({
       next: (res) => {
         this.car = res.data;
+        console.log('Car data:', this.car.daysSinceLastMaintenance);
       },
       error: (ex) => {
         this.car = null;

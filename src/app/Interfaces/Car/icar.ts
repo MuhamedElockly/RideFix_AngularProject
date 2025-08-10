@@ -7,4 +7,5 @@ export interface ICar {
   avgKmPerMonth: Number;
   totalMaintenanceCost: Number;
   maintenanceCount: Number;
+  daysSinceLastMaintenance: Number;
 }

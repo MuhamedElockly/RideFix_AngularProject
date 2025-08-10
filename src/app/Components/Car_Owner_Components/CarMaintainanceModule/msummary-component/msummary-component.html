@@ -1,11 +1,11 @@
 <div class="maintenance-container">
   <div class="maintenance-header">
     <div class="header-icon">🕒</div>
-    <div class="header-title">النشاط الأخير</div>
+    <div class="header-title">ملخص الصيانات</div>
   </div>
 
   <div class="maintenance-items">
-    @for (item of maintenanceList; track $index) {
+    @for (item of pagedList; track $index) {
     <div
       class="maintenance-item"
       [ngClass]="{
@@ -70,5 +70,54 @@
       </div>
     </div>
     }
+    <!-- Pagination -->
+    <div class="pagination">
+      <button
+        class="page-btn nav"
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+      >
+        ‹ السابق
+      </button>
+
+      <button
+        class="page-btn"
+        *ngIf="totalPages > 7 && pages[0] > 1"
+        (click)="setPage(1)"
+      >
+        1
+      </button>
+      <span class="dots" *ngIf="totalPages > 7 && pages[0] > 2">…</span>
+
+      <button
+        class="page-btn"
+        *ngFor="let p of pages"
+        [class.active]="p === currentPage"
+        (click)="setPage(p)"
+      >
+        {{ p }}
+      </button>
+
+      <span
+        class="dots"
+        *ngIf="totalPages > 7 && pages[pages.length - 1] < totalPages - 1"
+        >…</span
+      >
+      <button
+        class="page-btn"
+        *ngIf="totalPages > 7 && pages[pages.length - 1] < totalPages"
+        (click)="setPage(totalPages)"
+      >
+        {{ totalPages }}
+      </button>
+
+      <button
+        class="page-btn nav"
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+      >
+        التالي ›
+      </button>
+    </div>
   </div>
 </div>
