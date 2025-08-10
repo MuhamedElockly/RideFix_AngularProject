@@ -22,6 +22,7 @@ export class AddMComponent implements OnInit {
     performedAt: new Date().toISOString(), // أو سيبها "" لو لسه هيتحدد
     carKMsAtTime: 0,
     maintenanceCenter: '',
+    Cost: 0, // سعر الصيانة بالجنيه المصري
     comment: undefined,
   };
   routeService = inject(Router);

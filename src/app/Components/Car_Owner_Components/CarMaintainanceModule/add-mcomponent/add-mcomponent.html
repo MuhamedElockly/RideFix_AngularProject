@@ -108,6 +108,27 @@
         </div>
       </div>
 
+      <!-- Cost -->
+      <div class="form-group">
+        <label for="Cost" class="form-label">
+          <i class="fas fa-tachometer-alt"></i>
+          سعر الصيانة بالجنيه المصري
+        </label>
+        <input
+          type="number"
+          id="Cost"
+          name="Cost"
+          class="form-input"
+          placeholder="مثال: 45000"
+          min="0"
+          max="999999"
+          required
+          [(ngModel)]="newRecord.Cost"
+          #kmInput="ngModel"
+        />
+        <div class="input-hint">ادخل سعر الصيانة</div>
+      </div>
+
       <!-- Comment -->
       <div class="form-group">
         <label for="comment" class="form-label">
