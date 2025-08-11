@@ -3,7 +3,7 @@
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="hero-content">
-      
+
 
       <div class="hero-features">
         <div class="hero-feature">
@@ -18,12 +18,7 @@
           </div>
           <div class="hero-feature-text">مهام نشطة</div>
         </div>
-        <div class="hero-feature">
-          <div class="hero-feature-icon earnings">
-            <i class="fas fa-dollar-sign"></i>
-          </div>
-          <div class="hero-feature-text">أرباح اليوم</div>
-        </div>
+    
         <div class="hero-feature">
           <div class="hero-feature-icon rating">
             <i class="fas fa-star"></i>
@@ -75,7 +70,7 @@
                 <h5>وصف المشكلة:</h5>
                 <p>{{ item.description }}</p>
               </div>
-              
+
               <div class="request-meta">
                 <div class="meta-item">
                   <i class="fas fa-map-marker-alt"></i>
@@ -128,7 +123,7 @@
       <i class="fas fa-chart-bar"></i>
       إحصائيات سريعة
     </h2>
-    
+
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon pending">
@@ -139,34 +134,26 @@
           <p class="stat-number">{{request.length}}</p>
         </div>
       </div>
-      
+
       <div class="stat-card">
         <div class="stat-icon completed">
           <i class="fas fa-check-circle"></i>
         </div>
         <div class="stat-content">
           <h3>مهام مكتملة</h3>
-          <p class="stat-number">0</p>
+          <p class="stat-number">{{requestcomplete.length }}</p>
         </div>
       </div>
-      
-      <div class="stat-card">
-        <div class="stat-icon earnings">
-          <i class="fas fa-dollar-sign"></i>
-        </div>
-        <div class="stat-content">
-          <h3>إجمالي الأرباح</h3>
-          <p class="stat-number">$0</p>
-        </div>
-      </div>
-      
+
+
+
       <div class="stat-card">
         <div class="stat-icon rating">
           <i class="fas fa-star"></i>
         </div>
         <div class="stat-content">
           <h3>متوسط التقييم</h3>
-          <p class="stat-number">4.8</p>
+          <p class="stat-number">{{tech?.rate}}</p>
         </div>
       </div>
     </div>

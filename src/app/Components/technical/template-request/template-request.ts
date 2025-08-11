@@ -17,6 +17,8 @@ import { UserStorageService } from '../../../Services/UserStorageService/user-st
 import { Ickeekapply } from '../../../Interfaces/ickeekapply';
 import { Ihistorytech } from '../../../Interfaces/Technichan/ihistorytech';
 import { RequestWatchDogHub } from '../../../Services/SignalRServices/RequestWatchDogHub/request-watch-dog-hub';
+import { Itechiciandetails } from '../../../Interfaces/Technichan/itechiciandetails';
+import { Technincalservice } from '../../../Services/Technincalservice/technincalservice';
 
 @Component({
   selector: 'app-template-request',
@@ -35,12 +37,33 @@ export class TemplateRequest implements OnInit, OnDestroy {
   constructor(
     private techRequestService: TechrequestService,
     private router: Router,
-    private userStorage: UserStorageService
+    private userStorage: UserStorageService,
+    private techServieces: Technincalservice
   ) {}
+  requestcomplete: Ihistorytech[] = [];
+    tech: Itechiciandetails | null = null;
 
+  //  isLoading: boolean = true;
   ngOnInit(): void {
     this.requestWatchDog.startConnection();
     this.requestWatchDog.printConnectionState();
+
+
+    this.techRequestService.gethistory().subscribe({
+      next: (b) => {
+        this.requestcomplete = b;
+        console.log(this.requestcomplete);
+        // this.isLoading = false;
+      }});
+
+
+    this.techServieces.gettechnician().subscribe({
+      next: (b) => {
+        this.tech = b;
+        console.log('Technician details:', this.tech);
+      },
+    });
+
   }
 
   ngOnDestroy(): void {
@@ -162,7 +185,10 @@ export class TemplateRequest implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const password = result.value;
-        const userId = this.userStorage.getUserId();
+        // const userId = this.userStorage.getUserId();
+
+        const userId = localStorage.getItem('techid');
+
 
         const dto: IRequestApply = {
           requestId: item.requestId,
@@ -178,7 +204,9 @@ export class TemplateRequest implements OnInit, OnDestroy {
                 icon: 'success',
                 title: 'تمت الموافقة',
               }).then(() => {
-                this.router.navigate(['/technician/techservieces']);
+                // this.router.navigate(['/technician/techservieces']);
+                                window.location.reload();
+
               });
             } else {
               Swal.fire({
