@@ -1,0 +1,123 @@
+<div class="maintenance-container">
+  <div class="maintenance-header">
+    <div class="header-icon">🕒</div>
+    <div class="header-title">ملخص الصيانات</div>
+  </div>
+
+  <div class="maintenance-items">
+    @for (item of pagedList; track $index) {
+    <div
+      class="maintenance-item"
+      [ngClass]="{
+        needed: item.status === 2,
+        completed: item.status === 1,
+        'under-review': item.status === 0
+      }"
+    >
+      <!-- Icon -->
+      <div class="item-icon">
+        <i class="fas"></i>
+        <div class="item-icon" style="background: #ff6b35">
+          <i class="fas fa-cog fa-spin"></i>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="item-content">
+        <div class="item-header">
+          <div class="item-title">{{ item.maintenanceTypeName }}</div>
+
+          <!-- Status badge (استخدمنا الكلاسات اللي موجودة في CSS: completed / under-review) -->
+          <div
+            class="status-badge"
+            [ngClass]="{
+              needed: item.status === 2,
+              completed: item.status === 1,
+              'under-review': item.status === 0
+            }"
+          >
+            <span *ngIf="item.status === 2">مطلوب</span>
+            <span *ngIf="item.status === 1">غير مطلوب</span>
+            <span *ngIf="item.status === 0">لا يوجد معلومة</span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="item-description" *ngIf="item.status === 2">
+          مطلوب - آخر صيانة {{ item.lastMaintenanceDate | date : "dd/MM/yyyy" }}
+        </div>
+        <div class="item-description" *ngIf="item.status === 1">
+          غير مطلوب حتى الآن - آخر صيانة
+          {{ item.lastMaintenanceDate | date : "dd/MM/yyyy" }}
+        </div>
+        <div class="item-description" *ngIf="item.status === 0">
+          لا توجد معلومات! لم تقم بإدخال أي معلومات حول هذه الصيانة بعد.
+        </div>
+
+        <!-- Dates -->
+        <div class="item-date" *ngIf="item.status !== 0">
+          <div>
+            📅 آخر صيانة: {{ item.lastMaintenanceDate | date : "dd/MM/yyyy" }}
+          </div>
+          <div>
+            🗓️ الصيانة القادمة:
+            {{ item.nextExpectedMaintenance | date : "dd/MM/yyyy" }}
+          </div>
+        </div>
+        <div class="item-date" *ngIf="item.status === 0">
+          لا توجد بيانات صيانة متاحة
+        </div>
+      </div>
+    </div>
+    }
+    <!-- Pagination -->
+    <div class="pagination">
+      <button
+        class="page-btn nav"
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+      >
+        ‹ السابق
+      </button>
+
+      <button
+        class="page-btn"
+        *ngIf="totalPages > 7 && pages[0] > 1"
+        (click)="setPage(1)"
+      >
+        1
+      </button>
+      <span class="dots" *ngIf="totalPages > 7 && pages[0] > 2">…</span>
+
+      <button
+        class="page-btn"
+        *ngFor="let p of pages"
+        [class.active]="p === currentPage"
+        (click)="setPage(p)"
+      >
+        {{ p }}
+      </button>
+
+      <span
+        class="dots"
+        *ngIf="totalPages > 7 && pages[pages.length - 1] < totalPages - 1"
+        >…</span
+      >
+      <button
+        class="page-btn"
+        *ngIf="totalPages > 7 && pages[pages.length - 1] < totalPages"
+        (click)="setPage(totalPages)"
+      >
+        {{ totalPages }}
+      </button>
+
+      <button
+        class="page-btn nav"
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+      >
+        التالي ›
+      </button>
+    </div>
+  </div>
+</div>
