@@ -25,7 +25,11 @@ export class AcceptedRequestsComponent implements OnInit {
   }
 
   loadAcceptedRequests(): void {
+
     this.loading = true;
+    //
+    this.error = '';
+
     this.techRequestService.getacceptrequest().subscribe({
       next: (response) => {
         this.acceptedRequests = Array.isArray(response) ? response : [response];
@@ -33,8 +37,16 @@ export class AcceptedRequestsComponent implements OnInit {
         console.log('Accepted requests:', this.acceptedRequests);
       },
       error: (error) => {
-        console.error('Error loading accepted requests:', error);
-        this.error = 'حدث خطأ في تحميل الطلبات المقبولة';
+         if (error.status === 500) {
+    // نعامله كأن مفيش بيانات
+    this.acceptedRequests = [];
+    this.error = ''; // ما نظهرش رسالة الخطأ
+  } else {
+    // أي خطأ تاني نظهره
+    this.error = 'حدث خطأ في تحميل الطلبات المقبولة';
+  }
+        // console.error('Error loading accepted requests:', error);
+        // this.error = 'حدث خطأ في تحميل الطلبات المقبولة';
         this.loading = false;
       }
     });
