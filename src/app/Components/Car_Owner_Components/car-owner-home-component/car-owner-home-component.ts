@@ -1,10 +1,11 @@
-import { IRequestBrief } from './../../../Interfaces/irequest-brief';
+import { IRequestBrief } from '../../../Interfaces/Requests/irequest-brief';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { RequestAlertComponent } from '../request-alert-component/request-alert-component';
+import { RequestAlertComponent } from '../CarEmergencyModule/request-alert-component/request-alert-component';
 import { RequestService } from '../../../Services/RequestService/request-service';
-import { ReviewModelController } from '../review-model-controller/review-model-controller';
-import { ChatComponent } from '../../chat-component/chat-component';
+import { ReviewModelController } from '../CarEmergencyModule/review-model-controller/review-model-controller';
+import { AuthService } from '../../../Services/AuthService/auth.service';
+import { ChatComponent } from '../../ChatModule/chat-component/chat-component';
 
 @Component({
   selector: 'app-car-owner-home-component',
@@ -22,16 +23,19 @@ import { ChatComponent } from '../../chat-component/chat-component';
 export class CarOwnerHomeComponent implements OnInit {
   alertFlag: boolean = false;
   requestService = inject(RequestService);
+  authService = inject(AuthService);
   ngOnInit(): void {
-    this.requestService.getRequestBrief(1).subscribe({
-      next: (res) => {
-        this.requestService.setAlertRequest(res.data);
-        this.alertFlag = true;
-        localStorage.setItem('CurrentRequestId', res.data.id.toString());
-      },
-      error: () => {
-        this.alertFlag = false;
-      },
-    });
+    this.requestService
+      .getRequestBrief(this.authService.getRoleId())
+      .subscribe({
+        next: (res) => {
+          this.requestService.setAlertRequest(res.data);
+          this.alertFlag = true;
+          localStorage.setItem('CurrentRequestId', res.data.id.toString());
+        },
+        error: () => {
+          this.alertFlag = false;
+        },
+      });
   }
 }

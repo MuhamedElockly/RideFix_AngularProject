@@ -1,4 +1,4 @@
-import { ILocationData } from './../../Interfaces/ilocation-data';
+import { ILocationData } from '../../Interfaces/Requests/ilocation-data';
 import { Injectable } from '@angular/core';
 
 @Injectable({

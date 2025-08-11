@@ -1,1 +1,121 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Import Cairo font and Font Awesome */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+/* CSS Variables */
+:root {
+  --primary-black: #0a0a0a;
+  --secondary-black: #1a1a1a;
+  --accent-orange: #ff6b35;
+  --accent-orange-light: #ff8c42;
+  --accent-purple: #6f42c1;
+  --accent-purple-light: #8b5cf6;
+  --pure-white: #ffffff;
+  --light-gray: #f8f9fa;
+  --medium-gray: #6c757d;
+  --dark-gray: #495057;
+  --success-green: #28a745;
+  --warning-yellow: #ffc107;
+  --danger-red: #dc3545;
+  --info-blue: #17a2b8;
+}
+
+/* Global body background styles */
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+  /* Enhanced full-page background image */
+  background: linear-gradient(
+      135deg,
+      rgba(10, 10, 10, 0.85) 0%,
+      rgba(26, 26, 26, 0.75) 25%,
+      rgba(45, 45, 45, 0.7) 50%,
+      rgba(26, 26, 26, 0.75) 75%,
+      rgba(10, 10, 10, 0.85) 100%
+    ),
+    linear-gradient(
+      45deg,
+      rgba(255, 107, 53, 0.15) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(111, 66, 193, 0.15) 100%
+    ),
+    url("https://images.pexels.com/photos/3806252/pexels-photo-3806252.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop");
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--pure-white);
+  min-height: 100vh;
+}
+
+/* Enhanced Background Particles with better contrast */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+      circle at 20% 80%,
+      rgba(255, 107, 53, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(111, 66, 193, 0.06) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(32, 201, 151, 0.05) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 60% 60%,
+      rgba(0, 123, 255, 0.04) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: -1;
+  animation: backgroundShift 25s ease-in-out infinite;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+@keyframes backgroundShift {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  33% {
+    opacity: 0.8;
+    transform: scale(1.05) rotate(2deg);
+  }
+  66% {
+    opacity: 0.9;
+    transform: scale(0.95) rotate(-1deg);
+  }
+}
+
+/* Global font family */
+* {
+  font-family: "Cairo", sans-serif;
+}

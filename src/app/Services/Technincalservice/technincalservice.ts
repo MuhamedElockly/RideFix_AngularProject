@@ -12,7 +12,7 @@ export class Technincalservice {
     //get the userid
     gettechnician(){
     const technid=localStorage.getItem('techid');
-  console.log(technid);
+  console.log("Technician ID in service:", technid);
       return this.http.get<any>(`http://localhost:5038/api/Account/technicianDetails/${technid}`).pipe( map(res => res.data));
     }
 

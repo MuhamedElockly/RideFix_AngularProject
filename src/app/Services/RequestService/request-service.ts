@@ -1,15 +1,15 @@
-import { LoginComponent } from './../../Components/login/login';
-import { IRequestBrief } from './../../Interfaces/irequest-brief';
-import { IPreRequest } from './../../Interfaces/ipre-request';
+import { LoginComponent } from '../../Components/General/login/login';
+import { IRequestBrief } from '../../Interfaces/Requests/irequest-brief';
+import { IPreRequest } from '../../Interfaces/Requests/ipre-request';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IFilteredTechResponse } from '../../Interfaces/ifiltered-tech-response';
-import { IEmergencyRequest } from '../../Interfaces/iemergency-request';
+import { IFilteredTechResponse } from '../../Interfaces/Technichan/ifiltered-tech-response';
+import { IEmergencyRequest } from '../../Interfaces/Requests/iemergency-request';
 import { Router } from '@angular/router';
-import { IRequestBriefResponse } from '../../Interfaces/irequest-brief-response';
-import { RequestHistoryResponse } from '../../Interfaces/request-history-response';
-import { IRequestDetailsResponse } from '../../Interfaces/irequest-details-response';
+import { IRequestBriefResponse } from '../../Interfaces/Requests/irequest-brief-response';
+import { RequestHistoryResponse } from '../../Interfaces/Requests/request-history-response';
+import { IRequestDetailsResponse } from '../../Interfaces/Requests/irequest-details-response';
 @Injectable({
   providedIn: 'root',
 })
