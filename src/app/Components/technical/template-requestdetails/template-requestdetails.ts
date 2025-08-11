@@ -32,6 +32,7 @@ export class TemplateRequestdetails implements OnInit {
 
   ngOnInit(): void {
     this.url = this.router.url;
+
   }
 
   confirmApprovalWithPassword(item: ItechRequect | null) {
@@ -156,7 +157,7 @@ export class TemplateRequestdetails implements OnInit {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const password = result.value;
-        const userId = this.userStorage.getUserId();
+        const userId = localStorage.getItem('techid');
 
         const dto: IRequestApply = {
           requestId: item.requestId,
@@ -173,6 +174,7 @@ export class TemplateRequestdetails implements OnInit {
                 title: 'تمت الموافقة',
               }).then(() => {
                 this.router.navigate(['/technician/techservieces']);
+                
               });
             } else {
               Swal.fire({

@@ -13,4 +13,5 @@ export interface Itechiciandetails {
   government: string;
   address: string;
   phoneNumber: string;
+  rate:number;
 }
