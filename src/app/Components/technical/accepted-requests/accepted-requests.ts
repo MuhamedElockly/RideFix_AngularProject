@@ -38,11 +38,9 @@ export class AcceptedRequestsComponent implements OnInit {
       },
       error: (error) => {
          if (error.status === 500) {
-    // نعامله كأن مفيش بيانات
     this.acceptedRequests = [];
-    this.error = ''; // ما نظهرش رسالة الخطأ
+    this.error = '';
   } else {
-    // أي خطأ تاني نظهره
     this.error = 'حدث خطأ في تحميل الطلبات المقبولة';
   }
         // console.error('Error loading accepted requests:', error);
