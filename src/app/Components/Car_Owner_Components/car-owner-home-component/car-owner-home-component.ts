@@ -1,11 +1,11 @@
 import { IRequestBrief } from '../../../Interfaces/Requests/irequest-brief';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { RequestAlertComponent } from '../request-alert-component/request-alert-component';
+import { RequestAlertComponent } from '../CarEmergencyModule/request-alert-component/request-alert-component';
 import { RequestService } from '../../../Services/RequestService/request-service';
-import { ReviewModelController } from '../review-model-controller/review-model-controller';
-import { ChatComponent } from '../../chat-component/chat-component';
+import { ReviewModelController } from '../CarEmergencyModule/review-model-controller/review-model-controller';
 import { AuthService } from '../../../Services/AuthService/auth.service';
+import { ChatComponent } from '../../ChatModule/chat-component/chat-component';
 
 @Component({
   selector: 'app-car-owner-home-component',

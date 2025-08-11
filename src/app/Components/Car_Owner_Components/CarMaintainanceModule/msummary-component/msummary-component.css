@@ -1,0 +1,383 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Cairo", sans-serif;
+  background: #2d2d2d;
+  padding: 20px;
+  direction: rtl;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.maintenance-container {
+  background: #f5f5f5;
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.maintenance-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.header-icon {
+  width: 32px;
+  height: 32px;
+  background: #ff6b35;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Maintenance Items */
+.maintenance-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.maintenance-item {
+  background: white;
+  border: 2px solid #ff6b35;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: all 0.3s ease;
+}
+
+.maintenance-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15);
+}
+
+/* Item Icon */
+.item-icon {
+  width: 56px;
+  height: 56px;
+  background: #ff6b35;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+/* Item Content */
+.item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.item-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-badge.completed {
+  background: #10b981;
+  color: white;
+}
+
+.status-badge.completed::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+.status-badge.under-review {
+  background: #f59e0b;
+  color: white;
+}
+
+.status-badge.under-review::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Item Description */
+.item-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+/* Item Date */
+.item-date {
+  font-size: 12px;
+  color: #999;
+  font-weight: 400;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+
+  .maintenance-container {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .maintenance-item {
+    padding: 16px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .item-header {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .item-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    align-self: center;
+  }
+
+  .item-title {
+    font-size: 16px;
+  }
+
+  .header-title {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .maintenance-container {
+    padding: 16px;
+  }
+
+  .maintenance-item {
+    padding: 14px;
+  }
+
+  .item-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .item-title {
+    font-size: 15px;
+  }
+
+  .item-description {
+    font-size: 13px;
+  }
+}
+.maintenance-container {
+  background: #f5f5f5;
+  border-radius: 20px;
+  padding: 32px; /* كانت 24px */
+  max-width: 100%; /* كانت 800px */
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.maintenance-item {
+  background: white;
+  border: 2px solid #ff6b35;
+  border-radius: 16px;
+  padding: 24px; /* كانت 20px */
+  display: flex;
+  align-items: flex-start;
+  gap: 20px; /* كانت 16px */
+  transition: all 0.3s ease;
+}
+
+.item-icon {
+  width: 64px; /* كانت 56px */
+  height: 64px; /* كانت 56px */
+  font-size: 28px; /* كانت 24px */
+}
+
+.item-title {
+  font-size: 20px; /* كانت 18px */
+}
+
+.item-description {
+  font-size: 16px; /* كانت 14px */
+}
+
+.status-badge {
+  padding: 8px 14px; /* كانت 6px 12px */
+  font-size: 14px; /* كانت 12px */
+}
+
+.item-date {
+  font-size: 14px; /* كانت 12px */
+}
+/* لو الحالة "مطلوب" */
+.maintenance-item.needed {
+  border-color: #dc2626 !important; /* أحمر غامق */
+}
+
+.status-badge.needed {
+  background: #dc2626 !important; /* خلفية أحمر */
+  color: white;
+}
+
+.status-badge.needed::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+/* مطلوب */
+.maintenance-item.needed {
+  border-color: #ff6b35; /* أورانج محمر للبوردر */
+  background: #fff7ed; /* خلفية فاتحة */
+}
+.status-badge.needed {
+  background: #f59e0b;
+  color: #fff;
+}
+
+/* مكتمل */
+.maintenance-item.completed {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+.status-badge.completed {
+  background: #10b981;
+  color: #fff;
+}
+
+/* قيد المراجعة */
+.maintenance-item.under-review {
+  border-color: #6b7280;
+  background: #f3f4f6;
+}
+.status-badge.under-review {
+  background: #6b7280;
+  color: #fff;
+}
+.status-badge.needed {
+  background: #dc2626 !important; /* أحمر */
+  color: #fff !important;
+}
+
+.status-badge.needed::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+}
+.maintenance-header {
+  flex-direction: row-reverse; /* يخلي الأيقونة تيجي يمين */
+}
+
+.header-icon {
+  margin-left: 0;
+  margin-right: 12px; /* مسافة بين الأيقونة والنص */
+}
+/* Pagination */
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center; /* وسّط الأزرار */
+  direction: rtl; /* متوافق مع العربي */
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  padding: 8px 12px;
+  min-width: 40px;
+  border-radius: 999px; /* pills */
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+  border-color: #ff6b35;
+}
+
+.page-btn.active {
+  background: #ff6b35;
+  color: #fff;
+  border-color: #ff6b35;
+}
+
+.page-btn.nav {
+  font-weight: 600;
+  padding: 8px 14px;
+}
+
+.page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.dots {
+  padding: 0 4px;
+  color: #9ca3af;
+  user-select: none;
+}

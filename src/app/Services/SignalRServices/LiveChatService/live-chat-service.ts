@@ -21,6 +21,7 @@ export class LiveChatService {
       .withUrl('http://localhost:5038/chathub', {
         accessTokenFactory: () => token || '', // تمرير التوكن عبر الـ Authorization header
       }) // المسار للـ Hub
+      // .withAutomaticReconnect()
       .build();
 
     // بدء الاتصال
@@ -58,19 +59,20 @@ export class LiveChatService {
     this.hubConnection
       ?.invoke('sendmessage', ChatSessionId, message)
       .then(() => {
+        console.log();
         console.log('Message Sent');
       });
   }
-
 
   public addReceiveMessageListener(callback: (message: any) => void) {
     this.hubConnection?.on('ReceiveMessage', callback);
   }
 
+
+
   public getCurrentChat(): Observable<IChatSessionResponse> {
-  return this.http.get<IChatSessionResponse>('http://localhost:5038/api/Chat/LoadCurrentChat');
-}
-
-
-
+    return this.http.get<IChatSessionResponse>(
+      'http://localhost:5038/api/Chat/LoadCurrentChat'
+    );
+  }
 }

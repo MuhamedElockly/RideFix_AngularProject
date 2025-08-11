@@ -12,4 +12,5 @@ category: string;
 latitude: number;
 longitude: number;
 requestImageUrl:string;
+city?: string; // Added city property for filtering
 }

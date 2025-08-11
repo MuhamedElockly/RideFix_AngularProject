@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { CarOwnerHomeComponent } from './Components/Car_Owner_Components/car-owner-home-component/car-owner-home-component';
-import { RequestEmergencyComponent } from './Components/Car_Owner_Components/request-emergency-component/request-emergency-component';
-import { TechSelect } from './Components/Car_Owner_Components/tech-select/tech-select';
+import { RequestEmergencyComponent } from './Components/Car_Owner_Components/CarEmergencyModule/request-emergency-component/request-emergency-component';
+import { TechSelect } from './Components/Car_Owner_Components/CarEmergencyModule/tech-select/tech-select';
 import { CarOwnerModule } from './Components/Car_Owner_Components/car-owner-module/car-owner-module';
 
 import { authRoutes } from './routes/auth.routes';
 import { Requests } from './Components/technical/requests/requests';
 import { TechServieces } from './Components/technical/tech-servieces/tech-servieces';
-import { WaitingComponent } from './Components/Car_Owner_Components/waiting-component/waiting-component';
+import { WaitingComponent } from './Components/Car_Owner_Components/CarEmergencyModule/waiting-component/waiting-component';
 
 import { RequestDetails } from './Components/technical/request-details/request-details';
 import { RequestDetailsalltech } from './Components/technical/request-detailsalltech/request-detailsalltech';
@@ -17,14 +17,18 @@ import { Historytech } from './Components/technical/historytech/historytech';
 import { TechnicianModule } from './Components/technical/technician-module/technician-module';
 // import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history/request-history';
 
-import { ProfileView } from './Components/Car_Owner_Components/profile-view/profile-view';
+import { ProfileView } from './Components/Car_Owner_Components/CarEmergencyModule/profile-view/profile-view';
 import { Techchat } from './Components/technical/techchat/techchat';
-import { RequestHistoryComponent } from './Components/Car_Owner_Components/request-history-component/request-history-component';
+import { RequestHistoryComponent } from './Components/Car_Owner_Components/CarEmergencyModule/request-history-component/request-history-component';
+
 import { AcceptedRequestsComponent } from './Components/technical/accepted-requests/accepted-requests';
 
-import { UnauthorizedComponent } from './Components/unauthorized-component/unauthorized-component';
+import { UnauthorizedComponent } from './Components/General/unauthorized-component/unauthorized-component';
 import { carOwnerGuard } from './Gaurds/car-owner-guard';
 import { techGuard } from './Gaurds/tech-guard';
+import { CarProfileComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/car-profile-component/car-profile-component';
+import { AddCarComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/add-car-component/add-car-component';
+import { AddMComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/add-mcomponent/add-mcomponent';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -39,6 +43,9 @@ export const routes: Routes = [
       { path: 'Waiting', component: WaitingComponent },
       { path: 'TechViewDetails', component: ProfileView },
       { path: 'RequestsHistory', component: RequestHistoryComponent },
+      { path: 'MyCar', component: CarProfileComponent },
+      { path: 'AddNewCar', component: AddCarComponent },
+      { path: 'AddNewM', component: AddMComponent },
       // { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
     canActivate: [carOwnerGuard],
@@ -73,8 +80,6 @@ export const routes: Routes = [
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   //   { path: 'techchat', component: Techchat },
 
-
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
   //   { path: 'techchat', component: Techchat },
-
 ];
