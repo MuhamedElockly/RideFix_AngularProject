@@ -29,6 +29,7 @@ import { techGuard } from './Gaurds/tech-guard';
 import { CarProfileComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/car-profile-component/car-profile-component';
 import { AddCarComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/add-car-component/add-car-component';
 import { AddMComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/add-mcomponent/add-mcomponent';
+import { MaintenanceHistoryComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/maintenance-history-component/maintenance-history-component';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -46,6 +47,7 @@ export const routes: Routes = [
       { path: 'MyCar', component: CarProfileComponent },
       { path: 'AddNewCar', component: AddCarComponent },
       { path: 'AddNewM', component: AddMComponent },
+      { path: 'MaintenanceHistory', component: MaintenanceHistoryComponent },
       // { path: 'RequestsHistory', component: RequestHistoryComponent },
     ],
     canActivate: [carOwnerGuard],

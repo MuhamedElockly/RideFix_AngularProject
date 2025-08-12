@@ -368,6 +368,7 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const password = result.value;
+
         // const userId = this.userStorage.getUserId();
 
         const userId = localStorage.getItem('techid');

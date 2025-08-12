@@ -6,6 +6,7 @@ import { IcheckRequect } from '../../Interfaces/Requests/icheck-requect';
 import { IApiResponse } from '../../Interfaces/iapi-response';
 import { UserStorageService } from '../UserStorageService/user-storage-service';
 import { IRequestApply } from '../../Interfaces/Requests/irequest-apply';
+import { NotificationsServices } from '../SignalRServices/NotificationService/notifications-services';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,8 @@ import { IRequestApply } from '../../Interfaces/Requests/irequest-apply';
 export class TechrequestService {
   constructor(
     private http: HttpClient,
-    private userStorage: UserStorageService
+    private userStorage: UserStorageService,
+    private notificationService: NotificationsServices
   ) {}
 
   // private name=localStorage.getItem('token');
@@ -71,6 +73,8 @@ export class TechrequestService {
   ////post the apply request
 
   putapply(x: IRequestApply) {
+    this.notificationService.sendNotification(x.requestId);
+    console.log(x.userId);
     return this.http.post<IApiResponse<boolean>>(
       'http://localhost:5038/api/TRequestEmergency',
       x
