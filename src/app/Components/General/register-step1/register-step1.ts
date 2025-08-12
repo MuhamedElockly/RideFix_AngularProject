@@ -244,7 +244,7 @@
 //   }
 // }
 ////////////////////////////////////////////////
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../Services/AuthService/auth.service';
@@ -258,6 +258,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./register-step1.css'],
   standalone: true,
   imports: [FormsModule, CommonModule],
+  encapsulation: ViewEncapsulation.None, // لتجنب مشاكل CSS
 })
 export class RegisterStep1Component {
   showPassword = false;
@@ -416,11 +417,28 @@ export class RegisterStep1Component {
 
     this.isSubmitting = true;
 
-    const cleanedModel = {
-      ...this.model,
-      startWorking: this.formatTimeWithSeconds(this.model.startWorking),
-      endWorking: this.formatTimeWithSeconds(this.model.endWorking),
+    let cleanedModel: any = {
+      email: this.model.email,
+      password: this.model.password,
+      confirmPassword: this.model.confirmPassword,
+      ssn: this.model.ssn,
+      name: this.model.name,
+      birthDate: this.model.birthDate,
+      address: this.model.address,
+      gender: this.model.gender,
+      role: this.model.role,
+      pin: this.model.pin,
     };
+
+    if (this.model.role === 'Technician') {
+      cleanedModel = {
+        ...cleanedModel,
+        categories: this.model.categories,
+        description: this.model.description,
+        startWorking: this.formatTimeWithSeconds(this.model.startWorking),
+        endWorking: this.formatTimeWithSeconds(this.model.endWorking),
+      };
+    }
 
     this.authService.registerStep1(cleanedModel).subscribe({
       next: (_) => {

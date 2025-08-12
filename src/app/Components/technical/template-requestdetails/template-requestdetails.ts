@@ -1,3 +1,4 @@
+import { AuthService } from './../../../Services/AuthService/auth.service';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { ItechRequect } from '../../../Interfaces/Technichan/itech-requect';
 import { Router, RouterLink } from '@angular/router';
@@ -21,6 +22,7 @@ export class TemplateRequestdetails implements OnInit {
   @Input() showBookingButton: boolean = false;
   @Input() Acecctrequest: Ihistorytech[] = [];
 
+  // AuthService = inject(AuthService)
   requestWatchDog = inject(RequestWatchDogHub);
   url: string = '';
 
@@ -156,7 +158,7 @@ export class TemplateRequestdetails implements OnInit {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const password = result.value;
-        const userId = this.userStorage.getUserId();
+        const userId = localStorage.getItem('techid');
 
         const dto: IRequestApply = {
           requestId: item.requestId,
