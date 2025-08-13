@@ -1,0 +1,230 @@
+<div class="admin-dashboard" dir="rtl">
+  <!-- Header Section -->
+  <div class="dashboard-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="dashboard-title">
+            <i class="fas fa-tachometer-alt"></i>
+            لوحة تحكم الإدارة
+          </h1>
+          <p class="dashboard-subtitle">مرحباً بك في لوحة تحكم نظام RideFix</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <div class="current-time">
+            <i class="fas fa-clock"></i>
+            <span>{{ currentDate | date:'EEEE, MMMM d, y' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="container mt-4">
+    <div class="row g-4">
+      <!-- Total Technicians Card -->
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card technicians-card">
+          <div class="stat-card-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <div class="stat-card-content">
+            <h3 class="stat-number">{{ dashboardStats.totalTechnicians }}</h3>
+            <p class="stat-label">إجمالي الفنيين</p>
+          </div>
+          <div class="stat-card-bg"></div>
+        </div>
+      </div>
+
+      <!-- Total Car Owners Card -->
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card car-owners-card">
+          <div class="stat-card-icon">
+            <i class="fas fa-car"></i>
+          </div>
+          <div class="stat-card-content">
+            <h3 class="stat-number">{{ dashboardStats.totalCarOwners }}</h3>
+            <p class="stat-label">إجمالي أصحاب السيارات</p>
+          </div>
+          <div class="stat-card-bg"></div>
+        </div>
+      </div>
+
+      <!-- Total Requests Card -->
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card requests-card">
+          <div class="stat-card-icon">
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <div class="stat-card-content">
+            <h3 class="stat-number">{{ dashboardStats.totalRequests }}</h3>
+            <p class="stat-label">إجمالي الطلبات</p>
+          </div>
+          <div class="stat-card-bg"></div>
+        </div>
+      </div>
+
+      <!-- Active Requests Card -->
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card active-requests-card">
+          <div class="stat-card-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-card-content">
+            <h3 class="stat-number">{{ dashboardStats.activeRequests }}</h3>
+            <p class="stat-label">الطلبات النشطة</p>
+          </div>
+          <div class="stat-card-bg"></div>
+        </div>
+      </div>
+
+      <!-- Pending Reports Card -->
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card reports-card">
+          <div class="stat-card-icon">
+            <i class="fas fa-flag"></i>
+          </div>
+          <div class="stat-card-content">
+            <h3 class="stat-number">{{ dashboardStats.pendingReports }}</h3>
+            <p class="stat-label">البلاغات المعلقة</p>
+          </div>
+          <div class="stat-card-bg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <h2 class="section-title">
+          <i class="fas fa-bolt"></i>
+          إجراءات سريعة
+        </h2>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Manage Technicians -->
+      <div class="col-lg-4 col-md-6">
+        <div class="quick-action-card technicians-action">
+          <div class="action-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <div class="action-content">
+            <h3>إدارة الفنيين</h3>
+            <p>عرض وتعديل بيانات الفنيين المسجلين في النظام</p>
+            <a routerLink="/admin/technicians" class="btn btn-primary">
+              <i class="fas fa-arrow-left"></i>
+              إدارة الفنيين
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manage Car Owners -->
+      <div class="col-lg-4 col-md-6">
+        <div class="quick-action-card car-owners-action">
+          <div class="action-icon">
+            <i class="fas fa-car"></i>
+          </div>
+          <div class="action-content">
+            <h3>إدارة أصحاب السيارات</h3>
+            <p>عرض وتعديل بيانات أصحاب السيارات المسجلين</p>
+            <a routerLink="/admin/car-owners" class="btn btn-primary">
+              <i class="fas fa-arrow-left"></i>
+              إدارة أصحاب السيارات
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Statistics -->
+      <div class="col-lg-4 col-md-6">
+        <div class="quick-action-card statistics-action">
+          <div class="action-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <div class="action-content">
+            <h3>عرض الإحصائيات</h3>
+            <p>مراجعة الإحصائيات التفصيلية والتقارير</p>
+            <a routerLink="/admin/statistics" class="btn btn-primary">
+              <i class="fas fa-arrow-left"></i>
+              عرض الإحصائيات
+            </a>
+          </div>
+        </div>
+      </div>
+
+              <!-- Manage Reports -->
+        <div class="col-lg-4 col-md-6">
+          <div class="quick-action-card reports-action">
+            <div class="action-icon">
+              <i class="fas fa-flag"></i>
+            </div>
+            <div class="action-content">
+              <h3>إدارة البلاغات</h3>
+              <p>مراجعة وإدارة البلاغات المقدمة من المستخدمين</p>
+              <a routerLink="/admin/reports" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i>
+                إدارة البلاغات
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Manage Categories -->
+        <div class="col-lg-4 col-md-6">
+          <div class="quick-action-card categories-action">
+            <div class="action-icon">
+              <i class="fas fa-tags"></i>
+            </div>
+            <div class="action-content">
+              <h3>إدارة الفئات</h3>
+              <p>إدارة فئات الخدمات والتصنيفات في النظام</p>
+              <a routerLink="/admin/categories" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i>
+                إدارة الفئات
+              </a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Section -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <h2 class="section-title">
+          <i class="fas fa-history"></i>
+          النشاطات الأخيرة
+        </h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="recent-activity-card">
+          <div class="activity-list">
+            <div class="activity-item" *ngFor="let activity of recentActivities; let i = index">
+              <div class="activity-icon">
+                <i class="fas fa-circle"></i>
+              </div>
+              <div class="activity-content">
+                <p class="activity-text">{{ activity.description }}</p>
+                <span class="activity-time">{{ activity.time }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>جاري تحميل البيانات...</p>
+    </div>
+  </div>
+</div>

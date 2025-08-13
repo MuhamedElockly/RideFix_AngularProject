@@ -1,0 +1,91 @@
+<div class="rtl-scope">
+  <div class="main-content">
+    <div class="page-header">
+      <h1><i class="fas fa-history me-3"></i>تاريخ الصيانة</h1>
+      <p>عرض جميع أعمال الصيانة المنجزة للسيارة</p>
+    </div>
+
+    <div class="filter-section">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="filter-group">
+            <label class="filter-label">
+              <i class="fas fa-filter"></i>
+              تصفية حسب نوع الصيانة
+            </label>
+
+            <div class="select-control">
+              <i class="fas fa-wrench select-icon" aria-hidden="true"></i>
+              <select
+                class="filter-select pretty-select"
+                id="maintenanceTypeFilter"
+                (change)="onMaintenanceTypeChange($event)"
+              >
+                <option value="" disabled selected>اختر نوع الصيانة</option>
+                @for (item of Mtypes; track $index) {
+                <option [value]="item.id">{{ item.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="maintenance-container">
+      @for (item of mDetails; track $index) {
+      <div class="container-fluid">
+        <div class="maintenance-item" data-type="oil-change">
+          <div class="BasmaTest">
+            <div class="maintenance-icon">
+              <div class="item-icon">
+                <i class="fas fa-cog fa-spin"></i>
+              </div>
+            </div>
+            <div>
+              <h3 class="maintenance-title">{{ selectedName }}</h3>
+            </div>
+          </div>
+
+          <div class="maintenance-content">
+            <div class="maintenance-header">
+              <div class="maintenance-meta">
+                <span class="maintenance-date">
+                  <i class="fas fa-calendar"></i>
+                  {{ item.performedAt | date : "dd/MM/yyyy" }}
+                </span>
+                <span class="maintenance-km">
+                  <i class="fas fa-tachometer-alt"></i>
+                  {{ item.carKMsAtTime }} كم
+                </span>
+              </div>
+            </div>
+            <div class="maintenance-details">
+              <div class="detail-row">
+                <div class="detail-item">
+                  <span class="detail-label">الصيانة القادمة:</span>
+                  <span class="detail-value next-due">{{
+                    item.nextMaintenanceDue | date : "dd/MM/yyyy"
+                  }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">مركز الصيانة:</span>
+                  <span class="detail-value">{{ item.maintenanceCenter }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">التكلفة:</span>
+                  <span class="detail-value cost">{{ item.cost }}</span>
+                </div>
+              </div>
+              <div class="maintenance-comment">
+                <i class="fas fa-comment"></i>
+                <span>{{ item.comment }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

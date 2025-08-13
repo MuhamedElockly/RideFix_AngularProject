@@ -1,6 +1,7 @@
+import { AuthService } from './../../../Services/AuthService/auth.service';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { ItechRequect } from '../../../Interfaces/Technichan/itech-requect';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import Swal from 'sweetalert2';
 import { IcheckRequect } from '../../../Interfaces/Requests/icheck-requect';
@@ -14,13 +15,14 @@ import { CommonModule } from '@angular/common';
   selector: 'app-template-requestdetails',
   templateUrl: './template-requestdetails.html',
   styleUrls: ['./template-requestdetails.css'],
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
 })
 export class TemplateRequestdetails implements OnInit {
   @Input() item: ItechRequect | null = null;
   @Input() showBookingButton: boolean = false;
   @Input() Acecctrequest: Ihistorytech[] = [];
 
+  // AuthService = inject(AuthService)
   requestWatchDog = inject(RequestWatchDogHub);
   url: string = '';
 
@@ -32,6 +34,7 @@ export class TemplateRequestdetails implements OnInit {
 
   ngOnInit(): void {
     this.url = this.router.url;
+
   }
 
   confirmApprovalWithPassword(item: ItechRequect | null) {
@@ -156,7 +159,7 @@ export class TemplateRequestdetails implements OnInit {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const password = result.value;
-        const userId = this.userStorage.getUserId();
+        const userId = localStorage.getItem('techid');
 
         const dto: IRequestApply = {
           requestId: item.requestId,
@@ -173,6 +176,7 @@ export class TemplateRequestdetails implements OnInit {
                 title: 'تمت الموافقة',
               }).then(() => {
                 this.router.navigate(['/technician/techservieces']);
+                
               });
             } else {
               Swal.fire({

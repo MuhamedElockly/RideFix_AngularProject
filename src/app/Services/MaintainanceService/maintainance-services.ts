@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { IMaintenanceType } from '../../Interfaces/Mtypes/imaintenance-type';
 import { MaintenanceSummaryItem } from '../../Interfaces/MaintainanceInterfaces/maintenance-summary-item';
 import { MSummaryResponse } from '../../Interfaces/MaintainanceInterfaces/m-summary-response';
+import { MdetailsResponse } from '../../Interfaces/MaintainanceInterfaces/mdetails-response';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,12 @@ export class MaintainanceServices {
   public GetMSummary(): Observable<MSummaryResponse> {
     return this.clientService.get<MSummaryResponse>(
       `http://localhost:5038/api/CarMaintanance`
+    );
+  }
+
+  public GetHistoryByType(id: number): Observable<MdetailsResponse> {
+    return this.clientService.get<MdetailsResponse>(
+      `http://localhost:5038/api/CarMaintanance/history/${id}`
     );
   }
 }

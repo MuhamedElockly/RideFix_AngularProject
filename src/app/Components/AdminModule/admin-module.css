@@ -1,0 +1,19 @@
+.admin-module-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.admin-main-content {
+  flex: 1;
+  padding: 2rem 0;
+  background: transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-main-content {
+    padding: 1rem 0;
+  }
+}
