@@ -1,0 +1,38 @@
+<div class="notification-panel show" id="notificationPanel">
+  <div class="notification-header">
+    <h3>
+      <i class="fas fa-bell"></i>
+      الإشعارات
+    </h3>
+    <span class="notification-count">5 إشعارات جديدة</span>
+  </div>
+
+  <div class="notification-list">
+    @for (item of notifications; track $index) {
+    <div class="notification-item">
+      <div class="notification-avatar">
+        <i class="fas fa-user-tie"></i>
+      </div>
+      <div class="notification-content">
+        <div class="notification-info">
+          <h4>{{ item.name }}</h4>
+          <span class="notification-location">
+            <i class="fas fa-map-marker-alt"></i>
+            {{ item.governmentName }}
+          </span>
+        </div>
+      </div>
+      <div class="notification-actions">
+        <button class="btn-accept" (click)="acceptNotification(item.requestId)">
+          <i class="fas fa-check"></i>
+          Accept
+        </button>
+        <button class="btn-reject" (click)="rejectNotification(item.requestId)">
+          <i class="fas fa-times"></i>
+          Reject
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>
