@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { ItechRequect } from '../../../Interfaces/Technichan/itech-requect';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { TechrequestService } from '../../../Services/techRequestService/techrequest-service';
 import Swal from 'sweetalert2';
 import { IcheckRequect } from '../../../Interfaces/Requests/icheck-requect';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-template-requestdetails',
   templateUrl: './template-requestdetails.html',
   styleUrls: ['./template-requestdetails.css'],
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
 })
 export class TemplateRequestdetails implements OnInit {
   @Input() item: ItechRequect | null = null;

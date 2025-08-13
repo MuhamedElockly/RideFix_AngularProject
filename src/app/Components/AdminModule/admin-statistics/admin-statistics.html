@@ -1,0 +1,39 @@
+<div class="admin-statistics" dir="rtl">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="page-title">
+            <i class="fas fa-chart-bar"></i>
+            الإحصائيات والتقارير
+          </h1>
+          <p class="page-subtitle">عرض الإحصائيات التفصيلية والتقارير</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="statistics-card">
+          <div class="text-center py-5">
+            <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+            <h3>الإحصائيات والتقارير</h3>
+            <p class="text-muted">سيتم إضافة الإحصائيات التفصيلية والتقارير هنا قريباً</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>جاري تحميل الإحصائيات...</p>
+    </div>
+  </div>
+</div>

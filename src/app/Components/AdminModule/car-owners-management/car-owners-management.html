@@ -1,0 +1,302 @@
+<div class="car-owners-management" dir="rtl">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="page-title">
+            <i class="fas fa-car"></i>
+            إدارة أصحاب السيارات
+          </h1>
+          <p class="page-subtitle">عرض وإدارة بيانات أصحاب السيارات المسجلين في النظام</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <button class="btn btn-primary" (click)="loadCarOwners()">
+            <i class="fas fa-sync-alt"></i>
+            تحديث البيانات
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filters Section -->
+  <div class="container mt-4">
+    <div class="search-filters-card">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input 
+              type="text" 
+              class="form-control search-input" 
+              placeholder="البحث في الاسم أو البريد الإلكتروني أو رقم الهاتف..."
+              [(ngModel)]="searchTerm"
+              (input)="onSearch()"
+            >
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+            <option value="all">جميع الحالات</option>
+            <option value="active">نشط</option>
+            <option value="inactive">غير نشط</option>
+            <option value="pending">في الانتظار</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="pageSize" (change)="applyFilters()">
+            <option value="5">5 صفوف</option>
+            <option value="10">10 صفوف</option>
+            <option value="20">20 صف</option>
+            <option value="50">50 صف</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="results-summary mt-3">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="results-count">
+            تم العثور على <strong>{{ totalItems }}</strong> صاحب سيارة
+          </p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="page-info">
+            الصفحة <strong>{{ currentPage }}</strong> من <strong>{{ totalPages }}</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Car Owners Table -->
+    <div class="table-card mt-4">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>الصورة</th>
+              <th>الاسم</th>
+              <th>البريد الإلكتروني</th>
+              <th>رقم الهاتف</th>
+              <th>الدور</th>
+              <th>الحالة</th>
+              <th>متوسط التقييم</th>
+              <th>تاريخ التسجيل</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let carOwner of pagedCarOwners" class="table-row">
+              <td>
+                <div class="user-avatar">
+                  <img 
+                    [src]="carOwner.profileImage || 'assets/default-avatar.png'" 
+                    [alt]="carOwner.name"
+                    class="avatar-img"
+                    onerror="this.src='assets/default-avatar.png'"
+                  >
+                </div>
+              </td>
+              <td>
+                <div class="user-info">
+                  <strong class="user-name">{{ carOwner.name }}</strong>
+                  <small class="user-id">#{{ carOwner.id }}</small>
+                </div>
+              </td>
+              <td>
+                <span class="user-email">{{ carOwner.email }}</span>
+              </td>
+              <td>
+                <span class="user-phone">{{ carOwner.phone || 'غير متوفر' }}</span>
+              </td>
+              <td>
+                <span class="user-role">{{ carOwner.role }}</span>
+              </td>
+              <td>
+                <span class="status-badge" [ngClass]="'status-' + carOwner.status">
+                  {{ carOwner.status === 'active' ? 'نشط' : 
+                     carOwner.status === 'inactive' ? 'غير نشط' : 
+                     carOwner.status === 'pending' ? 'في الانتظار' : carOwner.status }}
+                </span>
+              </td>
+              <td>
+                <span class="registration-date">{{ carOwner.registrationDate | date:'shortDate' }}</span>
+              </td>
+              <td>
+                <button 
+                  class="btn btn-sm btn-outline-primary" 
+                  (click)="viewUserDetails(carOwner)"
+                  title="عرض التفاصيل"
+                >
+                  <i class="fas fa-eye"></i>
+                  عرض
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-state text-center py-5" *ngIf="isLoading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">جاري التحميل...</span>
+        </div>
+        <p class="mt-3">جاري تحميل بيانات أصحاب السيارات...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state text-center py-5" *ngIf="!isLoading && pagedCarOwners.length === 0">
+        <i class="fas fa-car fa-3x text-muted mb-3"></i>
+        <h4>لا توجد نتائج</h4>
+        <p class="text-muted">لم يتم العثور على أصحاب سيارات يطابقون معايير البحث</p>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-wrapper mt-4" *ngIf="totalPages > 1">
+      <nav aria-label="صفحات أصحاب السيارات">
+        <ul class="pagination justify-content-center">
+          <!-- Previous Button -->
+          <li class="page-item" [ngClass]="{ 'disabled': currentPage === 1 }">
+            <button class="page-link" (click)="prevPage()" [disabled]="currentPage === 1">
+              <i class="fas fa-chevron-right"></i>
+              السابق
+            </button>
+          </li>
+
+          <!-- Page Numbers -->
+          <li class="page-item" *ngFor="let page of pages" [ngClass]="{ 'active': page === currentPage }">
+            <button 
+              class="page-link" 
+              (click)="setPage(page)"
+              [disabled]="page === -1"
+            >
+              <span *ngIf="page === -1">...</span>
+              <span *ngIf="page !== -1">{{ page }}</span>
+            </button>
+          </li>
+
+          <!-- Next Button -->
+          <li class="page-item" [ngClass]="{ 'disabled': currentPage === totalPages }">
+            <button class="page-link" (click)="nextPage()" [disabled]="currentPage === totalPages">
+              التالي
+              <i class="fas fa-chevron-left"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- User Details Modal -->
+  <div class="modal-overlay" *ngIf="showUserDetails" (click)="closeUserDetails()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fas fa-user-circle"></i>
+          تفاصيل صاحب السيارة
+        </h3>
+        <button class="btn-close" (click)="closeUserDetails()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body" *ngIf="selectedCarOwner">
+        <div class="loading-spinner text-center py-4" *ngIf="isLoadingDetails">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">جاري التحميل...</span>
+          </div>
+          <p class="mt-3">جاري تحميل التفاصيل...</p>
+        </div>
+
+        <div class="user-details" *ngIf="!isLoadingDetails">
+          <div class="user-profile-section text-center mb-4">
+            <div class="user-avatar-large">
+              <img 
+                [src]="selectedCarOwner.profileImage || 'assets/default-avatar.png'" 
+                [alt]="selectedCarOwner.name"
+                class="avatar-img-large"
+                onerror="this.src='assets/default-avatar.png'"
+              >
+            </div>
+            <h4 class="user-name-large">{{ selectedCarOwner.name }}</h4>
+            <p class="user-role-large">{{ selectedCarOwner.role }}</p>
+          </div>
+
+          <div class="user-info-grid">
+            <div class="info-item">
+              <label>معرف المستخدم:</label>
+              <span>#{{ selectedCarOwner.id }}</span>
+            </div>
+            <div class="info-item">
+              <label>البريد الإلكتروني:</label>
+              <span>{{ selectedCarOwner.email }}</span>
+            </div>
+            <div class="info-item">
+              <label>رقم الهاتف:</label>
+              <span>{{ selectedCarOwner.phone || 'غير متوفر' }}</span>
+            </div>
+            <div class="info-item">
+              <label>الحالة:</label>
+              <span class="status-badge" [ngClass]="'status-' + selectedCarOwner.status">
+                {{ selectedCarOwner.status === 'active' ? 'نشط' : 
+                   selectedCarOwner.status === 'inactive' ? 'غير نشط' : 
+                   selectedCarOwner.status === 'pending' ? 'في الانتظار' : selectedCarOwner.status }}
+              </span>
+            </div>
+            <div class="info-item">
+              <label>تاريخ التسجيل:</label>
+              <span>{{ selectedCarOwner.registrationDate | date:'fullDate' }}</span>
+            </div>
+            <div class="info-item">
+              <label>آخر تسجيل دخول:</label>
+              <span>{{ selectedCarOwner.lastLoginDate ? (selectedCarOwner.lastLoginDate | date:'short') : 'غير متوفر' }}</span>
+            </div>
+          </div>
+
+          <div class="additional-info mt-4">
+            <h5>معلومات إضافية</h5>
+            <div class="info-grid">
+              <div class="info-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                  <strong>الموقع</strong>
+                  <p>{{ selectedCarOwner.location || 'غير محدد' }}</p>
+                </div>
+              </div>
+              <div class="info-card">
+                <i class="fas fa-car"></i>
+                <div>
+                  <strong>عدد السيارات</strong>
+                  <p>{{ selectedCarOwner.carCount || 0 }}</p>
+                </div>
+              </div>
+              <div class="info-card">
+                <i class="fas fa-clipboard-list"></i>
+                <div>
+                  <strong>الطلبات المقدمة</strong>
+                  <p>{{ selectedCarOwner.requestCount || 0 }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeUserDetails()">
+          <i class="fas fa-times"></i>
+          إغلاق
+        </button>
+        <button class="btn btn-primary" (click)="closeUserDetails()">
+          <i class="fas fa-edit"></i>
+          تعديل
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,233 @@
+<div class="categories-management-container">
+  <div class="page-header">
+    <h2><i class="fas fa-tags"></i> إدارة الفئات</h2>
+    <p>إدارة فئات الخدمات في النظام</p>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="applyFilters()"
+        placeholder="البحث في الفئات..."
+        class="search-input"
+      >
+      <i class="fas fa-search search-icon"></i>
+    </div>
+
+         <div class="filter-controls">
+       <button class="btn btn-primary add-btn" (click)="openAddModal()">
+         <i class="fas fa-plus"></i>
+         إضافة فئة جديدة
+       </button>
+     </div>
+  </div>
+
+  <!-- Categories Table -->
+  <div class="table-container">
+    <div class="table-header">
+      <h3>قائمة الفئات</h3>
+      <span class="total-count">إجمالي الفئات: {{ filteredCategories.length }}</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="categories-table">
+                 <thead>
+           <tr>
+             <th>اسم الفئة</th>
+             <th>الإجراءات</th>
+           </tr>
+         </thead>
+        <tbody>
+                     <tr *ngFor="let category of pagedCategories" class="category-row">
+             <td>
+               <div class="category-name">
+                 <span class="name">{{ category.name }}</span>
+               </div>
+             </td>
+             <td>
+               <div class="actions">
+                 <button 
+                   class="btn btn-primary btn-sm" 
+                   (click)="openEditModal(category)"
+                   title="تعديل الفئة"
+                 >
+                   <i class="fas fa-edit"></i>
+                   تعديل
+                 </button>
+                 
+                 <button 
+                   class="btn btn-danger btn-sm" 
+                   (click)="deleteCategory(category)"
+                   title="حذف الفئة"
+                 >
+                   <i class="fas fa-trash"></i>
+                   حذف
+                 </button>
+               </div>
+             </td>
+           </tr>
+        </tbody>
+      </table>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="spinner"></div>
+        <p>جاري تحميل الفئات...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!isLoading && pagedCategories.length === 0" class="empty-state">
+        <i class="fas fa-tags"></i>
+        <p>لا توجد فئات</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="totalPages > 1" class="pagination-container">
+    <div class="pagination-info">
+      <span>الصفحة {{ currentPage }} من {{ totalPages }}</span>
+      <span>إجمالي النتائج: {{ filteredCategories.length }}</span>
+    </div>
+    
+    <div class="pagination-controls">
+      <button 
+        class="btn btn-outline-primary" 
+        [disabled]="currentPage === 1"
+        (click)="previousPage()"
+      >
+        <i class="fas fa-chevron-right"></i>
+        السابق
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          *ngFor="let page of pageNumbers" 
+          class="btn btn-page" 
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      </div>
+      
+      <button 
+        class="btn btn-outline-primary" 
+        [disabled]="currentPage === totalPages"
+        (click)="nextPage()"
+      >
+        التالي
+        <i class="fas fa-chevron-left"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Category Modal -->
+<div *ngIf="showAddModal" class="modal-overlay" (click)="closeAddModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-plus"></i> إضافة فئة جديدة</h3>
+      <button class="close-btn" (click)="closeAddModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+             <form (ngSubmit)="createCategory()" #addForm="ngForm">
+         <div class="form-group">
+           <label for="name">اسم الفئة *</label>
+           <input 
+             type="text" 
+             id="name"
+             name="name"
+             [(ngModel)]="newCategory.name"
+             required
+             class="form-control"
+             placeholder="أدخل اسم الفئة"
+           >
+         </div>
+       </form>
+    </div>
+    
+    <div class="modal-footer">
+      <div class="action-buttons">
+        <button 
+          type="button"
+          class="btn btn-secondary" 
+          (click)="closeAddModal()"
+          [disabled]="isSubmitting"
+        >
+          إلغاء
+        </button>
+        
+        <button 
+          type="submit"
+          class="btn btn-primary" 
+          (click)="createCategory()"
+          [disabled]="isSubmitting || !addForm.form.valid"
+        >
+          <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+          <i class="fas fa-plus" *ngIf="!isSubmitting"></i>
+          {{ isSubmitting ? 'جاري الإنشاء...' : 'إنشاء الفئة' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Category Modal -->
+<div *ngIf="showEditModal" class="modal-overlay" (click)="closeEditModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-edit"></i> تعديل الفئة</h3>
+      <button class="close-btn" (click)="closeEditModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <form (ngSubmit)="updateCategory()" #editForm="ngForm">
+        <div class="form-group">
+          <label for="editName">اسم الفئة *</label>
+          <input 
+            type="text" 
+            id="editName"
+            name="editName"
+            [(ngModel)]="editCategory.name"
+            required
+            class="form-control"
+            placeholder="أدخل اسم الفئة"
+          >
+        </div>
+      </form>
+    </div>
+    
+    <div class="modal-footer">
+      <div class="action-buttons">
+        <button 
+          type="button"
+          class="btn btn-secondary" 
+          (click)="closeEditModal()"
+          [disabled]="isSubmitting"
+        >
+          إلغاء
+        </button>
+        
+        <button 
+          type="submit"
+          class="btn btn-primary" 
+          (click)="updateCategory()"
+          [disabled]="isSubmitting || !editForm.form.valid"
+        >
+          <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+          <i class="fas fa-save" *ngIf="!isSubmitting"></i>
+          {{ isSubmitting ? 'جاري التحديث...' : 'حفظ التغييرات' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
