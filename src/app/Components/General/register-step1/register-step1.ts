@@ -380,7 +380,7 @@ export class RegisterStep1Component {
 
   get pinInvalid(): boolean {
     const pinStr = this.model.pin?.toString() ?? '';
-    const isInvalidLength = pinStr.length < 4 || pinStr.length > 6;
+    const isInvalidLength = pinStr.length !==4;
     const isEmpty = pinStr.trim() === '';
 
     return this.validationState.pin && (isEmpty || isInvalidLength);
