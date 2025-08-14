@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../Services/AuthService/auth.service';
@@ -14,6 +14,7 @@ import { TokenService } from '../../../Services/TokenService/tokenservice';
   imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
   loginData: ILogin = {

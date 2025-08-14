@@ -587,7 +587,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-direction: row-reverse; /* يخلي الأيقونة تيجي يمين */
+  /* يخلي الأيقونة تيجي يمين */
 
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
@@ -1155,4 +1155,8 @@ body {
   .floating-icon {
     display: none;
   }
+}
+
+* {
+  direction: rtl;
 }

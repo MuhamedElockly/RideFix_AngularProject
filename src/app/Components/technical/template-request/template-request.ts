@@ -317,7 +317,7 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
         this.techRequestService.putcheck(dto).subscribe({
           next: (res) => {
             if (res.success) {
-              this.requestWatchDog.acceptrequest(1);
+              this.requestWatchDog.acceptrequest(dto.requestId);
               Swal.fire({
                 icon: 'success',
                 title: 'تمت الموافقة',
