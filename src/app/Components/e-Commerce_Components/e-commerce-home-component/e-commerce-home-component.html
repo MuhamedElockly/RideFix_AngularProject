@@ -67,19 +67,25 @@
       <p class="section-subtitle">اختر الفئة المناسبة لاحتياجات سيارتك</p>
     </div>
     <div class="row">
+    @for(item of categories ;track $index) {
+
       <div class="col-lg-3 col-md-6 mb-4">
         <div class="category-card">
           <div class="category-icon">
-            <i class="fas fa-oil-can"></i>
+            <img
+              src="{{item.imageUrl}}"
+              alt="بطارية سيارة"
+            />
           </div>
-          <h4 class="category-title">زيوت ومواد التشحيم</h4>
-          <p class="category-count">45 منتج</p>
+          <h4 class="category-title"> {{item.name}} </h4>
+          <p class="category-count">{{item.productsCount}} منتج</p>
           <div class="category-overlay">
             <button class="btn btn-light">تصفح الآن</button>
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-4">
+    }
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="category-card">
           <div class="category-icon">
             <i class="fas fa-car-battery"></i>
@@ -90,8 +96,9 @@
             <button class="btn btn-light">تصفح الآن</button>
           </div>
         </div>
-      </div>
-      <div class="col-lg-3 col-md-6 mb-4">
+      </div> -->
+
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="category-card">
           <div class="category-icon">
             <i class="fas fa-cog"></i>
@@ -102,8 +109,9 @@
             <button class="btn btn-light">تصفح الآن</button>
           </div>
         </div>
-      </div>
-      <div class="col-lg-3 col-md-6 mb-4">
+      </div> -->
+
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="category-card">
           <div class="category-icon">
             <i class="fas fa-car-crash"></i>
@@ -114,7 +122,8 @@
             <button class="btn btn-light">تصفح الآن</button>
           </div>
         </div>
-      </div>
+      </div> -->
+
     </div>
   </div>
 </section>
@@ -130,7 +139,7 @@
       <p class="section-subtitle">أفضل المنتجات الأكثر مبيعاً</p>
     </div>
     <div class="row">
-      <div class="col-lg-3 col-md-6 mb-4">
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="product-card">
           <div class="product-image">
             <img src="/placeholder.svg?height=200&width=200" alt="زيت محرك" />
@@ -164,8 +173,8 @@
             </button>
           </div>
         </div>
-      </div>
-      <div class="col-lg-3 col-md-6 mb-4">
+      </div> -->
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="product-card">
           <div class="product-image">
             <img
@@ -201,12 +210,14 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
+
+      @for(item of products.slice(0, 4) ;track $index) {
       <div class="col-lg-3 col-md-6 mb-4">
         <div class="product-card">
           <div class="product-image">
             <img
-              src="/placeholder.svg?height=200&width=200"
+              src="{{item.imageUrl}}"
               alt="بطارية سيارة"
             />
             <div class="product-actions">
@@ -219,17 +230,17 @@
             </div>
           </div>
           <div class="product-info">
-            <h5 class="product-title">بطارية AC Delco - 70 أمبير</h5>
+            <h5 class="product-title">{{item.name}} </h5>
             <div class="product-rating">
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
-              <span>(31)</span>
+              <span>({{item.stockQuantity}})</span>
             </div>
             <div class="product-price">
-              <span class="current-price">450 ريال</span>
+              <span class="current-price">{{item.price}} ريال</span>
             </div>
             <button class="btn btn-primary add-to-cart">
               <i class="fas fa-shopping-cart"></i>
@@ -238,7 +249,9 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-4">
+    }
+
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="product-card">
           <div class="product-image">
             <img src="/placeholder.svg?height=200&width=200" alt="فلتر هواء" />
@@ -272,7 +285,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </section>
