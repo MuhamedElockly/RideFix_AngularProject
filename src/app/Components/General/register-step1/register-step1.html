@@ -394,7 +394,7 @@
                       [(ngModel)]="model.pin"
                       required
                       min="1000"
-                      max="999999"
+                      max="9999"
                       [ngClass]="{
                         'is-invalid': pinInvalid,
                         'is-valid': model.pin && !pinInvalid
@@ -407,7 +407,7 @@
                       الرقم السري (PIN)
                     </label>
                     <div class="invalid-feedback" *ngIf="pinInvalid">
-                      يجب أن يكون الرقم السري من 4 إلى 6 أرقام
+                      يجب أن يكون الرقم السري من 4 أرقام
                     </div>
                   </div>
                 </div>
