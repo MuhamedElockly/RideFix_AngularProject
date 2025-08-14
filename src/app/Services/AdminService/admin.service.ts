@@ -6,6 +6,7 @@ import { IApiResponse } from '../../Interfaces/iapi-response';
 import { ICategory, ICreateCategory, IUpdateCategory } from '../../Interfaces/Admin/ICategory';
 import { ICarOwner } from '../../Interfaces/Admin/ICarOwner';
 import { ITechnician } from '../../Interfaces/Admin/ITechnician';
+import { IActivitiesResponse } from '../../Interfaces/Admin/IActivities';
 
 @Injectable({
   providedIn: 'root'
@@ -111,6 +112,11 @@ export class AdminService {
 
   getRequestsCount(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/requests-count`);
+  }
+
+  // Activities Methods
+  getActivities(hoursBack: number = 12): Observable<IActivitiesResponse> {
+    return this.http.get<IActivitiesResponse>(`${this.baseUrl}/activities?hoursBack=${hoursBack}`);
   }
 
 }

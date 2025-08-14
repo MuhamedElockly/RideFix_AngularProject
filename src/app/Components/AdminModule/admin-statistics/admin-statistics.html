@@ -73,12 +73,252 @@
 
     <!-- Additional Statistics Row -->
     <div class="row">
-      <div class="col-12">
-        <div class="statistics-card">
-          <div class="text-center py-5">
-            <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
-            <h3>تقارير مفصلة</h3>
-            <p class="text-muted">سيتم إضافة التقارير التفصيلية والإحصائيات المتقدمة هنا قريباً</p>
+      <!-- Request Status Distribution -->
+      <div class="col-lg-6 mb-4">
+        <div class="report-card">
+          <div class="report-header">
+            <h4><i class="fas fa-chart-pie"></i> توزيع حالة الطلبات</h4>
+            <p class="text-muted">نسبة الطلبات حسب الحالة</p>
+          </div>
+          <div class="report-content">
+            <div class="status-distribution">
+              <div class="status-item">
+                <div class="status-indicator completed"></div>
+                <div class="status-info">
+                  <span class="status-label">مكتملة</span>
+                  <span class="status-count">{{ getCompletedRequestsCount() }}</span>
+                </div>
+                <div class="status-percentage">{{ getCompletedPercentage() }}%</div>
+              </div>
+              <div class="status-item">
+                <div class="status-indicator pending"></div>
+                <div class="status-info">
+                  <span class="status-label">في الانتظار</span>
+                  <span class="status-count">{{ requestsCount.waitingRequestsCount }}</span>
+                </div>
+                <div class="status-percentage">{{ getPendingPercentage() }}%</div>
+              </div>
+              <div class="status-item">
+                <div class="status-indicator active"></div>
+                <div class="status-info">
+                  <span class="status-label">نشطة</span>
+                  <span class="status-count">{{ getActiveRequestsCount() }}</span>
+                </div>
+                <div class="status-percentage">{{ getActivePercentage() }}%</div>
+              </div>
+              <div class="status-item">
+                <div class="status-indicator cancelled"></div>
+                <div class="status-info">
+                  <span class="status-label">ملغية</span>
+                  <span class="status-count">{{ getCancelledRequestsCount() }}</span>
+                </div>
+                <div class="status-percentage">{{ getCancelledPercentage() }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Distribution -->
+      <div class="col-lg-6 mb-4">
+        <div class="report-card">
+          <div class="report-header">
+            <h4><i class="fas fa-users"></i> توزيع المستخدمين</h4>
+            <p class="text-muted">عدد الفنيين وأصحاب السيارات</p>
+          </div>
+          <div class="report-content">
+            <div class="user-distribution">
+              <div class="user-type">
+                <div class="user-icon technicians">
+                  <i class="fas fa-tools"></i>
+                </div>
+                <div class="user-info">
+                  <h5>الفنيين</h5>
+                  <div class="user-count">{{ usersCount.techniciansCount }}</div>
+                  <div class="user-percentage">{{ getTechniciansPercentage() }}%</div>
+                </div>
+              </div>
+              <div class="user-type">
+                <div class="user-icon car-owners">
+                  <i class="fas fa-car"></i>
+                </div>
+                <div class="user-info">
+                  <h5>أصحاب السيارات</h5>
+                  <div class="user-count">{{ usersCount.carOwnersCount }}</div>
+                  <div class="user-percentage">{{ getCarOwnersPercentage() }}%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Metrics -->
+      <div class="col-lg-12 mb-4">
+        <div class="report-card">
+          <div class="report-header">
+            <h4><i class="fas fa-chart-line"></i> مؤشرات الأداء</h4>
+            <p class="text-muted">إحصائيات الأداء الرئيسية</p>
+          </div>
+          <div class="report-content">
+            <div class="performance-metrics">
+              <div class="metric-item">
+                <div class="metric-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="metric-content">
+                  <h6>متوسط وقت الاستجابة</h6>
+                  <div class="metric-value">15 دقيقة</div>
+                  <div class="metric-trend positive">
+                    <i class="fas fa-arrow-up"></i> 12%
+                  </div>
+                </div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="metric-content">
+                  <h6>معدل الإنجاز</h6>
+                  <div class="metric-value">94%</div>
+                  <div class="metric-trend positive">
+                    <i class="fas fa-arrow-up"></i> 3%
+                  </div>
+                </div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-icon">
+                  <i class="fas fa-star"></i>
+                </div>
+                <div class="metric-content">
+                  <h6>متوسط التقييم</h6>
+                  <div class="metric-value">4.2/5</div>
+                  <div class="metric-trend positive">
+                    <i class="fas fa-arrow-up"></i> 0.3
+                  </div>
+                </div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-icon">
+                  <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="metric-content">
+                  <h6>معدل النمو الشهري</h6>
+                  <div class="metric-value">8%</div>
+                  <div class="metric-trend positive">
+                    <i class="fas fa-arrow-up"></i> 2%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="col-lg-8 mb-4">
+        <div class="report-card">
+          <div class="report-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h4><i class="fas fa-history"></i> النشاطات الأخيرة</h4>
+                <p class="text-muted">آخر التحديثات في النظام</p>
+              </div>
+              <div class="activity-stats">
+                <span class="badge bg-primary me-2">
+                  <i class="fas fa-clock me-1"></i>
+                  آخر 12 ساعة
+                </span>
+                <span class="badge bg-success me-2">
+                  <i class="fas fa-list me-1"></i>
+                  {{ activitiesData?.totalCount || 0 }} نشاط
+                </span>
+                <button class="btn btn-outline-primary btn-sm" (click)="refreshActivities()" [disabled]="isRefreshing">
+                  <i class="fas fa-sync-alt me-1" [class.fa-spin]="isRefreshing"></i>
+                  {{ isRefreshing ? 'جاري التحديث...' : 'تحديث' }}
+                </button>
+              </div>
+            </div>
+            <p class="text-muted small mt-2">
+              <i class="fas fa-info-circle me-1"></i>
+              آخر تحديث: {{ activitiesData?.reportGeneratedAt ? (activitiesData?.reportGeneratedAt | date:'medium') : 'غير متوفر' }}
+              <span class="ms-2" *ngIf="lastRefreshTime">
+                <i class="fas fa-sync-alt me-1"></i>
+                آخر تحديث محلي: {{ lastRefreshTime | date:'shortTime' }}
+              </span>
+            </p>
+          </div>
+          <div class="report-content">
+            <div class="activity-list" *ngIf="recentActivities.length > 0; else noActivities">
+              <div class="activity-item" *ngFor="let activity of recentActivities; let i = index">
+                <div class="activity-icon" [ngClass]="getActivityIconClass(activity.entityType)">
+                  <i [class]="getActivityIcon(activity.entityType)"></i>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-header">
+                    <span class="activity-type-badge" [ngClass]="getActivityTypeClass(activity.activityType)">
+                      {{ getActivityTypeText(activity.activityType) }}
+                    </span>
+                    <span class="activity-time">{{ activity.timeAgo }}</span>
+                  </div>
+                  <p class="activity-text">{{ activity.description }}</p>
+                  <small class="activity-meta text-muted">
+                    <i class="fas fa-tag me-1"></i>
+                    {{ getEntityTypeText(activity.entityType) }}
+                    <span class="ms-2">#{{ activity.entityId }}</span>
+                  </small>
+                </div>
+              </div>
+            </div>
+            
+            <ng-template #noActivities>
+              <div class="no-activities text-center py-4">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <p class="text-muted">لا توجد نشاطات في آخر 12 ساعة</p>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="col-lg-4 mb-4">
+        <div class="report-card">
+          <div class="report-header">
+            <h4><i class="fas fa-bolt"></i> إجراءات سريعة</h4>
+            <p class="text-muted">الوصول السريع للوظائف المهمة</p>
+          </div>
+          <div class="report-content">
+            <div class="quick-actions">
+              <button class="action-btn primary" 
+                      (click)="addNewCategory()" 
+                      [disabled]="isActionLoading"
+                      [class.loading]="isActionLoading">
+                <i class="fas fa-plus"></i>
+                {{ isActionLoading ? 'جاري التحميل...' : 'إضافة فئة جديدة' }}
+              </button>
+              <button class="action-btn secondary" 
+                      (click)="manageUsers()" 
+                      [disabled]="isActionLoading"
+                      [class.loading]="isActionLoading">
+                <i class="fas fa-users"></i>
+                {{ isActionLoading ? 'جاري التحميل...' : 'إدارة المستخدمين' }}
+              </button>
+              <button class="action-btn warning" 
+                      (click)="reviewReports()" 
+                      [disabled]="isActionLoading"
+                      [class.loading]="isActionLoading">
+                <i class="fas fa-exclamation-triangle"></i>
+                {{ isActionLoading ? 'جاري التحميل...' : 'مراجعة البلاغات' }}
+              </button>
+              <button class="action-btn info" 
+                      (click)="exportReports()" 
+                      [disabled]="isActionLoading"
+                      [class.loading]="isActionLoading">
+                <i class="fas fa-file-pdf"></i>
+                {{ isActionLoading ? 'جاري إنشاء التقرير...' : 'تصدير التقرير الشامل' }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -90,6 +330,17 @@
     <div class="loading-spinner">
       <i class="fas fa-spinner fa-spin"></i>
       <p>جاري تحميل الإحصائيات...</p>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="notification-toast" *ngIf="showNotification" [ngClass]="'notification-' + notificationType">
+    <div class="notification-content">
+      <i class="fas" [class]="notificationType === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'"></i>
+      <span class="notification-message">{{ notificationMessage }}</span>
+      <button class="notification-close" (click)="closeNotification()">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
   </div>
 </div>
