@@ -1,3 +1,4 @@
+import { AuthService } from './../../../Services/AuthService/auth.service';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { ItechRequect } from '../../../Interfaces/Technichan/itech-requect';
 import { Router } from '@angular/router';
@@ -21,6 +22,7 @@ export class TemplateRequestdetails implements OnInit {
   @Input() showBookingButton: boolean = false;
   @Input() Acecctrequest: Ihistorytech[] = [];
 
+  // AuthService = inject(AuthService)
   requestWatchDog = inject(RequestWatchDogHub);
   url: string = '';
 

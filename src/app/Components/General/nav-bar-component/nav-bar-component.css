@@ -666,3 +666,52 @@
 .fa-wrench:before {
   content: "🔧";
 }
+/* يربط البانل بالزر */
+.notification-container {
+  position: relative;
+}
+
+/* لو البانل جزء من النافبار: */
+.notification-container .notification-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 420px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  border: 3px solid #fd7e14;
+  z-index: 1001;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.notification-container .notification-panel.show,
+.notification-container .notification-panel[open],
+.notification-container app-notification-panel-component.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* المثلث الصغير */
+.notification-container .notification-panel::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 18px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 3px solid #fd7e14;
+  border-bottom: none;
+  border-right: none;
+  transform: rotate(45deg);
+}
+
+/* يمنع البانل يطلع تحت الهيدر */
+.navbar {
+  z-index: 1200;
+}

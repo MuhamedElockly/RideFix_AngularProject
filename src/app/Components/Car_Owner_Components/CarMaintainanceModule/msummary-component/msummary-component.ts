@@ -12,57 +12,86 @@ import { MaintainanceServices } from '../../../../Services/MaintainanceService/m
 })
 export class MSummaryComponent implements OnInit {
   maintenanceList: MaintenanceSummaryItem[] = [];
-  Mservices = inject(MaintainanceServices);
+  pagedList: MaintenanceSummaryItem[] = [];
+  pages: number[] = [];
 
-  // Pagination state
   currentPage = 1;
   pageSize = 3;
+  totalItems = 0;
+  totalPages = 0;
+
+  Mservices = inject(MaintainanceServices);
 
   ngOnInit(): void {
     this.Mservices.GetMSummary().subscribe({
       next: (res) => {
-        this.maintenanceList = res.data ?? [];
-        this.currentPage = 1; // reset
+        this.maintenanceList = (res.data ?? []).map((item) => ({
+          maintenanceTypeName: item.maintenanceTypeName || '',
+          status: item.status ?? 0,
+          lastMaintenanceDate: item.lastMaintenanceDate || null,
+          nextExpectedMaintenance: item.nextExpectedMaintenance || null,
+        }));
+
+        this.totalItems = this.maintenanceList.length;
+        this.totalPages = Math.max(
+          1,
+          Math.ceil(this.totalItems / this.pageSize)
+        );
+        this.updatePage();
       },
-      error: (ex) => console.error('Error fetching maintenance summary:', ex),
+      error: (err) => console.error('Error fetching maintenance summary:', err),
     });
   }
 
-  // derived
-  get totalItems(): number {
-    return this.maintenanceList.length;
-  }
+  updatePage() {
+    // Recalculate totalPages in case data changed
+    this.totalPages = Math.max(1, Math.ceil(this.totalItems / this.pageSize));
 
-  get totalPages(): number {
-    return Math.max(1, Math.ceil(this.totalItems / this.pageSize));
-  }
-
-  get pagedList(): MaintenanceSummaryItem[] {
-    const start = (this.currentPage - 1) * this.pageSize;
-    return this.maintenanceList.slice(start, start + this.pageSize);
-  }
-
-  get pages(): number[] {
-    if (this.totalPages <= 7) {
-      return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    // Fix: if current page is out of range after data change
+    if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
     }
-    const windowSize = 5;
-    let start = Math.max(1, this.currentPage - Math.floor(windowSize / 2));
-    let end = Math.min(this.totalPages, start + windowSize - 1);
-    if (end - start + 1 < windowSize) start = Math.max(1, end - windowSize + 1);
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+    const start = (this.currentPage - 1) * this.pageSize;
+    this.pagedList = this.maintenanceList.slice(start, start + this.pageSize);
+
+    // Generate pages array
+    if (this.totalPages <= 7) {
+      this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    } else {
+      const windowSize = 5;
+      let startPage = Math.max(
+        1,
+        this.currentPage - Math.floor(windowSize / 2)
+      );
+      let endPage = Math.min(this.totalPages, startPage + windowSize - 1);
+      if (endPage - startPage + 1 < windowSize) {
+        startPage = Math.max(1, endPage - windowSize + 1);
+      }
+      this.pages = Array.from(
+        { length: endPage - startPage + 1 },
+        (_, i) => startPage + i
+      );
+    }
   }
 
   setPage(p: number) {
     if (p < 1 || p > this.totalPages) return;
     this.currentPage = p;
+    this.updatePage();
   }
 
   prevPage() {
-    if (this.currentPage > 1) this.currentPage--;
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePage();
+    }
   }
 
   nextPage() {
-    if (this.currentPage < this.totalPages) this.currentPage++;
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePage();
+    }
   }
 }

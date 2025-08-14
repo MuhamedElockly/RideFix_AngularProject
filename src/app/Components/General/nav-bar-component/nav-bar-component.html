@@ -75,7 +75,7 @@
             routerLink="/CarOwner/MyCar"
             routerLinkActive="active"
           >
-            <i class="fas fa-clipboard-list"></i>
+            <i class="fas fa-car"></i>
             <span>سيارتي</span>
           </a>
         </li>
@@ -137,9 +137,22 @@
             </div>
           </div>
 
-          <div class="notification-btn">
-            <i class="fas fa-bell"></i>
-            <div class="notification-badge">4</div>
+          <div
+            class="notification-container"
+            (click)="$event.stopPropagation()"
+          >
+            <button class="notification-btn" (click)="togglePanel()">
+              <i class="fas fa-bell"></i>
+            </button>
+            @if (newNotification) {
+            <div class="notification-badge"></div>
+            }
+
+            <!-- لو البانل عندك كمبوننت منفصل خليه يستقبل open -->
+            @if(isPanelOpen) {
+            <app-notification-panel-component></app-notification-panel-component>
+            }
+            <!-- أو لو HTML داخلي: <div class="notification-panel" [class.show]="isPanelOpen">...</div> -->
           </div>
 
           <button class="btn btn-outline-light btn-sm" (click)="logout()">
