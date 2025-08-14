@@ -37,6 +37,7 @@
                  <thead>
            <tr>
              <th>اسم الفئة</th>
+             <th>الوصف</th>
              <th>الإجراءات</th>
            </tr>
          </thead>
@@ -45,6 +46,11 @@
              <td>
                <div class="category-name">
                  <span class="name">{{ category.name }}</span>
+               </div>
+             </td>
+             <td>
+               <div class="category-description">
+                 <span class="description">{{ category.description }}</span>
                </div>
              </td>
              <td>
@@ -150,6 +156,18 @@
              placeholder="أدخل اسم الفئة"
            >
          </div>
+         <div class="form-group">
+           <label for="description">وصف الفئة *</label>
+           <textarea 
+             id="description"
+             name="description"
+             [(ngModel)]="newCategory.description"
+             required
+             class="form-control"
+             placeholder="أدخل وصف الفئة"
+             rows="3"
+           ></textarea>
+         </div>
        </form>
     </div>
     
@@ -202,6 +220,18 @@
             class="form-control"
             placeholder="أدخل اسم الفئة"
           >
+        </div>
+        <div class="form-group">
+          <label for="editDescription">وصف الفئة *</label>
+          <textarea 
+            id="editDescription"
+            name="editDescription"
+            [(ngModel)]="editCategory.description"
+            required
+            class="form-control"
+            placeholder="أدخل وصف الفئة"
+            rows="3"
+          ></textarea>
         </div>
       </form>
     </div>

@@ -239,6 +239,95 @@
   border: 1px solid rgba(243, 156, 18, 0.3);
 }
 
+/* Rating Display */
+.rating-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.low-rating {
+  color: #e74c3c;
+  font-weight: 700;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.rating-stars i {
+  font-size: 0.875rem;
+}
+
+.rating-stars-large {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.rating-stars-large i {
+  font-size: 1.25rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-outline-primary {
+  border: 2px solid #3498db;
+  color: #3498db;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: #3498db;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.btn-outline-danger {
+  border: 2px solid #e74c3c;
+  color: #e74c3c;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+  background: #e74c3c;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.btn-outline-success {
+  border: 2px solid #27ae60;
+  color: #27ae60;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+  background: #27ae60;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+
 /* Action Buttons */
 .btn-outline-primary {
   border: 2px solid #3498db;
@@ -477,6 +566,28 @@
   color: #7f8c8d;
   margin: 0;
   font-size: 0.9rem;
+}
+
+/* SweetAlert Customization */
+.swal2-popup {
+  font-family: 'Cairo', sans-serif;
+}
+
+.swal2-title {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+}
+
+.swal2-html-container {
+  font-family: 'Cairo', sans-serif;
+}
+
+.swal2-confirm,
+.swal2-cancel {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
 }
 
 /* Responsive Design */

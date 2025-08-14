@@ -47,14 +47,13 @@
             <option value="all">جميع الحالات</option>
             <option value="active">نشط</option>
             <option value="inactive">غير نشط</option>
-            <option value="pending">في الانتظار</option>
           </select>
         </div>
         <div class="col-md-3">
           <select
             class="form-select"
             [(ngModel)]="pageSize"
-            (change)="applyFilters()"
+            (change)="onPageSizeChange()"
           >
             <option value="5">5 صفوف</option>
             <option value="10">10 صفوف</option>
@@ -92,10 +91,8 @@
               <th>الاسم</th>
               <th>البريد الإلكتروني</th>
               <th>رقم الهاتف</th>
-              <th>الدور</th>
               <th>الحالة</th>
-              <th>متوسط التقييم</th>
-              <th>تاريخ التسجيل</th>
+              <th>التقييم</th>
               <th>الإجراءات</th>
             </tr>
           </thead>
@@ -104,12 +101,10 @@
               <td>
                 <div class="user-avatar">
                   <img
-                    [src]="
-                      technician.profileImage || 'assets/default-avatar.png'
-                    "
+                    [src]="technician.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE1IiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yMCA3NUMyMCA2NSAzMCA1NSA0MCA1NUg2MEM3MCA1NSA4MCA2NSA4MCA3NVY4NUMyMCA4NSAyMCA3NSAyMCA3NVoiIGZpbGw9IiNDQ0MiLz4KPC9zdmc+'"
                     [alt]="technician.name"
                     class="avatar-img"
-                    onerror="this.src='assets/default-avatar.png'"
+                    (error)="onImageError($event)"
                   />
                 </div>
               </td>
@@ -123,43 +118,61 @@
                 <span class="user-email">{{ technician.email }}</span>
               </td>
               <td>
-                <span class="user-phone">{{
-                  technician.phone || "غير متوفر"
-                }}</span>
+                <span class="user-phone">{{ technician.phoneNumber || 'غير متوفر' }}</span>
               </td>
               <td>
-                <span class="user-role">{{ technician.role }}</span>
-              </td>
-              <td>
-                <span
-                  class="status-badge"
-                  [ngClass]="'status-' + technician.status"
-                >
-                  {{
-                    technician.status === "active"
-                      ? "نشط"
-                      : technician.status === "inactive"
-                      ? "غير نشط"
-                      : technician.status === "pending"
-                      ? "في الانتظار"
-                      : technician.status
-                  }}
+                <span class="status-badge" [ngClass]="technician.isActivated ? 'status-active' : 'status-inactive'">
+                  {{ technician.isActivated ? 'نشط' : 'غير نشط' }}
                 </span>
               </td>
               <td>
-                <span class="registration-date">{{
-                  technician.registrationDate | date : "shortDate"
-                }}</span>
+                <div class="rating-display">
+                  <span class="rating-value" [ngClass]="{'low-rating': technician.rate < 3}">
+                    {{ technician.rate }}/5
+                    <i *ngIf="technician.rate < 3" class="fas fa-exclamation-triangle text-danger ms-1"
+                       title="تقييم منخفض - قد يحتاج إلى حظر"></i>
+                  </span>
+                  <div class="rating-stars">
+                    <i *ngFor="let star of [1,2,3,4,5]"
+                       class="fas fa-star"
+                       [ngClass]="star <= technician.rate ? 'text-warning' : 'text-muted'">
+                    </i>
+                  </div>
+                </div>
               </td>
               <td>
-                <button
-                  class="btn btn-sm btn-outline-primary"
-                  (click)="viewUserDetails(technician)"
-                  title="عرض التفاصيل"
-                >
-                  <i class="fas fa-eye"></i>
-                  عرض
-                </button>
+                <div class="action-buttons">
+                  <button
+                    class="btn btn-sm btn-outline-primary me-2"
+                    (click)="viewUserDetails(technician)"
+                    title="عرض التفاصيل"
+                  >
+                    <i class="fas fa-eye"></i>
+                    عرض
+                  </button>
+
+                  <!-- Block button for all active technicians -->
+                  <button
+                    *ngIf="technician.isActivated"
+                    class="btn btn-sm btn-outline-danger me-2"
+                    (click)="blockTechnician(technician)"
+                    title="حظر الفني"
+                  >
+                    <i class="fas fa-ban"></i>
+                    حظر
+                  </button>
+
+                  <!-- Activate button for blocked technicians -->
+                  <button
+                    *ngIf="!technician.isActivated"
+                    class="btn btn-sm btn-outline-success me-2"
+                    (click)="activateTechnician(technician)"
+                    title="تفعيل الفني"
+                  >
+                    <i class="fas fa-check"></i>
+                    تفعيل
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -265,16 +278,14 @@
           <div class="user-profile-section text-center mb-4">
             <div class="user-avatar-large">
               <img
-                [src]="
-                  selectedTechnician.profileImage || 'assets/default-avatar.png'
-                "
+                [src]="selectedTechnician.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE1IiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yMCA3NUMyMCA2NSAzMCA1NSA0MCA1NUg2MEM3MCA1NSA4MCA2NSA4MCA3NVY4NUMyMCA4NSAyMCA3NSAyMCA3NVoiIGZpbGw9IiNDQ0MiLz4KPC9zdmc+'"
                 [alt]="selectedTechnician.name"
                 class="avatar-img-large"
-                onerror="this.src='assets/default-avatar.png'"
+                (error)="onImageError($event)"
               />
             </div>
             <h4 class="user-name-large">{{ selectedTechnician.name }}</h4>
-            <p class="user-role-large">{{ selectedTechnician.role }}</p>
+            <p class="user-role-large">فني</p>
           </div>
 
           <div class="user-info-grid">
@@ -288,38 +299,16 @@
             </div>
             <div class="info-item">
               <label>رقم الهاتف:</label>
-              <span>{{ selectedTechnician.phone || "غير متوفر" }}</span>
+              <span>{{ selectedTechnician.phoneNumber || "غير متوفر" }}</span>
             </div>
             <div class="info-item">
               <label>الحالة:</label>
               <span
                 class="status-badge"
-                [ngClass]="'status-' + selectedTechnician.status"
+                [ngClass]="selectedTechnician.isActivated ? 'status-active' : 'status-inactive'"
               >
-                {{
-                  selectedTechnician.status === "active"
-                    ? "نشط"
-                    : selectedTechnician.status === "inactive"
-                    ? "غير نشط"
-                    : selectedTechnician.status === "pending"
-                    ? "في الانتظار"
-                    : selectedTechnician.status
-                }}
+                {{ selectedTechnician.isActivated ? "نشط" : "غير نشط" }}
               </span>
-            </div>
-            <div class="info-item">
-              <label>تاريخ التسجيل:</label>
-              <span>{{
-                selectedTechnician.registrationDate | date : "fullDate"
-              }}</span>
-            </div>
-            <div class="info-item">
-              <label>آخر تسجيل دخول:</label>
-              <span>{{
-                selectedTechnician.lastLoginDate
-                  ? (selectedTechnician.lastLoginDate | date : "short")
-                  : "غير متوفر"
-              }}</span>
             </div>
           </div>
 
@@ -327,24 +316,17 @@
             <h5>معلومات إضافية</h5>
             <div class="info-grid">
               <div class="info-card">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                  <strong>الموقع</strong>
-                  <p>{{ selectedTechnician.location || "غير محدد" }}</p>
-                </div>
-              </div>
-              <div class="info-card">
                 <i class="fas fa-star"></i>
                 <div>
                   <strong>التقييم</strong>
-                  <p>{{ selectedTechnician.rating || "غير متوفر" }}</p>
+                  <p>{{ selectedTechnician.rate }}/5</p>
                 </div>
               </div>
               <div class="info-card">
-                <i class="fas fa-tasks"></i>
+                <i class="fas fa-user-check"></i>
                 <div>
-                  <strong>الطلبات المكتملة</strong>
-                  <p>{{ selectedTechnician.completedRequests || 0 }}</p>
+                  <strong>حالة الحساب</strong>
+                  <p>{{ selectedTechnician.isActivated ? 'مفعل' : 'محظور' }}</p>
                 </div>
               </div>
             </div>
@@ -356,10 +338,6 @@
         <button class="btn btn-secondary" (click)="closeUserDetails()">
           <i class="fas fa-times"></i>
           إغلاق
-        </button>
-        <button class="btn btn-primary" (click)="closeUserDetails()">
-          <i class="fas fa-edit"></i>
-          تعديل
         </button>
       </div>
     </div>

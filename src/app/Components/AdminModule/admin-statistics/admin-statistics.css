@@ -49,6 +49,89 @@
   z-index: 2;
 }
 
+/* Statistics Cards */
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #2980b9);
+}
+
+.technicians-card::before {
+  background: linear-gradient(90deg, #e74c3c, #c0392b);
+}
+
+.car-owners-card::before {
+  background: linear-gradient(90deg, #27ae60, #2ecc71);
+}
+
+.requests-card::before {
+  background: linear-gradient(90deg, #f39c12, #e67e22);
+}
+
+.waiting-card::before {
+  background: linear-gradient(90deg, #9b59b6, #8e44ad);
+}
+
+.stat-icon {
+  margin-bottom: 1.5rem;
+}
+
+.stat-icon i {
+  font-size: 3rem;
+  color: #3498db;
+}
+
+.technicians-card .stat-icon i {
+  color: #e74c3c;
+}
+
+.car-owners-card .stat-icon i {
+  color: #27ae60;
+}
+
+.requests-card .stat-icon i {
+  color: #f39c12;
+}
+
+.waiting-card .stat-icon i {
+  color: #9b59b6;
+}
+
+.stat-content h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.stat-content p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
 /* Statistics Card */
 .statistics-card {
   background: white;
