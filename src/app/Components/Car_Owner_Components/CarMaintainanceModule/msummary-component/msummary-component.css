@@ -323,7 +323,6 @@ body {
   border-radius: 50%;
 }
 .maintenance-header {
-  flex-direction: row-reverse; /* يخلي الأيقونة تيجي يمين */
 }
 
 .header-icon {
@@ -380,4 +379,7 @@ body {
   padding: 0 4px;
   color: #9ca3af;
   user-select: none;
+}
+* {
+  direction: rtl;
 }

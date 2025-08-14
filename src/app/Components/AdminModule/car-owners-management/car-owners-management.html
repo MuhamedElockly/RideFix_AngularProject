@@ -41,11 +41,10 @@
             <option value="all">جميع الحالات</option>
             <option value="active">نشط</option>
             <option value="inactive">غير نشط</option>
-            <option value="pending">في الانتظار</option>
           </select>
         </div>
         <div class="col-md-3">
-          <select class="form-select" [(ngModel)]="pageSize" (change)="applyFilters()">
+          <select class="form-select" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
             <option value="5">5 صفوف</option>
             <option value="10">10 صفوف</option>
             <option value="20">20 صف</option>
@@ -81,10 +80,8 @@
               <th>الاسم</th>
               <th>البريد الإلكتروني</th>
               <th>رقم الهاتف</th>
-              <th>الدور</th>
               <th>الحالة</th>
-              <th>متوسط التقييم</th>
-              <th>تاريخ التسجيل</th>
+              <th>التقييم</th>
               <th>الإجراءات</th>
             </tr>
           </thead>
@@ -93,10 +90,10 @@
               <td>
                 <div class="user-avatar">
                   <img 
-                    [src]="carOwner.profileImage || 'assets/default-avatar.png'" 
+                    [src]="carOwner.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE1IiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yMCA3NUMyMCA2NSAzMCA1NSA0MCA1NUg2MEM3MCA1NSA4MCA2NSA4MCA3NVY4NUMyMCA4NSAyMCA3NSAyMCA3NVoiIGZpbGw9IiNDQ0MiLz4KPC9zdmc+'"
                     [alt]="carOwner.name"
                     class="avatar-img"
-                    onerror="this.src='assets/default-avatar.png'"
+                    (error)="onImageError($event)"
                   >
                 </div>
               </td>
@@ -110,30 +107,61 @@
                 <span class="user-email">{{ carOwner.email }}</span>
               </td>
               <td>
-                <span class="user-phone">{{ carOwner.phone || 'غير متوفر' }}</span>
+                <span class="user-phone">{{ carOwner.phoneNumber || 'غير متوفر' }}</span>
               </td>
               <td>
-                <span class="user-role">{{ carOwner.role }}</span>
-              </td>
-              <td>
-                <span class="status-badge" [ngClass]="'status-' + carOwner.status">
-                  {{ carOwner.status === 'active' ? 'نشط' : 
-                     carOwner.status === 'inactive' ? 'غير نشط' : 
-                     carOwner.status === 'pending' ? 'في الانتظار' : carOwner.status }}
+                <span class="status-badge" [ngClass]="carOwner.isActivated ? 'status-active' : 'status-inactive'">
+                  {{ carOwner.isActivated ? 'نشط' : 'غير نشط' }}
                 </span>
               </td>
               <td>
-                <span class="registration-date">{{ carOwner.registrationDate | date:'shortDate' }}</span>
+                <div class="rating-display">
+                  <span class="rating-value" [ngClass]="{'low-rating': carOwner.rate < 3}">
+                    {{ carOwner.rate }}/5
+                    <i *ngIf="carOwner.rate < 3" class="fas fa-exclamation-triangle text-danger ms-1" 
+                       title="تقييم منخفض - قد يحتاج إلى حظر"></i>
+                  </span>
+                  <div class="rating-stars">
+                    <i *ngFor="let star of [1,2,3,4,5]" 
+                       class="fas fa-star" 
+                       [ngClass]="star <= carOwner.rate ? 'text-warning' : 'text-muted'">
+                    </i>
+                  </div>
+                </div>
               </td>
               <td>
-                <button 
-                  class="btn btn-sm btn-outline-primary" 
-                  (click)="viewUserDetails(carOwner)"
-                  title="عرض التفاصيل"
-                >
-                  <i class="fas fa-eye"></i>
-                  عرض
-                </button>
+                <div class="action-buttons">
+                  <button 
+                    class="btn btn-sm btn-outline-primary me-2" 
+                    (click)="viewUserDetails(carOwner)"
+                    title="عرض التفاصيل"
+                  >
+                    <i class="fas fa-eye"></i>
+                    عرض
+                  </button>
+                  
+                  <!-- Block button for all active users -->
+                  <button 
+                    *ngIf="carOwner.isActivated"
+                    class="btn btn-sm btn-outline-danger me-2" 
+                    (click)="blockCarOwner(carOwner)"
+                    title="حظر صاحب السيارة"
+                  >
+                    <i class="fas fa-ban"></i>
+                    حظر
+                  </button>
+                  
+                  <!-- Activate button for blocked users -->
+                  <button 
+                    *ngIf="!carOwner.isActivated"
+                    class="btn btn-sm btn-outline-success me-2" 
+                    (click)="activateCarOwner(carOwner)"
+                    title="تفعيل صاحب السيارة"
+                  >
+                    <i class="fas fa-check"></i>
+                    تفعيل
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -217,14 +245,14 @@
           <div class="user-profile-section text-center mb-4">
             <div class="user-avatar-large">
               <img 
-                [src]="selectedCarOwner.profileImage || 'assets/default-avatar.png'" 
+                [src]="selectedCarOwner.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE1IiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yMCA3NUMyMCA2NSAzMCA1NSA0MCA1NUg2MEM3MCA1NSA4MCA2NSA4MCA3NVY4NUMyMCA4NSAyMCA3NSAyMCA3NVoiIGZpbGw9IiNDQ0MiLz4KPC9zdmc+'"
                 [alt]="selectedCarOwner.name"
                 class="avatar-img-large"
-                onerror="this.src='assets/default-avatar.png'"
+                (error)="onImageError($event)"
               >
             </div>
             <h4 class="user-name-large">{{ selectedCarOwner.name }}</h4>
-            <p class="user-role-large">{{ selectedCarOwner.role }}</p>
+            <p class="user-role-large">صاحب سيارة</p>
           </div>
 
           <div class="user-info-grid">
@@ -238,23 +266,17 @@
             </div>
             <div class="info-item">
               <label>رقم الهاتف:</label>
-              <span>{{ selectedCarOwner.phone || 'غير متوفر' }}</span>
+              <span>{{ selectedCarOwner.phoneNumber || 'غير متوفر' }}</span>
             </div>
             <div class="info-item">
               <label>الحالة:</label>
-              <span class="status-badge" [ngClass]="'status-' + selectedCarOwner.status">
-                {{ selectedCarOwner.status === 'active' ? 'نشط' : 
-                   selectedCarOwner.status === 'inactive' ? 'غير نشط' : 
-                   selectedCarOwner.status === 'pending' ? 'في الانتظار' : selectedCarOwner.status }}
+              <span class="status-badge" [ngClass]="selectedCarOwner.isActivated ? 'status-active' : 'status-inactive'">
+                {{ selectedCarOwner.isActivated ? 'نشط' : 'غير نشط' }}
               </span>
             </div>
             <div class="info-item">
-              <label>تاريخ التسجيل:</label>
-              <span>{{ selectedCarOwner.registrationDate | date:'fullDate' }}</span>
-            </div>
-            <div class="info-item">
-              <label>آخر تسجيل دخول:</label>
-              <span>{{ selectedCarOwner.lastLoginDate ? (selectedCarOwner.lastLoginDate | date:'short') : 'غير متوفر' }}</span>
+              <label>التقييم:</label>
+              <span>{{ selectedCarOwner.rate }}/5</span>
             </div>
           </div>
 
@@ -262,24 +284,24 @@
             <h5>معلومات إضافية</h5>
             <div class="info-grid">
               <div class="info-card">
-                <i class="fas fa-map-marker-alt"></i>
+                <i class="fas fa-star"></i>
                 <div>
-                  <strong>الموقع</strong>
-                  <p>{{ selectedCarOwner.location || 'غير محدد' }}</p>
+                  <strong>التقييم</strong>
+                  <div class="rating-stars-large">
+                    <i *ngFor="let star of [1,2,3,4,5]" 
+                       class="fas fa-star" 
+                       [ngClass]="star <= selectedCarOwner.rate ? 'text-warning' : 'text-muted'">
+                    </i>
+                  </div>
+                  <p>{{ selectedCarOwner.rate }}/5</p>
                 </div>
               </div>
               <div class="info-card">
-                <i class="fas fa-car"></i>
+                <i class="fas fa-toggle-on" *ngIf="selectedCarOwner.isActivated"></i>
+                <i class="fas fa-toggle-off" *ngIf="!selectedCarOwner.isActivated"></i>
                 <div>
-                  <strong>عدد السيارات</strong>
-                  <p>{{ selectedCarOwner.carCount || 0 }}</p>
-                </div>
-              </div>
-              <div class="info-card">
-                <i class="fas fa-clipboard-list"></i>
-                <div>
-                  <strong>الطلبات المقدمة</strong>
-                  <p>{{ selectedCarOwner.requestCount || 0 }}</p>
+                  <strong>حالة الحساب</strong>
+                  <p>{{ selectedCarOwner.isActivated ? 'مفعل' : 'غير مفعل' }}</p>
                 </div>
               </div>
             </div>
@@ -291,10 +313,6 @@
         <button class="btn btn-secondary" (click)="closeUserDetails()">
           <i class="fas fa-times"></i>
           إغلاق
-        </button>
-        <button class="btn btn-primary" (click)="closeUserDetails()">
-          <i class="fas fa-edit"></i>
-          تعديل
         </button>
       </div>
     </div>

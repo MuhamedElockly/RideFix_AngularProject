@@ -1,0 +1,402 @@
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <i class="fas fa-store"></i>
+            متجر قطع غيار السيارات
+          </h1>
+          <p class="hero-subtitle">
+            اكتشف أفضل قطع الغيار والإكسسوارات لسيارتك من متجر موثوق واحد
+          </p>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <i class="fas fa-box"></i>
+              <span>500+ منتج</span>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-shipping-fast"></i>
+              <span>توصيل سريع</span>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-shield-alt"></i>
+              <span>ضمان الجودة</span>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary hero-btn">
+              <i class="fas fa-shopping-bag"></i>
+              تسوق الآن
+            </button>
+            <button class="btn btn-outline-light hero-btn">
+              <i class="fas fa-phone"></i>
+              اتصل بنا
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-image">
+          <div class="floating-products">
+            <div class="floating-product product-1">
+              <i class="fas fa-oil-can"></i>
+            </div>
+            <div class="floating-product product-2">
+              <i class="fas fa-car-battery"></i>
+            </div>
+            <div class="floating-product product-3">
+              <i class="fas fa-cog"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="fas fa-th-large"></i>
+        تصفح الفئات
+      </h2>
+      <p class="section-subtitle">اختر الفئة المناسبة لاحتياجات سيارتك</p>
+    </div>
+    <div class="row">
+    @for(item of categories ;track $index) {
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="category-card">
+          <div class="category-icon">
+            <img
+              src="{{item.imageUrl}}"
+              alt="بطارية سيارة"
+            />
+          </div>
+          <h4 class="category-title"> {{item.name}} </h4>
+          <p class="category-count">{{item.productsCount}} منتج</p>
+          <div class="category-overlay">
+            <button class="btn btn-light">تصفح الآن</button>
+          </div>
+        </div>
+      </div>
+    }
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-car-battery"></i>
+          </div>
+          <h4 class="category-title">البطاريات والكهرباء</h4>
+          <p class="category-count">32 منتج</p>
+          <div class="category-overlay">
+            <button class="btn btn-light">تصفح الآن</button>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-cog"></i>
+          </div>
+          <h4 class="category-title">قطع غيار المحرك</h4>
+          <p class="category-count">78 منتج</p>
+          <div class="category-overlay">
+            <button class="btn btn-light">تصفح الآن</button>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-car-crash"></i>
+          </div>
+          <h4 class="category-title">الفرامل والإطارات</h4>
+          <p class="category-count">56 منتج</p>
+          <div class="category-overlay">
+            <button class="btn btn-light">تصفح الآن</button>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="featured-products-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="fas fa-star"></i>
+        المنتجات المميزة
+      </h2>
+      <p class="section-subtitle">أفضل المنتجات الأكثر مبيعاً</p>
+    </div>
+    <div class="row">
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
+        <div class="product-card">
+          <div class="product-image">
+            <img src="/placeholder.svg?height=200&width=200" alt="زيت محرك" />
+            <div class="product-badge">الأكثر مبيعاً</div>
+            <div class="product-actions">
+              <button class="btn btn-sm btn-light">
+                <i class="fas fa-heart"></i>
+              </button>
+              <button class="btn btn-sm btn-light">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <h5 class="product-title">زيت محرك موبيل 1 - 5W-30</h5>
+            <div class="product-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span>(24)</span>
+            </div>
+            <div class="product-price">
+              <span class="current-price">120 ريال</span>
+              <span class="old-price">150 ريال</span>
+            </div>
+            <button class="btn btn-primary add-to-cart">
+              <i class="fas fa-shopping-cart"></i>
+              أضف للسلة
+            </button>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
+        <div class="product-card">
+          <div class="product-image">
+            <img
+              src="/placeholder.svg?height=200&width=200"
+              alt="فحمات فرامل"
+            />
+            <div class="product-badge new-badge">جديد</div>
+            <div class="product-actions">
+              <button class="btn btn-sm btn-light">
+                <i class="fas fa-heart"></i>
+              </button>
+              <button class="btn btn-sm btn-light">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <h5 class="product-title">فحمات فرامل بريمبو - أمامية</h5>
+            <div class="product-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+              <span>(18)</span>
+            </div>
+            <div class="product-price">
+              <span class="current-price">280 ريال</span>
+            </div>
+            <button class="btn btn-primary add-to-cart">
+              <i class="fas fa-shopping-cart"></i>
+              أضف للسلة
+            </button>
+          </div>
+        </div>
+      </div> -->
+
+      @for(item of products.slice(0, 4) ;track $index) {
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="product-card">
+          <div class="product-image">
+            <img
+              src="{{item.imageUrl}}"
+              alt="بطارية سيارة"
+            />
+            <div class="product-actions">
+              <button class="btn btn-sm btn-light">
+                <i class="fas fa-heart"></i>
+              </button>
+              <button class="btn btn-sm btn-light">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <h5 class="product-title">{{item.name}} </h5>
+            <div class="product-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span>({{item.stockQuantity}})</span>
+            </div>
+            <div class="product-price">
+              <span class="current-price">{{item.price}} ريال</span>
+            </div>
+            <button class="btn btn-primary add-to-cart">
+              <i class="fas fa-shopping-cart"></i>
+              أضف للسلة
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+      <!-- <div class="col-lg-3 col-md-6 mb-4">
+        <div class="product-card">
+          <div class="product-image">
+            <img src="/placeholder.svg?height=200&width=200" alt="فلتر هواء" />
+            <div class="product-badge sale-badge">خصم 25%</div>
+            <div class="product-actions">
+              <button class="btn btn-sm btn-light">
+                <i class="fas fa-heart"></i>
+              </button>
+              <button class="btn btn-sm btn-light">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <h5 class="product-title">فلتر هواء K&N - عالي الأداء</h5>
+            <div class="product-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+              <span>(15)</span>
+            </div>
+            <div class="product-price">
+              <span class="current-price">95 ريال</span>
+              <span class="old-price">125 ريال</span>
+            </div>
+            <button class="btn btn-primary add-to-cart">
+              <i class="fas fa-shopping-cart"></i>
+              أضف للسلة
+            </button>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</section>
+
+<!-- Special Offers Section
+    <section class="offers-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-fire"></i>
+            العروض الخاصة
+          </h2>
+          <p class="section-subtitle">عروض محدودة الوقت - لا تفوت الفرصة</p>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 mb-4">
+            <div class="offer-card big-offer">
+              <div class="offer-content">
+                <div class="offer-badge">خصم 40%</div>
+                <h3 class="offer-title">عرض صيانة شامل</h3>
+                <p class="offer-description">
+                  احصل على خصم 40% على جميع منتجات الصيانة الدورية
+                </p>
+                <div class="offer-timer">
+                  <span class="timer-label">ينتهي خلال:</span>
+                  <div class="timer">
+                    <span class="timer-unit">
+                      <span class="timer-number" id="days">05</span>
+                      <span class="timer-text">أيام</span>
+                    </span>
+                    <span class="timer-unit">
+                      <span class="timer-number" id="hours">12</span>
+                      <span class="timer-text">ساعة</span>
+                    </span>
+                    <span class="timer-unit">
+                      <span class="timer-number" id="minutes">30</span>
+                      <span class="timer-text">دقيقة</span>
+                    </span>
+                  </div>
+                </div>
+                <button class="btn btn-light offer-btn">
+                  <i class="fas fa-shopping-bag"></i>
+                  تسوق الآن
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-12 mb-4">
+                <div class="offer-card small-offer">
+                  <div class="offer-content">
+                    <div class="offer-badge">توصيل مجاني</div>
+                    <h4 class="offer-title">
+                      شحن مجاني للطلبات أكثر من 200 ريال
+                    </h4>
+                    <button class="btn btn-outline-light btn-sm">
+                      اطلب الآن
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="offer-card small-offer">
+                  <div class="offer-content">
+                    <div class="offer-badge">ضمان سنة</div>
+                    <h4 class="offer-title">
+                      ضمان كامل لمدة سنة على جميع قطع الغيار
+                    </h4>
+                    <button class="btn btn-outline-light btn-sm">
+                      اعرف المزيد
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+<!-- Services Section -->
+<section class="services-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="fas fa-tools"></i>
+        خدماتنا المميزة
+      </h2>
+      <p class="section-subtitle">نقدم لك أفضل الخدمات مع منتجاتنا</p>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-shipping-fast"></i>
+          </div>
+          <h4 class="service-title">توصيل سريع</h4>
+          <p class="service-description">توصيل خلال 24 ساعة داخل المدينة</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h4 class="service-title">ضمان الجودة</h4>
+          <p class="service-description">ضمان شامل على جميع المنتجات</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

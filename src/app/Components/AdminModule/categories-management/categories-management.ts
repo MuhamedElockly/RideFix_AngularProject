@@ -19,7 +19,7 @@ export class CategoriesManagementComponent implements OnInit {
   
   // Pagination
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 5; // Show only 5 records per page
   totalPages = 1;
   pageNumbers: number[] = [];
   
@@ -37,7 +37,8 @@ export class CategoriesManagementComponent implements OnInit {
   
   // Form Data
   newCategory: ICreateCategory = {
-    name: ''
+    name: '',
+    description: ''
   };
   
   editCategory: IUpdateCategory = {};
@@ -73,23 +74,28 @@ export class CategoriesManagementComponent implements OnInit {
     this.categories = [
       {
         id: '1',
-        name: 'Engine Maintenance'
+        name: 'Engine Maintenance',
+        description: 'صيانة وإصلاح محرك السيارة'
       },
       {
         id: '2',
-        name: 'Electrical Systems'
+        name: 'Electrical Systems',
+        description: 'أنظمة الكهرباء والإلكترونيات في السيارة'
       },
       {
         id: '3',
-        name: 'Brake System'
+        name: 'Brake System',
+        description: 'صيانة نظام الفرامل والكوابح'
       },
       {
         id: '4',
-        name: 'Oil Change'
+        name: 'Oil Change',
+        description: 'تغيير زيت المحرك والفلتر'
       },
       {
         id: '5',
-        name: 'Tire Service'
+        name: 'Tire Service',
+        description: 'خدمات الإطارات والجنط'
       }
     ];
     this.applyFilters();
@@ -98,7 +104,8 @@ export class CategoriesManagementComponent implements OnInit {
   applyFilters(): void {
     this.filteredCategories = this.categories.filter(category => {
       const matchesSearch = !this.searchTerm || 
-        category.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+        category.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        category.description.toLowerCase().includes(this.searchTerm.toLowerCase());
       
       return matchesSearch;
     });
@@ -174,7 +181,8 @@ export class CategoriesManagementComponent implements OnInit {
   openEditModal(category: ICategory): void {
     this.selectedCategory = category;
     this.editCategory = {
-      name: category.name
+      name: category.name,
+      description: category.description
     };
     this.showEditModal = true;
   }
@@ -187,7 +195,8 @@ export class CategoriesManagementComponent implements OnInit {
 
   resetNewCategoryForm(): void {
     this.newCategory = {
-      name: ''
+      name: '',
+      description: ''
     };
   }
 
@@ -326,6 +335,17 @@ export class CategoriesManagementComponent implements OnInit {
       Swal.fire({
         title: 'خطأ في التحقق',
         text: 'يرجى إدخال اسم الفئة',
+        icon: 'error',
+        confirmButtonColor: '#e74c3c',
+        confirmButtonText: 'حسناً'
+      });
+      return false;
+    }
+
+    if (!category.description || category.description.trim() === '') {
+      Swal.fire({
+        title: 'خطأ في التحقق',
+        text: 'يرجى إدخال وصف الفئة',
         icon: 'error',
         confirmButtonColor: '#e74c3c',
         confirmButtonText: 'حسناً'

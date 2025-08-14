@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { IAdminUser } from '../../Interfaces/Admin/IAdminUser';
 import { IApiResponse } from '../../Interfaces/iapi-response';
 import { ICategory, ICreateCategory, IUpdateCategory } from '../../Interfaces/Admin/ICategory';
+import { ICarOwner } from '../../Interfaces/Admin/ICarOwner';
+import { ITechnician } from '../../Interfaces/Admin/ITechnician';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +19,7 @@ export class AdminService {
     return this.http.get<IApiResponse<IAdminUser[]>>(`${this.baseUrl}/users`);
   }
 
-  getDashboardStats(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/dashboard-stats`);
-  }
+
 
   getUserById(userId: string): Observable<IApiResponse<IAdminUser>> {
     return this.http.get<IApiResponse<IAdminUser>>(`${this.baseUrl}/users/${userId}`);
@@ -33,12 +33,28 @@ export class AdminService {
     return this.http.delete<IApiResponse<any>>(`${this.baseUrl}/users/${userId}`);
   }
 
-  getTechnicians(): Observable<IApiResponse<IAdminUser[]>> {
-    return this.http.get<IApiResponse<IAdminUser[]>>(`${this.baseUrl}/users?role=technician`);
+  getTechnicians(): Observable<IApiResponse<ITechnician[]>> {
+    return this.http.get<IApiResponse<ITechnician[]>>(`${this.baseUrl}/technicians`);
   }
 
-  getCarOwners(): Observable<IApiResponse<IAdminUser[]>> {
-    return this.http.get<IApiResponse<IAdminUser[]>>(`${this.baseUrl}/users?role=carowner`);
+  getCarOwners(): Observable<IApiResponse<ICarOwner[]>> {
+    return this.http.get<IApiResponse<ICarOwner[]>>(`${this.baseUrl}/carOwners`);
+  }
+
+  blockCarOwner(carOwnerId: number): Observable<IApiResponse<any>> {
+    return this.http.post<IApiResponse<any>>(`${this.baseUrl}/carOwner/${carOwnerId}`, {});
+  }
+
+  activateCarOwner(carOwnerId: number): Observable<IApiResponse<any>> {
+    return this.http.post<IApiResponse<any>>(`${this.baseUrl}/carOwner/${carOwnerId}/active`, {});
+  }
+
+  blockTechnician(technicianId: number): Observable<IApiResponse<any>> {
+    return this.http.post<IApiResponse<any>>(`${this.baseUrl}/tecnician/${technicianId}`, {});
+  }
+
+  activateTechnician(technicianId: number): Observable<IApiResponse<any>> {
+    return this.http.post<IApiResponse<any>>(`${this.baseUrl}/technician/${technicianId}/active`, {});
   }
 
   // Reports Management Methods
@@ -86,6 +102,15 @@ export class AdminService {
 
   deleteCategory(categoryId: string): Observable<IApiResponse<any>> {
     return this.http.delete<IApiResponse<any>>(`${this.baseUrl}/categories/${categoryId}`);
+  }
+
+  // Statistics Methods
+  getUsersCount(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/users-count`);
+  }
+
+  getRequestsCount(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/requests-count`);
   }
 
 }

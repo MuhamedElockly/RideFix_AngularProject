@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../../Services/AdminService/admin.service';
-import { IAdminUser } from '../../../Interfaces/Admin/IAdminUser';
+import { ICarOwner } from '../../../Interfaces/Admin/ICarOwner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-car-owners-management',
@@ -12,14 +13,14 @@ import { IAdminUser } from '../../../Interfaces/Admin/IAdminUser';
   styleUrls: ['./car-owners-management.css']
 })
 export class CarOwnersManagementComponent implements OnInit {
-  carOwners: IAdminUser[] = [];
-  filteredCarOwners: IAdminUser[] = [];
-  selectedCarOwner: IAdminUser | null = null;
+  carOwners: ICarOwner[] = [];
+  filteredCarOwners: ICarOwner[] = [];
+  selectedCarOwner: ICarOwner | null = null;
   showUserDetails = false;
   
   // Pagination
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 5; // Default to 5 rows
   totalItems = 0;
   
   // Search and Filter
@@ -38,17 +39,13 @@ export class CarOwnersManagementComponent implements OnInit {
 
   loadCarOwners(): void {
     this.isLoading = true;
-    this.adminService.getAllUsers().subscribe({
+    this.adminService.getCarOwners().subscribe({
       next: (response) => {
-        // Filter only car owners
-        this.carOwners = response.data.filter((user: IAdminUser) => 
-          user.role.toLowerCase().includes('carowner') || 
-          user.role.toLowerCase().includes('صاحب سيارة') ||
-          user.role.toLowerCase().includes('car owner')
-        );
+        this.carOwners = response.data;
         this.filteredCarOwners = [...this.carOwners];
         this.totalItems = this.carOwners.length;
         this.isLoading = false;
+        this.currentPage = 1; // Reset to first page when loading new data
         this.applyFilters();
       },
       error: (error) => {
@@ -66,18 +63,21 @@ export class CarOwnersManagementComponent implements OnInit {
       filtered = filtered.filter(owner => 
         owner.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         owner.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        owner.phone?.toLowerCase().includes(this.searchTerm.toLowerCase())
+        (owner.phoneNumber && owner.phoneNumber.toLowerCase().includes(this.searchTerm.toLowerCase()))
       );
     }
 
     // Apply status filter
     if (this.selectedStatus !== 'all') {
-      filtered = filtered.filter(owner => owner.status === this.selectedStatus);
+      filtered = filtered.filter(owner => 
+        this.selectedStatus === 'active' ? owner.isActivated : !owner.isActivated
+      );
     }
 
     this.filteredCarOwners = filtered;
     this.totalItems = filtered.length;
     this.currentPage = 1;
+    this.validateCurrentPage();
   }
 
   onSearch(): void {
@@ -88,7 +88,20 @@ export class CarOwnersManagementComponent implements OnInit {
     this.applyFilters();
   }
 
-  viewUserDetails(carOwner: IAdminUser): void {
+  onPageSizeChange(): void {
+    // Reset to first page when page size changes
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  // Ensure current page is valid after any changes
+  private validateCurrentPage(): void {
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    }
+  }
+
+  viewUserDetails(carOwner: ICarOwner): void {
     this.selectedCarOwner = carOwner;
     this.showUserDetails = true;
     this.isLoadingDetails = true;
@@ -104,12 +117,155 @@ export class CarOwnersManagementComponent implements OnInit {
     this.selectedCarOwner = null;
   }
 
+  onImageError(event: any): void {
+    // Set a default avatar SVG when image fails to load
+    event.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE1IiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yMCA3NUMyMCA2NSAzMCA1NSA0MCA1NUg2MEM3MCA1NSA4MCA2NSA4MCA3NVY4NUMyMCA4NSAyMCA3NSAyMCA3NVoiIGZpbGw9IiNDQ0MiLz4KPC9zdmc+';
+  }
+
+  // Block car owner
+  blockCarOwner(carOwner: ICarOwner): void {
+    Swal.fire({
+      title: 'تأكيد الحظر',
+      html: `
+        <div class="text-right">
+          <p><strong>هل أنت متأكد من حظر صاحب السيارة "${carOwner.name}"؟</strong></p>
+          <hr>
+          <p><strong>التقييم الحالي:</strong> <span class="text-danger">${carOwner.rate}/5</span></p>
+          <p><strong>البريد الإلكتروني:</strong> ${carOwner.email}</p>
+        </div>
+      `,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'نعم، حظر',
+      cancelButtonText: 'إلغاء',
+      confirmButtonColor: '#e74c3c',
+      cancelButtonColor: '#6c757d',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Show loading state
+        Swal.fire({
+          title: 'جاري الحظر...',
+          text: 'يرجى الانتظار',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        this.adminService.blockCarOwner(carOwner.id).subscribe({
+          next: (response) => {
+            if (response.success) {
+              // Update the car owner status locally
+              carOwner.isActivated = false;
+              this.applyFilters();
+              Swal.fire({
+                icon: 'success',
+                title: 'تم الحظر بنجاح',
+                text: `تم حظر صاحب السيارة "${carOwner.name}" بنجاح`,
+                confirmButtonText: 'حسناً',
+                confirmButtonColor: '#27ae60'
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'فشل في الحظر',
+                text: 'فشل في حظر صاحب السيارة: ' + response.message,
+                confirmButtonText: 'حسناً',
+                confirmButtonColor: '#e74c3c'
+              });
+            }
+          },
+          error: (error) => {
+            console.error('Error blocking car owner:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'خطأ في النظام',
+              text: 'حدث خطأ أثناء حظر صاحب السيارة. يرجى المحاولة مرة أخرى.',
+              confirmButtonText: 'حسناً',
+              confirmButtonColor: '#e74c3c'
+            });
+          }
+        });
+      }
+    });
+  }
+
+  // Activate blocked car owner
+  activateCarOwner(carOwner: ICarOwner): void {
+    Swal.fire({
+      title: 'تأكيد التفعيل',
+      html: `
+        <div class="text-right">
+          <p><strong>هل أنت متأكد من تفعيل صاحب السيارة "${carOwner.name}"؟</strong></p>
+          <hr>
+          <p><strong>البريد الإلكتروني:</strong> ${carOwner.email}</p>
+          <p class="text-success"><i class="fas fa-check-circle"></i> سيتم تفعيل هذا الحساب مرة أخرى</p>
+        </div>
+      `,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'نعم، تفعيل',
+      cancelButtonText: 'إلغاء',
+      confirmButtonColor: '#27ae60',
+      cancelButtonColor: '#6c757d',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Show loading state
+        Swal.fire({
+          title: 'جاري التفعيل...',
+          text: 'يرجى الانتظار',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        this.adminService.activateCarOwner(carOwner.id).subscribe({
+          next: (response) => {
+            if (response.success) {
+              // Update the car owner status locally
+              carOwner.isActivated = true;
+              this.applyFilters();
+              Swal.fire({
+                icon: 'success',
+                title: 'تم التفعيل بنجاح',
+                text: `تم تفعيل صاحب السيارة "${carOwner.name}" بنجاح`,
+                confirmButtonText: 'حسناً',
+                confirmButtonColor: '#27ae60'
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'فشل في التفعيل',
+                text: 'فشل في تفعيل صاحب السيارة: ' + response.message,
+                confirmButtonText: 'حسناً',
+                confirmButtonColor: '#e74c3c'
+              });
+            }
+          },
+          error: (error) => {
+            console.error('Error activating car owner:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'خطأ في النظام',
+              text: 'حدث خطأ أثناء تفعيل صاحب السيارة. يرجى المحاولة مرة أخرى.',
+              confirmButtonText: 'حسناً',
+              confirmButtonColor: '#e74c3c'
+            });
+          }
+        });
+      }
+    });
+  }
+
   // Pagination methods
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.pageSize);
   }
 
-  get pagedCarOwners(): IAdminUser[] {
+  get pagedCarOwners(): ICarOwner[] {
     const start = (this.currentPage - 1) * this.pageSize;
     return this.filteredCarOwners.slice(start, start + this.pageSize);
   }
@@ -117,18 +273,37 @@ export class CarOwnersManagementComponent implements OnInit {
   setPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
+    } else if (page > this.totalPages) {
+      // If trying to go to a page beyond total pages, go to last page
+      this.currentPage = this.totalPages;
+    } else if (page < 1) {
+      // If trying to go to a page below 1, go to first page
+      this.currentPage = 1;
     }
+    this.handlePageNavigation();
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
     }
+    this.handlePageNavigation();
   }
 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+    }
+    this.handlePageNavigation();
+  }
+
+  // Handle edge cases when navigating
+  private handlePageNavigation(): void {
+    // Ensure current page is within valid range
+    if (this.currentPage < 1) {
+      this.currentPage = 1;
+    } else if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
     }
   }
 

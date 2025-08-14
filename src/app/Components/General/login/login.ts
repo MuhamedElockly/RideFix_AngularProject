@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../Services/AuthService/auth.service';
@@ -14,6 +14,7 @@ import { TokenService } from '../../../Services/TokenService/tokenservice';
   imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
   loginData: ILogin = {
@@ -40,30 +41,30 @@ export class LoginComponent {
 
 
 
- this.router.navigate(['/admin/dashboard']);
+//  this.router.navigate(['/admin/dashboard']);
+//           this.userStorage.setUserId(decodedToken.Id);
+//           this.userStorage.setUserName(decodedToken.Name);
+
+
+
+
+
+
+        if (decodedToken.Role === 'CarOwner') {
+          this.router.navigate(['/CarOwner/Home']);
+        } else if (decodedToken.Role === 'Technician') {
+          this.router.navigate(['/technician/requests']);
+          localStorage.setItem('techid', decodedToken.Id);
+          localStorage.getItem('techid');
+
           this.userStorage.setUserId(decodedToken.Id);
           this.userStorage.setUserName(decodedToken.Name);
-
-
-
-
-
-
-        // if (decodedToken.Role === 'CarOwner') {
-        //   this.router.navigate(['/CarOwner/Home']);
-        // } else if (decodedToken.Role === 'Technician') {
-        //   this.router.navigate(['/technician/requests']);
-        //   localStorage.setItem('techid', decodedToken.Id);
-        //   localStorage.getItem('techid');
-
-        //   this.userStorage.setUserId(decodedToken.Id);
-        //   this.userStorage.setUserName(decodedToken.Name);
          
-        // } else if (decodedToken.Role === 'Admin' || decodedToken.Role === 'مدير') {
-        //   this.router.navigate(['/admin/dashboard']);
-        //   this.userStorage.setUserId(decodedToken.Id);
-        //   this.userStorage.setUserName(decodedToken.Name);
-        // }
+        } else if (decodedToken.Role === 'Admin' || decodedToken.Role === 'مدير') {
+          this.router.navigate(['/admin/dashboard']);
+          this.userStorage.setUserId(decodedToken.Id);
+          this.userStorage.setUserName(decodedToken.Name);
+        }
         
         this.userStorage.setUserRole(decodedToken.Role);
       },
