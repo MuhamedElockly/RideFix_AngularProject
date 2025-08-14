@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-template-request',
-  imports: [RouterLink, RouterModule, FormsModule, CommonModule],
+  imports: [RouterModule, FormsModule, CommonModule],
   templateUrl: './template-request.html',
   styleUrls: ['./template-request.css'],
 })

@@ -1,0 +1,95 @@
+<div class="admin-statistics" dir="rtl">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="page-title">
+            <i class="fas fa-chart-bar"></i>
+            الإحصائيات والتقارير
+          </h1>
+          <p class="page-subtitle">عرض الإحصائيات التفصيلية والتقارير</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container mt-4">
+    <!-- Statistics Cards Row -->
+    <div class="row mb-4">
+      <!-- Total Technicians Card -->
+      <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stat-card technicians-card">
+          <div class="stat-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ usersCount.techniciansCount }}</h3>
+            <p class="stat-label">إجمالي الفنيين</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Car Owners Card -->
+      <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stat-card car-owners-card">
+          <div class="stat-icon">
+            <i class="fas fa-car"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ usersCount.carOwnersCount }}</h3>
+            <p class="stat-label">إجمالي أصحاب السيارات</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Requests Card -->
+      <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stat-card requests-card">
+          <div class="stat-icon">
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ requestsCount.allRequestsCount }}</h3>
+            <p class="stat-label">إجمالي الطلبات</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waiting Requests Card -->
+      <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stat-card waiting-card">
+          <div class="stat-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ requestsCount.waitingRequestsCount }}</h3>
+            <p class="stat-label">الطلبات في الانتظار</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Statistics Row -->
+    <div class="row">
+      <div class="col-12">
+        <div class="statistics-card">
+          <div class="text-center py-5">
+            <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+            <h3>تقارير مفصلة</h3>
+            <p class="text-muted">سيتم إضافة التقارير التفصيلية والإحصائيات المتقدمة هنا قريباً</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>جاري تحميل الإحصائيات...</p>
+    </div>
+  </div>
+</div>

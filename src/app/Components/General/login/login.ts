@@ -33,18 +33,23 @@ export class LoginComponent {
     this.authService.login(this.loginData).subscribe({
       next: (res) => {
         const token = res.token;
-        console.log('Login successful, token:', token);
-
-        //         this.tokenService.setToken(token);
-        //         let decodedToken: any = jwtDecode(token);
-
-        //         if (decodedToken.Role === 'CarOwner') {
-        //           this.router.navigate(['/CarOwner/Home']);
-        //         } else if (decodedToken.Role === 'Technician') {
-        //           this.router.navigate(['/technician/requests']);
+      
 
         let decodedToken: any = jwtDecode(token);
         this.tokenService.setToken(token);
+        
+
+
+
+//  this.router.navigate(['/admin/dashboard']);
+//           this.userStorage.setUserId(decodedToken.Id);
+//           this.userStorage.setUserName(decodedToken.Name);
+
+
+
+
+
+
         if (decodedToken.Role === 'CarOwner') {
           this.router.navigate(['/CarOwner/Home']);
         } else if (decodedToken.Role === 'Technician') {
@@ -54,8 +59,13 @@ export class LoginComponent {
 
           this.userStorage.setUserId(decodedToken.Id);
           this.userStorage.setUserName(decodedToken.Name);
-          //  this.userStorage.setUserimg(decodedToken.Id);
+         
+        } else if (decodedToken.Role === 'Admin' || decodedToken.Role === 'مدير') {
+          this.router.navigate(['/admin/dashboard']);
+          this.userStorage.setUserId(decodedToken.Id);
+          this.userStorage.setUserName(decodedToken.Name);
         }
+        
         this.userStorage.setUserRole(decodedToken.Role);
       },
       error: () => {

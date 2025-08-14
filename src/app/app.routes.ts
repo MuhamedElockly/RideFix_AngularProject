@@ -26,11 +26,21 @@ import { AcceptedRequestsComponent } from './Components/technical/accepted-reque
 import { UnauthorizedComponent } from './Components/General/unauthorized-component/unauthorized-component';
 import { carOwnerGuard } from './Gaurds/car-owner-guard';
 import { techGuard } from './Gaurds/tech-guard';
+import { adminGuard } from './Gaurds/admin-guard';
 import { CarProfileComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/car-profile-component/car-profile-component';
 import { AddCarComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/add-car-component/add-car-component';
 import { AddMComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/add-mcomponent/add-mcomponent';
 import { MaintenanceHistoryComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/maintenance-history-component/maintenance-history-component';
 import { ECommerceHomeComponent } from './Components/e-Commerce_Components/e-commerce-home-component/e-commerce-home-component';
+
+// Admin Module Components
+import { AdminModule } from './Components/AdminModule/admin-module';
+import { AdminDashboardComponent } from './Components/AdminModule/admin-dashboard/admin-dashboard';
+import { TechniciansManagementComponent } from './Components/AdminModule/technicians-management/technicians-management';
+import { CarOwnersManagementComponent } from './Components/AdminModule/car-owners-management/car-owners-management';
+import { ReportsManagementComponent } from './Components/AdminModule/reports-management/reports-management';
+import { CategoriesManagementComponent } from './Components/AdminModule/categories-management/categories-management';
+import { AdminStatisticsComponent } from './Components/AdminModule/admin-statistics/admin-statistics';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -71,6 +81,21 @@ export const routes: Routes = [
     ],
     canActivate: [techGuard],
   },
+
+          {
+          path: 'admin',
+          component: AdminModule,
+          children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: AdminDashboardComponent },
+            { path: 'technicians', component: TechniciansManagementComponent },
+            { path: 'car-owners', component: CarOwnersManagementComponent },
+            { path: 'reports', component: ReportsManagementComponent },
+            { path: 'categories', component: CategoriesManagementComponent },
+            { path: 'statistics', component: AdminStatisticsComponent },
+          ],
+          canActivate: [adminGuard],
+        },
 
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // لو المستخدم مش مسجل
   // { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
