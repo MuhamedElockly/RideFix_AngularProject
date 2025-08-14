@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AdminService } from '../../../Services/AdminService/admin.service';
 import { IUsersCount, IRequestsCount } from '../../../Interfaces/Admin/IStatistics';
+import { IActivity, IActivitiesData } from '../../../Interfaces/Admin/IActivities';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -11,7 +13,7 @@ import { IUsersCount, IRequestsCount } from '../../../Interfaces/Admin/IStatisti
   templateUrl: './admin-dashboard.html',
   styleUrls: ['./admin-dashboard.css']
 })
-export class AdminDashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit, OnDestroy {
   dashboardStats = {
     totalTechnicians: 0,
     totalCarOwners: 0,
@@ -22,39 +24,20 @@ export class AdminDashboardComponent implements OnInit {
   };
 
   currentDate = new Date();
-  recentActivities = [
-    {
-      description: 'تم تسجيل فني جديد في النظام',
-      time: 'منذ 5 دقائق'
-    },
-    {
-      description: 'تم تحديث حالة طلب خدمة طوارئ',
-      time: 'منذ 15 دقيقة'
-    },
-    {
-      description: 'تم إضافة صاحب سيارة جديد',
-      time: 'منذ ساعة'
-    },
-    {
-      description: 'تم إكمال طلب صيانة',
-      time: 'منذ ساعتين'
-    },
-    {
-      description: 'تم استلام بلاغ جديد من صاحب سيارة',
-      time: 'منذ 3 ساعات'
-    },
-    {
-      description: 'تم حل بلاغ عن فني',
-      time: 'منذ 4 ساعات'
-    }
-  ];
+  recentActivities: IActivity[] = [];
+  activitiesData: IActivitiesData | null = null;
 
   isLoading = true;
+  isRefreshing = false;
+  lastRefreshTime: Date | null = null;
+  private autoRefreshSubscription?: Subscription;
 
   constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
     this.loadDashboardStats();
+    this.loadActivities();
+    this.startAutoRefresh();
   }
 
   loadDashboardStats(): void {
@@ -90,5 +73,156 @@ export class AdminDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  loadActivities(): void {
+    this.adminService.getActivities(12).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.activitiesData = response.data;
+          this.recentActivities = this.combineAndSortActivities(response.data);
+          this.lastRefreshTime = new Date();
+        }
+      },
+      error: (error) => {
+        console.error('Error loading activities:', error);
+        // Clear activities on error
+        this.recentActivities = [];
+        this.activitiesData = null;
+      }
+    });
+  }
+
+  refreshActivities(): void {
+    this.isRefreshing = true;
+    this.adminService.getActivities(12).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.activitiesData = response.data;
+          this.recentActivities = this.combineAndSortActivities(response.data);
+          this.lastRefreshTime = new Date();
+        }
+        this.isRefreshing = false;
+      },
+      error: (error) => {
+        console.error('Error refreshing activities:', error);
+        this.isRefreshing = false;
+      }
+    });
+  }
+
+  private combineAndSortActivities(data: IActivitiesData): IActivity[] {
+    const allActivities: IActivity[] = [
+      ...data.emergencyRequests,
+      ...data.carMaintenanceRecords,
+      ...data.userRegistrations,
+      ...data.reviews,
+      ...data.chatSessions
+    ];
+
+    // Sort by timestamp (newest first)
+    return allActivities.sort((a, b) => {
+      const dateA = new Date(a.timestamp).getTime();
+      const dateB = new Date(b.timestamp).getTime();
+      return dateB - dateA;
+    });
+  }
+
+  getActivityIcon(entityType: string): string {
+    switch (entityType) {
+      case 'EmergencyRequest':
+        return 'fas fa-exclamation-triangle';
+      case 'CarMaintenanceRecord':
+        return 'fas fa-wrench';
+      case 'UserRegistration':
+        return 'fas fa-user-plus';
+      case 'Review':
+        return 'fas fa-star';
+      case 'ChatSession':
+        return 'fas fa-comments';
+      default:
+        return 'fas fa-circle';
+    }
+  }
+
+  getActivityIconClass(entityType: string): string {
+    switch (entityType) {
+      case 'EmergencyRequest':
+        return 'activity-icon-emergency';
+      case 'CarMaintenanceRecord':
+        return 'activity-icon-maintenance';
+      case 'UserRegistration':
+        return 'activity-icon-registration';
+      case 'Review':
+        return 'activity-icon-review';
+      case 'ChatSession':
+        return 'activity-icon-chat';
+      default:
+        return 'activity-icon-default';
+    }
+  }
+
+  getActivityTypeClass(activityType: string): string {
+    switch (activityType) {
+      case 'Completed':
+        return 'badge bg-success';
+      case 'Created':
+        return 'badge bg-primary';
+      case 'Updated':
+        return 'badge bg-warning';
+      case 'Deleted':
+        return 'badge bg-danger';
+      case 'Pending':
+        return 'badge bg-info';
+      default:
+        return 'badge bg-secondary';
+    }
+  }
+
+  getActivityTypeText(activityType: string): string {
+    switch (activityType) {
+      case 'Completed':
+        return 'مكتمل';
+      case 'Created':
+        return 'تم إنشاؤه';
+      case 'Updated':
+        return 'تم تحديثه';
+      case 'Deleted':
+        return 'تم حذفه';
+      case 'Pending':
+        return 'قيد الانتظار';
+      default:
+        return activityType;
+    }
+  }
+
+  getEntityTypeText(entityType: string): string {
+    switch (entityType) {
+      case 'EmergencyRequest':
+        return 'طلب طوارئ';
+      case 'CarMaintenanceRecord':
+        return 'سجل صيانة';
+      case 'UserRegistration':
+        return 'تسجيل مستخدم';
+      case 'Review':
+        return 'تقييم';
+      case 'ChatSession':
+        return 'جلسة محادثة';
+      default:
+        return entityType;
+    }
+  }
+
+  private startAutoRefresh(): void {
+    // Auto-refresh activities every 5 minutes (300000 ms)
+    this.autoRefreshSubscription = interval(300000).subscribe(() => {
+      this.refreshActivities();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.autoRefreshSubscription) {
+      this.autoRefreshSubscription.unsubscribe();
+    }
   }
 }

@@ -194,27 +194,67 @@
     <!-- Recent Activity Section -->
     <div class="row mt-5">
       <div class="col-12">
-        <h2 class="section-title">
-          <i class="fas fa-history"></i>
-          النشاطات الأخيرة
-        </h2>
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="section-title">
+            <i class="fas fa-history"></i>
+            النشاطات الأخيرة
+          </h2>
+          <div class="activity-stats">
+            <span class="badge bg-primary me-2">
+              <i class="fas fa-clock me-1"></i>
+              آخر 12 ساعة
+            </span>
+            <span class="badge bg-success me-2">
+              <i class="fas fa-list me-1"></i>
+              {{ activitiesData?.totalCount || 0 }} نشاط
+            </span>
+            <button class="btn btn-outline-primary btn-sm" (click)="refreshActivities()" [disabled]="isRefreshing">
+              <i class="fas fa-sync-alt me-1" [class.fa-spin]="isRefreshing"></i>
+              {{ isRefreshing ? 'جاري التحديث...' : 'تحديث' }}
+            </button>
+        </div>
+        <p class="text-muted small">
+          <i class="fas fa-info-circle me-1"></i>
+          آخر تحديث: {{ activitiesData?.reportGeneratedAt ? (activitiesData?.reportGeneratedAt | date:'medium') : 'غير متوفر' }}
+          <span class="ms-2" *ngIf="lastRefreshTime">
+            <i class="fas fa-sync-alt me-1"></i>
+            آخر تحديث محلي: {{ lastRefreshTime | date:'shortTime' }}
+          </span>
+        </p>
       </div>
     </div>
 
     <div class="row">
       <div class="col-12">
         <div class="recent-activity-card">
-          <div class="activity-list">
+          <div class="activity-list" *ngIf="recentActivities.length > 0; else noActivities">
             <div class="activity-item" *ngFor="let activity of recentActivities; let i = index">
-              <div class="activity-icon">
-                <i class="fas fa-circle"></i>
+              <div class="activity-icon" [ngClass]="getActivityIconClass(activity.entityType)">
+                <i [class]="getActivityIcon(activity.entityType)"></i>
               </div>
               <div class="activity-content">
+                <div class="activity-header">
+                  <span class="activity-type-badge" [ngClass]="getActivityTypeClass(activity.activityType)">
+                    {{ getActivityTypeText(activity.activityType) }}
+                  </span>
+                  <span class="activity-time">{{ activity.timeAgo }}</span>
+                </div>
                 <p class="activity-text">{{ activity.description }}</p>
-                <span class="activity-time">{{ activity.time }}</span>
+                <small class="activity-meta text-muted">
+                  <i class="fas fa-tag me-1"></i>
+                  {{ getEntityTypeText(activity.entityType) }}
+                  <span class="ms-2">#{{ activity.entityId }}</span>
+                </small>
               </div>
             </div>
           </div>
+          
+          <ng-template #noActivities>
+            <div class="no-activities">
+              <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+              <p class="text-muted">لا توجد نشاطات في آخر 12 ساعة</p>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>
@@ -228,3 +268,4 @@
     </div>
   </div>
 </div>
+
