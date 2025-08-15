@@ -127,3 +127,5 @@ The landing page can be easily customized by:
 - Mobile browsers (iOS Safari, Chrome Mobile)
 - Responsive design for all screen sizes
 - Progressive enhancement approach
+
+

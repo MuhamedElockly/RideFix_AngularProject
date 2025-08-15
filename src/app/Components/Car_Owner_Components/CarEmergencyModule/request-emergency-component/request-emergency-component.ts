@@ -18,7 +18,7 @@ import { TechnicianService } from '../../../../Services/TechnicianService/techni
 
 @Component({
   selector: 'app-request-emergency-component',
-  imports: [NgClass, FormsModule, FormsModule],
+  imports: [NgClass, FormsModule],
   templateUrl: './request-emergency-component.html',
   styleUrl: './request-emergency-component.css',
   encapsulation: ViewEncapsulation.None, // ✨ الحل هنا

@@ -17,3 +17,4 @@ export class ApiConfigService {
     return `${this.baseUrl}/${endpoint}/${subEndpoint}`;
   }
 }
+

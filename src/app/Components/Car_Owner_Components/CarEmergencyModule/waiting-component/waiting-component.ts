@@ -5,8 +5,6 @@ import {
   ViewEncapsulation,
   OnDestroy,
 } from '@angular/core';
-import { NavBarComponent } from '../../../General/nav-bar-component/nav-bar-component';
-import { FooterComponent } from '../../../General/footer-component/footer-component';
 import { RequestService } from '../../../../Services/RequestService/request-service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -15,7 +13,7 @@ import { AuthService } from '../../../../Services/AuthService/auth.service';
 
 @Component({
   selector: 'app-waiting-component',
-  imports: [NavBarComponent, FooterComponent],
+  imports: [],
   templateUrl: './waiting-component.html',
   styleUrl: './waiting-component.css',
   encapsulation: ViewEncapsulation.None, // ✨ الحل هنا

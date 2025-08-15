@@ -34,3 +34,4 @@ export class LandingNavComponent {
     this.isMenuOpen = false; // Close mobile menu after navigation
   }
 }
+
