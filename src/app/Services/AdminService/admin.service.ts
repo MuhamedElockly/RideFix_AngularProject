@@ -7,6 +7,7 @@ import { ICategory, ICreateCategory, IUpdateCategory } from '../../Interfaces/Ad
 import { ICarOwner } from '../../Interfaces/Admin/ICarOwner';
 import { ITechnician } from '../../Interfaces/Admin/ITechnician';
 import { IActivitiesResponse } from '../../Interfaces/Admin/IActivities';
+import { IDashboardStatisticsResponse } from '../../Interfaces/Admin/IStatistics';
 import { ApiConfigService } from '../api-config.service';
 
 @Injectable({
@@ -118,6 +119,11 @@ export class AdminService {
   // Activities Methods
   getActivities(hoursBack: number = 12): Observable<IActivitiesResponse> {
     return this.http.get<IActivitiesResponse>(`${this.baseUrl}/activities?hoursBack=${hoursBack}`);
+  }
+
+  // Dashboard Statistics Method
+  getDashboardStatistics(): Observable<IDashboardStatisticsResponse> {
+    return this.http.get<IDashboardStatisticsResponse>(`${this.baseUrl}/dashboard-statistics`);
   }
 
 }

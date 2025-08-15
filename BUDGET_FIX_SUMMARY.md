@@ -186,3 +186,4 @@ The budget configuration has been completely overhauled with:
 - **Multiple fallback configurations** to ensure limits are applied
 
 This should resolve all deployment budget errors and allow your application to deploy successfully.
+

@@ -36,3 +36,4 @@ try {
 Write-Host "=====================================" -ForegroundColor Green
 Write-Host "Build test completed!" -ForegroundColor Green
 Write-Host "Check the output above for any budget errors." -ForegroundColor Cyan
+
