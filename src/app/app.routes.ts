@@ -31,6 +31,7 @@ import { AddCarComponent } from './Components/Car_Owner_Components/CarMaintainan
 import { AddMComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/add-mcomponent/add-mcomponent';
 import { MaintenanceHistoryComponent } from './Components/Car_Owner_Components/CarMaintainanceModule/maintenance-history-component/maintenance-history-component';
 import { ECommerceHomeComponent } from './Components/e-Commerce_Components/e-commerce-home-component/e-commerce-home-component';
+import { AllProductsComponents } from './Components/e-Commerce_Components/all-products-components/all-products-components';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -49,8 +50,11 @@ export const routes: Routes = [
       { path: 'AddNewCar', component: AddCarComponent },
       { path: 'AddNewM', component: AddMComponent },
       { path: 'MaintenanceHistory', component: MaintenanceHistoryComponent },
-      { path: 'Market', component: ECommerceHomeComponent },
-      // { path: 'RequestsHistory', component: RequestHistoryComponent },
+      {
+        path: 'Market',
+        component: ECommerceHomeComponent,
+      },
+      { path: 'AllProducts', component: AllProductsComponents },
     ],
     canActivate: [carOwnerGuard],
   },
@@ -67,7 +71,11 @@ export const routes: Routes = [
       { path: 'historytech', component: Historytech },
       { path: 'techservieces', component: TechServieces },
       { path: 'techchat', component: Techchat },
-      { path: 'Market', component: ECommerceHomeComponent },
+      {
+        path: 'Market',
+        component: ECommerceHomeComponent,
+      },
+      { path: 'AllProducts', component: AllProductsComponents },
     ],
     canActivate: [techGuard],
   },
