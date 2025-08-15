@@ -7,11 +7,13 @@ yarn-error.log*
 # Build outputs
 dist/
 .angular/
+build/
 
 # Environment files (keep only production)
 .env.local
 .env.development
 .env.test
+.env
 
 # IDE files
 .vscode/
@@ -30,10 +32,13 @@ Thumbs.db
 # Testing
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
 
 # Logs
 logs/
 *.log
+npm-debug.log*
 
 # Runtime data
 pids/
@@ -55,3 +60,20 @@ pids/
 
 # Yarn Integrity file
 .yarn-integrity
+
+# Angular specific
+.angular/
+.angular-cli.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backup files
+*.bak
+*.backup
+
+# Local configuration
+.vercel/project.json
+.vercel/.env.local
