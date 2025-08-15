@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IAdminUser } from '../../Interfaces/Admin/IAdminUser';
@@ -7,13 +7,14 @@ import { ICategory, ICreateCategory, IUpdateCategory } from '../../Interfaces/Ad
 import { ICarOwner } from '../../Interfaces/Admin/ICarOwner';
 import { ITechnician } from '../../Interfaces/Admin/ITechnician';
 import { IActivitiesResponse } from '../../Interfaces/Admin/IActivities';
+import { ApiConfigService } from '../api-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private baseUrl = 'http://localhost:5038/api/Admin';
-
+  private apiConfig = inject(ApiConfigService);
+  private baseUrl = this.apiConfig.getApiUrl('Admin');
   constructor(private http: HttpClient) {}
 
   getAllUsers(): Observable<IApiResponse<IAdminUser[]>> {
