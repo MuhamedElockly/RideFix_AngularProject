@@ -265,6 +265,28 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.activity-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.activity-stats .badge {
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+.activity-stats .btn {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.activity-stats .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 .activity-list {
   max-height: 400px;
   overflow-y: auto;
@@ -276,31 +298,112 @@
   gap: 1rem;
   padding: 1rem 0;
   border-bottom: 1px solid #ecf0f1;
+  transition: background-color 0.2s ease;
 }
 
 .activity-item:last-child {
   border-bottom: none;
 }
 
+.activity-item:hover {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0 -1rem;
+}
+
 .activity-icon {
-  color: #e74c3c;
-  font-size: 0.75rem;
-  margin-top: 0.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity-icon-emergency {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.activity-icon-maintenance {
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+}
+
+.activity-icon-registration {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.activity-icon-review {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.activity-icon-chat {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.activity-icon-default {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.activity-icon i {
+  color: white;
+  font-size: 16px;
 }
 
 .activity-content {
   flex: 1;
 }
 
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.activity-type-badge {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
 .activity-text {
-  margin: 0 0 0.25rem;
+  margin: 0 0 8px 0;
   color: #2c3e50;
   font-weight: 500;
+  line-height: 1.4;
 }
 
 .activity-time {
   font-size: 0.875rem;
   color: #7f8c8d;
+}
+
+.activity-meta {
+  font-size: 12px;
+  color: #888;
+}
+
+.no-activities {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.no-activities i {
+  margin-bottom: 16px;
+}
+
+.text-muted.small {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.text-muted.small .ms-2 {
+  margin-right: 0.5rem;
+  margin-left: 0;
 }
 
 /* Loading Overlay */
