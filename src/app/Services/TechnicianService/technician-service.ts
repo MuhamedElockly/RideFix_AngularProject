@@ -5,11 +5,14 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITechnician } from '../../Interfaces/Technichan/itechnician';
 import { IProfileResponse } from '../../Interfaces/iprofile-Response';
+import { ApiConfigService } from '../api-config.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class TechnicianService {
   clientService = inject(HttpClient);
+  private apiConfig = inject(ApiConfigService);
   FilteredTechs: ITechnician[];
   profileViewId: number = 0;
   /**
@@ -31,7 +34,7 @@ export class TechnicianService {
     Id: number
   ): Observable<HttpResponse<IProfileResponse>> {
     return this.clientService.get<IProfileResponse>(
-      `http://localhost:5038/api/Technician/${this.profileViewId}`,
+      `${this.apiConfig.getApiUrl('Technician')}/${this.profileViewId}`,
       { observe: 'response' }
     );
   }
