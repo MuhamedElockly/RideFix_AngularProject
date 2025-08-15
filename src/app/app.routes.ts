@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
+import { LandingPageComponent } from './Components/General/landing-page/landing-page';
 import { CarOwnerHomeComponent } from './Components/Car_Owner_Components/car-owner-home-component/car-owner-home-component';
 import { RequestEmergencyComponent } from './Components/Car_Owner_Components/CarEmergencyModule/request-emergency-component/request-emergency-component';
 import { TechSelect } from './Components/Car_Owner_Components/CarEmergencyModule/tech-select/tech-select';
@@ -97,7 +98,7 @@ export const routes: Routes = [
           canActivate: [adminGuard],
         },
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // لو المستخدم مش مسجل
+  { path: '', component: LandingPageComponent }, // Landing page for anonymous users
   // { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
 
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },
