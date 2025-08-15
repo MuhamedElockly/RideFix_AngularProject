@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { TokenService } from '../TokenService/tokenservice';
 import { ApiConfigService } from '../api-config.service';
+import { Router } from '@angular/router';
 // import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -14,7 +15,8 @@ export class AuthService {
   constructor(
     private http: HttpClient, 
     private tokenservice: TokenService,
-    private apiConfig: ApiConfigService
+    private apiConfig: ApiConfigService,
+    private router: Router
   ) {}
 
   login(dto: ILogin): Observable<{ token: string }> {
@@ -26,6 +28,9 @@ export class AuthService {
   logout() {
     this.tokenservice.clearToken();
     // localStorage.removeItem('token');
+    
+    // Navigate to landing page after logout
+    this.router.navigate(['/']);
   }
   isLoggedIn(): boolean {
     // return !!localStorage.getItem('token');
