@@ -4,18 +4,21 @@ import { ILogin } from '../../Interfaces/Account/ILogin';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { TokenService } from '../TokenService/tokenservice';
+import { ApiConfigService } from '../api-config.service';
 // import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:5038/api/account';
-
-  constructor(private http: HttpClient, private tokenservice: TokenService) {}
+  constructor(
+    private http: HttpClient, 
+    private tokenservice: TokenService,
+    private apiConfig: ApiConfigService
+  ) {}
 
   login(dto: ILogin): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/login`, dto, {
+    return this.http.post<{ token: string }>(`${this.apiConfig.getApiUrlWithSubEndpoint('account', 'login')}`, dto, {
       responseType: 'json',
     });
   }
@@ -34,14 +37,14 @@ export class AuthService {
       startWorking: data.startWorking?.trim() ? data.startWorking : null,
       endWorking: data.endWorking?.trim() ? data.endWorking : null,
     };
-    return this.http.post(`${this.baseUrl}/register-step1`, cleanedData);
+    return this.http.post(`${this.apiConfig.getApiUrlWithSubEndpoint('account', 'register-step1')}`, cleanedData);
   }
 
   registerStep2(formData: FormData) {
-    return this.http.post(`${this.baseUrl}/register-step2`, formData);
+    return this.http.post(`${this.apiConfig.getApiUrlWithSubEndpoint('account', 'register-step2')}`, formData);
   }
   checkEmailExists(email: string) {
-    return this.http.get<boolean>(`${this.baseUrl}/check-email?email=${email}`);
+    return this.http.get<boolean>(`${this.apiConfig.getApiUrl('account')}/check-email?email=${email}`);
   }
   getUserName(): string {
     const token = this.tokenservice.getToken();

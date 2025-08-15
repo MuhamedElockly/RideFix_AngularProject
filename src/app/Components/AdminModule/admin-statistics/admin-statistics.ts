@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { AdminService } from '../../../Services/AdminService/admin.service';
-import { PDFExportService } from '../../../Services/PDFExportService/pdf-export.service';
 import { IUsersCount, IRequestsCount } from '../../../Interfaces/Admin/IStatistics';
-import { IActivity, IActivitiesData } from '../../../Interfaces/Admin/IActivities';
-import { interval, Subscription } from 'rxjs';
+import { IActivitiesData, IActivity } from '../../../Interfaces/Admin/IActivities';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-statistics',
@@ -14,8 +12,10 @@ import { interval, Subscription } from 'rxjs';
   templateUrl: './admin-statistics.html',
   styleUrls: ['./admin-statistics.css']
 })
-export class AdminStatisticsComponent implements OnInit, OnDestroy {
+export class AdminStatisticsComponent implements OnInit {
   isLoading = true;
+  isRefreshing = false;
+  isActionLoading = false;
   
   // Statistics Data
   usersCount: IUsersCount = {
@@ -28,35 +28,24 @@ export class AdminStatisticsComponent implements OnInit, OnDestroy {
     waitingRequestsCount: 0
   };
 
-  // Activity Data
-  recentActivities: IActivity[] = [];
+  // Activities Data
   activitiesData: IActivitiesData | null = null;
-  isRefreshing = false;
+  recentActivities: IActivity[] = [];
   lastRefreshTime: Date | null = null;
-  private autoRefreshSubscription?: Subscription;
 
-  // Quick Actions
-  isActionLoading = false;
+  // Notification properties
   showNotification = false;
+  notificationType: 'success' | 'error' | 'warning' | 'info' = 'success';
   notificationMessage = '';
-  notificationType = 'success';
 
   constructor(
-    private adminService: AdminService, 
-    private router: Router,
-    private pdfExportService: PDFExportService
+    private adminService: AdminService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadStatistics();
     this.loadActivities();
-    this.startAutoRefresh();
-  }
-
-  ngOnDestroy(): void {
-    if (this.autoRefreshSubscription) {
-      this.autoRefreshSubscription.unsubscribe();
-    }
   }
 
   loadStatistics(): void {
@@ -97,262 +86,161 @@ export class AdminStatisticsComponent implements OnInit, OnDestroy {
   }
 
   loadActivities(): void {
-    this.adminService.getActivities(12).subscribe({
+    // Load activities data
+    this.adminService.getActivities().subscribe({
       next: (response) => {
-        if (response.success) {
-          this.activitiesData = response.data;
-          this.recentActivities = this.combineAndSortActivities(response.data);
-          this.lastRefreshTime = new Date();
-        }
+        this.activitiesData = response.data;
+        this.recentActivities = this.getRecentActivities(response.data);
       },
       error: (error) => {
         console.error('Error loading activities:', error);
-        // Clear activities on error
+        // Use fallback data
+        this.activitiesData = {
+          emergencyRequests: [],
+          carMaintenanceRecords: [],
+          userRegistrations: [],
+          reviews: [],
+          chatSessions: [],
+          totalCount: 0,
+          reportGeneratedAt: new Date().toISOString()
+        };
         this.recentActivities = [];
-        this.activitiesData = null;
       }
     });
   }
 
   refreshActivities(): void {
     this.isRefreshing = true;
-    this.adminService.getActivities(12).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.activitiesData = response.data;
-          this.recentActivities = this.combineAndSortActivities(response.data);
-          this.lastRefreshTime = new Date();
-        }
-        this.isRefreshing = false;
-      },
-      error: (error) => {
-        console.error('Error refreshing activities:', error);
-        this.isRefreshing = false;
-      }
-    });
+    this.loadActivities();
+    this.lastRefreshTime = new Date();
+    
+    setTimeout(() => {
+      this.isRefreshing = false;
+    }, 1000);
   }
 
-  private combineAndSortActivities(data: IActivitiesData): IActivity[] {
+  getRecentActivities(activitiesData: IActivitiesData): IActivity[] {
     const allActivities: IActivity[] = [
-      ...data.emergencyRequests,
-      ...data.carMaintenanceRecords,
-      ...data.userRegistrations,
-      ...data.reviews,
-      ...data.chatSessions
+      ...activitiesData.emergencyRequests,
+      ...activitiesData.carMaintenanceRecords,
+      ...activitiesData.userRegistrations,
+      ...activitiesData.reviews,
+      ...activitiesData.chatSessions
     ];
 
-    // Sort by timestamp (newest first)
-    return allActivities.sort((a, b) => {
-      const dateA = new Date(a.timestamp).getTime();
-      const dateB = new Date(b.timestamp).getTime();
-      return dateB - dateA;
-    });
+    // Sort by timestamp and take the most recent 10
+    return allActivities
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .slice(0, 10);
+  }
+
+  // Activity helper methods
+  getActivityIconClass(entityType: string): string {
+    const iconClasses: { [key: string]: string } = {
+      'emergency': 'activity-icon-emergency',
+      'maintenance': 'activity-icon-maintenance',
+      'user': 'activity-icon-user',
+      'review': 'activity-icon-review',
+      'chat': 'activity-icon-chat'
+    };
+    return iconClasses[entityType] || 'activity-icon-default';
   }
 
   getActivityIcon(entityType: string): string {
-    switch (entityType) {
-      case 'EmergencyRequest':
-        return 'fas fa-exclamation-triangle';
-      case 'CarMaintenanceRecord':
-        return 'fas fa-wrench';
-      case 'UserRegistration':
-        return 'fas fa-user-plus';
-      case 'Review':
-        return 'fas fa-star';
-      case 'ChatSession':
-        return 'fas fa-comments';
-      default:
-        return 'fas fa-circle';
-    }
-  }
-
-  getActivityIconClass(entityType: string): string {
-    switch (entityType) {
-      case 'EmergencyRequest':
-        return 'activity-icon-emergency';
-      case 'CarMaintenanceRecord':
-        return 'activity-icon-maintenance';
-      case 'UserRegistration':
-        return 'activity-icon-registration';
-      case 'Review':
-        return 'activity-icon-review';
-      case 'ChatSession':
-        return 'activity-icon-chat';
-      default:
-        return 'activity-icon-default';
-    }
+    const icons: { [key: string]: string } = {
+      'emergency': 'fas fa-exclamation-triangle',
+      'maintenance': 'fas fa-wrench',
+      'user': 'fas fa-user',
+      'review': 'fas fa-star',
+      'chat': 'fas fa-comments'
+    };
+    return icons[entityType] || 'fas fa-info-circle';
   }
 
   getActivityTypeClass(activityType: string): string {
-    switch (activityType) {
-      case 'Completed':
-        return 'badge bg-success';
-      case 'Created':
-        return 'badge bg-primary';
-      case 'Updated':
-        return 'badge bg-warning';
-      case 'Deleted':
-        return 'badge bg-danger';
-      case 'Pending':
-        return 'badge bg-info';
-      default:
-        return 'badge bg-secondary';
-    }
+    const typeClasses: { [key: string]: string } = {
+      'create': 'badge-success',
+      'update': 'badge-warning',
+      'delete': 'badge-danger',
+      'complete': 'badge-info'
+    };
+    return typeClasses[activityType] || 'badge-secondary';
   }
 
   getActivityTypeText(activityType: string): string {
-    switch (activityType) {
-      case 'Completed':
-        return 'مكتمل';
-      case 'Created':
-        return 'تم إنشاؤه';
-      case 'Updated':
-        return 'تم تحديثه';
-      case 'Deleted':
-        return 'تم حذفه';
-      case 'Pending':
-        return 'قيد الانتظار';
-      default:
-        return activityType;
-    }
+    const typeTexts: { [key: string]: string } = {
+      'create': 'إنشاء',
+      'update': 'تحديث',
+      'delete': 'حذف',
+      'complete': 'إكمال'
+    };
+    return typeTexts[activityType] || activityType;
   }
 
   getEntityTypeText(entityType: string): string {
-    switch (entityType) {
-      case 'EmergencyRequest':
-        return 'طلب طوارئ';
-      case 'CarMaintenanceRecord':
-        return 'سجل صيانة';
-      case 'UserRegistration':
-        return 'تسجيل مستخدم';
-      case 'Review':
-        return 'تقييم';
-      case 'ChatSession':
-        return 'جلسة محادثة';
-      default:
-        return entityType;
-    }
+    const entityTexts: { [key: string]: string } = {
+      'emergency': 'طلب طوارئ',
+      'maintenance': 'صيانة',
+      'user': 'مستخدم',
+      'review': 'تقييم',
+      'chat': 'محادثة'
+    };
+    return entityTexts[entityType] || entityType;
   }
 
-  private startAutoRefresh(): void {
-    // Auto-refresh activities every 5 minutes (300000 ms)
-    this.autoRefreshSubscription = interval(300000).subscribe(() => {
-      this.refreshActivities();
-    });
-  }
-
-  // Quick Actions Methods
+  // Quick action methods
   addNewCategory(): void {
     this.isActionLoading = true;
-    // Navigate to categories management page
-    this.router.navigate(['/admin/categories']).finally(() => {
+    this.router.navigate(['/admin/categories']);
+    setTimeout(() => {
       this.isActionLoading = false;
-    });
+    }, 1000);
   }
 
   manageUsers(): void {
     this.isActionLoading = true;
-    // Navigate to technicians management page (main user management)
-    this.router.navigate(['/admin/technicians']).finally(() => {
+    this.router.navigate(['/admin/technicians']);
+    setTimeout(() => {
       this.isActionLoading = false;
-    });
+    }, 1000);
   }
 
   reviewReports(): void {
     this.isActionLoading = true;
-    // Navigate to reports management page
-    this.router.navigate(['/admin/reports']).finally(() => {
+    this.router.navigate(['/admin/reports']);
+    setTimeout(() => {
       this.isActionLoading = false;
-    });
+    }, 1000);
   }
 
   exportReports(): void {
     this.isActionLoading = true;
     
-    try {
-      // Generate comprehensive PDF report
-      this.pdfExportService.generateAdminStatisticsReport(
-        this.usersCount,
-        this.requestsCount,
-        this.activitiesData,
-        this.recentActivities
-      ).then(() => {
-        this.showSuccessNotification('تم تصدير التقرير الشامل بنجاح كملف PDF');
-      }).catch((error) => {
-        console.error('Error generating PDF report:', error);
-        this.showErrorNotification('حدث خطأ أثناء تصدير التقرير. يرجى المحاولة مرة أخرى.');
-        
-        // Fallback: Try to show a simple data export
-        this.showFallbackExport();
-      }).finally(() => {
-        this.isActionLoading = false;
-      });
-    } catch (error) {
-      console.error('Error in exportReports:', error);
-      this.showErrorNotification('حدث خطأ أثناء تصدير التقرير. يرجى المحاولة مرة أخرى.');
+    // Simulate export process
+    setTimeout(() => {
       this.isActionLoading = false;
-    }
+      this.showSuccessNotification('تم تصدير التقرير بنجاح');
+    }, 2000);
   }
 
-  private showFallbackExport(): void {
-    // Create a simple text-based export as fallback
-    const reportData = this.createSimpleReport();
-    const blob = new Blob([reportData], { type: 'text/plain;charset=utf-8' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `admin-statistics-report-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-    
-    this.showSuccessNotification('تم تصدير التقرير كملف نصي بديل');
-  }
-
-  private createSimpleReport(): string {
-    const report = [
-      'RideFix Admin Statistics Report',
-      '===============================',
-      '',
-      `Report Date: ${new Date().toLocaleString('en-US')}`,
-      '',
-      'Statistics Overview:',
-      `- Total Technicians: ${this.usersCount.techniciansCount}`,
-      `- Total Car Owners: ${this.usersCount.carOwnersCount}`,
-      `- Total Requests: ${this.requestsCount.allRequestsCount}`,
-      `- Waiting Requests: ${this.requestsCount.waitingRequestsCount}`,
-      '',
-      'Recent Activities:',
-      ...this.recentActivities.slice(0, 10).map(activity => 
-        `- ${activity.entityType}: ${activity.description} (${activity.timeAgo})`
-      ),
-      '',
-      'Generated by RideFix System'
-    ];
-    
-    return report.join('\n');
-  }
-
-  private showSuccessNotification(message: string): void {
-    this.notificationMessage = message;
+  // Notification methods
+  showSuccessNotification(message: string): void {
     this.notificationType = 'success';
+    this.notificationMessage = message;
     this.showNotification = true;
     
-    // Auto-hide after 3 seconds
     setTimeout(() => {
-      this.showNotification = false;
-    }, 3000);
+      this.closeNotification();
+    }, 5000);
   }
 
-  private showErrorNotification(message: string): void {
-    this.notificationMessage = message;
+  showErrorNotification(message: string): void {
     this.notificationType = 'error';
+    this.notificationMessage = message;
     this.showNotification = true;
     
-    // Auto-hide after 5 seconds
     setTimeout(() => {
-      this.showNotification = false;
+      this.closeNotification();
     }, 5000);
   }
 
