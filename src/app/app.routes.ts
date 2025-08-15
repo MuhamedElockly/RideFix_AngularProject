@@ -42,6 +42,7 @@ import { CarOwnersManagementComponent } from './Components/AdminModule/car-owner
 import { ReportsManagementComponent } from './Components/AdminModule/reports-management/reports-management';
 import { CategoriesManagementComponent } from './Components/AdminModule/categories-management/categories-management';
 import { AdminStatisticsComponent } from './Components/AdminModule/admin-statistics/admin-statistics';
+import { CartPageComponent } from './Components/e-Commerce_Components/cart-page-component/cart-page-component';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -65,6 +66,7 @@ export const routes: Routes = [
         component: ECommerceHomeComponent,
       },
       { path: 'AllProducts', component: AllProductsComponents },
+      {path:'cartpage',component:CartPageComponent}
     ],
     canActivate: [carOwnerGuard],
   },
@@ -86,6 +88,7 @@ export const routes: Routes = [
         component: ECommerceHomeComponent,
       },
       { path: 'AllProducts', component: AllProductsComponents },
+      {path:'cartpage',component:CartPageComponent}
     ],
     canActivate: [techGuard],
   },

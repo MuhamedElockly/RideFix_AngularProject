@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { IShoppingCart } from '../../Interfaces/ishopping-cart';
 import { IApiResponse } from '../../Interfaces/iapi-response';
+import { Ifilterproduct } from '../../Interfaces/ifilterproduct';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,21 @@ export class Ecomerceservice {
   // Get shopping cart
   getShoppingCart() {
     return this.http.get<any>('http://localhost:5038/api/ShoppingCart').pipe(map(res => res.data));
+  }
+
+  //to filter products
+  getProductsByCategory(x: Ifilterproduct) {
+    return this.http.get<any>(`http://localhost:5038/api/Product?pageNumber=${x.pageNumber}&itemPerPage=9&maxPrice=${x.maxPrice}&categoryId=${x.categoryId}`).pipe(map(res => res.data));
+  }
+
+  // delete product from cart
+  deleteFromCart(productId: number) {
+    return this.http.delete<IApiResponse<boolean>>(`http://localhost:5038/api/ShoppingCart/${productId}`);
+  }
+
+  // delete all products from cart
+  deleteAllFromCart() {
+    return this.http.delete<IApiResponse<boolean>>(`http://localhost:5038/api/ShoppingCart`);
   }
 
 }

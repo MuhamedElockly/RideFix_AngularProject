@@ -80,7 +80,7 @@
           <h4 class="category-title"> {{item.name}} </h4>
           <p class="category-count">{{item.productsCount}} منتج</p>
           <div class="category-overlay">
-            <button class="btn btn-light">تصفح الآن</button>
+            <button class="btn btn-light" (click)="selectCategory(item.id,item.productsCount)" >تصفح الآن</button>
           </div>
         </div>
       </div>
@@ -258,6 +258,7 @@
       </div>
     }
 
+
       <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="product-card">
           <div class="product-image">
@@ -294,6 +295,13 @@
         </div>
       </div> -->
     </div>
+
+    <div class="text-center mt-4">
+      <button class="btn btn-primary add-to-cart " (click)="showAllProducts()">
+        <i class="fas fa-th-list"></i>
+        عرض جميع المنتجات
+      </button>
+      </div>
   </div>
 </section>
 
