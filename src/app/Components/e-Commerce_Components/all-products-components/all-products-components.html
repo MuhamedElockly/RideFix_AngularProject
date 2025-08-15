@@ -1,0 +1,1204 @@
+<!-- Breadcrumb -->
+<section class="breadcrumb-section">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="ecommerce-home-static.html"
+            ><i class="fas fa-home"></i> الرئيسية</a
+          >
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          جميع المنتجات
+        </li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="page-title">
+          <i class="fas fa-boxes"></i>
+          جميع المنتجات
+        </h1>
+        <p class="page-subtitle">
+          اكتشف مجموعتنا الكاملة من قطع غيار السيارات والإكسسوارات
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <div class="search-container">
+          <div class="search-box">
+            <input
+              type="text"
+              id="searchInput"
+              class="form-control"
+              placeholder="ابحث عن المنتجات..."
+            />
+            <button class="search-btn" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="main-content">
+  <div class="container">
+    <div class="row">
+      <!-- Filters Sidebar -->
+      <div class="col-lg-3">
+        <div class="filters-sidebar">
+          <div class="filters-header">
+            <h3><i class="fas fa-filter"></i> تصفية المنتجات</h3>
+            <button class="btn btn-outline-primary btn-sm" id="clearFilters">
+              <i class="fas fa-times"></i> مسح الكل
+            </button>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="filter-group">
+            <h4 class="filter-title">
+              <i class="fas fa-th-large"></i>
+              الفئات
+              <button
+                class="toggle-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#categoryFilter"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </h4>
+            <div class="collapse show" id="categoryFilter">
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input
+                    type="checkbox"
+                    name="category"
+                    value="oils"
+                    data-count="45"
+                  />
+                  <span class="checkmark"></span>
+                  زيوت ومواد التشحيم
+                  <span class="count">(45)</span>
+                </label>
+                <label class="filter-option">
+                  <input
+                    type="checkbox"
+                    name="category"
+                    value="batteries"
+                    data-count="32"
+                  />
+                  <span class="checkmark"></span>
+                  البطاريات والكهرباء
+                  <span class="count">(32)</span>
+                </label>
+                <label class="filter-option">
+                  <input
+                    type="checkbox"
+                    name="category"
+                    value="engine"
+                    data-count="78"
+                  />
+                  <span class="checkmark"></span>
+                  قطع غيار المحرك
+                  <span class="count">(78)</span>
+                </label>
+                <label class="filter-option">
+                  <input
+                    type="checkbox"
+                    name="category"
+                    value="brakes"
+                    data-count="56"
+                  />
+                  <span class="checkmark"></span>
+                  الفرامل والإطارات
+                  <span class="count">(56)</span>
+                </label>
+                <label class="filter-option">
+                  <input
+                    type="checkbox"
+                    name="category"
+                    value="filters"
+                    data-count="34"
+                  />
+                  <span class="checkmark"></span>
+                  الفلاتر
+                  <span class="count">(34)</span>
+                </label>
+                <label class="filter-option">
+                  <input
+                    type="checkbox"
+                    name="category"
+                    value="accessories"
+                    data-count="67"
+                  />
+                  <span class="checkmark"></span>
+                  الإكسسوارات
+                  <span class="count">(67)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price Filter -->
+          <div class="filter-group">
+            <h4 class="filter-title">
+              <i class="fas fa-tag"></i>
+              السعر
+              <button
+                class="toggle-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#priceFilter"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </h4>
+            <div class="collapse show" id="priceFilter">
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="price" value="0-50" />
+                  <span class="checkmark"></span>
+                  أقل من 50 ريال
+                  <span class="count">(23)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="price" value="50-100" />
+                  <span class="checkmark"></span>
+                  50 - 100 ريال
+                  <span class="count">(89)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="price" value="100-200" />
+                  <span class="checkmark"></span>
+                  100 - 200 ريال
+                  <span class="count">(156)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="price" value="200-500" />
+                  <span class="checkmark"></span>
+                  200 - 500 ريال
+                  <span class="count">(98)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="price" value="500+" />
+                  <span class="checkmark"></span>
+                  أكثر من 500 ريال
+                  <span class="count">(46)</span>
+                </label>
+              </div>
+              <div class="price-range-slider">
+                <label>نطاق السعر المخصص:</label>
+                <div class="range-inputs">
+                  <input
+                    type="number"
+                    id="minPrice"
+                    placeholder="من"
+                    min="0"
+                    max="1000"
+                  />
+                  <span>-</span>
+                  <input
+                    type="number"
+                    id="maxPrice"
+                    placeholder="إلى"
+                    min="0"
+                    max="1000"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="filter-group">
+            <h4 class="filter-title">
+              <i class="fas fa-award"></i>
+              العلامة التجارية
+              <button
+                class="toggle-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#brandFilter"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </h4>
+            <div class="collapse show" id="brandFilter">
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="brand" value="mobil" />
+                  <span class="checkmark"></span>
+                  موبيل (Mobil)
+                  <span class="count">(34)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="brand" value="brembo" />
+                  <span class="checkmark"></span>
+                  بريمبو (Brembo)
+                  <span class="count">(28)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="brand" value="acdelco" />
+                  <span class="checkmark"></span>
+                  AC Delco
+                  <span class="count">(45)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="brand" value="kn" />
+                  <span class="checkmark"></span>
+                  K&N
+                  <span class="count">(23)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="brand" value="bosch" />
+                  <span class="checkmark"></span>
+                  بوش (Bosch)
+                  <span class="count">(67)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="brand" value="mann" />
+                  <span class="checkmark"></span>
+                  مان (Mann)
+                  <span class="count">(39)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rating Filter -->
+          <div class="filter-group">
+            <h4 class="filter-title">
+              <i class="fas fa-star"></i>
+              التقييم
+              <button
+                class="toggle-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#ratingFilter"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </h4>
+            <div class="collapse show" id="ratingFilter">
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="rating" value="5" />
+                  <span class="checkmark"></span>
+                  <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="count">(89)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="rating" value="4" />
+                  <span class="checkmark"></span>
+                  <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                  فأكثر <span class="count">(156)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="rating" value="3" />
+                  <span class="checkmark"></span>
+                  <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                  فأكثر <span class="count">(234)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Availability Filter -->
+          <div class="filter-group">
+            <h4 class="filter-title">
+              <i class="fas fa-check-circle"></i>
+              التوفر
+              <button
+                class="toggle-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#availabilityFilter"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </h4>
+            <div class="collapse show" id="availabilityFilter">
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="availability" value="in-stock" />
+                  <span class="checkmark"></span>
+                  متوفر
+                  <span class="count">(298)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="availability" value="sale" />
+                  <span class="checkmark"></span>
+                  في التخفيضات
+                  <span class="count">(45)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="availability" value="new" />
+                  <span class="checkmark"></span>
+                  منتجات جديدة
+                  <span class="count">(23)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="col-lg-9">
+        <!-- Toolbar -->
+        <div class="products-toolbar">
+          <div class="toolbar-left">
+            <div class="results-info">
+              <span id="resultsCount">عرض 1-12 من أصل 312 منتج</span>
+            </div>
+          </div>
+          <div class="toolbar-right">
+            <div class="view-options">
+              <button class="view-btn active" data-view="grid">
+                <i class="fas fa-th"></i>
+              </button>
+              <button class="view-btn" data-view="list">
+                <i class="fas fa-list"></i>
+              </button>
+            </div>
+            <div class="sort-options">
+              <select id="sortSelect" class="form-select">
+                <option value="default">ترتيب افتراضي</option>
+                <option value="name-asc">الاسم: أ - ي</option>
+                <option value="name-desc">الاسم: ي - أ</option>
+                <option value="price-asc">السعر: من الأقل للأعلى</option>
+                <option value="price-desc">السعر: من الأعلى للأقل</option>
+                <option value="rating-desc">الأعلى تقييماً</option>
+                <option value="newest">الأحدث</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+          <!-- Product 1 -->
+          <div
+            class="product-card"
+            data-category="oils"
+            data-brand="mobil"
+            data-price="120"
+            data-rating="5"
+            data-availability="sale"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="زيت محرك موبيل 1"
+              />
+              <div class="product-badge sale-badge">خصم 20%</div>
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">زيت محرك موبيل 1 - 5W-30</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <span class="rating-count">(24 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">120 ريال</span>
+                <span class="old-price">150 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">توصيل مجاني</span>
+                <span class="feature">ضمان سنة</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div
+            class="product-card"
+            data-category="brakes"
+            data-brand="brembo"
+            data-price="280"
+            data-rating="4"
+            data-availability="new"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="فحمات فرامل بريمبو"
+              />
+              <div class="product-badge new-badge">جديد</div>
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">فحمات فرامل بريمبو - أمامية</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <span class="rating-count">(18 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">280 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">تركيب مجاني</span>
+                <span class="feature">ضمان 6 أشهر</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div
+            class="product-card"
+            data-category="batteries"
+            data-brand="acdelco"
+            data-price="450"
+            data-rating="5"
+            data-availability="in-stock"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="بطارية سيارة"
+              />
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">بطارية AC Delco - 70 أمبير</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <span class="rating-count">(31 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">450 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">تركيب مجاني</span>
+                <span class="feature">ضمان سنتين</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div
+            class="product-card"
+            data-category="filters"
+            data-brand="kn"
+            data-price="95"
+            data-rating="4"
+            data-availability="sale"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200&N+air+filter="
+                alt="فلتر هواء"
+              />
+              <div class="product-badge sale-badge">خصم 25%</div>
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">فلتر هواء K&N - عالي الأداء</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <span class="rating-count">(15 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">95 ريال</span>
+                <span class="old-price">125 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">قابل للغسيل</span>
+                <span class="feature">ضمان مدى الحياة</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 5 -->
+          <div
+            class="product-card"
+            data-category="engine"
+            data-brand="bosch"
+            data-price="85"
+            data-rating="5"
+            data-availability="in-stock"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="شمعات احتراق"
+              />
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">شمعات احتراق بوش - بلاتينيوم</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <span class="rating-count">(42 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">85 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">عمر أطول</span>
+                <span class="feature">أداء محسن</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 6 -->
+          <div
+            class="product-card"
+            data-category="filters"
+            data-brand="mann"
+            data-price="65"
+            data-rating="4"
+            data-availability="in-stock"
+          >
+            <div class="product-image">
+              <img src="/placeholder.svg?height=200&width=200" alt="فلتر زيت" />
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">فلتر زيت مان - أصلي</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <span class="rating-count">(28 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">65 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">جودة ألمانية</span>
+                <span class="feature">فلترة فائقة</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 7 -->
+          <div
+            class="product-card"
+            data-category="accessories"
+            data-brand="bosch"
+            data-price="35"
+            data-rating="3"
+            data-availability="in-stock"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="حامل هاتف"
+              />
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">حامل هاتف للسيارة - مغناطيسي</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <span class="rating-count">(12 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">35 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">تثبيت قوي</span>
+                <span class="feature">دوران 360°</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 8 -->
+          <div
+            class="product-card"
+            data-category="oils"
+            data-brand="mobil"
+            data-price="180"
+            data-rating="5"
+            data-availability="in-stock"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="زيت ناقل حركة"
+              />
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">زيت ناقل حركة موبيل - ATF</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <span class="rating-count">(19 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">180 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">حماية فائقة</span>
+                <span class="feature">نعومة التشغيل</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 9 -->
+          <div
+            class="product-card"
+            data-category="brakes"
+            data-brand="brembo"
+            data-price="320"
+            data-rating="4"
+            data-availability="new"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="أقراص فرامل"
+              />
+              <div class="product-badge new-badge">جديد</div>
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">أقراص فرامل بريمبو - مثقبة</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <span class="rating-count">(8 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">320 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">تبريد محسن</span>
+                <span class="feature">أداء رياضي</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 10 -->
+          <div
+            class="product-card"
+            data-category="accessories"
+            data-brand="bosch"
+            data-price="45"
+            data-rating="4"
+            data-availability="sale"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="أغطية مقاعد"
+              />
+              <div class="product-badge sale-badge">خصم 15%</div>
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">أغطية مقاعد جلدية - عالمية</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <span class="rating-count">(22 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">45 ريال</span>
+                <span class="old-price">53 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">مقاوم للماء</span>
+                <span class="feature">سهل التنظيف</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 11 -->
+          <div
+            class="product-card"
+            data-category="batteries"
+            data-brand="acdelco"
+            data-price="380"
+            data-rating="5"
+            data-availability="in-stock"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="بطارية 60 أمبير"
+              />
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">بطارية AC Delco - 60 أمبير</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <span class="rating-count">(26 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">380 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">تركيب مجاني</span>
+                <span class="feature">ضمان سنتين</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 12 -->
+          <div
+            class="product-card"
+            data-category="engine"
+            data-brand="mann"
+            data-price="75"
+            data-rating="4"
+            data-availability="in-stock"
+          >
+            <div class="product-image">
+              <img
+                src="/placeholder.svg?height=200&width=200"
+                alt="فلتر وقود"
+              />
+              <div class="product-actions">
+                <button
+                  class="btn btn-sm btn-light wishlist-btn"
+                  title="إضافة للمفضلة"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-light quick-view-btn"
+                  title="عرض سريع"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-light compare-btn" title="مقارنة">
+                  <i class="fas fa-balance-scale"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <h5 class="product-title">فلتر وقود مان - أصلي</h5>
+              <div class="product-rating">
+                <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <span class="rating-count">(17 تقييم)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">75 ريال</span>
+              </div>
+              <div class="product-features">
+                <span class="feature">فلترة دقيقة</span>
+                <span class="feature">حماية المحرك</span>
+              </div>
+              <button class="btn btn-primary add-to-cart">
+                <i class="fas fa-shopping-cart"></i>
+                أضف للسلة
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+          <nav aria-label="صفحات المنتجات">
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">
+                  <i class="fas fa-chevron-right"></i>
+                </a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">2</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">3</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">...</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">26</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="cartToast" class="toast" role="alert">
+    <div class="toast-header">
+      <i class="fas fa-shopping-cart text-success me-2"></i>
+      <strong class="me-auto">تم الإضافة للسلة</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body">تم إضافة المنتج إلى سلة التسوق بنجاح</div>
+  </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal fade" id="quickViewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">عرض سريع للمنتج</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <img
+              src="/placeholder.svg?height=300&width=300"
+              alt="منتج"
+              class="img-fluid"
+            />
+          </div>
+          <div class="col-md-6">
+            <h4 id="quickViewTitle">اسم المنتج</h4>
+            <div class="rating mb-3">
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="far fa-star text-warning"></i>
+              <span class="ms-2">(15 تقييم)</span>
+            </div>
+            <div class="price mb-3">
+              <span class="h4 text-primary">120 ريال</span>
+              <span class="text-muted text-decoration-line-through ms-2"
+                >150 ريال</span
+              >
+            </div>
+            <p class="description">وصف مختصر للمنتج وميزاته الرئيسية...</p>
+            <div class="features mb-3">
+              <span class="badge bg-success me-2">توصيل مجاني</span>
+              <span class="badge bg-info">ضمان سنة</span>
+            </div>
+            <button class="btn btn-primary btn-lg w-100">
+              <i class="fas fa-shopping-cart"></i>
+              أضف للسلة
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
