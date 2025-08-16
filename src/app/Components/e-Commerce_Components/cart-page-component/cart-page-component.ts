@@ -95,6 +95,7 @@ const path = this.router.url;
         quantity: item.quantity,
         productName: item.productName,
         price: item.price,
+        imageUrl: item.imageUrl
       };
 
       this.ecomerces.updateQuantity(cartItem).subscribe({

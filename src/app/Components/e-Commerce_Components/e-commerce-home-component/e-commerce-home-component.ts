@@ -86,6 +86,7 @@ selectCategory(categoryId: number, productsCount: number) {
         quantity: 1,
         productName: item.name,
         price: item.price,
+        imageUrl: item.imageUrl 
       };
 
       this.ecomerces.addToCart(cartItem).subscribe({

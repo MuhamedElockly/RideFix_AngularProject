@@ -3,5 +3,6 @@ export interface IShoppingCart {
   quantity: number;
   productName:string;
   price:number;
+  imageUrl:string;
 
 }

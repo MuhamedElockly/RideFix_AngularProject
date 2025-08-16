@@ -18,7 +18,7 @@
           </div>
           <div class="hero-feature-text">مهام نشطة</div>
         </div>
-    
+
         <div class="hero-feature">
           <div class="hero-feature-icon rating">
             <i class="fas fa-star"></i>
@@ -36,44 +36,44 @@
         <i class="fas fa-clipboard-list"></i>
         طلبات الخدمة المتاحة
       </h2>
-      
+
       <!-- City Filter -->
       <div class="filter-container">
         <div class="filter-wrapper">
           <div class="filter-icon">
             <i class="fas fa-map-marker-alt"></i>
           </div>
-          <select 
-            class="city-filter-dropdown" 
-            [(ngModel)]="selectedCity" 
+          <select
+            class="city-filter-dropdown"
+            [(ngModel)]="selectedCity"
             (change)="onCityFilterChange()"
             [disabled]="isLoadingCities || availableCities.length === 0"
           >
             <option value="">جميع المدن</option>
-            <option 
-              *ngFor="let city of availableCities" 
+            <option
+              *ngFor="let city of availableCities"
               [value]="city"
               [disabled]="city === 'لا توجد مدن متاحة'"
             >
               {{city}}
             </option>
           </select>
-          <button 
-            *ngIf="selectedCity" 
-            class="clear-filter-btn" 
+          <button
+            *ngIf="selectedCity"
+            class="clear-filter-btn"
             (click)="clearCityFilter()"
             title="مسح الفلتر"
           >
             <i class="fas fa-times"></i>
           </button>
         </div>
-        
+
         <!-- Loading indicator -->
         <div *ngIf="isLoadingCities" class="filter-loading">
           <i class="fas fa-spinner fa-spin"></i>
           <span>جاري تحميل المدن...</span>
         </div>
-        
+
         <!-- Results count -->
         <div *ngIf="!isLoadingCities" class="results-count">
           <span class="count-number">{{filteredRequests.length}}</span>
