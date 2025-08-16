@@ -4,6 +4,7 @@ import { RequestService } from '../../../../Services/RequestService/request-serv
 import Swal from 'sweetalert2';
 import { RequestDetailsComponent } from '../request-details-component/request-details-component';
 import { AuthService } from '../../../../Services/AuthService/auth.service';
+import { ReportService } from '../../../../Services/ReportsService/report-service';
 
 @Component({
   selector: 'app-request-history-component',
@@ -18,13 +19,14 @@ export class RequestHistoryComponent implements OnInit {
   selectedRequestId: Number | null = null;
   showModal = false;
   authService = inject(AuthService);
-
+  reportingService = inject(ReportService);
   ngOnInit(): void {
     this.requestService
       .getRequestsHistory(this.authService.getRoleId())
       .subscribe({
         next: (res) => {
           this.requests = res.data;
+          console.log(this.requests);
         },
         error: (res) => {
           Swal.fire({
@@ -68,19 +70,14 @@ export class RequestHistoryComponent implements OnInit {
       },
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const payload = {
-          description: result.value,
-          requestId: reqId,
-        };
-
-        // this.requestService.reportRequest(payload).subscribe({
-        //   next: () => {
-        //     Swal.fire('تم الإبلاغ!', 'تم إرسال البلاغ بنجاح.', 'success');
-        //   },
-        //   error: () => {
-        //     Swal.fire('خطأ!', 'حدث خطأ أثناء إرسال البلاغ.', 'error');
-        //   },
-        // });
+        this.reportingService.createReport(result.value, reqId).subscribe({
+          next: () => {
+            Swal.fire('تم الإبلاغ!', 'تم إرسال البلاغ بنجاح.', 'success');
+          },
+          error: () => {
+            Swal.fire('خطأ!', 'حدث خطأ أثناء إرسال البلاغ.', 'error');
+          },
+        });
       }
     });
   }

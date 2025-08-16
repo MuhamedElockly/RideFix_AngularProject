@@ -3,4 +3,5 @@ export interface IRequestBrief {
   technicianName: string;
   categoryName: string;
   description: string;
+  status: boolean;
 }

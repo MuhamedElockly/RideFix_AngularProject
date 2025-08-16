@@ -91,4 +91,10 @@ export class TechrequestService {
       )
       .pipe(map((res) => res.data));
   }
+
+  cancelRequest(requestId: number) {
+    return this.http.delete<IApiResponse<boolean>>(
+      `http://localhost:5038/api/Request/CancelReqTechs?reqId=${requestId}`
+    );
+  }
 }

@@ -15,7 +15,13 @@
             <h3 class="request-title">{{ item.categoryName }}</h3>
             <div class="request-meta">
               <span class="request-id">#REQ-{{ item.id }}</span>
+              @if (item.status === true) {
               <span class="request-status status-completed">مكتمل</span>
+              } @else {
+              <span class="request-status status-pending bg-danger"
+                >غير مكتمل</span
+              >
+              }
             </div>
           </div>
           <div class="request-actions">

@@ -108,6 +108,7 @@ export class RequestService {
       id: request.id,
       description: request.description,
       technicianName: request.technicianName,
+      status: request.status,
     };
   }
 
