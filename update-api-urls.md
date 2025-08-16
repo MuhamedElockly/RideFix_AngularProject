@@ -88,3 +88,4 @@ export const environment = {
 3. **Environment Management**: Different URLs for dev/prod
 4. **Maintainability**: Easier to manage and update
 5. **Type Safety**: Better error handling and validation
+

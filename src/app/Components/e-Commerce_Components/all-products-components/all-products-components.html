@@ -77,18 +77,22 @@
             </h4>
             <div class="collapse show" id="categoryFilter">
               <div class="filter-options">
+                 @for(item of categories ;track $index){
                 <label class="filter-option">
                   <input
-                    type="checkbox"
+                    type="radio"
                     name="category"
-                    value="oils"
+                    [value]="item.id"
                     data-count="45"
+                    [(ngModel)]="selectedCategoryId"
+                    (change)="getProductBycategory(item.id,item.productsCount)"
                   />
-                  <span class="checkmark"></span>
-                  زيوت ومواد التشحيم
-                  <span class="count">(45)</span>
+                  <!-- <span class="checkmark"></span> -->
+                  {{item.name}}
+                  <!-- <span class="count">({{item.productsCount}})</span> -->
                 </label>
-                <label class="filter-option">
+              }
+                <!-- <label class="filter-option">
                   <input
                     type="checkbox"
                     name="category"
@@ -98,8 +102,9 @@
                   <span class="checkmark"></span>
                   البطاريات والكهرباء
                   <span class="count">(32)</span>
-                </label>
-                <label class="filter-option">
+                </label> -->
+
+                <!-- <label class="filter-option">
                   <input
                     type="checkbox"
                     name="category"
@@ -109,8 +114,9 @@
                   <span class="checkmark"></span>
                   قطع غيار المحرك
                   <span class="count">(78)</span>
-                </label>
-                <label class="filter-option">
+                </label> -->
+
+                <!-- <label class="filter-option">
                   <input
                     type="checkbox"
                     name="category"
@@ -120,8 +126,9 @@
                   <span class="checkmark"></span>
                   الفرامل والإطارات
                   <span class="count">(56)</span>
-                </label>
-                <label class="filter-option">
+                </label> -->
+
+                <!-- <label class="filter-option">
                   <input
                     type="checkbox"
                     name="category"
@@ -131,8 +138,9 @@
                   <span class="checkmark"></span>
                   الفلاتر
                   <span class="count">(34)</span>
-                </label>
-                <label class="filter-option">
+                </label> -->
+
+                <!-- <label class="filter-option">
                   <input
                     type="checkbox"
                     name="category"
@@ -142,7 +150,7 @@
                   <span class="checkmark"></span>
                   الإكسسوارات
                   <span class="count">(67)</span>
-                </label>
+                </label> -->
               </div>
             </div>
           </div>
@@ -163,34 +171,34 @@
             <div class="collapse show" id="priceFilter">
               <div class="filter-options">
                 <label class="filter-option">
-                  <input type="checkbox" name="price" value="0-50" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="price" value="0-50" (click)="filterByPrice(50)" />
+                  <!-- <span class="checkmark"></span> -->
                   أقل من 50 ريال
-                  <span class="count">(23)</span>
+                  <!-- <span class="count">(23)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="price" value="50-100" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="price" value="50-100" (click)="filterByPrice(100)"/>
+                  <!-- <span class="checkmark"></span> -->
                   50 - 100 ريال
-                  <span class="count">(89)</span>
+                  <!-- <span class="count">(89)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="price" value="100-200" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="price" value="100-200" (click)="filterByPrice(200)"/>
+                  <!-- <span class="checkmark"></span> -->
                   100 - 200 ريال
-                  <span class="count">(156)</span>
+                  <!-- <span class="count">(156)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="price" value="200-500" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="price" value="200-500" (click)="filterByPrice(500)"/>
+                  <!-- <span class="checkmark"></span> -->
                   200 - 500 ريال
-                  <span class="count">(98)</span>
+                  <!-- <span class="count">(98)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="price" value="500+" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="price" value="500+" (click)="filterByPrice(100000000)"/>
+                  <!-- <span class="checkmark"></span> -->
                   أكثر من 500 ريال
-                  <span class="count">(46)</span>
+                  <!-- <span class="count">(46)</span> -->
                 </label>
               </div>
               <div class="price-range-slider">
@@ -371,7 +379,7 @@
         <div class="products-toolbar">
           <div class="toolbar-left">
             <div class="results-info">
-              <span id="resultsCount">عرض 1-12 من أصل 312 منتج</span>
+              <span id="resultsCount">عرض 1-10 من أصل {{totalProducts}} منتج</span>
             </div>
           </div>
           <div class="toolbar-right">
@@ -400,7 +408,7 @@
         <!-- Products Grid -->
         <div class="products-grid" id="productsGrid">
           <!-- Product 1 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="oils"
             data-brand="mobil"
@@ -457,10 +465,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 2 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="brakes"
             data-brand="brembo"
@@ -516,9 +524,11 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 3 -->
+                 @for(item of products;track $index) {
+
           <div
             class="product-card"
             data-category="batteries"
@@ -529,7 +539,7 @@
           >
             <div class="product-image">
               <img
-                src="/placeholder.svg?height=200&width=200"
+                src="{{item.imageUrl}}"
                 alt="بطارية سيارة"
               />
               <div class="product-actions">
@@ -551,7 +561,7 @@
               </div>
             </div>
             <div class="product-info">
-              <h5 class="product-title">بطارية AC Delco - 70 أمبير</h5>
+              <h5 class="product-title">{{item.name}}</h5>
               <div class="product-rating">
                 <div class="stars">
                   <i class="fas fa-star"></i>
@@ -560,24 +570,38 @@
                   <i class="fas fa-star"></i>
                   <i class="fas fa-star"></i>
                 </div>
-                <span class="rating-count">(31 تقييم)</span>
+                <span class="rating-count">({{item.stockQuantity}} تقييم)</span>
               </div>
               <div class="product-price">
-                <span class="current-price">450 ريال</span>
+                <span class="current-price">{{item.price}} ريال</span>
               </div>
               <div class="product-features">
                 <span class="feature">تركيب مجاني</span>
                 <span class="feature">ضمان سنتين</span>
               </div>
-              <button class="btn btn-primary add-to-cart">
+                 @if(hasAlreadyAddtocart(item.productId)) {
+              <button class="btn btn-secondary add-to-cart" disabled>
+                <i class="fas fa-check"></i>
+                في السلة
+              </button>
+            }@else{
+              <button class="btn btn-primary add-to-cart" (click)="addToCart(item)">
                 <i class="fas fa-shopping-cart"></i>
                 أضف للسلة
               </button>
+              }
             </div>
           </div>
+        }
+        @if(products.length === 0) {
+          <div class="no-products "   >
+            <h3>لا توجد منتجات متاحة</h3>
+            <p>حاول تعديل الفلاتر أو البحث عن منتج آخر.</p>
+          </div>
 
+        }
           <!-- Product 4 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="filters"
             data-brand="kn"
@@ -634,10 +658,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 5 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="engine"
             data-brand="bosch"
@@ -692,10 +716,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 6 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="filters"
             data-brand="mann"
@@ -747,10 +771,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 7 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="accessories"
             data-brand="bosch"
@@ -805,10 +829,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 8 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="oils"
             data-brand="mobil"
@@ -863,10 +887,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 9 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="brakes"
             data-brand="brembo"
@@ -922,10 +946,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 10 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="accessories"
             data-brand="bosch"
@@ -982,10 +1006,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 11 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="batteries"
             data-brand="acdelco"
@@ -1040,10 +1064,10 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
 
           <!-- Product 12 -->
-          <div
+          <!-- <div
             class="product-card"
             data-category="engine"
             data-brand="mann"
@@ -1098,22 +1122,31 @@
                 أضف للسلة
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <!-- Pagination -->
         <div class="pagination-container">
           <nav aria-label="صفحات المنتجات">
             <ul class="pagination justify-content-center">
+              @if(pageNumber === 1) {
               <li class="page-item disabled">
                 <a class="page-link" href="#" tabindex="-1">
                   <i class="fas fa-chevron-right"></i>
                 </a>
               </li>
-              <li class="page-item active">
-                <a class="page-link" href="#">1</a>
+              }@else{
+              <li class="page-item" (click)="previouspage()">
+                <a class="page-link" role="button">
+                  <i class="fas fa-chevron-right"></i>
+                </a>
               </li>
-              <li class="page-item">
+              }
+
+              <li class="page-item active">
+                <a class="page-link" href="#">{{pageNumber}}</a>
+              </li>
+              <!-- <li class="page-item">
                 <a class="page-link" href="#">2</a>
               </li>
               <li class="page-item">
@@ -1124,12 +1157,20 @@
               </li>
               <li class="page-item">
                 <a class="page-link" href="#">26</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#">
+              </li> -->
+              @if(pageNumber >= totalPages) {
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">
                   <i class="fas fa-chevron-left"></i>
                 </a>
               </li>
+              }@else{
+              <li class="page-item" (click)="nextpage()">
+                <a class="page-link" role="button">
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+              </li>
+            }
             </ul>
           </nav>
         </div>

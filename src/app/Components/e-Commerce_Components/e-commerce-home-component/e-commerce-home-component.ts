@@ -4,6 +4,7 @@ import { IProduct } from '../../../Interfaces/iproduct';
 import { IProductCategory } from '../../../Interfaces/iproduct-category';
 import Swal from 'sweetalert2';
 import { IShoppingCart } from '../../../Interfaces/ishopping-cart';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-e-commerce-home-component',
@@ -13,7 +14,7 @@ import { IShoppingCart } from '../../../Interfaces/ishopping-cart';
   encapsulation: ViewEncapsulation.None, // الحل هنا
 })
 export class ECommerceHomeComponent implements OnInit{
-  constructor(private ecomerces:Ecomerceservice) {}
+  constructor(private ecomerces:Ecomerceservice,public router: Router,private route: ActivatedRoute) {}
 
   products: IProduct[] = [];
   categories: IProductCategory[] = [];
@@ -57,7 +58,18 @@ export class ECommerceHomeComponent implements OnInit{
 
   }
 
+selectCategory(categoryId: number, productsCount: number) {
+  const path = this.router.url;
 
+   const parts = path.split('/').filter(p => p);
+ if( parts[parts.length - 2] === 'CarOwner')  {
+  this.router.navigate(['/CarOwner/AllProducts'], { queryParams: { category: categoryId ,qunatity:productsCount} });
+
+ }else if(parts[parts.length - 2] === 'technician'){
+  this.router.navigate(['/technician/AllProducts'], { queryParams: { category: categoryId ,qunatity:productsCount} });
+
+ }
+}
 
    addToCart(item: IProduct) {
     // TODO: منطق إضافة المنتج للسلة هنا
@@ -72,7 +84,7 @@ export class ECommerceHomeComponent implements OnInit{
       const cartItem: IShoppingCart = {
         productId: item.productId,
         quantity: 1,
-        producName: item.name,
+        productName: item.name,
         price: item.price,
       };
 
@@ -113,6 +125,17 @@ export class ECommerceHomeComponent implements OnInit{
       Array.isArray(this.shoppingCart) &&
       this.shoppingCart.some((app) => app.productId === productId)
     );
+  }
+
+
+  showAllProducts(){
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 2] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/AllProducts']);
+    }else if(parts[parts.length - 2] === 'technician'){
+      this.router.navigate(['/technician/AllProducts']);
+    }
   }
 
 

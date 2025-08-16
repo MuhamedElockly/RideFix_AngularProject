@@ -1,7 +1,7 @@
 export interface IShoppingCart {
   productId: number;
   quantity: number;
-  producName:string;
+  productName:string;
   price:number;
 
 }

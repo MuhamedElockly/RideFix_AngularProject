@@ -93,6 +93,8 @@
   background: linear-gradient(90deg, #9b59b6, #8e44ad);
 }
 
+
+
 .stat-icon {
   margin-bottom: 1.5rem;
 }
@@ -118,6 +120,8 @@
   color: #9b59b6;
 }
 
+
+
 .stat-content h3 {
   font-size: 2.5rem;
   font-weight: 700;
@@ -131,6 +135,8 @@
   margin: 0;
   font-weight: 500;
 }
+
+
 
 /* Statistics Card */
 .statistics-card {
@@ -289,6 +295,10 @@
 
 .status-indicator.pending {
   background: #f39c12;
+}
+
+.status-indicator.waiting {
+  background: #9b59b6;
 }
 
 .status-indicator.active {

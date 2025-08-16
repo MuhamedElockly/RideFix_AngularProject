@@ -9,6 +9,10 @@
             الإحصائيات والتقارير
           </h1>
           <p class="page-subtitle">عرض الإحصائيات التفصيلية والتقارير</p>
+          <button class="btn btn-outline-light btn-sm mt-2" (click)="refreshStatistics()" [disabled]="isRefreshing">
+            <i class="fas fa-sync-alt me-1" [class.fa-spin]="isRefreshing"></i>
+            {{ isRefreshing ? 'جاري التحديث...' : 'تحديث الإحصائيات' }}
+          </button>
         </div>
       </div>
     </div>
@@ -25,7 +29,7 @@
             <i class="fas fa-tools"></i>
           </div>
           <div class="stat-content">
-            <h3 class="stat-number">{{ usersCount.techniciansCount }}</h3>
+            <h3 class="stat-number">{{ dashboardStatistics?.users?.technicians?.count || usersCount.techniciansCount }}</h3>
             <p class="stat-label">إجمالي الفنيين</p>
           </div>
         </div>
@@ -38,7 +42,7 @@
             <i class="fas fa-car"></i>
           </div>
           <div class="stat-content">
-            <h3 class="stat-number">{{ usersCount.carOwnersCount }}</h3>
+            <h3 class="stat-number">{{ dashboardStatistics?.users?.carOwners?.count || usersCount.carOwnersCount }}</h3>
             <p class="stat-label">إجمالي أصحاب السيارات</p>
           </div>
         </div>
@@ -91,10 +95,10 @@
                 <div class="status-percentage">{{ getCompletedPercentage() }}%</div>
               </div>
               <div class="status-item">
-                <div class="status-indicator pending"></div>
+                <div class="status-indicator waiting"></div>
                 <div class="status-info">
                   <span class="status-label">في الانتظار</span>
-                  <span class="status-count">{{ requestsCount.waitingRequestsCount }}</span>
+                  <span class="status-count">{{ dashboardStatistics?.requests?.waiting?.count || 0 }}</span>
                 </div>
                 <div class="status-percentage">{{ getPendingPercentage() }}%</div>
               </div>
@@ -134,7 +138,7 @@
                 </div>
                 <div class="user-info">
                   <h5>الفنيين</h5>
-                  <div class="user-count">{{ usersCount.techniciansCount }}</div>
+                  <div class="user-count">{{ dashboardStatistics?.users?.technicians?.count || usersCount.techniciansCount }}</div>
                   <div class="user-percentage">{{ getTechniciansPercentage() }}%</div>
                 </div>
               </div>
@@ -144,7 +148,7 @@
                 </div>
                 <div class="user-info">
                   <h5>أصحاب السيارات</h5>
-                  <div class="user-count">{{ usersCount.carOwnersCount }}</div>
+                  <div class="user-count">{{ dashboardStatistics?.users?.carOwners?.count || usersCount.carOwnersCount }}</div>
                   <div class="user-percentage">{{ getCarOwnersPercentage() }}%</div>
                 </div>
               </div>
@@ -192,9 +196,9 @@
                 </div>
                 <div class="metric-content">
                   <h6>متوسط التقييم</h6>
-                  <div class="metric-value">4.2/5</div>
+                  <div class="metric-value">{{ getAverageRating() | number:'1.1-1' }}/5</div>
                   <div class="metric-trend positive">
-                    <i class="fas fa-arrow-up"></i> 0.3
+                    <i class="fas fa-star"></i> من 5 نجوم
                   </div>
                 </div>
               </div>

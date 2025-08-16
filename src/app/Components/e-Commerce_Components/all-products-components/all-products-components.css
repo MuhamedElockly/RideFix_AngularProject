@@ -808,3 +808,34 @@ body {
   font-size: 1.1rem;
   margin: 0;
 }
+
+/*  */
+.no-products {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #333;
+  /* max-width: 1000px; */
+  /* width: 100%; */
+  margin: 40px auto;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.no-products h3 {
+  color: #e74c3c;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+}
+
+.no-products p {
+  color: #555;
+  font-size: 1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

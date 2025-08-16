@@ -1,0 +1,463 @@
+<!-- Navigation Bar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="ecommerce-home-static.html">
+                <div class="logo-container">
+                    <i class="fas fa-tools logo-icon"></i>
+                    <span class="logo-text">RideFix Store</span>
+                </div>
+            </a>
+
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle user-profile" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <div class="user-avatar">S</div>
+                        <div class="user-info">
+                            <span class="user-greeting">أهلاً Sara</span>
+                            <span class="user-role">صاحب سيارة</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link cart-btn" href="#">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cartBadge">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav> -->
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="ecommerce-home-static.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li class="breadcrumb-item"><a href="products-page-static.html">المنتجات</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">سلة التسوق</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="page-title">
+                        <i class="fas fa-shopping-cart"></i>
+                        سلة التسوق
+                    </h1>
+                    <p class="page-subtitle">راجع منتجاتك واكمل عملية الشراء</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="cart-progress">
+                        <div class="progress-step active">
+                            <div class="step-number">1</div>
+                            <span class="step-label">سلة التسوق</span>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step">
+                            <div class="step-number">2</div>
+                            <span class="step-label">معلومات الشحن</span>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step">
+                            <div class="step-number">3</div>
+                            <span class="step-label">الدفع</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="container">
+            <div class="row">
+                <!-- Cart Items -->
+                <div class="col-lg-8">
+                    <div class="cart-items-container">
+                        <div class="cart-header">
+                            <h3><i class="fas fa-list"></i> منتجاتك (<span id="itemCount">{{shoppingCart.length}}</span> منتجات)</h3>
+                            <button class="btn btn-outline-danger btn-sm" id="clearCart" (click)="deleteAllFromCart()">
+                                <i class="fas fa-trash"></i> إفراغ السلة
+                            </button>
+                        </div>
+
+                        <div class="cart-items" id="cartItems">
+                            <!-- Cart Item 1 -->
+                                 @for(item of shoppingCart ;track $index) {
+
+                            <div class="cart-item" data-id="1" data-price="120">
+                                <div class="item-image">
+                                    <img src="/placeholder.svg?height=100&width=100" alt="زيت محرك موبيل 1">
+                                </div>
+                                <div class="item-details">
+                                    <h5 class="item-title"> {{item.productName}} </h5>
+                                    <!-- <p class="item-description">زيت محرك عالي الجودة للحماية الفائقة</p> -->
+                                    <div class="item-features">
+                                        <!-- <span class="feature">توصيل مجاني</span> -->
+                                        <!-- <span class="feature">ضمان سنة</span> -->
+                                    </div>
+                                    <div class="item-rating">
+                                        <!-- <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div> -->
+                                        <!-- <span class="rating-text">(24 تقييم)</span> -->
+                                    </div>
+                                </div>
+
+                                <div class="item-price">
+                                    <div class="current-price">{{item.price}} ريال</div>
+                                    <!-- <div class="old-price">150 ريال</div> -->
+                                    <!-- <div class="discount-badge">خصم 20%</div> -->
+                                </div>
+
+                                <div class="item-quantity">
+                                    <label>الكمية:</label>
+                                    <div class="quantity-controls">
+                                        <button class="quantity-btn minus" data-action="decrease" (click)="decreaseQuantity(item)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="quantity-input" value="{{item.quantity}}" min="1" max="10">
+                                        <button class="quantity-btn plus" data-action="increase" (click)="increaseQuantity(item)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="item-total">
+                                    <div class="total-price">{{item.price * item.quantity}} ريال</div>
+                                </div>
+
+                                <div class="item-actions">
+                                    <button class="btn btn-sm btn-outline-primary save-later">
+                                        <i class="fas fa-heart"></i>
+                                        حفظ للاحقاً
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger remove-item" (click)="deleteFromCart(item.productId)">
+                                        <i class="fas fa-trash"></i>
+                                        إزالة
+                                    </button>
+                                </div>
+                            </div>
+
+                          }
+                            <!-- Cart Item 2 -->
+                            <!-- <div class="cart-item" data-id="2" data-price="280">
+                                <div class="item-image">
+                                    <img src="/placeholder.svg?height=100&width=100" alt="فحمات فرامل بريمبو">
+                                </div>
+                                <div class="item-details">
+                                    <h5 class="item-title">فحمات فرامل بريمبو - أمامية</h5>
+                                    <p class="item-description">فحمات فرامل عالية الأداء للسيارات الرياضية</p>
+                                    <div class="item-features">
+                                        <span class="feature">تركيب مجاني</span>
+                                        <span class="feature">ضمان 6 أشهر</span>
+                                    </div>
+                                    <div class="item-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <span class="rating-text">(18 تقييم)</span>
+                                    </div>
+                                </div>
+                                <div class="item-price">
+                                    <div class="current-price">280 ريال</div>
+                                    <div class="new-badge">جديد</div>
+                                </div>
+                                <div class="item-quantity">
+                                    <label>الكمية:</label>
+                                    <div class="quantity-controls">
+                                        <button class="quantity-btn minus" data-action="decrease">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="quantity-input" value="1" min="1" max="10">
+                                        <button class="quantity-btn plus" data-action="increase">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="item-total">
+                                    <div class="total-price">280 ريال</div>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="btn btn-sm btn-outline-primary save-later">
+                                        <i class="fas fa-heart"></i>
+                                        حفظ للاحقاً
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger remove-item">
+                                        <i class="fas fa-trash"></i>
+                                        إزالة
+                                    </button>
+                                </div>
+                            </div> -->
+
+                            <!-- Cart Item 3 -->
+                            <!-- <div class="cart-item" data-id="3" data-price="450">
+                                <div class="item-image">
+                                    <img src="/placeholder.svg?height=100&width=100" alt="بطارية سيارة">
+                                </div>
+                                <div class="item-details">
+                                    <h5 class="item-title">بطارية AC Delco - 70 أمبير</h5>
+                                    <p class="item-description">بطارية عالية الجودة مع ضمان طويل المدى</p>
+                                    <div class="item-features">
+                                        <span class="feature">تركيب مجاني</span>
+                                        <span class="feature">ضمان سنتين</span>
+                                    </div>
+                                    <div class="item-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span class="rating-text">(31 تقييم)</span>
+                                    </div>
+                                </div>
+                                <div class="item-price">
+                                    <div class="current-price">450 ريال</div>
+                                </div>
+                                <div class="item-quantity">
+                                    <label>الكمية:</label>
+                                    <div class="quantity-controls">
+                                        <button class="quantity-btn minus" data-action="decrease">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="quantity-input" value="1" min="1" max="10">
+                                        <button class="quantity-btn plus" data-action="increase">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="item-total">
+                                    <div class="total-price">450 ريال</div>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="btn btn-sm btn-outline-primary save-later">
+                                        <i class="fas fa-heart"></i>
+                                        حفظ للاحقاً
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger remove-item">
+                                        <i class="fas fa-trash"></i>
+                                        إزالة
+                                    </button>
+                                </div>
+                            </div> -->
+                        </div>
+
+                        <!-- Continue Shopping -->
+                        <div class="continue-shopping" >
+                          <!-- [routerLink]="['/CarOwner/AllProducts']"  -->
+                            <a class="btn btn-outline-primary" (click)="continueShopping()">
+                                <i class="fas fa-arrow-right"></i>
+                                متابعة التسوق
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="col-lg-4">
+                    <div class="cart-summary">
+                        <h4 class="summary-title">
+                            <i class="fas fa-calculator"></i>
+                            ملخص الطلب
+                        </h4>
+
+                        <div class="summary-details">
+                            <div class="summary-row">
+                                <span class="label">المجموع الفرعي (<span id="summaryItemCount">{{shoppingCart.length}}</span> منتجات):</span>
+                                <span class="value" id="subtotal">{{totalprice}} ريال</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="label">الخصم:</span>
+                                <span class="value discount" id="discount">-30 ريال</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="label">رسوم الشحن:</span>
+                                <span class="value free" id="shipping">مجاني</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="label">الضريبة (15%):</span>
+                                <span class="value" id="tax">141 ريال</span>
+                            </div>
+                            <hr class="summary-divider">
+                            <div class="summary-row total-row">
+                                <span class="label">المجموع الكلي:</span>
+                                <span class="value" id="total">{{totalprice}} ريال</span>
+                            </div>
+                        </div>
+
+                        <!-- Coupon Code -->
+                        <div class="coupon-section">
+                            <h5 class="coupon-title">
+                                <i class="fas fa-tag"></i>
+                                كود الخصم
+                            </h5>
+                            <div class="coupon-input-group">
+                                <input type="text" class="form-control" id="couponCode" placeholder="أدخل كود الخصم">
+                                <button class="btn btn-outline-primary" id="applyCoupon">
+                                    تطبيق
+                                </button>
+                            </div>
+                            <div class="coupon-suggestions">
+                                <small class="text-muted">أكواد خصم متاحة:</small>
+                                <div class="coupon-tags">
+                                    <span class="coupon-tag" data-code="SAVE10">SAVE10 - خصم 10%</span>
+                                    <span class="coupon-tag" data-code="FIRST20">FIRST20 - خصم 20%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Checkout Button -->
+                        <div class="checkout-section">
+                            <button class="btn btn-primary btn-lg checkout-btn" id="checkoutBtn">
+                                <i class="fas fa-credit-card"></i>
+                                إتمام الشراء
+                                <span class="checkout-total">1081 ريال</span>
+                            </button>
+                            <div class="payment-methods">
+                                <small class="text-muted">طرق الدفع المقبولة:</small>
+                                <div class="payment-icons">
+                                    <i class="fab fa-cc-visa"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                    <i class="fab fa-cc-paypal"></i>
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Badge -->
+                        <div class="security-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <div class="security-text">
+                                <strong>تسوق آمن</strong>
+                                <small>معلوماتك محمية بتشفير SSL</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Products -->
+                    <div class="recommended-products">
+                        <h5 class="recommended-title">
+                            <i class="fas fa-thumbs-up"></i>
+                            منتجات مقترحة
+                        </h5>
+                        <div class="recommended-item">
+                            <img src="/placeholder.svg?height=60&width=60" alt="فلتر هواء">
+                            <div class="recommended-details">
+                                <h6>فلتر هواء K&N</h6>
+                                <div class="recommended-price">95 ريال</div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary add-recommended">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="recommended-item">
+                            <img src="/placeholder.svg?height=60&width=60" alt="شمعات احتراق">
+                            <div class="recommended-details">
+                                <h6>شمعات احتراق بوش</h6>
+                                <div class="recommended-price">85 ريال</div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary add-recommended">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Empty Cart State (Hidden by default) -->
+    <section class="empty-cart-section" id="emptyCartSection" style="display: none;">
+        <div class="container">
+            <div class="empty-cart-content">
+                <div class="empty-cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h2 class="empty-cart-title">سلة التسوق فارغة</h2>
+                <p class="empty-cart-description">
+                    لم تقم بإضافة أي منتجات إلى سلة التسوق بعد.<br>
+                    تصفح منتجاتنا واختر ما يناسبك!
+                </p>
+                <div class="empty-cart-actions">
+                    <a href="products-page-static.html" class="btn btn-primary btn-lg">
+                        <i class="fas fa-shopping-bag"></i>
+                        تسوق الآن
+                    </a>
+                    <a href="ecommerce-home-static.html" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-home"></i>
+                        العودة للرئيسية
+                    </a>
+                </div>
+                <div class="popular-categories">
+                    <h5>الفئات الشائعة:</h5>
+                    <div class="category-links">
+                        <a href="#" class="category-link">زيوت المحرك</a>
+                        <a href="#" class="category-link">الفرامل</a>
+                        <a href="#" class="category-link">البطاريات</a>
+                        <a href="#" class="category-link">الإطارات</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                <strong class="me-auto">نجح</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="successToastBody">
+                تم تحديث السلة بنجاح
+            </div>
+        </div>
+
+        <div id="errorToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-exclamation-circle text-danger me-2"></i>
+                <strong class="me-auto">خطأ</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="errorToastBody">
+                حدث خطأ أثناء تحديث السلة
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">تأكيد العملية</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="confirmModalBody">
+                    هل أنت متأكد من هذه العملية؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-danger" id="confirmAction">تأكيد</button>
+                </div>
+            </div>
+        </div>
+    </div>

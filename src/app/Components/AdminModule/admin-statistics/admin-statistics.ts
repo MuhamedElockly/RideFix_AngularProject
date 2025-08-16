@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../../Services/AdminService/admin.service';
-import { IUsersCount, IRequestsCount } from '../../../Interfaces/Admin/IStatistics';
+import { IUsersCount, IRequestsCount, IDashboardStatistics } from '../../../Interfaces/Admin/IStatistics';
 import { IActivitiesData, IActivity } from '../../../Interfaces/Admin/IActivities';
 import { Router } from '@angular/router';
 
@@ -17,7 +17,10 @@ export class AdminStatisticsComponent implements OnInit {
   isRefreshing = false;
   isActionLoading = false;
   
-  // Statistics Data
+  // Dashboard Statistics Data
+  dashboardStatistics: IDashboardStatistics | null = null;
+  
+  // Legacy Statistics Data (for backward compatibility)
   usersCount: IUsersCount = {
     techniciansCount: 0,
     carOwnersCount: 0
@@ -44,39 +47,60 @@ export class AdminStatisticsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadStatistics();
+    this.loadDashboardStatistics();
     this.loadActivities();
   }
 
-  loadStatistics(): void {
+  loadDashboardStatistics(): void {
     this.isLoading = true;
     
-    // Load users count
-    this.adminService.getUsersCount().subscribe({
+    this.adminService.getDashboardStatistics().subscribe({
       next: (response) => {
-        this.usersCount = response;
+        if (response.success) {
+          this.dashboardStatistics = response.data;
+          // Update legacy data for backward compatibility
+          this.usersCount = {
+            techniciansCount: response.data?.users?.technicians?.count || 0,
+            carOwnersCount: response.data?.users?.carOwners?.count || 0
+          };
+          
+          const totalRequests = (response.data?.requests?.completed?.count || 0) + 
+                               (response.data?.requests?.waiting?.count || 0) + 
+                               (response.data?.requests?.active?.count || 0) + 
+                               (response.data?.requests?.canceled?.count || 0);
+          
+          this.requestsCount = {
+            allRequestsCount: totalRequests,
+            waitingRequestsCount: response.data?.requests?.waiting?.count || 0
+          };
+        }
       },
       error: (error) => {
-        console.error('Error loading users count:', error);
+        console.error('Error loading dashboard statistics:', error);
         // Use fallback data
-        this.usersCount = {
-          techniciansCount: 57,
-          carOwnersCount: 23
+        this.dashboardStatistics = {
+          users: {
+            technicians: { count: 59, percent: 71.08 },
+            carOwners: { count: 24, percent: 28.92 },
+            newUsers: 0,
+            rates: 4.56
+          },
+          requests: {
+            completed: { count: 0, percent: 0 },
+            waiting: { count: 0, percent: 0 },
+            active: { count: 23, percent: 17.83 },
+            canceled: { count: 70, percent: 54.26 }
+          }
         };
-      }
-    });
-
-    // Load requests count
-    this.adminService.getRequestsCount().subscribe({
-      next: (response) => {
-        this.requestsCount = response;
-      },
-      error: (error) => {
-        console.error('Error loading requests count:', error);
-        // Use fallback data
+        
+        this.usersCount = {
+          techniciansCount: 59,
+          carOwnersCount: 24
+        };
+        
         this.requestsCount = {
-          allRequestsCount: 51,
-          waitingRequestsCount: 1
+          allRequestsCount: 93,
+          waitingRequestsCount: 0
         };
       },
       complete: () => {
@@ -116,6 +140,16 @@ export class AdminStatisticsComponent implements OnInit {
     
     setTimeout(() => {
       this.isRefreshing = false;
+    }, 1000);
+  }
+
+  refreshStatistics(): void {
+    this.isRefreshing = true;
+    this.loadDashboardStatistics();
+    
+    setTimeout(() => {
+      this.isRefreshing = false;
+      this.showSuccessNotification('تم تحديث الإحصائيات بنجاح');
     }, 1000);
   }
 
@@ -250,45 +284,48 @@ export class AdminStatisticsComponent implements OnInit {
 
   // Request Status Distribution Methods
   getCompletedRequestsCount(): number {
-    return Math.floor(this.requestsCount.allRequestsCount * 0.7); // 70% completed
+    return this.dashboardStatistics?.requests?.completed?.count || 0;
   }
 
   getActiveRequestsCount(): number {
-    return Math.floor(this.requestsCount.allRequestsCount * 0.2); // 20% active
+    return this.dashboardStatistics?.requests?.active?.count || 0;
   }
 
   getCancelledRequestsCount(): number {
-    return Math.floor(this.requestsCount.allRequestsCount * 0.1); // 10% cancelled
+    return this.dashboardStatistics?.requests?.canceled?.count || 0;
   }
 
   getCompletedPercentage(): number {
-    return this.requestsCount.allRequestsCount > 0 ? 
-      Math.round((this.getCompletedRequestsCount() / this.requestsCount.allRequestsCount) * 100) : 0;
+    return this.dashboardStatistics?.requests?.completed?.percent || 0;
   }
 
   getPendingPercentage(): number {
-    return this.requestsCount.allRequestsCount > 0 ? 
-      Math.round((this.requestsCount.waitingRequestsCount / this.requestsCount.allRequestsCount) * 100) : 0;
+    return this.dashboardStatistics?.requests?.waiting?.percent || 0;
   }
 
   getActivePercentage(): number {
-    return this.requestsCount.allRequestsCount > 0 ? 
-      Math.round((this.getActiveRequestsCount() / this.requestsCount.allRequestsCount) * 100) : 0;
+    return this.dashboardStatistics?.requests?.active?.percent || 0;
   }
 
   getCancelledPercentage(): number {
-    return this.requestsCount.allRequestsCount > 0 ? 
-      Math.round((this.getCancelledRequestsCount() / this.requestsCount.allRequestsCount) * 100) : 0;
+    return this.dashboardStatistics?.requests?.canceled?.percent || 0;
   }
 
   // User Distribution Methods
   getTechniciansPercentage(): number {
-    const totalUsers = this.usersCount.techniciansCount + this.usersCount.carOwnersCount;
-    return totalUsers > 0 ? Math.round((this.usersCount.techniciansCount / totalUsers) * 100) : 0;
+    return this.dashboardStatistics?.users?.technicians?.percent || 0;
   }
 
   getCarOwnersPercentage(): number {
-    const totalUsers = this.usersCount.techniciansCount + this.usersCount.carOwnersCount;
-    return totalUsers > 0 ? Math.round((this.usersCount.carOwnersCount / totalUsers) * 100) : 0;
+    return this.dashboardStatistics?.users?.carOwners?.percent || 0;
+  }
+
+  // New Users and Rates Methods
+  getNewUsersCount(): number {
+    return this.dashboardStatistics?.users?.newUsers || 0;
+  }
+
+  getAverageRating(): number {
+    return this.dashboardStatistics?.users?.rates || 0;
   }
 }
