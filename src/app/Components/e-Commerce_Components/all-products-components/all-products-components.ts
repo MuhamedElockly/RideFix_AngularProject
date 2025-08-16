@@ -30,16 +30,17 @@ export class AllProductsComponents implements OnInit{
     maxPrice: null,
     categoryId: null
     };
-
-    selectedCategoryId: number | null = null;
+  selectedCategoryId: number | null = null;
   pageNumber: number = 1;
   totalPages: number = 1;
+oldproducts: IProduct[] = [];
 
   ngOnInit(): void {
 
      this.ecomerces.getAllProducts().subscribe({
       next: (products) => {
         this.products = Array.isArray(products) ? products : [products];
+        this.oldproducts = this.products;
         // console.log(this.products);
         // this.AllProducts = this.products;
       },
@@ -102,6 +103,7 @@ export class AllProductsComponents implements OnInit{
         quantity: 1,
         productName: item.name,
         price: item.price,
+        imageUrl: item.imageUrl
       };
 
       this.ecomerces.addToCart(cartItem).subscribe({
@@ -159,6 +161,7 @@ export class AllProductsComponents implements OnInit{
         this.products = Array.isArray(products) ? products : [products];
             this.totalPages = Math.ceil(prouductcount / 9);
         this.pageNumber = 1; // Reset page number when filtering by category
+        this.oldproducts = this.products;
 
         console.log(this.products);
       },
@@ -179,6 +182,7 @@ filterByPrice(price: number) {
     next: (products) => {
 
       this.products = Array.isArray(products) ? products : [products];
+      this.oldproducts = this.products; // Store the original products for pagination
       console.log(this.products);
     },
     error: (err) => {
@@ -230,4 +234,22 @@ nextpage(){
     }
   }
 
+
+  searchProductsByName(name: string) {
+    if (name.trim() === '') {
+      this.products = this.oldproducts; 
+      return;
+    }
+
+    this.ecomerces.getProductsByName(name).subscribe({
+      next: (products) => {
+        this.products = Array.isArray(products) ? products : [products];
+        console.log(this.products);
+      },
+      error: (err) => {
+        this.products = [];
+        console.error('Error searching products by name:', err);
+      }
+    });
+  }
 }

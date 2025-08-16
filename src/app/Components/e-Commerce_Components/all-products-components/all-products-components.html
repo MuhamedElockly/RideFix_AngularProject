@@ -37,8 +37,9 @@
               id="searchInput"
               class="form-control"
               placeholder="ابحث عن المنتجات..."
+              #t1
             />
-            <button class="search-btn" type="button">
+            <button class="search-btn" type="button" (click)="searchProductsByName(t1.value)">
               <i class="fas fa-search"></i>
             </button>
           </div>

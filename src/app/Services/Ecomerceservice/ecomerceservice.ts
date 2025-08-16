@@ -44,6 +44,11 @@ export class Ecomerceservice {
     return this.http.get<any>(`http://localhost:5038/api/Product?pageNumber=${x.pageNumber}&itemPerPage=9&maxPrice=${x.maxPrice}&categoryId=${x.categoryId}`).pipe(map(res => res.data));
   }
 
+  // get products by name(search)
+  getProductsByName(name: string) {
+    return this.http.get<any>(`http://localhost:5038/api/Product/search?productName=${name}`).pipe(map(res => res.data));
+  }
+
   // delete product from cart
   deleteFromCart(productId: number) {
     return this.http.delete<IApiResponse<boolean>>(`http://localhost:5038/api/ShoppingCart/${productId}`);
@@ -53,5 +58,6 @@ export class Ecomerceservice {
   deleteAllFromCart() {
     return this.http.delete<IApiResponse<boolean>>(`http://localhost:5038/api/ShoppingCart`);
   }
+
 
 }
