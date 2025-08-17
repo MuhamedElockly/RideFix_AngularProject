@@ -237,7 +237,7 @@ nextpage(){
 
   searchProductsByName(name: string) {
     if (name.trim() === '') {
-      this.products = this.oldproducts; 
+      this.products = this.oldproducts;
       return;
     }
 
@@ -251,5 +251,10 @@ nextpage(){
         console.error('Error searching products by name:', err);
       }
     });
+  }
+
+
+   getArray(n: number): number[] {
+    return Array.from({ length: n }, (_, i) => i);
   }
 }
