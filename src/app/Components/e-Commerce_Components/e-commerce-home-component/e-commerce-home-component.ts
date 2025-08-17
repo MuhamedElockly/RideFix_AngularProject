@@ -86,7 +86,7 @@ selectCategory(categoryId: number, productsCount: number) {
         quantity: 1,
         productName: item.name,
         price: item.price,
-        imageUrl: item.imageUrl 
+        imageUrl: item.imageUrl
       };
 
       this.ecomerces.addToCart(cartItem).subscribe({
@@ -139,5 +139,7 @@ selectCategory(categoryId: number, productsCount: number) {
     }
   }
 
-
+ getArray(n: number): number[] {
+    return Array.from({ length: n }, (_, i) => i);
+  }
 }

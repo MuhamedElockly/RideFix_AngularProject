@@ -565,13 +565,19 @@
               <h5 class="product-title">{{item.name}}</h5>
               <div class="product-rating">
                 <div class="stars">
+                   @for (i of getArray(5); track i) { @if (i < item.averageRating) {
+              <i class="fas fa-star"></i>
+              } @else {
+              <i class="far fa-star"></i>
+              } }
+
+                  <!-- <i class="fas fa-star"></i>
                   <i class="fas fa-star"></i>
                   <i class="fas fa-star"></i>
                   <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i> -->
                 </div>
-                <span class="rating-count">({{item.stockQuantity}} تقييم)</span>
+                <span class="rating-count">({{item.totalRatings}} تقييم)</span>
               </div>
               <div class="product-price">
                 <span class="current-price">{{item.price}} ريال</span>
