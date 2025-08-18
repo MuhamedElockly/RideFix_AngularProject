@@ -5,6 +5,8 @@ import { map } from 'rxjs';
 import { IShoppingCart } from '../../Interfaces/ishopping-cart';
 import { IApiResponse } from '../../Interfaces/iapi-response';
 import { Ifilterproduct } from '../../Interfaces/ifilterproduct';
+import { IReview } from '../../Interfaces/ireview';
+import { IproductRates } from '../../Interfaces/iproduct-rates';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class Ecomerceservice {
   constructor(  private http: HttpClient,){}
   // Get all products
   getAllProducts() {
-    return this.http.get<any>('http://localhost:5038/api/Product').pipe(map(res => res.data));
+    return this.http.get<any>('http://localhost:5038/api/Product?itemPerPage=9').pipe(map(res => res.data));
   }
 
   // Get all categories
@@ -62,6 +64,11 @@ export class Ecomerceservice {
   // get product details by id
   getProductDetails(productId: number) {
     return this.http.get<any>(`http://localhost:5038/api/Product/details/${productId}`).pipe(map(res => res.data));
+  }
+
+  // post review
+  postReview(productId: number, review: IproductRates) {
+    return this.http.post<IApiResponse<boolean>>(`http://localhost:5038/api/Product/${productId}/rate`, review);
   }
 
 

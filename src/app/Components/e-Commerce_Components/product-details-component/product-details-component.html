@@ -1,13 +1,13 @@
   <div class="back">
   <div class="breadcrumb">
         <div class="container">
-            <a href="#">الرئيسية</a>
+            <a (click)="gotomainpage()" class="link">الرئيسية</a>
             <i class="fas fa-chevron-left"></i>
-            <a href="#">المتجر</a>
+            <a  (click)="gotomarketpage()" class="link">المتجر</a>
             <i class="fas fa-chevron-left"></i>
-            <a href="#">قطع غيار السيارات</a>
+            <a (click)="gotoallproductpage()" class="link">قطع غيار السيارات</a>
             <i class="fas fa-chevron-left"></i>
-            <span>فلتر زيت محرك عالي الجودة</span>
+            <span>{{productDetails.name}} </span>
         </div>
     </div>
 
@@ -108,7 +108,7 @@
                         إضافة للسلة
                     </button>
                     }
-                    <button class="btn-secondary buy-now" (click)="buyNow()">
+                    <button class="btn-secondary buy-now" (click)="buyNow(productDetails)">
                         <i class="fas fa-bolt"></i>
                         شراء الآن
                     </button>
@@ -146,6 +146,7 @@
                 <!-- <button class="tab-header" onclick="showTab('specifications')">المواصفات</button> -->
                 <button class="tab-header" [class.active]="activeTab === 'reviews'" (click)="setActiveTab('reviews')">التقييمات ({{productDetails.productRates.length}})</button>
                 <!-- <button class="tab-header" onclick="showTab('installation')">دليل التركيب</button> -->
+                <button class="tab-header" [class.active]="activeTab === 'add-review'" (click)="setActiveTab('add-review')">إضافة تقييم</button>
             </div>
 
             <div class="tab-content">
@@ -322,6 +323,42 @@
                 </div>
               }
 
+@if (activeTab === 'add-review') {
+  <div class="add-review">
+  <h3>إضافة تعليق</h3>
+
+  <!-- تقييم النجوم -->
+  <div class="rating-input">
+    <label>التقييم:</label>
+    <div class="stars">
+      <!-- <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i> -->
+
+        <i *ngFor="let star of [1,2,3,4,5]"
+       class="fa-star"
+       [ngClass]="star <= currentRate ? 'fas' : 'far'"
+       (click)="setRate(star)">
+    </i>
+    </div>
+     <span class="selected-rate" *ngIf="currentRate">({{currentRate}} / 5)</span>
+  </div>
+
+  <!-- صندوق التعليق -->
+  <div class="comment-input">
+    <label for="comment">تعليقك:</label>
+    <textarea id="comment" placeholder="اكتب تعليقك هنا..."  [(ngModel)]="comment"
+            name="comment"></textarea>
+  </div>
+
+  <!-- زر الإرسال -->
+  <button class="btn-submit" (click)="sendReview()">إرسال</button>
+</div>
+
+
+}
                 <!-- Installation Tab -->
                 <!-- <div id="installation" class="tab-pane">
                     <h3>دليل التركيب</h3>
@@ -372,7 +409,7 @@
         </div>
 
         <!-- Related Products -->
-        <div class="related-products">
+        <!-- <div class="related-products">
             <h2>منتجات ذات صلة</h2>
             <div class="products-grid">
               @for(item of products.slice(0,4); track item) {
@@ -387,13 +424,13 @@
                         <i class="fas fa-check"></i>
                         في السلة
                     </button>
-                    }
+                    } -->
                     <!-- @else{
 
                     <button class="btn-add-cart" (click)="addToCart(item)">إضافة للسلة</button>
                     } -->
-                </div>
-              }
+                <!-- </div>
+              } -->
                 <!-- <div class="product-card">
                     <img src="/placeholder.svg?height=200&width=200" alt="زيت محرك">
                     <h3>زيت محرك صناعي كامل</h3>
@@ -420,12 +457,12 @@
                     </div>
                     <button class="btn-add-cart">إضافة للسلة</button>
                 </div> -->
-            </div>
-        </div>
+            <!-- </div> -->
+        <!-- </div> -->
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
+    <!-- <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -467,7 +504,7 @@
                 <p>&copy; 2024 RideFix. جميع الحقوق محفوظة.</p>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
     <!-- Success Modal -->
     <!-- <div id="successModal" class="modal">

@@ -72,7 +72,7 @@ selectCategory(categoryId: number, productsCount: number) {
 }
 
    addToCart(item: IProduct) {
-  
+
     Swal.fire({
       icon: 'success',
       title: 'تمت الإضافة للسلة',
