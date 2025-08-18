@@ -44,6 +44,7 @@ import { ReportsManagementComponent } from './Components/AdminModule/reports-man
 import { CategoriesManagementComponent } from './Components/AdminModule/categories-management/categories-management';
 import { AdminStatisticsComponent } from './Components/AdminModule/admin-statistics/admin-statistics';
 import { CartPageComponent } from './Components/e-Commerce_Components/cart-page-component/cart-page-component';
+import { ProductDetailsComponent } from './Components/e-Commerce_Components/product-details-component/product-details-component';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -67,7 +68,10 @@ export const routes: Routes = [
         component: ECommerceHomeComponent,
       },
       { path: 'AllProducts', component: AllProductsComponents },
-      {path:'cartpage',component:CartPageComponent}
+      {path:'cartpage',component:CartPageComponent},
+      {
+        path:"productdetails/:id",component:ProductDetailsComponent
+      }
     ],
     canActivate: [carOwnerGuard],
   },
@@ -89,7 +93,11 @@ export const routes: Routes = [
         component: ECommerceHomeComponent,
       },
       { path: 'AllProducts', component: AllProductsComponents },
-      {path:'cartpage',component:CartPageComponent}
+      {path:'cartpage',component:CartPageComponent},
+      {
+        path:"productdetails/:id",component:ProductDetailsComponent
+      }
+
     ],
     canActivate: [techGuard],
   },
@@ -105,6 +113,7 @@ export const routes: Routes = [
             { path: 'reports', component: ReportsManagementComponent },
             { path: 'categories', component: CategoriesManagementComponent },
             { path: 'statistics', component: AdminStatisticsComponent },
+
           ],
           canActivate: [adminGuard],
         },
