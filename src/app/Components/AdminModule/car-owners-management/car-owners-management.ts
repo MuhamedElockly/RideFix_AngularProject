@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../../Services/AdminService/admin.service';
 import { ICarOwner } from '../../../Interfaces/Admin/ICarOwner';
+import { IReview } from '../../../Interfaces/Admin/IReview';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,6 +18,12 @@ export class CarOwnersManagementComponent implements OnInit {
   filteredCarOwners: ICarOwner[] = [];
   selectedCarOwner: ICarOwner | null = null;
   showUserDetails = false;
+  
+  // Reviews modal
+  showReviewsModal = false;
+  selectedUserReviews: IReview[] = [];
+  selectedUserForReviews: ICarOwner | null = null;
+  isLoadingReviews = false;
   
   // Pagination
   currentPage = 1;
@@ -115,6 +122,60 @@ export class CarOwnersManagementComponent implements OnInit {
   closeUserDetails(): void {
     this.showUserDetails = false;
     this.selectedCarOwner = null;
+  }
+
+  // Reviews modal methods
+  viewUserReviews(carOwner: ICarOwner): void {
+    this.selectedUserForReviews = carOwner;
+    this.showReviewsModal = true;
+    this.isLoadingReviews = true;
+    
+    // Load temporary review data
+    setTimeout(() => {
+      this.selectedUserReviews = this.generateTempReviews(carOwner);
+      this.isLoadingReviews = false;
+    }, 800);
+  }
+
+  closeReviewsModal(): void {
+    this.showReviewsModal = false;
+    this.selectedUserForReviews = null;
+    this.selectedUserReviews = [];
+  }
+
+  private generateTempReviews(carOwner: ICarOwner): IReview[] {
+    const reviews: IReview[] = [];
+    const reviewerNames = ['أحمد محمد', 'فاطمة علي', 'محمد حسن', 'سارة أحمد', 'علي محمود', 'نور الدين', 'مريم سعيد', 'خالد عبدالله'];
+    const comments = [
+      'خدمة ممتازة وسريعة، أنصح بالتعامل معه',
+      'فني محترف وعمل دقيق',
+      'سعر معقول وجودة عالية',
+      'مؤدب ومحترم في التعامل',
+      'عمل سريع ودقيق',
+      'خدمة جيدة ولكن يمكن تحسينها',
+      'فني ماهر ومحترف',
+      'سعر مناسب وجودة ممتازة'
+    ];
+
+    // Generate 3-8 random reviews
+    const numReviews = Math.floor(Math.random() * 6) + 3;
+    
+    for (let i = 0; i < numReviews; i++) {
+      const rating = Math.floor(Math.random() * 3) + 3; // 3-5 stars
+      const reviewDate = new Date();
+      reviewDate.setDate(reviewDate.getDate() - Math.floor(Math.random() * 30)); // Random date within last 30 days
+      
+      reviews.push({
+        id: i + 1,
+        reviewerName: reviewerNames[Math.floor(Math.random() * reviewerNames.length)],
+        rating: rating,
+        comment: comments[Math.floor(Math.random() * comments.length)],
+        date: reviewDate.toLocaleDateString('ar-EG'),
+        isVerified: Math.random() > 0.3 // 70% chance of being verified
+      });
+    }
+
+    return reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }
 
   onImageError(event: any): void {
