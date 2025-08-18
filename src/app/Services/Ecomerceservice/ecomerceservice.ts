@@ -59,5 +59,10 @@ export class Ecomerceservice {
     return this.http.delete<IApiResponse<boolean>>(`http://localhost:5038/api/ShoppingCart`);
   }
 
+  // get product details by id
+  getProductDetails(productId: number) {
+    return this.http.get<any>(`http://localhost:5038/api/Product/details/${productId}`).pipe(map(res => res.data));
+  }
+
 
 }

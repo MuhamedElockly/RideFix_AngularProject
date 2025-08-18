@@ -72,9 +72,7 @@ selectCategory(categoryId: number, productsCount: number) {
 }
 
    addToCart(item: IProduct) {
-    // TODO: منطق إضافة المنتج للسلة هنا
-
-    // تنبيه نجاح بسيط
+  
     Swal.fire({
       icon: 'success',
       title: 'تمت الإضافة للسلة',
@@ -141,5 +139,16 @@ selectCategory(categoryId: number, productsCount: number) {
 
  getArray(n: number): number[] {
     return Array.from({ length: n }, (_, i) => i);
+  }
+
+  viewProductDetails(productId: number) {
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 2] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/productdetails', productId]);
+    }else if(parts[parts.length - 2] === 'technician'){
+      this.router.navigate(['/technician/productdetails', productId]);
+    }
+
   }
 }
