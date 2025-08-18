@@ -193,6 +193,8 @@ export class ReportsManagementComponent implements OnInit {
 
   viewReportDetails(report: IReport) {
     this.selectedReport = report;
+    console.log('Report selected:', report);
+    this.debugButtonVisibility(); // Auto-debug when report is selected
   }
 
   closeReportModal() {
@@ -456,6 +458,38 @@ export class ReportsManagementComponent implements OnInit {
       case 'Technician': return 'فني';
       default: return role;
     }
+  }
+
+  // Helper method to check if a role is a technician
+  isTechnicianRole(role: string | undefined): boolean {
+    if (!role) return false;
+    const roleLower = role.toLowerCase();
+    return roleLower === 'technician' || roleLower === 'فني' || roleLower === 'tech';
+  }
+
+  // Helper method to check if a role is a car owner
+  isCarOwnerRole(role: string | undefined): boolean {
+    if (!role) return false;
+    const roleLower = role.toLowerCase();
+    return roleLower === 'carowner' || roleLower === 'صاحب سيارة' || roleLower === 'owner';
+  }
+
+  // Debug method to check button visibility
+  debugButtonVisibility(): void {
+    if (!this.selectedReport) {
+      console.log('No report selected');
+      return;
+    }
+    
+    console.log('Button Visibility Debug:', {
+      reporterRole: this.selectedReport.reporterRole,
+      reportedUserRole: this.selectedReport.reportedUserRole,
+      isReporterTechnician: this.isTechnicianRole(this.selectedReport.reporterRole || ''),
+      isReporterCarOwner: this.isCarOwnerRole(this.selectedReport.reporterRole || ''),
+      isReportedUserTechnician: this.isTechnicianRole(this.selectedReport.reportedUserRole || ''),
+      isReportedUserCarOwner: this.isCarOwnerRole(this.selectedReport.reportedUserRole || ''),
+      status: this.selectedReport.status
+    });
   }
 
   getFormattedDate(dateInput: any, format: string = 'short'): string {
