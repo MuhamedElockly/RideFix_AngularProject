@@ -9,6 +9,12 @@ export interface IRequestsCount {
 }
 
 // New interfaces for dashboard statistics
+export interface IUserGrowth {
+  thisMonth: number;
+  lastMonth: number;
+  difference: number;
+}
+
 export interface IUserStatistics {
   technicians: {
     count: number;
@@ -18,7 +24,7 @@ export interface IUserStatistics {
     count: number;
     percent: number;
   };
-  newUsers: number;
+  growth: IUserGrowth;
   rates: number;
 }
 

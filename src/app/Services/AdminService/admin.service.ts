@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, map, catchError } from 'rxjs';
 import { IAdminUser } from '../../Interfaces/Admin/IAdminUser';
 import { IApiResponse } from '../../Interfaces/iapi-response';
 import { ICategory, ICreateCategory, IUpdateCategory } from '../../Interfaces/Admin/ICategory';
@@ -8,6 +8,7 @@ import { ICarOwner } from '../../Interfaces/Admin/ICarOwner';
 import { ITechnician } from '../../Interfaces/Admin/ITechnician';
 import { IActivitiesResponse } from '../../Interfaces/Admin/IActivities';
 import { IDashboardStatisticsResponse } from '../../Interfaces/Admin/IStatistics';
+import { IReport, IReportsResponse, IChatMessage } from '../../Interfaces/Admin/IReport';
 import { ApiConfigService } from '../api-config.service';
 
 @Injectable({
@@ -61,8 +62,90 @@ export class AdminService {
   }
 
   // Reports Management Methods
-  getReports(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/reports`);
+  getReports(): Observable<IReport[]> {
+    console.log('Fetching reports from:', `${this.baseUrl}`);
+    
+    return this.http.get<IReportsResponse>(`${this.baseUrl}`).pipe(
+      map(response => {
+        console.log('Raw API response:', response);
+        
+        // Handle different response shapes
+        let reports: any[] = [];
+        
+        if (response && typeof response === 'object') {
+          if ('success' in response && response.success && response.data?.reports) {
+            // New DTO structure: { success: true, data: { reports: [...] } }
+            reports = response.data.reports;
+          } else if (Array.isArray(response)) {
+            // Direct array response
+            reports = response;
+          } else if ('data' in response && Array.isArray(response.data)) {
+            // Alternative structure: { data: [...] }
+            reports = response.data;
+          }
+        }
+        
+        console.log('Parsed reports:', reports);
+        
+        // Transform API response to match IReport interface
+        return reports.map((report: any): IReport => ({
+          id: `${report.reportingUserId || ''}_${report.reportedUserId || ''}_${report.requestId || ''}`,
+          reporterId: report.reportingUserId,
+          reporterName: report.reportingUserRole === 'CarOwner' ? report.carOwnerName : report.technicianName,
+          reporterRole: report.reportingUserRole,
+          reportedUserName: report.reportedUserRole === 'CarOwner' ? report.carOwnerName : report.technicianName,
+          reportType: 'User Report',
+          reportReason: 'User Report',
+          reportDescription: report.description,
+          reportDate: report.createdAt || report.reportDate,
+          status: 'Pending' as const,
+          chatMessages: (report.messages || []).map((msg: any): IChatMessage => ({
+            id: String(msg.messageId),
+            senderId: msg.senderId,
+            senderName: msg.senderName,
+            senderRole: msg.senderId === report.reportingUserId ? report.reportingUserRole : report.reportedUserRole,
+            message: msg.text,
+            timestamp: msg.sentAt || msg.timestamp,
+            isRead: !!msg.isSeen,
+            messageType: 'text' as const
+          })),
+          // Include other optional properties
+          description: report.description,
+          createdAt: report.createdAt,
+          reportingUserId: report.reportingUserId,
+          reportingUserRole: report.reportingUserRole,
+          reportingEntityId: report.reportingEntityId,
+          reportedUserId: report.reportedUserId,
+          reportedUserRole: report.reportedUserRole,
+          reportedEntityId: report.reportedEntityId,
+          requestId: report.requestId,
+          technicianName: report.technicianName,
+          carOwnerName: report.carOwnerName,
+          messages: report.messages
+        }));
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error fetching reports:', error);
+        console.error('Error status:', error.status);
+        console.error('Error message:', error.message);
+        console.error('Error body:', error.error);
+        
+        // Try to extract more detailed error information
+        if (error.error) {
+          try {
+            const errorBody = typeof error.error === 'string' ? JSON.parse(error.error) : error.error;
+            console.error('Parsed error body:', errorBody);
+            if (errorBody.message) {
+              console.error('Backend error message:', errorBody.message);
+            }
+          } catch (parseError) {
+            console.error('Could not parse error body:', error.error);
+          }
+        }
+        
+        throw error;
+      })
+    );
   }
 
   getReportById(reportId: string): Observable<any> {

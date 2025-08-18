@@ -168,25 +168,13 @@
             <div class="performance-metrics">
               <div class="metric-item">
                 <div class="metric-icon">
-                  <i class="fas fa-clock"></i>
-                </div>
-                <div class="metric-content">
-                  <h6>متوسط وقت الاستجابة</h6>
-                  <div class="metric-value">15 دقيقة</div>
-                  <div class="metric-trend positive">
-                    <i class="fas fa-arrow-up"></i> 12%
-                  </div>
-                </div>
-              </div>
-              <div class="metric-item">
-                <div class="metric-icon">
                   <i class="fas fa-check-circle"></i>
                 </div>
                 <div class="metric-content">
                   <h6>معدل الإنجاز</h6>
-                  <div class="metric-value">94%</div>
+                  <div class="metric-value">{{ getCompletionRate() }}%</div>
                   <div class="metric-trend positive">
-                    <i class="fas fa-arrow-up"></i> 3%
+                    <i class="fas fa-arrow-up"></i> {{ getCompletionRateChange() }}%
                   </div>
                 </div>
               </div>
@@ -196,7 +184,7 @@
                 </div>
                 <div class="metric-content">
                   <h6>متوسط التقييم</h6>
-                  <div class="metric-value">{{ getAverageRating() | number:'1.1-1' }}/5</div>
+                  <div class="metric-value">{{ dashboardStatistics?.users?.rates || 0 }}/5</div>
                   <div class="metric-trend positive">
                     <i class="fas fa-star"></i> من 5 نجوم
                   </div>
@@ -208,9 +196,9 @@
                 </div>
                 <div class="metric-content">
                   <h6>معدل النمو الشهري</h6>
-                  <div class="metric-value">8%</div>
+                  <div class="metric-value">{{ dashboardStatistics?.users?.growth?.difference || 0 }}%</div>
                   <div class="metric-trend positive">
-                    <i class="fas fa-arrow-up"></i> 2%
+                    <i class="fas fa-arrow-up"></i> {{ getGrowthRateChange() }}%
                   </div>
                 </div>
               </div>

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AdminService } from '../../../Services/AdminService/admin.service';
-import { IUsersCount, IRequestsCount } from '../../../Interfaces/Admin/IStatistics';
+import { IUsersCount, IRequestsCount, IDashboardStatistics } from '../../../Interfaces/Admin/IStatistics';
 import { IActivity, IActivitiesData } from '../../../Interfaces/Admin/IActivities';
 import { interval, Subscription } from 'rxjs';
 
@@ -14,14 +14,7 @@ import { interval, Subscription } from 'rxjs';
   styleUrls: ['./admin-dashboard.css']
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
-  dashboardStats = {
-    totalTechnicians: 0,
-    totalCarOwners: 0,
-    totalRequests: 0,
-    activeRequests: 0,
-    totalReports: 0,
-    pendingReports: 0
-  };
+  dashboardStats: IDashboardStatistics | null = null;
 
   currentDate = new Date();
   recentActivities: IActivity[] = [];
@@ -43,36 +36,41 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   loadDashboardStats(): void {
     this.isLoading = true;
     
-    // Load users count
-    this.adminService.getUsersCount().subscribe({
-      next: (usersData) => {
-        this.dashboardStats.totalTechnicians = usersData.techniciansCount;
-        this.dashboardStats.totalCarOwners = usersData.carOwnersCount;
+    // Load dashboard statistics from the new endpoint
+    this.adminService.getDashboardStatistics().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.dashboardStats = response.data;
+        } else {
+          console.error('Failed to load dashboard statistics:', response.message);
+          this.setFallbackData();
+        }
       },
       error: (error) => {
-        console.error('Error loading users count:', error);
-        // Use fallback data
-        this.dashboardStats.totalTechnicians = 57;
-        this.dashboardStats.totalCarOwners = 23;
-      }
-    });
-
-    // Load requests count
-    this.adminService.getRequestsCount().subscribe({
-      next: (requestsData) => {
-        this.dashboardStats.totalRequests = requestsData.allRequestsCount;
-        this.dashboardStats.activeRequests = requestsData.waitingRequestsCount;
-      },
-      error: (error) => {
-        console.error('Error loading requests count:', error);
-        // Use fallback data
-        this.dashboardStats.totalRequests = 51;
-        this.dashboardStats.activeRequests = 1;
+        console.error('Error loading dashboard statistics:', error);
+        this.setFallbackData();
       },
       complete: () => {
         this.isLoading = false;
       }
     });
+  }
+
+  private setFallbackData(): void {
+    this.dashboardStats = {
+      users: {
+        technicians: { count: 57, percent: 65.59 },
+        carOwners: { count: 23, percent: 34.41 },
+        growth: { thisMonth: 10, lastMonth: 0, difference: 100 },
+        rates: 4.56
+      },
+      requests: {
+        completed: { count: 0, percent: 0 },
+        waiting: { count: 1, percent: 1.56 },
+        active: { count: 23, percent: 35.94 },
+        canceled: { count: 38, percent: 59.38 }
+      }
+    };
   }
 
   loadActivities(): void {

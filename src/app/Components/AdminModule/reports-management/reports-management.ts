@@ -30,209 +30,90 @@ export class ReportsManagementComponent implements OnInit {
   statusFilter = '';
   roleFilter = '';
   
-  // Mock data for demonstration
-  mockReports: IReport[] = [
-    {
-      id: '1',
-      reporterId: 'user1',
-      reporterName: 'أحمد محمد',
-      reporterRole: 'CarOwner',
-      reportedUserId: 'tech1',
-      reportedUserName: 'محمد علي',
-      reportedUserRole: 'Technician',
-      reportType: 'Poor Service',
-      reportReason: 'خدمة سيئة',
-      reportDescription: 'الفني لم يحضر في الموعد المحدد وتأخر كثيراً',
-      reportDate: new Date('2024-01-15'),
-      status: 'Pending',
-      chatMessages: [
-        {
-          id: '1',
-          senderId: 'user1',
-          senderName: 'أحمد محمد',
-          senderRole: 'CarOwner',
-          message: 'مرحبا، متى ستصل للفحص؟',
-          timestamp: new Date('2024-01-15T10:00:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '2',
-          senderId: 'tech1',
-          senderName: 'محمد علي',
-          senderRole: 'Technician',
-          message: 'سأصل خلال 30 دقيقة إن شاء الله',
-          timestamp: new Date('2024-01-15T10:05:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '3',
-          senderId: 'user1',
-          senderName: 'أحمد محمد',
-          senderRole: 'CarOwner',
-          message: 'حسناً، سأنتظرك',
-          timestamp: new Date('2024-01-15T10:06:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '4',
-          senderId: 'tech1',
-          senderName: 'محمد علي',
-          senderRole: 'Technician',
-          message: 'عذراً، تأخرت قليلاً بسبب زحام الطريق',
-          timestamp: new Date('2024-01-15T10:45:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '5',
-          senderId: 'user1',
-          senderName: 'أحمد محمد',
-          senderRole: 'CarOwner',
-          message: 'هذا غير مقبول، كنت تنتظر منذ ساعة',
-          timestamp: new Date('2024-01-15T11:00:00'),
-          isRead: true,
-          messageType: 'text'
-        }
-      ]
-    },
-    {
-      id: '2',
-      reporterId: 'tech2',
-      reporterName: 'فاطمة أحمد',
-      reporterRole: 'Technician',
-      reportedUserId: 'owner1',
-      reportedUserName: 'علي حسن',
-      reportedUserRole: 'CarOwner',
-      reportType: 'Inappropriate Behavior',
-      reportReason: 'سلوك غير لائق',
-      reportDescription: 'صاحب السيارة كان يتصرف بشكل غير لائق أثناء الخدمة',
-      reportDate: new Date('2024-01-14'),
-      status: 'Pending',
-      chatMessages: [
-        {
-          id: '1',
-          senderId: 'tech2',
-          senderName: 'فاطمة أحمد',
-          senderRole: 'Technician',
-          message: 'مرحبا، أنا الفنية فاطمة. سأبدأ بفحص السيارة الآن',
-          timestamp: new Date('2024-01-14T14:00:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '2',
-          senderId: 'owner1',
-          senderName: 'علي حسن',
-          senderRole: 'CarOwner',
-          message: 'أهلاً وسهلاً، تفضلي بالفحص',
-          timestamp: new Date('2024-01-14T14:02:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '3',
-          senderId: 'tech2',
-          senderName: 'فاطمة أحمد',
-          senderRole: 'Technician',
-          message: 'أرى أن هناك مشكلة في الفرامل. سأحتاج وقت إضافي',
-          timestamp: new Date('2024-01-14T14:15:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '4',
-          senderId: 'owner1',
-          senderName: 'علي حسن',
-          senderRole: 'CarOwner',
-          message: 'لا بأس، خذي وقتك',
-          timestamp: new Date('2024-01-14T14:16:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '5',
-          senderId: 'owner1',
-          senderName: 'علي حسن',
-          senderRole: 'CarOwner',
-          message: 'هل يمكنك إخباري بالتكلفة التقريبية؟',
-          timestamp: new Date('2024-01-14T14:30:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '6',
-          senderId: 'tech2',
-          senderName: 'فاطمة أحمد',
-          senderRole: 'Technician',
-          message: 'التكلفة ستكون حوالي 200 ريال',
-          timestamp: new Date('2024-01-14T14:32:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '7',
-          senderId: 'owner1',
-          senderName: 'علي حسن',
-          senderRole: 'CarOwner',
-          message: 'هذا مبلغ كبير! لماذا لم تخبريني مسبقاً؟',
-          timestamp: new Date('2024-01-14T14:35:00'),
-          isRead: true,
-          messageType: 'text'
-        },
-        {
-          id: '8',
-          senderId: 'tech2',
-          senderName: 'فاطمة أحمد',
-          senderRole: 'Technician',
-          message: 'عذراً، كان يجب علي إخبارك أولاً',
-          timestamp: new Date('2024-01-14T14:36:00'),
-          isRead: true,
-          messageType: 'text'
-        }
-      ]
-    },
-    {
-      id: '3',
-      reporterId: 'user3',
-      reporterName: 'سارة محمود',
-      reporterRole: 'CarOwner',
-      reportedUserId: 'tech3',
-      reportedUserName: 'حسن أحمد',
-      reportedUserRole: 'Technician',
-      reportType: 'No Show',
-      reportReason: 'عدم الحضور',
-      reportDescription: 'الفني لم يحضر ولم يتصل لتوضيح السبب',
-      reportDate: new Date('2024-01-13'),
-      status: 'Resolved'
-    }
-  ];
+  // No static mock data; rely solely on API
 
   constructor(private adminService: AdminService) {}
 
   ngOnInit() {
+    console.log('Component initialized, clearing any existing data');
+    this.clearAllData();
     this.loadReports();
   }
 
+  clearAllData() {
+    console.log('Clearing all data...');
+    this.reports = [];
+    this.filteredReports = [];
+    this.selectedReport = null;
+    this.currentPage = 1;
+    this.totalPages = 1;
+    this.searchTerm = '';
+    this.statusFilter = '';
+    this.roleFilter = '';
+    console.log('Data cleared, current state:', {
+      reports: this.reports,
+      filteredReports: this.filteredReports,
+      selectedReport: this.selectedReport
+    });
+  }
+
+  // Test method to verify empty state
+  testEmptyState() {
+    console.log('Testing empty state...');
+    this.clearAllData();
+    this.applyFilters();
+    console.log('Empty state test completed. Reports count:', this.reports.length);
+  }
+
   loadReports() {
+    console.log('Loading reports...');
+    console.log('Current reports state before API call:', this.reports);
     this.isLoading = true;
-    // Try to load from API first, fallback to mock data
+    
     this.adminService.getReports().subscribe({
       next: (reports) => {
-        this.reports = reports;
-        this.applyFilters();
+        console.log('Reports loaded successfully:', reports);
+        this.reports = reports || [];
+        this.filteredReports = reports || [];
+        console.log('Reports state after API success:', this.reports);
         this.isLoading = false;
+        this.applyFilters(); // Apply filters after loading
       },
       error: (error) => {
-        console.log('Using mock data due to API error:', error);
-        // Fallback to mock data if API is not available
-        this.reports = [...this.mockReports];
-        this.applyFilters();
+        console.error('Error in loadReports:', error);
+        console.error('Error details:', {
+          status: error.status,
+          statusText: error.statusText,
+          message: error.message,
+          error: error.error
+        });
+        
+        // Try to extract backend error message
+        if (error.error) {
+          try {
+            const errorBody = typeof error.error === 'string' ? JSON.parse(error.error) : error.error;
+            console.error('Backend error details:', errorBody);
+          } catch (parseError) {
+            console.error('Raw error body:', error.error);
+          }
+        }
+        
+        console.log('API error, showing empty list:', error);
+        this.reports = [];
+        this.filteredReports = [];
+        console.log('Reports state after API error (should be empty):', this.reports);
         this.isLoading = false;
+        this.applyFilters(); // Apply filters after setting empty data
       }
     });
+  }
+
+  hasReports(): boolean {
+    return this.reports && this.reports.length > 0;
+  }
+
+  hasFilteredReports(): boolean {
+    return this.filteredReports && this.filteredReports.length > 0;
   }
 
   applyFilters() {
@@ -241,9 +122,10 @@ export class ReportsManagementComponent implements OnInit {
     // Search filter
     if (this.searchTerm) {
       filtered = filtered.filter(report => 
-        report.reporterName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        report.reportedUserName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        report.reportReason.toLowerCase().includes(this.searchTerm.toLowerCase())
+        (report.reporterName && report.reporterName.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+        (report.reportedUserName && report.reportedUserName.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+        (report.reportReason && report.reportReason.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+        (report.description && report.description.toLowerCase().includes(this.searchTerm.toLowerCase()))
       );
     }
     
@@ -327,7 +209,11 @@ export class ReportsManagementComponent implements OnInit {
   }
 
   isOwnMessage(message: any): boolean {
-    return message.senderId === this.selectedReport?.reporterId;
+    // Check if it's the new message structure or legacy
+    if (message.senderId) {
+      return message.senderId === this.selectedReport?.reportingUserId || message.senderId === this.selectedReport?.reporterId;
+    }
+    return false;
   }
 
   async blockUser(userId: string, userName: string, userType: string) {
@@ -359,8 +245,40 @@ export class ReportsManagementComponent implements OnInit {
           }
         });
 
-        // Call API to block user
-        await this.adminService.blockUserAccount(userId, `Blocked due to report - ${userType}`).toPromise();
+        // Always call the correct Admin endpoints with numeric entity IDs
+        // Prefer the numeric id passed in; if invalid, derive from selectedReport and userType
+        const parsedId = Number(userId);
+        
+        console.log('Blocking user:', {
+          userId,
+          userName,
+          userType,
+          parsedId,
+          selectedReport: this.selectedReport
+        });
+
+        if (userType === 'Technician') {
+          // For technician, use the passed ID or derive from the report
+          const technicianId = !isNaN(parsedId) && parsedId > 0 ? parsedId : 0;
+          console.log('Blocking technician with ID:', technicianId);
+          
+          if (!technicianId || technicianId <= 0) {
+            throw new Error('Invalid technician id');
+          }
+          await this.adminService.blockTechnician(technicianId).toPromise();
+        } else if (userType === 'CarOwner') {
+          // For car owner, use the passed ID or derive from the report
+          const carOwnerId = !isNaN(parsedId) && parsedId > 0 ? parsedId : 0;
+          console.log('Blocking car owner with ID:', carOwnerId);
+          
+          if (!carOwnerId || carOwnerId <= 0) {
+            throw new Error('Invalid car owner id');
+          }
+          await this.adminService.blockCarOwner(carOwnerId).toPromise();
+        } else {
+          // Unknown type; do not call unsupported endpoint
+          throw new Error('Unsupported user type');
+        }
         
         // Show success message
         Swal.fire({
@@ -374,6 +292,7 @@ export class ReportsManagementComponent implements OnInit {
         this.closeReportModal();
         this.loadReports();
       } catch (error) {
+        console.error('Error blocking user:', error);
         // Show error message
         Swal.fire({
           title: 'خطأ!',
@@ -511,6 +430,7 @@ export class ReportsManagementComponent implements OnInit {
   }
 
   getStatusClass(status: string): string {
+    if (!status) return '';
     switch (status) {
       case 'Pending': return 'status-pending';
       case 'Resolved': return 'status-resolved';
@@ -520,6 +440,7 @@ export class ReportsManagementComponent implements OnInit {
   }
 
   getStatusText(status: string): string {
+    if (!status) return 'غير محدد';
     switch (status) {
       case 'Pending': return 'قيد الانتظار';
       case 'Resolved': return 'تم الحل';
@@ -529,10 +450,76 @@ export class ReportsManagementComponent implements OnInit {
   }
 
   getRoleText(role: string): string {
+    if (!role) return 'غير محدد';
     switch (role) {
       case 'CarOwner': return 'صاحب سيارة';
       case 'Technician': return 'فني';
       default: return role;
+    }
+  }
+
+  getFormattedDate(dateInput: any, format: string = 'short'): string {
+    try {
+      // Handle null, undefined, or empty values
+      if (!dateInput) {
+        return 'تاريخ غير متوفر';
+      }
+
+      let date: Date;
+      
+      if (typeof dateInput === 'string') {
+        // Handle API date format: "2025-08-18T19:05:36.1601119"
+        // Also handle already formatted dates like "Monday, August 18, 2025 at 7:05:36 PM GMT+03:00"
+        if (dateInput.includes('GMT') || dateInput.includes('UTC')) {
+          // This is already a formatted date string, try to parse it
+          date = new Date(dateInput);
+        } else {
+          // Handle API format
+          const cleanDate = dateInput.replace('T', ' ').split('.')[0];
+          date = new Date(cleanDate);
+        }
+      } else if (dateInput instanceof Date) {
+        date = dateInput;
+      } else {
+        console.warn('Invalid date input:', dateInput);
+        return 'تاريخ غير صحيح';
+      }
+
+      if (isNaN(date.getTime())) {
+        console.warn('Invalid date after parsing:', dateInput);
+        return 'تاريخ غير صحيح';
+      }
+
+      // Format the date based on the requested format
+      switch (format) {
+        case 'full':
+          return date.toLocaleDateString('ar-SA', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          });
+        case 'shortTime':
+          return date.toLocaleTimeString('ar-SA', {
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+        case 'short':
+        default:
+          return date.toLocaleDateString('ar-SA', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+      }
+    } catch (error) {
+      console.error('Error formatting date:', error, 'Input:', dateInput);
+      return 'تاريخ غير صحيح';
     }
   }
 }
