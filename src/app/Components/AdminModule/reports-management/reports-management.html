@@ -38,8 +38,6 @@
         <option value="CarOwner">صاحب سيارة</option>
         <option value="Technician">فني</option>
       </select>
-
-     
     </div>
   </div>
 
@@ -135,9 +133,12 @@
               </div>
             </td>
           </tr>
-          
+
           <!-- No reports row -->
-          <tr *ngIf="!isLoading && pagedReports.length === 0" class="no-reports-row">
+          <tr
+            *ngIf="!isLoading && pagedReports.length === 0"
+            class="no-reports-row"
+          >
             <td colspan="8" class="no-reports-cell">
               <div class="no-reports-message">
                 <i class="fas fa-info-circle"></i>
@@ -158,7 +159,9 @@
       <div *ngIf="!isLoading && !hasFilteredReports()" class="empty-state">
         <i class="fas fa-inbox"></i>
         <p *ngIf="!hasReports()">لا توجد بلاغات</p>
-        <p *ngIf="hasReports() && !hasFilteredReports()">لا توجد بلاغات تطابق معايير البحث</p>
+        <p *ngIf="hasReports() && !hasFilteredReports()">
+          لا توجد بلاغات تطابق معايير البحث
+        </p>
         <div *ngIf="!hasReports()" class="empty-state-actions">
           <button class="btn btn-outline-primary" (click)="loadReports()">
             <i class="fas fa-refresh"></i>
@@ -283,6 +286,8 @@
               </span>
             </span>
           </div>
+
+          <!-- Debug Section -->
         </div>
 
         <div *ngIf="selectedReport.adminNotes" class="detail-section">
@@ -341,7 +346,7 @@
                   <span class="sender-name">{{ message.senderName }}</span>
                   <span class="message-time">{{
                     getFormattedDate(
-                      message.sentAt || ($any(message).timestamp),
+                      message.sentAt || $any(message).timestamp,
                       "shortTime"
                     )
                   }}</span>
@@ -353,7 +358,8 @@
                   <span
                     class="role-badge"
                     [class]="
-                      'role-' + (($any(message).senderRole || 'user').toLowerCase())
+                      'role-' +
+                      ($any(message).senderRole || 'user').toLowerCase()
                     "
                   >
                     {{ getRoleText($any(message).senderRole || "User") }}
@@ -395,15 +401,16 @@
           رفض البلاغ
         </button>
 
-        <button 
-          *ngIf="selectedReport.reportedUserRole === 'CarOwner' || selectedReport.reportedUserRole === 'صاحب سيارة'"
-          class="btn btn-danger" 
+        <!-- Block Reported User Buttons -->
+        <button
+          *ngIf="isTechnicianRole(selectedReport.reportedUserRole)"
+          class="btn btn-danger"
           (click)="
             blockUser(
               selectedReport.reportedEntityId.toString() ||
                 selectedReport.reportedUserId,
               selectedReport.reportedUserName || '',
-              'CarOwner'
+              'Technician'
             )
           "
         >
@@ -412,10 +419,7 @@
         </button>
 
         <button
-          *ngIf="
-            selectedReport.reportedUserRole === 'CarOwner' ||
-            selectedReport.reportedUserRole === 'صاحب سيارة'
-          "
+          *ngIf="isCarOwnerRole(selectedReport.reportedUserRole)"
           class="btn btn-danger"
           (click)="
             blockUser(
@@ -430,14 +434,15 @@
           حظر صاحب السيارة
         </button>
 
-        <button 
-          *ngIf="selectedReport.reporterRole === 'Technician' || selectedReport.reporterRole === 'فني'"
-          class="btn btn-warning" 
+        <!-- Block Reporter Buttons -->
+        <button
+          *ngIf="isTechnicianRole(selectedReport.reporterRole)"
+          class="btn btn-warning"
           (click)="
             blockUser(
-              selectedReport.reportedEntityId.toString() ||
-                selectedReport.reportedUserId,
-              selectedReport.reportedUserName || '',
+              (selectedReport.reportingEntityId || 0).toString() ||
+                selectedReport.reporterId || '',
+              selectedReport.reporterName || '',
               'Technician'
             )
           "
@@ -447,16 +452,13 @@
         </button>
 
         <button
-          *ngIf="
-            selectedReport.reporterRole === 'CarOwner' ||
-            selectedReport.reporterRole === 'صاحب سيارة'
-          "
+          *ngIf="isCarOwnerRole(selectedReport.reporterRole)"
           class="btn btn-warning"
           (click)="
             blockUser(
               (selectedReport.reportingEntityId || 0).toString() ||
-                (selectedReport.reporterId || ''),
-              selectedReport.reportedUserName || '',
+                selectedReport.reporterId || '',
+              selectedReport.reporterName || '',
               'CarOwner'
             )
           "
