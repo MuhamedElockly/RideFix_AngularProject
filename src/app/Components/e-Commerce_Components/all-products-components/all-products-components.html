@@ -3,8 +3,8 @@
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="ecommerce-home-static.html"
+        <li class="breadcrumb-item" (click)="gotomainpage()" >
+          <a  class="breadcrumb-link"
             ><i class="fas fa-home"></i> الرئيسية</a
           >
         </li>
@@ -202,7 +202,7 @@
                   <!-- <span class="count">(46)</span> -->
                 </label>
               </div>
-              <div class="price-range-slider">
+              <!-- <div class="price-range-slider">
                 <label>نطاق السعر المخصص:</label>
                 <div class="range-inputs">
                   <input
@@ -221,7 +221,7 @@
                     max="1000"
                   />
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -241,40 +241,40 @@
             <div class="collapse show" id="brandFilter">
               <div class="filter-options">
                 <label class="filter-option">
-                  <input type="checkbox" name="brand" value="mobil" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="brand" value="mobil" />
+                  <!-- <span class="checkmark"></span> -->
                   موبيل (Mobil)
-                  <span class="count">(34)</span>
+                  <!-- <span class="count">(34)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="brand" value="brembo" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="brand" value="brembo" />
+                  <!-- <span class="checkmark"></span> -->
                   بريمبو (Brembo)
-                  <span class="count">(28)</span>
+                  <!-- <span class="count">(28)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="brand" value="acdelco" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="brand" value="acdelco" />
+                  <!-- <span class="checkmark"></span> -->
                   AC Delco
-                  <span class="count">(45)</span>
+                  <!-- <span class="count">(45)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="brand" value="kn" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="brand" value="kn" />
+                  <!-- <span class="checkmark"></span> -->
                   K&N
-                  <span class="count">(23)</span>
+                  <!-- <span class="count">(23)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="brand" value="bosch" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="brand" value="bosch" />
+                  <!-- <span class="checkmark"></span> -->
                   بوش (Bosch)
-                  <span class="count">(67)</span>
+                  <!-- <span class="count">(67)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="brand" value="mann" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="brand" value="mann" />
+                  <!-- <span class="checkmark"></span> -->
                   مان (Mann)
-                  <span class="count">(39)</span>
+                  <!-- <span class="count">(39)</span> -->
                 </label>
               </div>
             </div>
@@ -296,8 +296,8 @@
             <div class="collapse show" id="ratingFilter">
               <div class="filter-options">
                 <label class="filter-option">
-                  <input type="checkbox" name="rating" value="5" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="rating" value="5" />
+                  <!-- <span class="checkmark"></span> -->
                   <div class="stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -305,11 +305,11 @@
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
                   </div>
-                  <span class="count">(89)</span>
+                  <!-- <span class="count">(89)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="rating" value="4" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="rating" value="4" />
+                  <!-- <span class="checkmark"></span> -->
                   <div class="stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -317,11 +317,11 @@
                     <i class="fas fa-star"></i>
                     <i class="far fa-star"></i>
                   </div>
-                  فأكثر <span class="count">(156)</span>
+                  <!-- فأكثر <span class="count">(156)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="rating" value="3" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="rating" value="3" />
+                  <!-- <span class="checkmark"></span> -->
                   <div class="stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -329,7 +329,8 @@
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
                   </div>
-                  فأكثر <span class="count">(234)</span>
+                  <!-- فأكثر -->
+                  <!-- <span class="count">(234)</span> -->
                 </label>
               </div>
             </div>
@@ -351,22 +352,22 @@
             <div class="collapse show" id="availabilityFilter">
               <div class="filter-options">
                 <label class="filter-option">
-                  <input type="checkbox" name="availability" value="in-stock" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="availability" value="in-stock" />
+                  <!-- <span class="checkmark"></span> -->
                   متوفر
-                  <span class="count">(298)</span>
+                  <!-- <span class="count">(298)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="availability" value="sale" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="availability" value="sale" />
+                  <!-- <span class="checkmark"></span> -->
                   في التخفيضات
-                  <span class="count">(45)</span>
+                  <!-- <span class="count">(45)</span> -->
                 </label>
                 <label class="filter-option">
-                  <input type="checkbox" name="availability" value="new" />
-                  <span class="checkmark"></span>
+                  <input type="radio" name="availability" value="new" />
+                  <!-- <span class="checkmark"></span> -->
                   منتجات جديدة
-                  <span class="count">(23)</span>
+                  <!-- <span class="count">(23)</span> -->
                 </label>
               </div>
             </div>
@@ -553,6 +554,7 @@
                 <button
                   class="btn btn-sm btn-light quick-view-btn"
                   title="عرض سريع"
+                  (click)="viewProductDetails(item.productId)"
                 >
                   <i class="fas fa-eye"></i>
                 </button>

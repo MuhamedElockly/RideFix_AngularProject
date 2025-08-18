@@ -5,18 +5,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IShoppingCart } from '../../../Interfaces/ishopping-cart';
 import { IProduct } from '../../../Interfaces/iproduct';
 import Swal from 'sweetalert2';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Ifilterproduct } from '../../../Interfaces/ifilterproduct';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../Services/AuthService/auth.service';
+import { IReview } from '../../../Interfaces/ireview';
+import { IproductRates } from '../../../Interfaces/iproduct-rates';
 
 @Component({
   selector: 'app-product-details-component',
-  imports: [DatePipe],
+  imports: [DatePipe,CommonModule, FormsModule],
   templateUrl: './product-details-component.html',
   styleUrl: './product-details-component.css'
 })
 export class ProductDetailsComponent implements OnInit{
 
-  constructor(private ecomerces:Ecomerceservice ,private route:ActivatedRoute,private router :Router){}
+  constructor(private ecomerces:Ecomerceservice ,private route:ActivatedRoute,private router :Router,private authoz:AuthService){}
 
   productDetails!:IproductDetails;
   activeTab: string = 'description';
@@ -40,6 +44,7 @@ export class ProductDetailsComponent implements OnInit{
   twoStarCount: number = 0;
   oneStarRating: number = 0;
   oneStarCount: number = 0;
+  comment: string = '';
 
 
 
@@ -190,7 +195,14 @@ export class ProductDetailsComponent implements OnInit{
     }
   }
 
-  buyNow(){
+  buyNow(item: IproductDetails){
+if(!this.hasAlreadyAddtocart(item.productId)){
+  this.addToCart(item);
+
+}
+
+
+
 const path = this.router.url;
     const parts = path.split('/').filter(p => p);
     if( parts[parts.length - 3] === 'CarOwner')  {
@@ -200,25 +212,106 @@ const path = this.router.url;
     }
   }
 
-    // getProductBycategory(categoryId:number){
+ gotomainpage(){
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 3] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/Home']);
+    }else if(parts[parts.length - 3] === 'technician'){
+      this.router.navigate(['/technician/requests']);
+    }
+  }
+
+   gotomarketpage(){
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 3] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/Market']);
+    }else if(parts[parts.length - 3] === 'technician'){
+      this.router.navigate(['/technician/Market']);
+    }
+  }
+
+  gotoallproductpage(){
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 3] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/AllProducts']);
+    }else if(parts[parts.length - 3] === 'technician'){
+      this.router.navigate(['/technician/AllProducts']);
+    }
+  }
 
 
-    // this.filteredProducts.categoryId = categoryId;
-    // if (this.filteredProducts.maxPrice === null ) {
-      // this.filteredProducts.maxPrice = ""}; // Default max price if not set
+  currentRate = 0;
 
-  //   this.ecomerces.getProductsByCategory(this.filteredProducts).subscribe({
-  //     next: (products) => {
-  //       this.products = Array.isArray(products) ? products : [products];
+setRate(star: number) {
+  this.currentRate = star;
+  console.log("Selected rate:", this.currentRate);
+}
 
+sendReview() {
+  // console.log("Comment:", this.comment);
+  // console.log("Rating:", this.currentRate);
+  // console.log("Product ID:", this.productDetails.productId);
+  // console.log("User ID:", this.authoz.getUserId());
+  // console.log("User Name:", this.authoz.getUserName());
+  // console.log("createdAt:", new Date());
+console.log("productid",this.productDetails.productId);
 
-  //       console.log(this.products);
-  //     },
-  //     error: (err) => {
-  //       this.products = [];
-  //       console.error('Error fetching products by category:', err);
-  //     }
-  // })
-// }
+  if (this.currentRate === 0 || this.comment.trim() === '') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'تنبيه',
+      text: 'يرجى إدخال تقييم وتعليق قبل الإرسال.',
+      confirmButtonText: 'حسناً'
+    });
+    return;
+  }
+  const review: IproductRates= {
+    value: this.currentRate,
+    comment: this.comment,
+    userId: this.authoz.getUserId(),
+    userName: this.authoz.getUserName(),
+    createdAt: new Date().toISOString()
+  };
+
+  this.ecomerces.postReview(this.productDetails.productId, review).subscribe({
+    next: (response) => {
+      if (response.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'تمت الإضافة بنجاح',
+          text: 'تم إضافة تقييمك بنجاح.',
+          confirmButtonText: 'حسناً'
+        });
+        this.productDetails.productRates.push(review);
+        window.location.reload();
+        // this.productDetails.productRates.push(review);
+        // this.comment = '';
+        // this.currentRate = 0;
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ',
+          text: 'حدث خطأ أثناء إضافة التقييم.',
+          confirmButtonText: 'حسناً'
+        });
+      }
+    },
+    error: (err) => {
+      console.error('Error posting review:', err);
+      Swal.fire({
+        icon: 'error',
+        title: 'خطأ',
+        text: 'حدث خطأ أثناء إضافة التقييم.',
+        confirmButtonText: 'حسناً'
+      });
+    }
+  });
+
+  this.comment = '';
+  this.currentRate = 0;
+}
 
 }

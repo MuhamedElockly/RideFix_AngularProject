@@ -33,8 +33,15 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="ecommerce-home-static.html"><i class="fas fa-home"></i> الرئيسية</a></li>
-                    <li class="breadcrumb-item"><a href="products-page-static.html">المنتجات</a></li>
+                    <li class="breadcrumb-item"><a (click)="gotomainpage() " class="link"><i class="fas fa-home"></i> الرئيسية</a>
+
+                    </li>
+
+                                        <li class="breadcrumb-item"></li>
+
+                    <li class="breadcrumb-item"><a (click)="gotoallproductpage() " class="link">المنتجات</a></li>
+                    <!-- <li class="breadcrumb-item"></li> -->
+
                     <li class="breadcrumb-item active" aria-current="page">سلة التسوق</li>
                 </ol>
             </nav>
