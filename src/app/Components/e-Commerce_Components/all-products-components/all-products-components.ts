@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AllProductsComponents implements OnInit{
 
-  constructor(private ecomerces:Ecomerceservice,private route: ActivatedRoute) {}
+  constructor(private ecomerces:Ecomerceservice,private route: ActivatedRoute,private router:Router) {}
 
   products: IProduct[] = [];
   categories: IProductCategory[] = [];
@@ -237,7 +237,7 @@ nextpage(){
 
   searchProductsByName(name: string) {
     if (name.trim() === '') {
-      this.products = this.oldproducts; 
+      this.products = this.oldproducts;
       return;
     }
 
@@ -251,5 +251,32 @@ nextpage(){
         console.error('Error searching products by name:', err);
       }
     });
+  }
+
+
+   getArray(n: number): number[] {
+    return Array.from({ length: n }, (_, i) => i);
+  }
+
+
+   viewProductDetails(productId: number) {
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 2] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/productdetails', productId]);
+    }else if(parts[parts.length - 2] === 'technician'){
+      this.router.navigate(['/technician/productdetails', productId]);
+    }
+
+  }
+
+    gotomainpage(){
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 2] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/Home']);
+    }else if(parts[parts.length - 2] === 'technician'){
+      this.router.navigate(['/technician/requests']);
+    }
   }
 }

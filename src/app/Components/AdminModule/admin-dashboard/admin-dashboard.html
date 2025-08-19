@@ -30,8 +30,9 @@
             <i class="fas fa-tools"></i>
           </div>
           <div class="stat-card-content">
-            <h3 class="stat-number">{{ dashboardStats.totalTechnicians }}</h3>
+            <h3 class="stat-number">{{ dashboardStats?.users?.technicians?.count || 0 }}</h3>
             <p class="stat-label">إجمالي الفنيين</p>
+            <small class="stat-percent">{{ dashboardStats?.users?.technicians?.percent || 0 }}%</small>
           </div>
           <div class="stat-card-bg"></div>
         </div>
@@ -44,8 +45,9 @@
             <i class="fas fa-car"></i>
           </div>
           <div class="stat-card-content">
-            <h3 class="stat-number">{{ dashboardStats.totalCarOwners }}</h3>
+            <h3 class="stat-number">{{ dashboardStats?.users?.carOwners?.count || 0 }}</h3>
             <p class="stat-label">إجمالي أصحاب السيارات</p>
+            <small class="stat-percent">{{ dashboardStats?.users?.carOwners?.percent || 0 }}%</small>
           </div>
           <div class="stat-card-bg"></div>
         </div>
@@ -58,7 +60,7 @@
             <i class="fas fa-clipboard-list"></i>
           </div>
           <div class="stat-card-content">
-            <h3 class="stat-number">{{ dashboardStats.totalRequests }}</h3>
+            <h3 class="stat-number">{{ (dashboardStats?.requests?.completed?.count || 0) + (dashboardStats?.requests?.waiting?.count || 0) + (dashboardStats?.requests?.active?.count || 0) + (dashboardStats?.requests?.canceled?.count || 0) }}</h3>
             <p class="stat-label">إجمالي الطلبات</p>
           </div>
           <div class="stat-card-bg"></div>
@@ -72,24 +74,87 @@
             <i class="fas fa-clock"></i>
           </div>
           <div class="stat-card-content">
-            <h3 class="stat-number">{{ dashboardStats.activeRequests }}</h3>
+            <h3 class="stat-number">{{ dashboardStats?.requests?.active?.count || 0 }}</h3>
             <p class="stat-label">الطلبات النشطة</p>
+            <small class="stat-percent">{{ dashboardStats?.requests?.active?.percent || 0 }}%</small>
           </div>
           <div class="stat-card-bg"></div>
         </div>
       </div>
 
-      <!-- Pending Reports Card -->
-      <div class="col-lg-3 col-md-6">
-        <div class="stat-card reports-card">
-          <div class="stat-card-icon">
-            <i class="fas fa-flag"></i>
+      
+    </div>
+
+    <!-- Performance Section -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <h2 class="section-title">
+          <i class="fas fa-chart-line"></i>
+          أداء النظام
+        </h2>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- User Growth -->
+      <div class="col-lg-6">
+        <div class="performance-card">
+          <div class="performance-header">
+            <h3><i class="fas fa-users"></i> نمو المستخدمين</h3>
           </div>
-          <div class="stat-card-content">
-            <h3 class="stat-number">{{ dashboardStats.pendingReports }}</h3>
-            <p class="stat-label">البلاغات المعلقة</p>
+          <div class="performance-content">
+            <div class="growth-stats">
+              <div class="growth-item">
+                <span class="growth-label">هذا الشهر:</span>
+                <span class="growth-value positive">{{ dashboardStats?.users?.growth?.thisMonth || 0 }}</span>
+              </div>
+              <div class="growth-item">
+                <span class="growth-label">الشهر الماضي:</span>
+                <span class="growth-value">{{ dashboardStats?.users?.growth?.lastMonth || 0 }}</span>
+              </div>
+              <div class="growth-item">
+                <span class="growth-label">نسبة النمو:</span>
+                <span class="growth-value positive">{{ dashboardStats?.users?.growth?.difference || 0 }}%</span>
+              </div>
+              <div class="growth-item">
+                <span class="growth-label">معدل التقييم:</span>
+                <span class="growth-value">{{ dashboardStats?.users?.rates || 0 }}/5</span>
+              </div>
+            </div>
           </div>
-          <div class="stat-card-bg"></div>
+        </div>
+      </div>
+
+      <!-- Request Status -->
+      <div class="col-lg-6">
+        <div class="performance-card">
+          <div class="performance-header">
+            <h3><i class="fas fa-clipboard-check"></i> حالة الطلبات</h3>
+          </div>
+          <div class="performance-content">
+            <div class="request-stats">
+              <div class="request-item completed">
+                <span class="request-label">مكتملة:</span>
+                <span class="request-value">{{ dashboardStats?.requests?.completed?.count || 0 }}</span>
+                <span class="request-percent">({{ dashboardStats?.requests?.completed?.percent || 0 }}%)</span>
+              </div>
+              <div class="request-item waiting">
+                <span class="request-label">قيد الانتظار:</span>
+                <span class="request-value">{{ dashboardStats?.requests?.waiting?.count || 0 }}</span>
+                <span class="request-percent">({{ dashboardStats?.requests?.waiting?.percent || 0 }}%)</span>
+              </div>
+              <div class="request-item active">
+                <span class="request-label">نشطة:</span>
+                <span class="request-value">{{ dashboardStats?.requests?.active?.count || 0 }}</span>
+                <span class="request-percent">({{ dashboardStats?.requests?.active?.percent || 0 }}%)</span>
+              </div>
+              <div class="request-item canceled">
+                <span class="request-label">ملغية:</span>
+                <span class="request-value">{{ dashboardStats?.requests?.canceled?.count || 0 }}</span>
+                <span class="request-percent">({{ dashboardStats?.requests?.canceled?.percent || 0 }}%)</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

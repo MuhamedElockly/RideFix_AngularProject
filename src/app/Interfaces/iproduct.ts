@@ -4,5 +4,8 @@ export interface IProduct {
   price: number;
   stockQuantity: number;
   imageUrl: string;
+  
+  averageRating: number;
+  totalRatings: number;
 
 }

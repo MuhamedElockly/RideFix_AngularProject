@@ -110,6 +110,27 @@ const path = this.router.url;
     }
   }
 
+   gotomainpage(){
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 2] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/Home']);
+    }else if(parts[parts.length - 2] === 'technician'){
+      this.router.navigate(['/technician/requests']);
+    }
+  }
+
+
+    gotoallproductpage(){
+    const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 2] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/AllProducts']);
+    }else if(parts[parts.length - 2] === 'technician'){
+      this.router.navigate(['/technician/AllProducts']);
+    }
+  }
+
 }
 
 

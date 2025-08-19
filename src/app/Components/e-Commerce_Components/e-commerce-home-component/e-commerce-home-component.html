@@ -67,24 +67,26 @@
       <p class="section-subtitle">اختر الفئة المناسبة لاحتياجات سيارتك</p>
     </div>
     <div class="row">
-    @for(item of categories ;track $index) {
+      @for(item of categories ;track $index) {
 
       <div class="col-lg-3 col-md-6 mb-4">
         <div class="category-card">
           <div class="category-icon">
-            <img
-              src="{{item.imageUrl}}"
-              alt="بطارية سيارة"
-            />
+            <img src="{{ item.imageUrl }}" alt="بطارية سيارة" />
           </div>
-          <h4 class="category-title"> {{item.name}} </h4>
-          <p class="category-count">{{item.productsCount}} منتج</p>
+          <h4 class="category-title">{{ item.name }}</h4>
+          <p class="category-count">{{ item.productsCount }} منتج</p>
           <div class="category-overlay">
-            <button class="btn btn-light" (click)="selectCategory(item.id,item.productsCount)" >تصفح الآن</button>
+            <button
+              class="btn btn-light"
+              (click)="selectCategory(item.id, item.productsCount)"
+            >
+              تصفح الآن
+            </button>
           </div>
         </div>
       </div>
-    }
+      }
       <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="category-card">
           <div class="category-icon">
@@ -123,7 +125,6 @@
           </div>
         </div>
       </div> -->
-
     </div>
   </div>
 </section>
@@ -216,48 +217,54 @@
       <div class="col-lg-3 col-md-6 mb-4">
         <div class="product-card">
           <div class="product-image">
-            <img
-              src="{{item.imageUrl}}"
-              alt="بطارية سيارة"
-            />
+            <img src="{{ item.imageUrl }}" alt="بطارية سيارة" />
             <div class="product-actions">
               <button class="btn btn-sm btn-light">
                 <i class="fas fa-heart"></i>
               </button>
-              <button class="btn btn-sm btn-light">
-                <i class="fas fa-eye"></i>
-              </button>
+                <button class="btn btn-sm btn-light" (click)="viewProductDetails(item.productId)">
+                  <i class="fas fa-eye"></i>
+                </button>
             </div>
           </div>
           <div class="product-info">
-            <h5 class="product-title">{{item.name}} </h5>
+            <h5 class="product-title">{{ item.name }}</h5>
             <div class="product-rating">
+              @for (i of getArray(5); track i) { @if (i < item.averageRating) {
+              <i class="fas fa-star"></i>
+              } @else {
+              <i class="far fa-star"></i>
+              } }
+
+
+              <!-- <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <span>({{item.stockQuantity}})</span>
+              <i class="fas fa-star"></i> -->
+              <span>({{ item.totalRatings }})</span>
             </div>
             <div class="product-price">
-              <span class="current-price">{{item.price}} ريال</span>
+              <span class="current-price">{{ item.price }} ريال</span>
             </div>
             @if(hasAlreadyAddtocart(item.productId)) {
-              <button class="btn btn-secondary add-to-cart" disabled>
-                <i class="fas fa-check"></i>
-                في السلة
-              </button>
+            <button class="btn btn-secondary add-to-cart" disabled>
+              <i class="fas fa-check"></i>
+              في السلة
+            </button>
             } @else {
-            <button class="btn btn-primary add-to-cart"  (click)="addToCart(item)">
+            <button
+              class="btn btn-primary add-to-cart"
+              (click)="addToCart(item)"
+            >
               <i class="fas fa-shopping-cart"></i>
               أضف للسلة
             </button>
-          }
+            }
           </div>
         </div>
       </div>
-    }
-
+      }
 
       <!-- <div class="col-lg-3 col-md-6 mb-4">
         <div class="product-card">
@@ -297,11 +304,11 @@
     </div>
 
     <div class="text-center mt-4">
-      <button class="btn btn-primary add-to-cart " (click)="showAllProducts()">
+      <button class="btn btn-primary add-to-cart" (click)="showAllProducts()">
         <i class="fas fa-th-list"></i>
         عرض جميع المنتجات
       </button>
-      </div>
+    </div>
   </div>
 </section>
 

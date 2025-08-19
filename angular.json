@@ -47,11 +47,6 @@
                   "type": "bundle",
                   "maximumWarning": "5MB",
                   "maximumError": "20MB"
-                },
-                {
-                  "type": "total",
-                  "maximumWarning": "10MB",
-                  "maximumError": "30MB"
                 }
               ],
               "outputHashing": "all",
@@ -107,27 +102,5 @@
   },
   "cli": {
     "analytics": false
-  },
-  "budgets": [
-    {
-      "type": "initial",
-      "maximumWarning": "5MB",
-      "maximumError": "20MB"
-    },
-    {
-      "type": "anyComponentStyle",
-      "maximumWarning": "500kB",
-      "maximumError": "1MB"
-    },
-    {
-      "type": "bundle",
-      "maximumWarning": "5MB",
-      "maximumError": "20MB"
-    },
-    {
-      "type": "total",
-      "maximumWarning": "10MB",
-      "maximumError": "30MB"
-    }
-  ]
+  }
 }

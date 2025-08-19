@@ -44,9 +44,13 @@ import { ReportsManagementComponent } from './Components/AdminModule/reports-man
 import { CategoriesManagementComponent } from './Components/AdminModule/categories-management/categories-management';
 import { AdminStatisticsComponent } from './Components/AdminModule/admin-statistics/admin-statistics';
 import { CartPageComponent } from './Components/e-Commerce_Components/cart-page-component/cart-page-component';
+
 import { WalletComponent } from './Components/RideCoins/wallet-component/wallet-component';
 import { PurshaseCoins } from './Components/RideCoins/purshase-coins/purshase-coins';
 import { CheckOutComponent } from './Components/RideCoins/check-out-component/check-out-component';
+
+import { ProductDetailsComponent } from './Components/e-Commerce_Components/product-details-component/product-details-component';
+
 
 export const routes: Routes = [
   ...authRoutes,
@@ -71,9 +75,16 @@ export const routes: Routes = [
         component: ECommerceHomeComponent,
       },
       { path: 'AllProducts', component: AllProductsComponents },
+
       { path: 'cartpage', component: CartPageComponent },
       { path: 'Wallet', component: WalletComponent },
       { path: 'Purshase', component: PurshaseCoins },
+
+      {path:'cartpage',component:CartPageComponent},
+      {
+        path:"productdetails/:id",component:ProductDetailsComponent
+      }
+
     ],
     canActivate: [carOwnerGuard],
   },
@@ -95,27 +106,38 @@ export const routes: Routes = [
         component: ECommerceHomeComponent,
       },
       { path: 'AllProducts', component: AllProductsComponents },
+
       { path: 'cartpage', component: CartPageComponent },
       { path: 'Wallet', component: WalletComponent },
       { path: 'Purshase', component: PurshaseCoins },
+
+      {path:'cartpage',component:CartPageComponent},
+      {
+        path:"productdetails/:id",component:ProductDetailsComponent
+      }
+
+
     ],
     canActivate: [techGuard],
   },
 
-  {
-    path: 'admin',
-    component: AdminModule,
-    children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: AdminDashboardComponent },
-      { path: 'technicians', component: TechniciansManagementComponent },
-      { path: 'car-owners', component: CarOwnersManagementComponent },
-      { path: 'reports', component: ReportsManagementComponent },
-      { path: 'categories', component: CategoriesManagementComponent },
-      { path: 'statistics', component: AdminStatisticsComponent },
-    ],
-    canActivate: [adminGuard],
-  },
+
+          {
+          path: 'admin',
+          component: AdminModule,
+          children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: AdminDashboardComponent },
+            { path: 'technicians', component: TechniciansManagementComponent },
+            { path: 'car-owners', component: CarOwnersManagementComponent },
+            { path: 'reports', component: ReportsManagementComponent },
+            { path: 'categories', component: CategoriesManagementComponent },
+            { path: 'statistics', component: AdminStatisticsComponent },
+
+          ],
+          canActivate: [adminGuard],
+        },
+
   { path: '', component: LandingPageComponent }, // Landing page for anonymous users
   // { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
 

@@ -1,0 +1,525 @@
+  <div class="back">
+  <div class="breadcrumb">
+        <div class="container">
+            <a (click)="gotomainpage()" class="link">الرئيسية</a>
+            <i class="fas fa-chevron-left"></i>
+            <a  (click)="gotomarketpage()" class="link">المتجر</a>
+            <i class="fas fa-chevron-left"></i>
+            <a (click)="gotoallproductpage()" class="link">قطع غيار السيارات</a>
+            <i class="fas fa-chevron-left"></i>
+            <span>{{productDetails.name}} </span>
+        </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="container">
+        <div class="product-details">
+            <!-- Product Images -->
+            <div class="product-images">
+                <div class="main-image">
+                    <img id="mainImage" src="{{productDetails.imageUrl}}" alt="فلتر زيت محرك">
+                    <div class="image-zoom icon "height="50" >
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <!-- <div class="thumbnail-images">
+                    <img src="" alt="منظر أمامي" class="thumbnail active" onclick="changeImage(this)">
+                    <img src="/placeholder.svg?height=100&width=100" alt="منظر جانبي" class="thumbnail" onclick="changeImage(this)">
+                    <img src="/placeholder.svg?height=100&width=100" alt="التغليف" class="thumbnail" onclick="changeImage(this)">
+                    <img src="/placeholder.svg?height=100&width=100" alt="التركيب" class="thumbnail" onclick="changeImage(this)">
+                </div> -->
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <!-- <div class="product-badge">الأكثر مبيعاً</div> -->
+                <h1 class="product-title">{{productDetails.name}}</h1>
+
+                <div class="product-rating">
+
+
+                    <div class="stars">
+                           @for (i of getArray(5); track i) { @if (i < productDetails.averageRating) {
+              <i class="fas fa-star"></i>
+              } @else {
+              <i class="far fa-star"></i>
+              } }
+                        <!-- <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i> -->
+                    </div>
+                    <span class="rating-text">( {{productDetails.totalRatings}} تقييم)</span>
+                </div>
+
+                <div class="product-price">
+                    <span class="current-price">{{productDetails.price}} ريال</span>
+                    <!-- <span class="original-price">120 ريال</span> -->
+                    <!-- <span class="discount">خصم 26%</span> -->
+                </div>
+
+                <div class="product-description">
+                    <p>{{productDetails.description}}</p>
+                </div>
+
+                <!-- Product Options -->
+                <div class="product-options">
+                    <!-- <div class="option-group">
+                        <label>نوع السيارة:</label>
+                        <select class="option-select">
+                            <option>تويوتا كامري</option>
+                            <option>هوندا أكورد</option>
+                            <option>نيسان التيما</option>
+                            <option>هيونداي سوناتا</option>
+                        </select>
+                    </div> -->
+
+                    <!-- <div class="option-group">
+                        <label>سنة الصنع:</label>
+                        <select class="option-select">
+                            <option>2024</option>
+                            <option>2023</option>
+                            <option>2022</option>
+                            <option>2021</option>
+                        </select> -->
+                    <!-- </div> -->
+
+                    <div class="quantity-selector">
+                        <label>الكمية:</label>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" (click)="decreaseQuantity(productDetails)">-</button>
+                            <input type="number" id="quantity" value="{{quantity}}" min="1" max="10">
+                            <button class="qty-btn" (click)="increaseQuantity(productDetails)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="product-actions">
+                  @if(hasAlreadyAddtocart()){
+                    <button class="btn btn-secondary add-to-cart" disabled>
+              <i class="fas fa-check"></i>
+              في السلة
+            </button>
+                  }@else{
+                    <button class="btn-primary add-to-cart" (click)="addToCart(productDetails)" >
+                        <i class="fas fa-shopping-cart"></i>
+                        إضافة للسلة
+                    </button>
+                    }
+                    <button class="btn-secondary buy-now" (click)="buyNow(productDetails)">
+                        <i class="fas fa-bolt"></i>
+                        شراء الآن
+                    </button>
+                    <button class="btn-wishlist">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+
+                <!-- Product Features -->
+                <div class="product-features">
+                    <div class="feature">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span>شحن مجاني للطلبات أكثر من 200 ريال</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-undo"></i>
+                        <span>إمكانية الإرجاع خلال 30 يوم</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>ضمان لمدة سنتين</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-tools"></i>
+                        <span>تركيب مجاني في الورشة</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Tabs -->
+        <div class="product-tabs">
+            <div class="tab-headers">
+                <button class="tab-header "  [class.active]="activeTab === 'description'"  (click)="setActiveTab('description')">الوصف التفصيلي</button>
+                <!-- <button class="tab-header" onclick="showTab('specifications')">المواصفات</button> -->
+                <button class="tab-header" [class.active]="activeTab === 'reviews'" (click)="setActiveTab('reviews')">التقييمات ({{productDetails.productRates.length}})</button>
+                <!-- <button class="tab-header" onclick="showTab('installation')">دليل التركيب</button> -->
+                <button class="tab-header" [class.active]="activeTab === 'add-review'" (click)="setActiveTab('add-review')">إضافة تقييم</button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Description Tab -->
+                 @if (activeTab === 'description') {
+                <div id="description" class="tab-pane active">
+                    <h3>وصف المنتج</h3>
+                    <p>{{productDetails.description}}</p>
+
+                    <!-- <h4>المميزات الرئيسية:</h4>
+                    <ul>
+                        <li>تقنية ترشيح متقدمة تزيل 99.9% من الشوائب</li>
+                        <li>مقاوم للحرارة العالية حتى 150 درجة مئوية</li>
+                        <li>مصنوع من مواد عالية الجودة ومقاومة للتآكل</li>
+                        <li>سهل التركيب والاستبدال</li>
+                        <li>متوافق مع معظم أنواع السيارات الحديثة</li>
+                        <li>يطيل عمر المحرك ويحسن الأداء</li>
+                    </ul> -->
+                </div>
+                }
+
+                <!-- Specifications Tab -->
+                <!-- <div id="specifications" class="tab-pane">
+                    <h3>المواصفات التقنية</h3>
+                    <table class="specs-table">
+                        <tr>
+                            <td>رقم القطعة</td>
+                            <td>OF-2024-HD</td>
+                        </tr>
+                        <tr>
+                            <td>القطر الخارجي</td>
+                            <td>93 مم</td>
+                        </tr>
+                        <tr>
+                            <td>القطر الداخلي</td>
+                            <td>62 مم</td>
+                        </tr>
+                        <tr>
+                            <td>الارتفاع</td>
+                            <td>89 مم</td>
+                        </tr>
+                        <tr>
+                            <td>نوع الخيط</td>
+                            <td>M20 x 1.5</td>
+                        </tr>
+                        <tr>
+                            <td>مادة الصنع</td>
+                            <td>معدن عالي الجودة + ورق ترشيح متقدم</td>
+                        </tr>
+                        <tr>
+                            <td>درجة الحرارة القصوى</td>
+                            <td>150°C</td>
+                        </tr>
+                        <tr>
+                            <td>الضغط الأقصى</td>
+                            <td>10 بار</td>
+                        </tr>
+                        <tr>
+                            <td>بلد المنشأ</td>
+                            <td>ألمانيا</td>
+                        </tr>
+                    </table>
+                </div> -->
+
+                <!-- Reviews Tab -->
+                @if (activeTab === 'reviews') {
+                <div id="reviews" class="tab-pane active">
+                    <div class="reviews-summary">
+                        <div class="rating-overview">
+                          @if (productDetails.totalRatings > 0) {
+                            <div class="overall-rating">
+                                <span class="rating-number">{{productDetails.averageRating}}</span>
+                                <div class="stars">
+                                    @for (i of getArray(5); track i) { @if (i < productDetails.averageRating) {
+                                      <i class="fas fa-star"></i>
+                                    } @else {
+                                      <i class="far fa-star"></i>
+                                    } }
+                                    <!-- <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i> -->
+                                </div>
+                                <span class="total-reviews">من أصل {{productDetails.totalRatings}} تقييم</span>
+                            </div>
+                            <div class="rating-breakdown">
+
+
+                                <div class="rating-bar">
+
+                                    <span>5 نجوم</span>
+                                    <div class="bar"><div class="fill" [style.width.%]="fiveStarRating">></div></div>
+                                    <span>{{fiveStarCount}}</span>
+                                </div>
+                                <div class="rating-bar">
+                                    <span>4 نجوم</span>
+                                    <div class="bar"><div class="fill" [style.width.%]="foureStarRating"></div></div>
+                                    <span>{{fourStarCount}}</span>
+                                </div>
+                                <div class="rating-bar">
+                                    <span>3 نجوم</span>
+                                    <div class="bar"><div class="fill" [style.width.%]="threeStarRating"></div></div>
+                                    <span>{{threeStarCount}}</span>
+                                </div>
+                                <div class="rating-bar">
+                                    <span>2 نجوم</span>
+                                    <div class="bar"><div class="fill" [style.width.%]="twoStarRating"></div></div>
+                                    <span>{{twoStarCount}}</span>
+                                </div>
+                                <div class="rating-bar">
+                                    <span>1 نجمة</span>
+                                    <div class="bar"><div class="fill" [style.width.%]="oneStarRating"></div></div>
+                                    <span>{{oneStarCount}}</span>
+                                </div>
+                            </div>
+                          } @else {
+                            <div class="no-reviews">
+                                <p>لا توجد تقييمات بعد لهذا المنتج.</p>
+                                <p>كن أول من يكتب تقييمًا!</p>
+
+                                </div>
+                              }
+                        </div>
+                    </div>
+
+                    <div class="reviews-list">
+                      @for(item of productDetails.productRates; track item) {
+                        <div class="review-item">
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">{{item.userName.slice(0,1)}}</div>
+                                <div class="reviewer-details">
+                                    <h4>{{item.userName}} </h4>
+
+                                    <div class="review-stars">
+                                        @for (i of getArray(5); track i) { @if (i < item.value) {
+                                            <i class="fas fa-star"></i>
+                                          } @else {
+                                            <i class="far fa-star"></i>
+                                          } }
+
+                                    </div>
+                                    <span class="review-date">{{ item.createdAt | date:'d MMMM y' }} </span>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <p> {{item.comment}}</p>
+                            </div>
+                        </div>
+                      }
+
+                      <!-- <div class="review-item">
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">م</div>
+                                <div class="reviewer-details">
+                                    <h4>محمد العلي</h4>
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span class="review-date">منذ شهر</span>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <p>فلتر جيد ومناسب للسعر. التركيب سهل والجودة مقبولة. الوحيد العيب أن التوصيل استغرق وقت أطول من المتوقع.</p>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <!-- <button class="btn-secondary load-more-reviews">عرض المزيد من التقييمات</button> -->
+                </div>
+              }
+
+@if (activeTab === 'add-review') {
+  <div class="add-review">
+  <h3>إضافة تعليق</h3>
+
+  <!-- تقييم النجوم -->
+  <div class="rating-input">
+    <label>التقييم:</label>
+    <div class="stars">
+      <!-- <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i> -->
+
+        <i *ngFor="let star of [1,2,3,4,5]"
+       class="fa-star"
+       [ngClass]="star <= currentRate ? 'fas' : 'far'"
+       (click)="setRate(star)">
+    </i>
+    </div>
+     <span class="selected-rate" *ngIf="currentRate">({{currentRate}} / 5)</span>
+  </div>
+
+  <!-- صندوق التعليق -->
+  <div class="comment-input">
+    <label for="comment">تعليقك:</label>
+    <textarea id="comment" placeholder="اكتب تعليقك هنا..."  [(ngModel)]="comment"
+            name="comment"></textarea>
+  </div>
+
+  <!-- زر الإرسال -->
+  <button class="btn-submit" (click)="sendReview()">إرسال</button>
+</div>
+
+
+}
+                <!-- Installation Tab -->
+                <!-- <div id="installation" class="tab-pane">
+                    <h3>دليل التركيب</h3>
+                    <div class="installation-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>التحضير</h4>
+                                <p>تأكد من أن المحرك بارد وأوقف تشغيل السيارة. احضر الأدوات المطلوبة: مفتاح فلتر الزيت، قمع، وعاء لجمع الزيت المستعمل.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>رفع السيارة</h4>
+                                <p>ارفع السيارة باستخدام الرافعة أو ضعها على منحدر آمن للوصول إلى أسفل المحرك بسهولة.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>إزالة الفلتر القديم</h4>
+                                <p>استخدم مفتاح فلتر الزيت لإزالة الفلتر القديم. احرص على وضع وعاء تحت الفلتر لجمع الزيت المتسرب.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>تنظيف السطح</h4>
+                                <p>نظف سطح تركيب الفلتر من أي بقايا زيت أو أوساخ باستخدام قطعة قماش نظيفة.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>تركيب الفلتر الجديد</h4>
+                                <p>ضع طبقة رقيقة من الزيت الجديد على حلقة الإغلاق المطاطية. ركب الفلتر الجديد واربطه يدوياً حتى تلامس الحلقة السطح، ثم أدره 3/4 دورة إضافية.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="installation-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p><strong>تحذير:</strong> لا تفرط في ربط الفلتر لتجنب تلف الحلقة المطاطية أو خيط التركيب.</p>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        <!-- <div class="related-products">
+            <h2>منتجات ذات صلة</h2>
+            <div class="products-grid">
+              @for(item of products.slice(0,4); track item) {
+                <div class="product-card">
+                    <img src="{{item.imageUrl}}" alt="فلتر هواء">
+                    <h3>{{item.name}}</h3>
+                    <div class="product-price">
+                        <span class="current-price">{{item.price}} ريال</span>
+                    </div>
+                    @if(hasAlreadyAddtocart(item.productId)){
+                    <button class="btn btn-secondary btn-add-cart" disabled>
+                        <i class="fas fa-check"></i>
+                        في السلة
+                    </button>
+                    } -->
+                    <!-- @else{
+
+                    <button class="btn-add-cart" (click)="addToCart(item)">إضافة للسلة</button>
+                    } -->
+                <!-- </div>
+              } -->
+                <!-- <div class="product-card">
+                    <img src="/placeholder.svg?height=200&width=200" alt="زيت محرك">
+                    <h3>زيت محرك صناعي كامل</h3>
+                    <div class="product-price">
+                        <span class="current-price">180 ريال</span>
+                    </div>
+                    <button class="btn-add-cart">إضافة للسلة</button>
+                </div> -->
+
+                <!-- <div class="product-card">
+                    <img src="/placeholder.svg?height=200&width=200" alt="شمعات احتراق">
+                    <h3>شمعات احتراق بلاتينية</h3>
+                    <div class="product-price">
+                        <span class="current-price">45 ريال</span>
+                    </div>
+                    <button class="btn-add-cart">إضافة للسلة</button>
+                </div> -->
+
+                <!-- <div class="product-card">
+                    <img src="/placeholder.svg?height=200&width=200" alt="فحمات فرامل">
+                    <h3>فحمات فرامل سيراميك</h3>
+                    <div class="product-price">
+                        <span class="current-price">220 ريال</span>
+                    </div>
+                    <button class="btn-add-cart">إضافة للسلة</button>
+                </div> -->
+            <!-- </div> -->
+        <!-- </div> -->
+    </div>
+
+    <!-- Footer -->
+    <!-- <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-car"></i>
+                        <span>RideFix</span>
+                    </div>
+                    <p>منصتك الموثوقة لخدمات السيارات وقطع الغيار عالية الجودة</p>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="#">الرئيسية</a></li>
+                        <li><a href="#">الخدمات</a></li>
+                        <li><a href="#">المتجر</a></li>
+                        <li><a href="#">من نحن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>خدمة العملاء</h3>
+                    <ul>
+                        <li><a href="#">اتصل بنا</a></li>
+                        <li><a href="#">الأسئلة الشائعة</a></li>
+                        <li><a href="#">سياسة الإرجاع</a></li>
+                        <li><a href="#">الشحن والتوصيل</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>تابعنا</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 RideFix. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer> -->
+
+    <!-- Success Modal -->
+    <!-- <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-check-circle"></i>
+                <h3>تم بنجاح!</h3>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">تم إضافة المنتج إلى السلة بنجاح</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="closeModal()">متابعة الت��وق</button>
+                <button class="btn-secondary" onclick="goToCart()">عرض السلة</button>
+            </div>
+        </div>
+    </div> -->
+    </div>
