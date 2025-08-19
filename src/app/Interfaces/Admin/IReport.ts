@@ -1,18 +1,5 @@
 export interface IReport {
-  id?: string;
-  description: string;
-  createdAt: string;
-  reportingUserId: string;
-  reportingUserRole: string;
-  reportingEntityId: number;
-  reportedUserId: string;
-  reportedUserRole: string;
-  reportedEntityId: number;
-  requestId: number;
-  technicianName: string;
-  carOwnerName: string;
-  messages: IReportMessage[];
-  // Legacy fields for backward compatibility
+  id: string;
   reporterId?: string;
   reporterName?: string;
   reporterRole?: string;
@@ -26,6 +13,21 @@ export interface IReport {
   resolutionDate?: Date | string;
   resolvedBy?: string;
   chatMessages?: IChatMessage[];
+  
+  // New API fields
+  description?: string;
+  createdAt?: Date | string;
+  reportingUserId?: string;
+  reportingUserRole?: string;
+  reportingEntityId?: number;
+  reportedUserId?: string;
+  reportedUserRole?: string;
+  reportedEntityId?: number;
+  requestId?: number;
+  reportId?: number; // Added this field
+  technicianName?: string;
+  carOwnerName?: string;
+  messages?: IReportMessage[];
 }
 
 export interface IReportMessage {

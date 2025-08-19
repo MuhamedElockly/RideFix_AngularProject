@@ -22,7 +22,7 @@ export class ReportsManagementComponent implements OnInit {
   
   // Pagination
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 5;
   totalPages = 1;
   
   // Search and filter
@@ -308,9 +308,21 @@ export class ReportsManagementComponent implements OnInit {
 
 
 
-  async resolveReport(requestId: number) {
-    console.log('resolveReport called with requestId:', requestId);
+  async resolveReport(reportId: number) {
+    console.log('resolveReport called with reportId:', reportId);
     console.log('selectedReport:', this.selectedReport);
+    
+    if (!reportId || reportId <= 0) {
+      console.error('Invalid reportId:', reportId);
+      Swal.fire({
+        title: 'خطأ!',
+        text: 'معرف البلاغ غير صحيح',
+        icon: 'error',
+        confirmButtonColor: '#e74c3c',
+        confirmButtonText: 'حسناً'
+      });
+      return;
+    }
     
     const result = await Swal.fire({
       title: 'حل البلاغ',
@@ -336,8 +348,8 @@ export class ReportsManagementComponent implements OnInit {
           didOpen: () => Swal.showLoading()
         });
 
-        console.log('Calling updateReportStatus with:', { requestId, state: ReportState.Approved });
-        this.adminService.updateReportStatus(requestId, ReportState.Approved).subscribe({
+        console.log('Calling updateReportStatus with:', { reportId, state: ReportState.Approved });
+        this.adminService.updateReportStatus(reportId, ReportState.Approved).subscribe({
           next: () => {
             if (this.selectedReport) {
               this.selectedReport.status = 'Resolved';
@@ -378,7 +390,19 @@ export class ReportsManagementComponent implements OnInit {
     }
   }
 
-  async dismissReport(requestId: number) {
+  async dismissReport(reportId: number) {
+    if (!reportId || reportId <= 0) {
+      console.error('Invalid reportId:', reportId);
+      Swal.fire({
+        title: 'خطأ!',
+        text: 'معرف البلاغ غير صحيح',
+        icon: 'error',
+        confirmButtonColor: '#e74c3c',
+        confirmButtonText: 'حسناً'
+      });
+      return;
+    }
+    
     const result = await Swal.fire({
       title: 'رفض البلاغ',
       text: 'هل تريد رفض هذا البلاغ؟',
@@ -403,7 +427,8 @@ export class ReportsManagementComponent implements OnInit {
           didOpen: () => Swal.showLoading()
         });
 
-        this.adminService.updateReportStatus(requestId, ReportState.Rejected).subscribe({
+        console.log('Calling updateReportStatus with:', { reportId, state: ReportState.Rejected });
+        this.adminService.updateReportStatus(reportId, ReportState.Rejected).subscribe({
           next: () => {
             if (this.selectedReport) {
               this.selectedReport.status = 'Dismissed';
