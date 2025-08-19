@@ -191,10 +191,9 @@ export class ReportsManagementComponent implements OnInit {
     }
   }
 
-  viewReportDetails(report: IReport) {
+  viewReportDetails(report: IReport): void {
     this.selectedReport = report;
-    console.log('Report selected:', report);
-    this.debugButtonVisibility(); // Auto-debug when report is selected
+    this.showChat = false; // Reset chat visibility
   }
 
   closeReportModal() {
@@ -472,24 +471,6 @@ export class ReportsManagementComponent implements OnInit {
     if (!role) return false;
     const roleLower = role.toLowerCase();
     return roleLower === 'carowner' || roleLower === 'صاحب سيارة' || roleLower === 'owner';
-  }
-
-  // Debug method to check button visibility
-  debugButtonVisibility(): void {
-    if (!this.selectedReport) {
-      console.log('No report selected');
-      return;
-    }
-    
-    console.log('Button Visibility Debug:', {
-      reporterRole: this.selectedReport.reporterRole,
-      reportedUserRole: this.selectedReport.reportedUserRole,
-      isReporterTechnician: this.isTechnicianRole(this.selectedReport.reporterRole || ''),
-      isReporterCarOwner: this.isCarOwnerRole(this.selectedReport.reporterRole || ''),
-      isReportedUserTechnician: this.isTechnicianRole(this.selectedReport.reportedUserRole || ''),
-      isReportedUserCarOwner: this.isCarOwnerRole(this.selectedReport.reportedUserRole || ''),
-      status: this.selectedReport.status
-    });
   }
 
   getFormattedDate(dateInput: any, format: string = 'short'): string {

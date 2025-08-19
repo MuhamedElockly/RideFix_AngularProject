@@ -414,18 +414,18 @@
                     <i class="fas fa-user-circle"></i>
                   </div>
                   <div class="reviewer-details">
-                    <h6 class="reviewer-name">{{ review.reviewerName }}</h6>
-                    <span class="review-date">{{ review.date }}</span>
+                    <h6 class="reviewer-name">{{ review.carOwnerName || review.reviewerName }}</h6>
+                    <span class="review-date">{{ getFormattedDate(review.dateTime || review.date) }}</span>
                   </div>
                 </div>
                 <div class="review-rating">
                   <div class="rating-stars">
                     <i *ngFor="let star of [1,2,3,4,5]" 
                        class="fas fa-star" 
-                       [ngClass]="star <= review.rating ? 'text-warning' : 'text-muted'">
+                       [ngClass]="star <= ((review.rate || review.rating) || 0) ? 'text-warning' : 'text-muted'">
                     </i>
                   </div>
-                  <span class="rating-value">{{ review.rating }}/5</span>
+                  <span class="rating-value">{{ (review.rate || review.rating) || 0 }}/5</span>
                   <span class="verified-badge" *ngIf="review.isVerified">
                     <i class="fas fa-check-circle"></i>
                     موثق

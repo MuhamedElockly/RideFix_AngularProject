@@ -126,21 +126,58 @@ export class TechniciansManagementComponent implements OnInit {
 
   // Reviews modal methods
   viewUserReviews(technician: ITechnician): void {
+    console.log('Opening reviews for technician:', technician);
     this.selectedUserForReviews = technician;
     this.showReviewsModal = true;
     this.isLoadingReviews = true;
     
-    // Load temporary review data
-    setTimeout(() => {
-      this.selectedUserReviews = this.generateTempReviews(technician);
-      this.isLoadingReviews = false;
-    }, 800);
+    // Fetch reviews from API
+    this.adminService.getTechnicianReviews(technician.id).subscribe({
+      next: (reviews) => {
+        console.log('Received reviews:', reviews);
+        this.selectedUserReviews = reviews;
+        this.isLoadingReviews = false;
+      },
+      error: (error) => {
+        console.error('Error fetching technician reviews:', error);
+        this.selectedUserReviews = [];
+        this.isLoadingReviews = false;
+        
+        // Show error message
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ في تحميل التقييمات',
+          text: 'حدث خطأ أثناء تحميل تقييمات الفني. يرجى المحاولة مرة أخرى.',
+          confirmButtonText: 'حسناً',
+          confirmButtonColor: '#e74c3c'
+        });
+      }
+    });
   }
 
   closeReviewsModal(): void {
     this.showReviewsModal = false;
     this.selectedUserForReviews = null;
     this.selectedUserReviews = [];
+  }
+
+  // Helper method to format date
+  getFormattedDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('ar-EG', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateString;
+    }
   }
 
   private generateTempReviews(technician: ITechnician): IReview[] {
@@ -167,15 +204,20 @@ export class TechniciansManagementComponent implements OnInit {
       
       reviews.push({
         id: i + 1,
+        rate: rating,
+        comment: comments[Math.floor(Math.random() * comments.length)],
+        carOwnerName: reviewerNames[Math.floor(Math.random() * reviewerNames.length)],
+        technicianName: technician.name,
+        dateTime: reviewDate.toISOString(),
+        // Legacy fields for backward compatibility
         reviewerName: reviewerNames[Math.floor(Math.random() * reviewerNames.length)],
         rating: rating,
-        comment: comments[Math.floor(Math.random() * comments.length)],
         date: reviewDate.toLocaleDateString('ar-EG'),
         isVerified: Math.random() > 0.3 // 70% chance of being verified
       });
     }
 
-    return reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return reviews.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
   }
 
   onImageError(event: any): void {

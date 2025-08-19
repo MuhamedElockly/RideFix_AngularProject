@@ -1,11 +1,16 @@
 export interface IReview {
-  id: number;
-  reviewerName: string;
-  reviewerImage?: string;
-  rating: number;
+  id?: number;
+  rate: number;
   comment: string;
-  date: string;
-  isVerified: boolean;
+  carOwnerName: string;
+  technicianName: string;
+  dateTime: string;
+  // Legacy fields for backward compatibility
+  reviewerName?: string;
+  reviewerImage?: string;
+  rating?: number;
+  date?: string;
+  isVerified?: boolean;
 }
 
 export interface IReviewResponse {
@@ -13,3 +18,5 @@ export interface IReviewResponse {
   message: string;
   data: IReview[];
 }
+
+

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, map, catchError } from 'rxjs';
+import { Observable, map, catchError, of } from 'rxjs';
 import { IAdminUser } from '../../Interfaces/Admin/IAdminUser';
 import { IApiResponse } from '../../Interfaces/iapi-response';
 import { ICategory, ICreateCategory, IUpdateCategory } from '../../Interfaces/Admin/ICategory';
@@ -9,6 +9,7 @@ import { ITechnician } from '../../Interfaces/Admin/ITechnician';
 import { IActivitiesResponse } from '../../Interfaces/Admin/IActivities';
 import { IDashboardStatisticsResponse } from '../../Interfaces/Admin/IStatistics';
 import { IReport, IReportsResponse, IChatMessage } from '../../Interfaces/Admin/IReport';
+import { IReview, IReviewResponse } from '../../Interfaces/Admin/IReview';
 import { ApiConfigService } from '../api-config.service';
 
 @Injectable({
@@ -207,6 +208,44 @@ export class AdminService {
   // Dashboard Statistics Method
   getDashboardStatistics(): Observable<IDashboardStatisticsResponse> {
     return this.http.get<IDashboardStatisticsResponse>(`${this.baseUrl}/dashboard-statistics`);
+  }
+
+  // Technician Reviews Method
+  getTechnicianReviews(technicianId: number): Observable<IReview[]> {
+    return this.http.get<any>(`${this.baseUrl}/technician-reviews/${technicianId}`).pipe(
+      map(response => {
+        console.log('Raw reviews response:', response);
+        
+        if (response && response.success && response.data) {
+          return response.data.map((review: any): IReview => ({
+            id: review.id,
+            rate: review.Rate || review.rate,
+            comment: review.Comment || review.comment || '',
+            carOwnerName: review.CarOwnerName || review.carOwnerName || '',
+            technicianName: review.TechnicianName || review.technicianName || '',
+            dateTime: review.DateTime || review.dateTime || '',
+            // Map legacy fields for backward compatibility
+            reviewerName: review.CarOwnerName || review.carOwnerName || '',
+            rating: review.Rate || review.rate,
+            date: review.DateTime || review.dateTime || '',
+            isVerified: true
+          }));
+        }
+        console.log('No reviews data found in response');
+        return [];
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error fetching technician reviews:', error);
+        // Gracefully treat backend "no reviews" as empty list
+        try {
+          const message = typeof error?.error === 'object' ? (error.error?.message || '') : '';
+          if (error.status === 500 && typeof message === 'string' && message.toLowerCase().includes('no reviews')) {
+            return of([]);
+          }
+        } catch {}
+        throw error;
+      })
+    );
   }
 
 }
