@@ -127,9 +127,14 @@
           <span>إضافة سجل صيانة</span>
         </a>
 
-        <a class="action-btn outline-btn" routerLink="">
+        <!-- <a class="action-btn outline-btn" routerLink="">
           <i class="fas fa-edit"></i>
-          <span>تعديل البيانات</span>
+          <span>تعديل معدل الكيلومترات</span>
+        </a> -->
+
+        <a class="action-btn danger-btn btn-danger" (click)="removeCar()">
+          <i class="fas fa-trash-alt"></i>
+          <span>إزالة السيارة</span>
         </a>
       </div>
     </div>
