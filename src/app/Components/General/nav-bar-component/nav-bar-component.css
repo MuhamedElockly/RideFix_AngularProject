@@ -12,11 +12,12 @@
   z-index: 1000;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  direction: ltr;
 }
 
-* {
+/* * {
   direction: rtl;
-}
+} */
 .container-fluid {
   display: flex;
   align-items: center;
@@ -719,6 +720,6 @@
 .navbar {
   z-index: 1200;
 }
-* {
+/* * {
   direction: ltr;
-}
+} */
