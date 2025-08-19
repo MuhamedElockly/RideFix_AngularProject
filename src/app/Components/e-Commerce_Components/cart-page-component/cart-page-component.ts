@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Ecomerceservice } from '../../../Services/Ecomerceservice/ecomerceservice';
 import { IShoppingCart } from '../../../Interfaces/ishopping-cart';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Icreateorder } from '../../../Interfaces/icreateorder';
 
 @Component({
   selector: 'app-cart-page-component',
@@ -71,15 +72,6 @@ ngOnInit(): void {
 
   continueShopping(): void {
 
-const path = this.router.url;
- const parts = path.split('/').filter(p => p);
- if( parts[parts.length - 2] === 'CarOwner')  {
-
-   window.location.href = '/CarOwner/AllProducts';
- }else if(parts[parts.length - 2] === 'technician'){
-
-    window.location.href = '/technician/AllProducts';
- }
 
   //  if (this.userRole === 'CarOwner') {
   //   basePath = '/CarOwner/AllProducts';
@@ -95,7 +87,9 @@ const path = this.router.url;
         quantity: item.quantity,
         productName: item.productName,
         price: item.price,
-        imageUrl: item.imageUrl
+        imageUrl: item.imageUrl,
+        description: item.description,
+        totalPrice:item.quantity*item.price,
       };
 
       this.ecomerces.updateQuantity(cartItem).subscribe({
@@ -108,6 +102,17 @@ const path = this.router.url;
       });
 
     }
+
+    const path = this.router.url;
+ const parts = path.split('/').filter(p => p);
+ if( parts[parts.length - 2] === 'CarOwner')  {
+
+   window.location.href = '/CarOwner/AllProducts';
+ }else if(parts[parts.length - 2] === 'technician'){
+
+    window.location.href = '/technician/AllProducts';
+ }
+
   }
 
    gotomainpage(){
@@ -129,6 +134,66 @@ const path = this.router.url;
     }else if(parts[parts.length - 2] === 'technician'){
       this.router.navigate(['/technician/AllProducts']);
     }
+  }
+
+  createOrder() {
+
+
+    console.log("shopping cart", this.shoppingCart);
+
+    for (let item of this.shoppingCart) {
+      const cartItem: IShoppingCart = {
+        productId: item.productId,
+        quantity: item.quantity,
+        productName: item.productName,
+        price: item.price,
+        imageUrl: item.imageUrl,
+        description: item.description,
+        totalPrice:item.quantity*item.price,
+
+      };
+      console.log("carItem",cartItem)
+
+      this.ecomerces.updateQuantity(cartItem).subscribe({
+        next: (response) => {
+          console.log(`Updated quantity for product ${item.productName}`);
+        },
+        error: (err) => {
+          console.error('Error updating quantity:', err);
+        }
+      });
+
+    }
+
+       const path = this.router.url;
+    const parts = path.split('/').filter(p => p);
+    if( parts[parts.length - 2] === 'CarOwner')  {
+      this.router.navigate(['/CarOwner/orderpage']);
+    }else if(parts[parts.length - 2] === 'technician'){
+      this.router.navigate(['/technician/orderpage']);
+    }
+
+  //   const x: Icreateorder = {
+  //     location: prompt('Please enter your location:')??"",
+  //   };
+
+  //   if (x.location) {
+  //     this.ecomerces.createOrder(x).subscribe({
+  //       next: (response) => {
+  //         if (response.success) {
+  //           alert('Order created successfully!');
+  //           this.deleteAllFromCart();
+  //         } else {
+  //           alert('Failed to create order.');
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.error('Error creating order:', err);
+  //       }
+  //     });
+  //   } else {
+  //     alert('Location is required to create an order.');
+  //   }
   }
 
 }

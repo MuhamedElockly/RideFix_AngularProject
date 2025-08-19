@@ -4,5 +4,7 @@ export interface IShoppingCart {
   productName:string;
   price:number;
   imageUrl:string;
+  description:string;
+  totalPrice:number;
 
 }

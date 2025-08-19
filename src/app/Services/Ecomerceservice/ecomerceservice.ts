@@ -7,6 +7,7 @@ import { IApiResponse } from '../../Interfaces/iapi-response';
 import { Ifilterproduct } from '../../Interfaces/ifilterproduct';
 import { IReview } from '../../Interfaces/ireview';
 import { IproductRates } from '../../Interfaces/iproduct-rates';
+import { Icreateorder } from '../../Interfaces/icreateorder';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,16 @@ export class Ecomerceservice {
   // post review
   postReview(productId: number, review: IproductRates) {
     return this.http.post<IApiResponse<boolean>>(`http://localhost:5038/api/Product/${productId}/rate`, review);
+  }
+
+  // create order
+  createOrder(location:Icreateorder) {
+    return this.http.post<IApiResponse<boolean>>(`http://localhost:5038/api/Order/create`, location);
+  }
+
+  //get order history
+  getOrderHistory() {
+    return this.http.get<any>(`http://localhost:5038/api/Order/my-orders`).pipe(map(res => res.data));
   }
 
 

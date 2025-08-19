@@ -44,6 +44,8 @@ import { CategoriesManagementComponent } from './Components/AdminModule/categori
 import { AdminStatisticsComponent } from './Components/AdminModule/admin-statistics/admin-statistics';
 import { CartPageComponent } from './Components/e-Commerce_Components/cart-page-component/cart-page-component';
 import { ProductDetailsComponent } from './Components/e-Commerce_Components/product-details-component/product-details-component';
+import { OrderPageComponent } from './Components/e-Commerce_Components/order-page-component/order-page-component';
+import { OrderHistoryComponent } from './Components/e-Commerce_Components/order-history-component/order-history-component';
 
 export const routes: Routes = [
   ...authRoutes,
@@ -70,7 +72,12 @@ export const routes: Routes = [
       {path:'cartpage',component:CartPageComponent},
       {
         path:"productdetails/:id",component:ProductDetailsComponent
-      }
+      },
+      { path: 'orderpage', component: OrderPageComponent },
+      { path: 'orderhistory', component: OrderHistoryComponent },
+
+
+
     ],
     canActivate: [carOwnerGuard],
   },
@@ -95,7 +102,11 @@ export const routes: Routes = [
       {path:'cartpage',component:CartPageComponent},
       {
         path:"productdetails/:id",component:ProductDetailsComponent
-      }
+      },
+      { path: 'orderpage', component: OrderPageComponent },
+      { path: 'orderhistory', component: OrderHistoryComponent },
+
+
 
     ],
     canActivate: [techGuard],
