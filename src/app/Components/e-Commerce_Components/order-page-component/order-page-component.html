@@ -1,0 +1,532 @@
+<div class="orderpage" dir="rtl">
+  <div class="main-content">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1>
+          <i class="fas fa-shopping-cart"></i>
+          إنشاء طلب جديد
+        </h1>
+        <p>راجع تفاصيل طلبك وأكمل عملية الطلب</p>
+      </div>
+
+      <div class="order-layout">
+        <!-- Order Details Section -->
+        <div class="order-details-section">
+          <!-- Order Items -->
+          <div class="order-card">
+            <div class="card-header">
+              <h2>
+                <i class="fas fa-list"></i>
+                تفاصيل الطلب
+              </h2>
+            </div>
+
+            <div class="card-content">
+              <div class="order-items">
+                <!-- <div class="order-item">
+                  <div class="item-image">
+                    <img
+                      src="/placeholder.svg?height=80&width=80"
+                      alt="فحمات فرامل"
+                    />
+                  </div>
+                  <div class="item-details">
+                    <h3>فحمات فرامل أمامية</h3>
+                    <p class="item-description">
+                      فحمات فرامل عالية الجودة للسيارات اليابانية
+                    </p>
+                    <div class="item-specs">
+                      <span class="spec">الماركة: بريمبو</span>
+                      <span class="spec">الموديل: 2020-2023</span>
+                    </div>
+                  </div>
+                  <div class="item-quantity">
+                    <span class="quantity-label">الكمية:</span>
+                    <div class="quantity-display">
+                      <span class="quantity-value">2</span>
+                    </div>
+                  </div>
+                  <div class="item-price">
+                    <span class="price">450 ريال</span>
+                    <span class="unit-price">225 ريال/قطعة</span>
+                  </div>
+                </div> -->
+
+                @for(item of shoppingCart ;track $index){
+                <div class="order-item">
+                  <div class="item-image">
+                    <img src="{{ item.imageUrl }}" alt="فلتر زيت" />
+                  </div>
+                  <div class="item-details">
+                    <h3>{{ item.productName }}</h3>
+                    <p class="item-description">{{ item.description }}</p>
+                    <!-- <div class="item-specs">
+                      <span class="spec">الماركة: مان</span>
+                      <span class="spec">رقم القطعة: W712/75</span>
+                    </div> -->
+                  </div>
+                  <div class="item-quantity">
+                    <span class="quantity-label">الكمية:</span>
+                    <div class="quantity-display">
+                      <span class="quantity-value">{{ item.quantity }}</span>
+                    </div>
+                  </div>
+                  <div class="item-price">
+                    <span class="price"
+                      >{{ item.price * item.quantity }} ريال</span
+                    >
+                    <span class="unit-price">{{ item.price }} ريال/قطعة</span>
+                  </div>
+                </div>
+                }
+                <!-- <div class="order-item">
+                  <div class="item-image">
+                    <img
+                      src="/placeholder.svg?height=80&width=80"
+                      alt="خدمة صيانة"
+                    />
+                  </div>
+                  <div class="item-details">
+                    <h3>خدمة تركيب وصيانة</h3>
+                    <p class="item-description">
+                      تركيب القطع وفحص شامل للفرامل
+                    </p>
+                    <div class="item-specs">
+                      <span class="spec">المدة: ساعتان</span>
+                      <span class="spec">الضمان: 6 أشهر</span>
+                    </div>
+                  </div>
+                  <div class="item-quantity">
+                    <span class="quantity-label">الخدمة:</span>
+                    <div class="service-badge">
+                      <i class="fas fa-tools"></i>
+                      مضمنة
+                    </div>
+                  </div>
+                  <div class="item-price">
+                    <span class="price">120 ريال</span>
+                    <span class="unit-price">خدمة شاملة</span>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Address Input Section -->
+          <div class="order-card">
+            <div class="card-header">
+              <h2>
+                <i class="fas fa-map-marker-alt"></i>
+                عنوان التسليم
+              </h2>
+            </div>
+            <div class="card-content">
+              <div class="address-form">
+                <!-- Address Type Selection -->
+                <!-- <div class="address-type-section">
+                  <h3>نوع العنوان</h3>
+                  <div class="address-types">
+                    <div
+                      class="address-type active"
+                      onclick="selectAddressType(this, 'home')"
+                    >
+                      <div class="type-icon">
+                        <i class="fas fa-home"></i>
+                      </div>
+                      <span>المنزل</span>
+                    </div>
+                    <div
+                      class="address-type"
+                      onclick="selectAddressType(this, 'work')"
+                    >
+                      <div class="type-icon">
+                        <i class="fas fa-building"></i>
+                      </div>
+                      <span>العمل</span>
+                    </div>
+                    <div
+                      class="address-type"
+                      onclick="selectAddressType(this, 'other')"
+                    >
+                      <div class="type-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                      </div>
+                      <span>أخرى</span>
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- Address Details Form -->
+                <div class="address-details-form">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="street">الشارع *</label>
+                      <input type="text" id="street" name="street" required [(ngModel)]="street" />
+                    </div>
+                    <div class="form-group">
+                      <label for="district">الحي *</label>
+                      <input
+                        type="text"
+                        id="district"
+                        name="district"
+                        [(ngModel)]="district"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="city">المدينة *</label>
+                      <select id="city" name="city"  [(ngModel)]="city" required>
+                        <option value="">اختر المدينة</option>
+                        <option value="القاهرة">القاهرة</option>
+                        <option value="الجيزة">الجيزة</option>
+                        <option value="الإسكندرية">الإسكندرية</option>
+                        <option value="المنصورة">المنصورة</option>
+                        <option value="طنطا">طنطا</option>
+                        <option value="الإسماعيلية">الإسماعيلية</option>
+                        <option value="السويس">السويس</option>
+                        <option value="أسيوط">أسيوط</option>
+                        <option value="المنيا">المنيا</option>
+                        <option value="الأقصر">الأقصر</option>
+                        <option value="أسوان">أسوان</option>
+                        <option value="الفيوم">الفيوم</option>
+                        <option value="الزقازيق">الزقازيق</option>
+                        <option value="سوهاج">سوهاج</option>
+                        <option value="دمياط">دمياط</option>
+                        <option value="بنها">بنها</option>
+                        <option value="الغردقة">الغردقة</option>
+                        <option value="شرم الشيخ">شرم الشيخ</option>
+                        <option value="قنا">قنا</option>
+                        <option value="بني سويف">بني سويف</option>
+                      </select>
+
+                      <!-- <select id="city" name="city" required>
+                        <option value="">اختر المدينة</option>
+                        <option value="riyadh">الرياض</option>
+                        <option value="jeddah">جدة</option>
+                        <option value="dammam">الدمام</option>
+                        <option value="mecca">مكة المكرمة</option>
+                        <option value="medina">المدينة المنورة</option>
+                        <option value="khobar">الخبر</option>
+                        <option value="taif">الطائف</option>
+                        <option value="tabuk">تبوك</option>
+                        <option value="buraidah">بريدة</option>
+                        <option value="khamis">خميس مشيط</option>
+                      </select> -->
+                    </div>
+                    <div class="form-group">
+                      <label for="postal-code">الرمز البريدي</label>
+                      <input
+                        type="text"
+                        id="postal-code"
+                        name="postalcode"
+                        [(ngModel)]="postalcode"
+                        maxlength="5"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="building-details">تفاصيل المبنى *</label>
+                    <input
+                      type="text"
+                      id="building-details"
+                      name="buildingdetails"
+                      [(ngModel)]="buildingdetails"
+                    />
+                  </div>
+
+                  <!-- <div class="form-group">
+                    <label for="landmark">معلم مميز</label>
+                    <input
+                      type="text"
+                      id="landmark"
+                      name="landmark"
+
+                    />
+                  </div> -->
+                </div>
+
+                <!-- Contact Information -->
+                <!-- <div class="contact-form">
+                  <h3>معلومات الاتصال</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="contact-name">الاسم *</label>
+                      <input
+                        type="text"
+                        id="contact-name"
+                        name="contact-name"
+                        placeholder="أحمد محمد العلي"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="contact-phone">رقم الهاتف *</label>
+                      <input
+                        type="tel"
+                        id="contact-phone"
+                        name="contact-phone"
+                        placeholder="+966 50 123 4567"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- Map Preview -->
+                <!-- <div class="map-preview">
+                  <div class="map-container">
+                    <img
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-skcGiiRxnR06cHSTv4IjIBL29hv2sh.png"
+                      alt="خريطة الموقع"
+                    />
+                    <div class="map-marker">
+                      <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                  </div>
+                  <div class="map-actions">
+                    <button class="map-btn" onclick="getCurrentLocation()">
+                      <i class="fas fa-crosshairs"></i>
+                      موقعي الحالي
+                    </button>
+                    <button class="map-btn" onclick="openFullMap()">
+                      <i class="fas fa-expand"></i>
+                      عرض الخريطة كاملة
+                    </button>
+                  </div>
+                </div> -->
+
+                <!-- Delivery Instructions -->
+                <!-- <div class="delivery-instructions">
+                  <h4>تعليمات التسليم</h4>
+                  <textarea
+                    id="delivery-instructions"
+                    name="delivery-instructions"
+                    placeholder="أضف أي تعليمات خاصة للتسليم (اختياري)"
+                    class="instructions-input"
+                    rows="3"
+                  ></textarea>
+                </div> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Time -->
+          <!-- <div class="order-card">
+            <div class="card-header">
+              <h2>
+                <i class="fas fa-clock"></i>
+                وقت التسليم
+              </h2>
+            </div>
+            <div class="card-content">
+              <div class="delivery-time-options">
+                <div
+                  class="time-option active"
+                  onclick="selectTimeOption(this)"
+                >
+                  <div class="time-icon">
+                    <i class="fas fa-bolt"></i>
+                  </div>
+                  <div class="time-details">
+                    <h4>توصيل سريع</h4>
+                    <p>خلال ساعتين</p>
+                    <span class="time-price">+25 ريال</span>
+                  </div>
+                </div>
+                <div class="time-option" onclick="selectTimeOption(this)">
+                  <div class="time-icon">
+                    <i class="fas fa-truck"></i>
+                  </div>
+                  <div class="time-details">
+                    <h4>توصيل عادي</h4>
+                    <p>خلال 4-6 ساعات</p>
+                    <span class="time-price">مجاني</span>
+                  </div>
+                </div>
+                <div class="time-option" onclick="selectTimeOption(this)">
+                  <div class="time-icon">
+                    <i class="fas fa-calendar"></i>
+                  </div>
+                  <div class="time-details">
+                    <h4>موعد محدد</h4>
+                    <p>اختر التاريخ والوقت</p>
+                    <span class="time-price">مجاني</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="scheduled-time"
+                id="scheduled-time"
+                style="display: none"
+              >
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>التاريخ</label>
+                    <input type="date" class="date-input" />
+                  </div>
+                  <div class="form-group">
+                    <label>الوقت</label>
+                    <select class="time-select">
+                      <option>09:00 صباحاً</option>
+                      <option>11:00 صباحاً</option>
+                      <option>01:00 ظهراً</option>
+                      <option>03:00 عصراً</option>
+                      <option>05:00 مساءً</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <div class="order-summary-section">
+          <div class="order-card sticky">
+            <div class="card-header">
+              <h2>
+                <i class="fas fa-receipt"></i>
+                ملخص الطلب
+              </h2>
+            </div>
+            <div class="card-content">
+              <div class="summary-items">
+                <div class="summary-item">
+                  <span>المنتجات ({{ shoppingCart.length }} قطع)</span>
+                  <span>{{ totalprice }} ريال</span>
+                </div>
+                <!-- <div class="summary-item">
+                  <span>خدمة التركيب</span>
+                  <span>120 ريال</span>
+                </div>
+                <div class="summary-item">
+                  <span>رسوم التوصيل</span>
+                  <span>25 ريال</span>
+                </div> -->
+                <!-- <div class="summary-item discount">
+                  <span>خصم العضوية الذهبية</span>
+                  <span>-35 ريال</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-item subtotal">
+                  <span>المجموع الفرعي</span>
+                  <span>645 ريال</span>
+                </div>
+                <div class="summary-item tax">
+                  <span>ضريبة القيمة المضافة (15%)</span>
+                  <span>96.75 ريال</span>
+                </div> -->
+                <div class="summary-divider"></div>
+                <div class="summary-item total">
+                  <span>المجموع الإجمالي</span>
+                  <span>{{ totalprice }} ريال</span>
+                </div>
+              </div>
+
+              <!-- Payment Method -->
+              <div class="payment-method-section">
+                <h3>طريقة الدفع</h3>
+                <div class="payment-options">
+                  <div class="payment-option active">
+                    <div class="payment-icon">
+                      <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="payment-details">
+                      <h4>الدفع عند الاستلام</h4>
+                      <p>ادفع نقداً عند وصول الطلب</p>
+                    </div>
+                    <div class="payment-check">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="payment-note">
+                  <i class="fas fa-info-circle"></i>
+                  <span>يرجى تحضير المبلغ المطلوب نقداً</span>
+                </div>
+              </div>
+
+              <!-- Promo Code -->
+              <!-- <div class="promo-section">
+                <div class="promo-input-group">
+                  <input
+                    type="text"
+                    placeholder="كود الخصم"
+                    class="promo-input"
+                  />
+                  <button class="apply-promo-btn">تطبيق</button>
+                </div>
+              </div> -->
+
+              <!-- Order Button -->
+              <button class="create-order-btn" (click)="createOrder()">
+                <i class="fas fa-shopping-cart"></i>
+                إنشاء الطلب
+              </button>
+
+              <!-- Order Info -->
+              <div class="order-info">
+                <div class="info-item">
+                  <i class="fas fa-shield-alt"></i>
+                  <span>ضمان على جميع القطع</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-undo"></i>
+                  <span>إمكانية الإرجاع خلال 7 أيام</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-headset"></i>
+                  <span>دعم فني على مدار الساعة</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <!-- <div class="modal" id="success-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="success-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3>تم إنشاء الطلب بنجاح!</h3>
+      </div>
+      <div class="modal-body">
+        <p>تم إنشاء طلبك بنجاح وسيتم التواصل معك قريباً</p>
+        <div class="order-details">
+          <div class="detail-item">
+            <span>رقم الطلب:</span>
+            <span id="order-number">#RF-2024-001</span>
+          </div>
+          <div class="detail-item">
+            <span>وقت التسليم المتوقع:</span>
+            <span>خلال ساعتين</span>
+          </div>
+          <div class="detail-item">
+            <span>المبلغ الإجمالي:</span>
+            <span>741.75 ريال</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="trackOrder()">
+          <i class="fas fa-truck"></i>
+          تتبع الطلب
+        </button>
+        <button class="btn btn-outline" onclick="closeModal()">
+          العودة للرئيسية
+        </button>
+      </div>
+    </div>
+  </div> -->
+</div>

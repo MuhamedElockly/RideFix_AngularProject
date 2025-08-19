@@ -103,7 +103,9 @@ oldproducts: IProduct[] = [];
         quantity: 1,
         productName: item.name,
         price: item.price,
-        imageUrl: item.imageUrl
+        imageUrl: item.imageUrl,
+        description: "",
+        totalPrice:item.price*1,
       };
 
       this.ecomerces.addToCart(cartItem).subscribe({

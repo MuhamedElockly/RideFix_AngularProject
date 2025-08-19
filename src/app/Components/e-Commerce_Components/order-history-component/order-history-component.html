@@ -1,0 +1,600 @@
+<div class="back" dir="rtl">
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-shopping-bag"></i>
+        </div>
+        <div class="header-text">
+          <h1>طلباتي</h1>
+          <p>تتبع جميع طلباتك الحالية والسابقة</p>
+        </div>
+      </div>
+      <div class="header-stats">
+        <div class="stat-item">
+          <div class="stat-number">{{ orderactive }}</div>
+          <div class="stat-label">طلبات نشطة</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">{{ ordercompleted }}</div>
+          <div class="stat-label">طلبات مكتملة</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">{{ totalprice }}</div>
+          <div class="stat-label">إجمالي المشتريات</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter and Search Section -->
+    <!-- <div class="filter-section">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-md-4">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                placeholder="البحث في الطلبات..."
+                class="form-control"
+                id="searchInput"
+              />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select filter-select" id="statusFilter">
+              <option value="">جميع الحالات</option>
+              <option value="pending">في الانتظار</option>
+              <option value="confirmed">مؤكد</option>
+              <option value="preparing">قيد التحضير</option>
+              <option value="shipping">في الطريق</option>
+              <option value="delivered">تم التسليم</option>
+              <option value="cancelled">ملغي</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select filter-select" id="dateFilter">
+              <option value="">جميع التواريخ</option>
+              <option value="today">اليوم</option>
+              <option value="week">هذا الأسبوع</option>
+              <option value="month">هذا الشهر</option>
+              <option value="year">هذا العام</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn filter-btn" onclick="applyFilters()">
+              <i class="fas fa-filter"></i>
+              تصفية
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Current Orders Section -->
+    <div class="orders-section">
+      <div class="section-header">
+        <h2><i class="fas fa-clock me-3"></i>الطلبات الحالية</h2>
+        <div class="section-badge">{{ orderactive }} طلبات نشطة</div>
+      </div>
+
+      <div class="orders-container" id="currentOrders">
+        <!-- Current Order 1 -->
+         @if(orderactive===0){
+          <div class="card shadow-sm border-0 text-center p-5">
+  <div class="card-body">
+    <i class="fas fa-clipboard-list fa-3x mb-3 text-muted"></i>
+    <p class="fs-5 fw-semibold text-secondary mb-4">
+      لا توجد طلبات نشطة حالياً
+    </p>
+    <!-- <a href="/products" class="btn btn-outline-primary rounded-pill px-4">
+      <i class="fas fa-shopping-cart me-2"></i> تسوق الآن
+    </a> -->
+  </div>
+</div>
+
+         }@else{
+        @for( item of orderhistory;track $index){ @if(item.orderState==1){
+        <div class="order-card current-order">
+          <div class="order-header">
+            <div class="order-info">
+              <h3 class="order-title">طلب قطع غيار</h3>
+              <div class="order-meta">
+                <span class="order-id">#ORD-2024-001 </span>
+                <span class="order-date">26 يناير 2024</span>
+                <span class="order-status status-shipping">
+                  <i class="fas fa-truck"></i>
+                  في الطريق
+                </span>
+              </div>
+            </div>
+            <!-- <div class="order-actions">
+              <button
+                class="btn track-btn"
+                onclick="trackOrder('ORD-2024-001')"
+              >
+                <i class="fas fa-map-marker-alt"></i>
+                تتبع الطلب
+              </button>
+            </div> -->
+          </div>
+
+          <div class="order-body">
+            <div class="order-items">
+              @for( order of item.orderItems;track $index){
+              <div class="item-row">
+                <div class="item-image">
+                  <img src="{{ order.imageUrl }}" alt="تيل فرامل" />
+                </div>
+                <div class="item-details">
+                  <h4>{{ order.productName }}</h4>
+                  <p>الكمية: {{ order.quantity }}</p>
+                </div>
+                <div class="item-price">{{order.totalPrice}} ريال</div>
+              </div>
+              }
+
+              <!-- <div class="item-row">
+                                <div class="item-image">
+                                    <img src="/placeholder.svg?height=60&width=60" alt="فلتر زيت">
+                                </div>
+                                <div class="item-details">
+                                    <h4>فلتر زيت المحرك</h4>
+                                    <p>الكمية: 2 × 45 ريال</p>
+                                </div>
+                                <div class="item-price">90 ريال</div>
+                            </div> -->
+            </div>
+
+            <div class="order-summary">
+              <!-- <div class="summary-row">
+                                <span>المجموع الفرعي:</span>
+                                <span>270 ريال</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>رسوم التوصيل:</span>
+                                <span>25 ريال</span>
+                            </div> -->
+              <div class="summary-row total">
+                <span>المجموع الكلي:</span>
+                <span>{{ item.totalPrice }} ريال</span>
+              </div>
+            </div>
+
+            <div class="delivery-info">
+              <div class="delivery-address">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                  <strong>عنوان التسليم:</strong>
+                  <p>{{ item.location }}</p>
+                </div>
+              </div>
+              <!-- <div class="delivery-time">
+                <i class="fas fa-clock"></i>
+                <div>
+                  <strong>وقت التسليم المتوقع:</strong>
+                  <p>اليوم، 3:30 - 4:00 مساءً</p>
+                </div>
+              </div> -->
+            </div>
+
+            <div class="order-progress">
+              <div class="progress-steps">
+                <div class="step completed">
+                  <div class="step-icon"><i class="fas fa-check"></i></div>
+                  <div class="step-label">تم التأكيد</div>
+                </div>
+                <div class="step completed">
+                  <div class="step-icon"><i class="fas fa-check"></i></div>
+                  <div class="step-label">قيد التحضير</div>
+                </div>
+                <div class="step active">
+                  <div class="step-icon"><i class="fas fa-truck"></i></div>
+                  <div class="step-label">في الطريق</div>
+                </div>
+                <div class="step">
+                  <div class="step-icon"><i class="fas fa-home"></i></div>
+                  <div class="step-label">تم التسليم</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        } }}
+
+        <!-- Current Order 2 -->
+        <!-- <div class="order-card current-order">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3 class="order-title">خدمة صيانة طارئة</h3>
+                            <div class="order-meta">
+                                <span class="order-id">#SRV-2024-002</span>
+                                <span class="order-date">26 يناير 2024</span>
+                                <span class="order-status status-confirmed">
+                                    <i class="fas fa-check-circle"></i>
+                                    مؤكد
+                                </span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn contact-btn" onclick="contactTechnician('SRV-2024-002')">
+                                <i class="fas fa-phone"></i>
+                                اتصال بالفني
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-body">
+                        <div class="service-details">
+                            <div class="service-info">
+                                <div class="service-type">
+                                    <i class="fas fa-tools"></i>
+                                    <div>
+                                        <h4>إصلاح نظام التكييف</h4>
+                                        <p>فحص وإصلاح مشكلة التبريد</p>
+                                    </div>
+                                </div>
+                                <div class="technician-info">
+                                    <i class="fas fa-user-cog"></i>
+                                    <div>
+                                        <strong>الفني المختص:</strong>
+                                        <p>أحمد محمد الخبير - تقييم 4.9/5</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="appointment-info">
+                                <div class="appointment-time">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <div>
+                                        <strong>موعد الخدمة:</strong>
+                                        <p>اليوم، 5:00 - 6:00 مساءً</p>
+                                    </div>
+                                </div>
+                                <div class="service-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div>
+                                        <strong>موقع الخدمة:</strong>
+                                        <p>شارع الملك فهد، حي النخيل، الرياض</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="service-cost">
+                            <div class="cost-breakdown">
+                                <div class="cost-item">
+                                    <span>رسوم الفحص:</span>
+                                    <span>100 ريال</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span>رسوم الانتقال:</span>
+                                    <span>50 ريال</span>
+                                </div>
+                                <div class="cost-item total">
+                                    <span>المجموع المبدئي:</span>
+                                    <span>150 ريال</span>
+                                </div>
+                            </div>
+                            <div class="cost-note">
+                                <i class="fas fa-info-circle"></i>
+                                <span>التكلفة النهائية ستحدد بعد الفحص</span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+      </div>
+    </div>
+
+    <!-- Order History Section -->
+    <div class="orders-section">
+      <div class="section-header">
+        <h2><i class="fas fa-history me-3"></i>تاريخ الطلبات</h2>
+        <div class="section-badge">{{ ordercompleted }} طلب مكتمل</div>
+      </div>
+
+      <div class="orders-container" id="orderHistory">
+        <!-- History Order 1 -->
+        @if(ordercompleted==0){
+      <!-- <div class="no-orders text-center p-5">
+  <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
+  <p class="fs-5 fw-semibold text-secondary">
+    لا توجد طلبات مكتملة لعرضها
+  </p>
+</div> -->
+
+<div class="card shadow-sm border-0 text-center p-5">
+  <div class="card-body">
+    <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
+    <p class="fs-5 fw-semibold text-secondary mb-4">
+      لا توجد طلبات مكتملة لعرضها
+    </p>
+    <!-- <a href="/products" class="btn btn-primary rounded-pill px-4">
+      <i class="fas fa-shopping-bag me-2"></i> ابدأ التسوق الآن
+    </a> -->
+  </div>
+</div>
+
+        }@else{ @for( item of orderhistory;track $index){
+        @if(item.orderState==4){
+        <div class="order-card history-order">
+          <div class="order-header">
+            <div class="order-info">
+              <h3 class="order-title">طلب قطع غيار متنوعة</h3>
+              <div class="order-meta">
+                <span class="order-id">#ORD-2024-015 </span>
+                <span class="order-date">20 يناير 2024</span>
+                <span class="order-status status-delivered">
+                  <i class="fas fa-check-circle"></i>
+                  تم التسليم
+                </span>
+              </div>
+            </div>
+            <div class="order-actions">
+              <button
+                class="btn details-btn"
+                onclick="viewOrderDetails('ORD-2024-015')"
+              >
+                <i class="fas fa-eye"></i>
+                عرض التفاصيل
+              </button>
+              <button
+                class="btn reorder-btn"
+                onclick="reorderItems('ORD-2024-015')"
+              >
+                <i class="fas fa-redo"></i>
+                إعادة الطلب
+              </button>
+            </div>
+          </div>
+
+          <div class="order-body collapsed">
+            <div class="order-summary-mini">
+              <div class="items-count">
+                <i class="fas fa-box"></i>
+                <span>4 منتجات</span>
+              </div>
+              <div class="total-amount">
+                <span>المجموع: 520 ريال</span>
+              </div>
+              <div class="delivery-date">
+                <i class="fas fa-calendar-check"></i>
+                <span>تم التسليم في 21 يناير 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        }@else if(item.orderState==5){
+        <div class="order-card history-order">
+          <div class="order-header">
+            <div class="order-info">
+              <h3 class="order-title">طلب إطارات جديدة</h3>
+              <div class="order-meta">
+                <span class="order-id">#ORD-2024-013</span>
+                <span class="order-date">15 يناير 2024</span>
+                <span class="order-status status-cancelled">
+                  <i class="fas fa-times-circle"></i>
+                  ملغي
+                </span>
+              </div>
+            </div>
+            <div class="order-actions">
+              <button
+                class="btn details-btn"
+                onclick="viewOrderDetails('ORD-2024-013')"
+              >
+                <i class="fas fa-eye"></i>
+                عرض التفاصيل
+              </button>
+              <button
+                class="btn reorder-btn"
+                onclick="reorderItems('ORD-2024-013')"
+              >
+                <i class="fas fa-redo"></i>
+                إعادة الطلب
+              </button>
+            </div>
+          </div>
+
+          <div class="order-body collapsed">
+            <div class="order-summary-mini">
+              <div class="items-count">
+                <i class="fas fa-tire"></i>
+                <span>4 إطارات</span>
+              </div>
+              <div class="cancellation-reason">
+                <i class="fas fa-info-circle"></i>
+                <span>ملغي بناءً على طلب العميل</span>
+              </div>
+              <div class="refund-status">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>تم استرداد المبلغ: 1,200 ريال</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        } }}
+        <!-- History Order 2 -->
+        <!-- <div class="order-card history-order">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3 class="order-title">خدمة صيانة دورية</h3>
+                            <div class="order-meta">
+                                <span class="order-id">#SRV-2024-014</span>
+                                <span class="order-date">18 يناير 2024</span>
+                                <span class="order-status status-delivered">
+                                    <i class="fas fa-check-circle"></i>
+                                    مكتملة
+                                </span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn details-btn" onclick="viewOrderDetails('SRV-2024-014')">
+                                <i class="fas fa-eye"></i>
+                                عرض التفاصيل
+                            </button>
+                            <button class="btn review-btn" onclick="writeReview('SRV-2024-014')">
+                                <i class="fas fa-star"></i>
+                                تقييم الخدمة
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-body collapsed">
+                        <div class="order-summary-mini">
+                            <div class="service-type-mini">
+                                <i class="fas fa-tools"></i>
+                                <span>تغيير زيت وفلاتر</span>
+                            </div>
+                            <div class="technician-mini">
+                                <i class="fas fa-user-cog"></i>
+                                <span>محمد علي المتخصص</span>
+                            </div>
+                            <div class="total-amount">
+                                <span>التكلفة: 280 ريال</span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+        <!-- History Order 3 -->
+        <!-- <div class="order-card history-order">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3 class="order-title">طلب إطارات جديدة</h3>
+                            <div class="order-meta">
+                                <span class="order-id">#ORD-2024-013</span>
+                                <span class="order-date">15 يناير 2024</span>
+                                <span class="order-status status-cancelled">
+                                    <i class="fas fa-times-circle"></i>
+                                    ملغي
+                                </span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn details-btn" onclick="viewOrderDetails('ORD-2024-013')">
+                                <i class="fas fa-eye"></i>
+                                عرض التفاصيل
+                            </button>
+                            <button class="btn reorder-btn" onclick="reorderItems('ORD-2024-013')">
+                                <i class="fas fa-redo"></i>
+                                إعادة الطلب
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-body collapsed">
+                        <div class="order-summary-mini">
+                            <div class="items-count">
+                                <i class="fas fa-tire"></i>
+                                <span>4 إطارات</span>
+                            </div>
+                            <div class="cancellation-reason">
+                                <i class="fas fa-info-circle"></i>
+                                <span>ملغي بناءً على طلب العميل</span>
+                            </div>
+                            <div class="refund-status">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>تم استرداد المبلغ: 1,200 ريال</span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+        <!-- More history orders... -->
+        <!-- <div class="order-card history-order">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3 class="order-title">خدمة إصلاح طارئ</h3>
+                            <div class="order-meta">
+                                <span class="order-id">#SRV-2024-012 </span>
+                                <span class="order-date">12 يناير 2024</span>
+                                <span class="order-status status-delivered">
+                                    <i class="fas fa-check-circle"></i>
+                                    مكتملة
+                                </span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn details-btn" onclick="viewOrderDetails('SRV-2024-012')">
+                                <i class="fas fa-eye"></i>
+                                عرض التفاصيل
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-body collapsed">
+                        <div class="order-summary-mini">
+                            <div class="service-type-mini">
+                                <i class="fas fa-battery-half"></i>
+                                <span>إصلاح البطارية</span>
+                            </div>
+                            <div class="technician-mini">
+                                <i class="fas fa-user-cog"></i>
+                                <span>خالد أحمد الفني</span>
+                            </div>
+                            <div class="total-amount">
+                                <span>التكلفة: 180 ريال</span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+      </div>
+
+      <!-- Load More Button -->
+      <!-- <div class="load-more-section">
+                <button class="btn load-more-btn" onclick="loadMoreOrders()">
+                    <i class="fas fa-chevron-down"></i>
+                    عرض المزيد من الطلبات
+                </button>
+            </div> -->
+    </div>
+  </div>
+
+  <!-- Order Details Modal -->
+  <!-- <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderDetailsModalLabel">
+                        <i class="fas fa-info-circle"></i>
+                        تفاصيل الطلب
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="orderDetailsContent">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-primary" onclick="printOrderDetails()">
+                        <i class="fas fa-print"></i>
+                        طباعة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+  <!-- Order Tracking Modal -->
+  <!-- <div class="modal fade" id="trackingModal" tabindex="-1" aria-labelledby="trackingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="trackingModalLabel">
+                        <i class="fas fa-map-marker-alt"></i>
+                        تتبع الطلب
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="trackingContent">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>

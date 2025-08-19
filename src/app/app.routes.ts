@@ -50,6 +50,8 @@ import { PurshaseCoins } from './Components/RideCoins/purshase-coins/purshase-co
 import { CheckOutComponent } from './Components/RideCoins/check-out-component/check-out-component';
 
 import { ProductDetailsComponent } from './Components/e-Commerce_Components/product-details-component/product-details-component';
+import { OrderPageComponent } from './Components/e-Commerce_Components/order-page-component/order-page-component';
+import { OrderHistoryComponent } from './Components/e-Commerce_Components/order-history-component/order-history-component';
 
 
 export const routes: Routes = [
@@ -83,7 +85,9 @@ export const routes: Routes = [
       {path:'cartpage',component:CartPageComponent},
       {
         path:"productdetails/:id",component:ProductDetailsComponent
-      }
+      },
+      { path: 'orderpage', component: OrderPageComponent },
+      { path: 'orderhistory', component: OrderHistoryComponent },
 
     ],
     canActivate: [carOwnerGuard],
@@ -114,7 +118,11 @@ export const routes: Routes = [
       {path:'cartpage',component:CartPageComponent},
       {
         path:"productdetails/:id",component:ProductDetailsComponent
-      }
+      },
+      { path: 'orderpage', component: OrderPageComponent },
+      { path: 'orderhistory', component: OrderHistoryComponent },
+
+
 
 
     ],

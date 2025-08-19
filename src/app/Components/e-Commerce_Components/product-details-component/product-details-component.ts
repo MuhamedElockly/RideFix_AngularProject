@@ -154,7 +154,9 @@ export class ProductDetailsComponent implements OnInit{
           quantity: this.quantity,
           productName: item.name,
           price: item.price,
-          imageUrl: item.imageUrl
+          imageUrl: item.imageUrl,
+          description: item.description,
+          totalPrice:item.price*this.quantity,
         };
 
         this.ecomerces.addToCart(cartItem).subscribe({
