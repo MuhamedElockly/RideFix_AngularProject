@@ -1,23 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ICarCreating } from '../../../../Interfaces/Car/icar-creating';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CreateCarInterface } from '../../../../Interfaces/Car/create-car-interface';
+import { CarService } from '../../../../Services/CarService/car-service';
+import { Router, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-car-component',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './add-car-component.html',
   styleUrl: './add-car-component.css',
   standalone: true,
 })
 export class AddCarComponent {
+  routerService = inject(Router);
+  carService = inject(CarService);
   // ✅ الكائن الأساسي اللي هنستخدمه في الفورم
-  car: ICarCreating = {
+  car: CreateCarInterface = {
     vendor: '',
     modelName: '',
     typeOfCar: '',
     typeOfFuel: '',
-    modelYear: new Date().getFullYear(),
+    modelYear: '',
     avgKmPerMonth: 0,
   };
 
@@ -78,6 +84,16 @@ export class AddCarComponent {
   // ✅ عند الضغط على زر "إضافة السيارة"
   submitForm() {
     console.log('🚗 السيارة:', this.car);
+    this.carService.CreateMyCar(this.car).subscribe({
+      next: (res) => this.routerService.navigateByUrl('/CarOwner/MyCar'),
+      error: (res) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ',
+          text: 'حدث خطأ ما ❌',
+        });
+      },
+    });
 
     // هنا تبعت البيانات للباك إند أو Service
     // this.carService.addCar(this.car).subscribe(...)

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
+import { LandingPageComponent } from './Components/General/landing-page/landing-page';
 import { CarOwnerHomeComponent } from './Components/Car_Owner_Components/car-owner-home-component/car-owner-home-component';
 import { RequestEmergencyComponent } from './Components/Car_Owner_Components/CarEmergencyModule/request-emergency-component/request-emergency-component';
 import { TechSelect } from './Components/Car_Owner_Components/CarEmergencyModule/tech-select/tech-select';
@@ -43,12 +44,19 @@ import { ReportsManagementComponent } from './Components/AdminModule/reports-man
 import { CategoriesManagementComponent } from './Components/AdminModule/categories-management/categories-management';
 import { AdminStatisticsComponent } from './Components/AdminModule/admin-statistics/admin-statistics';
 import { CartPageComponent } from './Components/e-Commerce_Components/cart-page-component/cart-page-component';
+
+import { WalletComponent } from './Components/RideCoins/wallet-component/wallet-component';
+import { PurshaseCoins } from './Components/RideCoins/purshase-coins/purshase-coins';
+import { CheckOutComponent } from './Components/RideCoins/check-out-component/check-out-component';
+
 import { ProductDetailsComponent } from './Components/e-Commerce_Components/product-details-component/product-details-component';
 import { OrderPageComponent } from './Components/e-Commerce_Components/order-page-component/order-page-component';
 import { OrderHistoryComponent } from './Components/e-Commerce_Components/order-history-component/order-history-component';
 
+
 export const routes: Routes = [
   ...authRoutes,
+  { path: 'test', component: CheckOutComponent },
   { path: 'unauthorized', component: UnauthorizedComponent },
   {
     path: 'CarOwner',
@@ -69,14 +77,17 @@ export const routes: Routes = [
         component: ECommerceHomeComponent,
       },
       { path: 'AllProducts', component: AllProductsComponents },
+
+      { path: 'cartpage', component: CartPageComponent },
+      { path: 'Wallet', component: WalletComponent },
+      { path: 'Purshase', component: PurshaseCoins },
+
       {path:'cartpage',component:CartPageComponent},
       {
         path:"productdetails/:id",component:ProductDetailsComponent
       },
       { path: 'orderpage', component: OrderPageComponent },
       { path: 'orderhistory', component: OrderHistoryComponent },
-
-
 
     ],
     canActivate: [carOwnerGuard],
@@ -99,6 +110,11 @@ export const routes: Routes = [
         component: ECommerceHomeComponent,
       },
       { path: 'AllProducts', component: AllProductsComponents },
+
+      { path: 'cartpage', component: CartPageComponent },
+      { path: 'Wallet', component: WalletComponent },
+      { path: 'Purshase', component: PurshaseCoins },
+
       {path:'cartpage',component:CartPageComponent},
       {
         path:"productdetails/:id",component:ProductDetailsComponent
@@ -108,9 +124,11 @@ export const routes: Routes = [
 
 
 
+
     ],
     canActivate: [techGuard],
   },
+
 
           {
           path: 'admin',
@@ -128,7 +146,7 @@ export const routes: Routes = [
           canActivate: [adminGuard],
         },
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // لو المستخدم مش مسجل
+  { path: '', component: LandingPageComponent }, // Landing page for anonymous users
   // { path: '', redirectTo: 'CarOwner', pathMatch: 'full' },
 
   //   { path: '', redirectTo: 'CarOwner/Home', pathMatch: 'full' },

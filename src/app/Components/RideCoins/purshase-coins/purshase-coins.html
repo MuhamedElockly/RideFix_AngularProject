@@ -1,0 +1,162 @@
+<!-- Main Content -->
+<main class="main-content">
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h1 class="text-white">
+        <i class="fas fa-shopping-cart"></i> شراء العملات
+      </h1>
+      <p class="text-white">اختر الباقة المثالية لاحتياجاتك</p>
+    </div>
+
+    <!-- Current Balance -->
+    <div class="current-balance">
+      <div class="balance-info">
+        <div class="balance-icon">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <div class="balance-details">
+          <span class="balance-label">الرصيد الحالي</span>
+          <span class="balance-amount" id="current-balance"
+            >{{ myCoins }} جنيه مصري</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Coin Packages -->
+    <div class="packages-section">
+      <h2 class="text-white">اختر باقتك</h2>
+      <div class="packages-grid">
+        <!-- Starter Package -->
+        <div class="package-card" data-package="starter">
+          <div class="package-header">
+            <h3>باقة البداية</h3>
+            <div class="package-badge">شائعة</div>
+          </div>
+          <div class="package-coins">
+            <div class="coins-amount">200</div>
+            <div class="coins-label">جنيه مصري</div>
+          </div>
+          <div class="package-price"></div>
+          <div class="package-features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>مثالية للمبتدئين</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>تغطي 2-3 خدمات</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>بدون تاريخ انتهاء</span>
+            </div>
+          </div>
+          <button
+            class="package-btn text-white"
+            (click)="togglePaymentSection(200)"
+          >
+            اختيار الباقة
+          </button>
+        </div>
+
+        <!-- Value Package -->
+        <div class="package-card featured" data-package="value">
+          <div class="package-header">
+            <h3>باقة القيمة</h3>
+          </div>
+          <div class="package-coins">
+            <div class="coins-amount">500</div>
+            <div class="coins-label">جنيه مصري</div>
+          </div>
+
+          <div class="package-features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>تغطي 5-6 خدمات</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>دعم أولوية</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>بدون تاريخ انتهاء</span>
+            </div>
+          </div>
+          <button class="package-btn" (click)="togglePaymentSection(500)">
+            اختيار الباقة
+          </button>
+        </div>
+
+        <!-- Ultimate Package -->
+        <div class="package-card" data-package="ultimate">
+          <div class="package-header">
+            <h3>الباقة الشاملة</h3>
+            <div class="package-badge">أقصى قيمة</div>
+          </div>
+          <div class="package-coins">
+            <div class="coins-amount">1000</div>
+            <div class="coins-label">جنيه مصر</div>
+          </div>
+          <div class="package-features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>تغطي 25+ خدمة</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>مدير حساب مخصص</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>وصول للمكافآت المميزة</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>وصول مبكر للميزات الجديدة</span>
+            </div>
+          </div>
+          <button class="package-btn" (click)="togglePaymentSection(1000)">
+            اختيار الباقة
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <h2 class="text-white">الأسئلة الشائعة</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف أحصل على العملات؟</h4>
+          <p>
+            يمكن شراء العملات فقط من خلال نظام الدفع الآمن الخاص بنا. اختر من
+            الباقات المتاحة أعلاه.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-clock"></i> هل تنتهي صلاحية العملات؟</h4>
+          <p>
+            لا، العملات المشتراة لا تنتهي صلاحيتها أبداً. يمكنك استخدامها متى
+            احتجت لخدمات أو منتجات السيارات.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-exchange-alt"></i> هل يمكنني استرداد المبلغ؟</h4>
+          <p>
+            نعم، يمكن استرداد العملات غير المستخدمة خلال 30 يوماً من الشراء.
+            تواصل مع فريق الدعم للمساعدة.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  @if (flag) {
+  <app-check-out-component
+    class="LolL"
+    [coins]="Coins"
+  ></app-check-out-component>
+  }
+</main>

@@ -20,7 +20,7 @@ export class TechnicianNavBar {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
+    // Navigation is now handled by the AuthService
   }
 
   isLoggedIn(): boolean {

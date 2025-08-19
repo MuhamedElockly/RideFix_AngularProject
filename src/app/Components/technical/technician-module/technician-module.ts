@@ -1,6 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Sidebar } from '../sidebar/sidebar';
 import { TechnicianNavBar } from '../technician-nav-bar/technician-nav-bar';
 import { FooterComponent } from '../../General/footer-component/footer-component';
 import { ChatComponent } from '../../ChatModule/chat-component/chat-component';
@@ -10,7 +9,6 @@ import { NotificationsServices } from '../../../Services/SignalRServices/Notific
   selector: 'app-technician-module',
   imports: [
     RouterOutlet,
-    Sidebar,
     TechnicianNavBar,
     FooterComponent,
     ChatComponent,

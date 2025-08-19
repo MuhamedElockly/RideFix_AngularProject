@@ -341,8 +341,8 @@
   border-radius: 16px;
   font-size: 14px;
   line-height: 1.4;
-  word-wrap: break-word; 
-  word-break: break-word; 
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .message-group.technician .message-bubble {
