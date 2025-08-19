@@ -9,17 +9,18 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ICategory } from '../../../../Interfaces/Technichan/icategory';
-import { NgClass, NumberSymbol } from '@angular/common';
+import { NgClass, NgFor, NgIf, NumberSymbol } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { GetLocation } from '../../../../Services/LocationService/get-location';
 import { RequestService } from '../../../../Services/RequestService/request-service';
 import { TechnicianService } from '../../../../Services/TechnicianService/technician-service';
 import { AuthService } from '../../../../Services/AuthService/auth.service';
+import { UploadStateService } from '../../../../Services/ImgSevice/upload-state-service';
 
 @Component({
   selector: 'app-request-emergency-component',
-  imports: [NgClass, FormsModule],
+  imports: [NgClass, FormsModule, NgIf, NgFor],
   templateUrl: './request-emergency-component.html',
   styleUrl: './request-emergency-component.css',
   encapsulation: ViewEncapsulation.None, // ✨ الحل هنا
@@ -34,6 +35,10 @@ export class RequestEmergencyComponent implements OnInit {
   routeService = inject(Router);
   requestService = inject(RequestService);
   techService = inject(TechnicianService);
+  imgService = inject(UploadStateService);
+
+  attachments: File[] = []; // << الصور كـ File[]
+  previews: string[] = []; // للعرض فقط
 
   //#region Location Service
   locationService = inject(GetLocation);
@@ -169,5 +174,37 @@ export class RequestEmergencyComponent implements OnInit {
         // }
       },
     });
+  }
+  onFilesSelected(e: any) {
+    const input = e.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const files = Array.from(input.files);
+
+    // فلترة بسيطة: عدد/امتداد/حجم
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    const valid: File[] = [];
+
+    this.previews = [];
+    this.Imgs = [];
+    this.imgService.setImages(files);
+    files;
+    for (const f of files) {
+      if (!allowed.includes(f.type)) continue;
+      if (f.size > maxSize) continue;
+      valid.push(f);
+
+      // معاينة اختيارية
+      const r = new FileReader();
+      r.onload = () => {
+        this.previews.push(r.result as string);
+        this.Imgs.push(r.result as string); // لو محتاجها
+      };
+      r.readAsDataURL(f);
+    }
+
+    // احتفظ بالفايلات
+    this.attachments = valid.slice(0, 5); // حد أقصى 5
   }
 }

@@ -33,6 +33,7 @@ export class RequestService {
       imageUrl: [],
       technicianIDs: [],
       pin: 0,
+      attachments: [],
     };
   }
   public SetRealRequestData(
@@ -79,15 +80,58 @@ export class RequestService {
     );
   }
 
-  public CreateRequest(techs: number[], pinvalue: Number): Observable<any> {
+  // public CreateRequest(
+  //   techs: number[],
+  //   pinvalue: Number,
+  //   files: File[]
+  // ): Observable<any> {
+  //   this.realRequest.technicianIDs = techs;
+  //   this.realRequest.pin = pinvalue;
+  //   this.realRequest.attachments = files;
+  //   return this.clientService.post<any>(
+  //     this.apiConfig.getApiUrl('Request'),
+  //     this.realRequest,
+  //     { observe: 'response' }
+  //   );
+  //   // public CreateRequests();
+  // }
+
+  public CreateRequest(
+    techs: number[],
+    pinvalue: Number,
+    files: File[]
+  ): Observable<any> {
+    // خزّن القيم في الدرافت لو محتاج
     this.realRequest.technicianIDs = techs;
-    this.realRequest.pin = pinvalue;
+    this.realRequest.pin = pinvalue as any; // لو معرفها number مش Number هتبقى تمام
+    this.realRequest.attachments = files;
+
+    // ابني الـ FormData بالأسماء المطابقة للـ DTO:
+    // TechnicianIDs, Description, ImageUrl, categoryId, CarOwnerId, Latitude, Longitude, pin, Attachments
+    const form = new FormData();
+
+    techs.forEach((id) => form.append('TechnicianIDs', String(id)));
+    form.append('Description', this.realRequest.description || '');
+
+    // لو عندك ImageUrl لينكات جاهزة (اختياري):
+    (this.realRequest.imageUrl || []).forEach((u) =>
+      form.append('ImageUrl', u)
+    );
+
+    form.append('categoryId', String(this.realRequest.categoryId));
+    form.append('CarOwnerId', String(this.realRequest.carOwnerId));
+    form.append('Latitude', String(this.realRequest.latitude));
+    form.append('Longitude', String(this.realRequest.longitude));
+    form.append('pin', String(pinvalue));
+
+    (files || []).forEach((f) => form.append('Attachments', f, f.name));
+
+    // مهم: ما تحطّش Content-Type يدويًا (سيبه للمتصفح)
     return this.clientService.post<any>(
       this.apiConfig.getApiUrl('Request'),
-      this.realRequest,
+      form,
       { observe: 'response' }
     );
-    // public CreateRequests();
   }
 
   public CancelRequest(ownerId: number): Observable<any> {

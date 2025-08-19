@@ -6,6 +6,7 @@ import { RequestService } from '../../../../Services/RequestService/request-serv
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { environment } from '../../../../../environments/environment';
+import { UploadStateService } from '../../../../Services/ImgSevice/upload-state-service';
 
 @Component({
   selector: 'app-tech-select',
@@ -24,6 +25,7 @@ export class TechSelect implements OnInit {
   filteredTech: ITechnician[] = [];
   SelectedTechs: number[] = [];
   SelectedCount: number = 0;
+  ImgService = inject(UploadStateService);
 
   ngOnInit(): void {
     const preRequest = this.requestService.SetRealRequestFromLocal();
@@ -107,7 +109,11 @@ export class TechSelect implements OnInit {
       if (result.isConfirmed && result.value) {
         this.pinvalue = result.value;
         this.requestService
-          .CreateRequest(this.SelectedTechs, this.pinvalue)
+          .CreateRequest(
+            this.SelectedTechs,
+            this.pinvalue,
+            this.ImgService.getImages()
+          )
           .subscribe({
             next: (res) => {
               Swal.fire({
