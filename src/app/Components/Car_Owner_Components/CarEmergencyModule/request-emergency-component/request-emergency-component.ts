@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { GetLocation } from '../../../../Services/LocationService/get-location';
 import { RequestService } from '../../../../Services/RequestService/request-service';
 import { TechnicianService } from '../../../../Services/TechnicianService/technician-service';
+import { AuthService } from '../../../../Services/AuthService/auth.service';
 
 @Component({
   selector: 'app-request-emergency-component',
@@ -29,7 +30,7 @@ export class RequestEmergencyComponent implements OnInit {
   PreRequest: IPreRequest;
   Description: string = '';
   Imgs: string[] = [];
-
+  authService = inject(AuthService);
   routeService = inject(Router);
   requestService = inject(RequestService);
   techService = inject(TechnicianService);
@@ -49,8 +50,9 @@ export class RequestEmergencyComponent implements OnInit {
       { id: 2, name: 'كهرباء سيارات' },
       { id: 3, name: 'ميكانيكي' },
     ];
+
     this.PreRequest = {
-      carOwnerId: 1,
+      carOwnerId: this.authService.getRoleId(),
       categoryId: 0,
       latitude: 30,
       longitude: 33,
@@ -123,11 +125,29 @@ export class RequestEmergencyComponent implements OnInit {
         }
       },
       error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'للاسف',
-          text: 'لا يوجد فني يخدم في هذه المنطقة الان',
-        });
+        switch (err.status) {
+          case 400:
+            Swal.fire({
+              icon: 'error',
+              title: 'للاسف',
+              text: 'لا يوجد رصيد كافي',
+            });
+            break;
+          case 404:
+            Swal.fire({
+              icon: 'error',
+              title: 'للاسف',
+              text: 'لا يوجد فني يخدم في هذه المنطقة الان',
+            });
+            break;
+          default:
+            Swal.fire({
+              icon: 'error',
+              title: 'حدث خطأ',
+              text: 'لم يتم التحقق من الرمز. حاول مرة أخرى لاحقًا.',
+            });
+            break;
+        }
         // if (err.status == 400) {
         //   Swal.fire({
         //     icon: 'error',

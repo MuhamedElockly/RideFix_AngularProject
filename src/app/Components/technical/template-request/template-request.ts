@@ -22,10 +22,12 @@ import { RequestWatchDogHub } from '../../../Services/SignalRServices/RequestWat
 
 import { Itechiciandetails } from '../../../Interfaces/Technichan/itechiciandetails';
 import { Technincalservice } from '../../../Services/Technincalservice/technincalservice';
-import { ReverseGeocodingService, CityInfo } from '../../../Services/LocationService/reverse-geocoding.service';
+import {
+  ReverseGeocodingService,
+  CityInfo,
+} from '../../../Services/LocationService/reverse-geocoding.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-template-request',
@@ -55,7 +57,7 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
     private techServieces: Technincalservice
   ) {}
   requestcomplete: Ihistorytech[] = [];
-    tech: Itechiciandetails | null = null;
+  tech: Itechiciandetails | null = null;
 
   //  isLoading: boolean = true;
   ngOnInit(): void {
@@ -67,8 +69,8 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
         this.requestcomplete = b;
         console.log(this.requestcomplete);
         // this.isLoading = false;
-      }});
-
+      },
+    });
 
     this.techServieces.gettechnician().subscribe({
       next: (b) => {
@@ -76,7 +78,6 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
         console.log('Technician details:', this.tech);
       },
     });
-
 
     this.initializeFilter();
   }
@@ -86,7 +87,7 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
       // Reset filter state when requests change
       this.selectedCity = '';
       this.filteredRequests = [...this.request];
-      
+
       // Only initialize filter if we have valid requests
       if (this.request && this.request.length > 0) {
         this.initializeFilter();
@@ -95,58 +96,57 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
         this.isLoadingCities = false;
       }
     }
-
   }
 
   ngOnDestroy(): void {
     this.requestWatchDog.stopConnection();
   }
 
-  
   private async initializeFilter() {
     if (this.request && this.request.length > 0) {
       this.isLoadingCities = true;
-      
+
       try {
         // Get unique coordinates to avoid duplicate API calls
         const uniqueCoordinates = this.getUniqueCoordinates();
-        
+
         if (uniqueCoordinates.length === 0) {
           this.setDefaultCities();
           return;
         }
-        
+
         // Validate coordinates before making API calls
-        const validCoordinates = uniqueCoordinates.filter(coord => 
+        const validCoordinates = uniqueCoordinates.filter((coord) =>
           this.isValidCoordinate(coord.latitude, coord.longitude)
         );
-        
+
         if (validCoordinates.length === 0) {
           console.warn('No valid coordinates found in requests');
           this.setDefaultCities();
           return;
         }
-        
+
         // Get city information for all coordinates
-        this.reverseGeocodingService.getCitiesFromCoordinates(validCoordinates)
+        this.reverseGeocodingService
+          .getCitiesFromCoordinates(validCoordinates)
           .subscribe({
             next: (cities: CityInfo[]) => {
               // Update requests with city information
               this.updateRequestsWithCities(cities);
-              
+
               // Extract available cities for filter
               this.extractAvailableCities();
-              
+
               // Initialize filtered requests
               this.filteredRequests = [...this.request];
-              
+
               this.isLoadingCities = false;
             },
             error: (error) => {
               console.error('Error getting cities:', error);
               this.setDefaultCities();
               this.isLoadingCities = false;
-            }
+            },
           });
       } catch (error) {
         console.error('Error initializing filter:', error);
@@ -158,18 +158,19 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  
-  private getUniqueCoordinates(): {latitude: number, longitude: number}[] {
-    const coordinates = this.request.map(req => ({
+  private getUniqueCoordinates(): { latitude: number; longitude: number }[] {
+    const coordinates = this.request.map((req) => ({
       latitude: req.latitude,
-      longitude: req.longitude
+      longitude: req.longitude,
     }));
-    
-  
-    return coordinates.filter((coord, index, self) => 
-      index === self.findIndex(c => 
-        c.latitude === coord.latitude && c.longitude === coord.longitude
-      )
+
+    return coordinates.filter(
+      (coord, index, self) =>
+        index ===
+        self.findIndex(
+          (c) =>
+            c.latitude === coord.latitude && c.longitude === coord.longitude
+        )
     );
   }
 
@@ -178,7 +179,7 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
    */
   private updateRequestsWithCities(cities: CityInfo[]) {
     const coordinateToCity = new Map<string, string>();
-    
+
     // Create a map of coordinates to cities
     cities.forEach((cityInfo, index) => {
       const uniqueCoordinates = this.getUniqueCoordinates();
@@ -188,9 +189,9 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
         coordinateToCity.set(key, cityInfo.city);
       }
     });
-    
+
     // Update each request with city information
-    this.request.forEach(req => {
+    this.request.forEach((req) => {
       const key = `${req.latitude},${req.longitude}`;
       req.city = coordinateToCity.get(key) || 'Unknown City';
     });
@@ -201,13 +202,13 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
    */
   private extractAvailableCities() {
     const cities = this.request
-      .map(req => req.city)
+      .map((req) => req.city)
       .filter((city, index, self) => city && self.indexOf(city) === index)
       .filter((city): city is string => city !== undefined)
       .sort();
-    
+
     this.availableCities = cities;
-    
+
     // If no cities are available, set a default message
     if (this.availableCities.length === 0) {
       console.warn('No cities available for filtering');
@@ -215,38 +216,51 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  
   private setDefaultCities() {
     const defaultCities = [
-      'القاهرة', 'الإسكندرية', 'الجيزة', 'شبرا الخيمة', 'بورسعيد', 
-      'السويس', 'الأقصر', 'أسوان', 'أسيوط', 'بني سويف',
-      'المنيا', 'سوهاج', 'قنا', 'الأقصر', 'أسوان'
+      'القاهرة',
+      'الإسكندرية',
+      'الجيزة',
+      'شبرا الخيمة',
+      'بورسعيد',
+      'السويس',
+      'الأقصر',
+      'أسوان',
+      'أسيوط',
+      'بني سويف',
+      'المنيا',
+      'سوهاج',
+      'قنا',
+      'الأقصر',
+      'أسوان',
     ];
-    
-  
+
     this.request.forEach((req, index) => {
       req.city = defaultCities[index % defaultCities.length];
     });
-    
+
     this.extractAvailableCities();
     this.filteredRequests = [...this.request];
   }
 
- 
   onCityFilterChange() {
-    if (this.selectedCity && this.selectedCity !== '' && this.selectedCity !== 'لا توجد مدن متاحة') {
-      this.filteredRequests = this.request.filter(req =>
-        req.city === this.selectedCity
+    if (
+      this.selectedCity &&
+      this.selectedCity !== '' &&
+      this.selectedCity !== 'لا توجد مدن متاحة'
+    ) {
+      this.filteredRequests = this.request.filter(
+        (req) => req.city === this.selectedCity
       );
-      
-  
-      console.log(`Filtered requests by city: ${this.selectedCity}, Found: ${this.filteredRequests.length}`);
+
+      console.log(
+        `Filtered requests by city: ${this.selectedCity}, Found: ${this.filteredRequests.length}`
+      );
     } else {
       this.filteredRequests = [...this.request];
       console.log('Showing all requests (no city filter applied)');
     }
   }
-
 
   clearCityFilter() {
     this.selectedCity = '';
@@ -332,7 +346,15 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
               });
             }
           },
-          error: () => {
+          error: (err) => {
+            if (err.status == 400) {
+              Swal.fire({
+                icon: 'error',
+                title: 'للاسف',
+                text: 'لا يوجد رصيد كافي',
+              });
+              return;
+            }
             Swal.fire({
               icon: 'error',
               title: 'حدث خطأ',
@@ -373,7 +395,6 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
 
         const userId = localStorage.getItem('techid');
 
-
         const dto: IRequestApply = {
           requestId: item.requestId,
           userId: userId !== null ? Number(userId) : 0,
@@ -389,8 +410,7 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
                 title: 'تمت الموافقة',
               }).then(() => {
                 // this.router.navigate(['/technician/techservieces']);
-                                window.location.reload();
-
+                window.location.reload();
               });
             } else {
               Swal.fire({
@@ -416,9 +436,15 @@ export class TemplateRequest implements OnInit, OnDestroy, OnChanges {
    * Validate if coordinates are within reasonable bounds
    */
   private isValidCoordinate(latitude: number, longitude: number): boolean {
-    return !isNaN(latitude) && !isNaN(longitude) &&
-           latitude >= -90 && latitude <= 90 &&
-           longitude >= -180 && longitude <= 180 &&
-           latitude !== 0 && longitude !== 0; // Avoid 0,0 coordinates which are often invalid
+    return (
+      !isNaN(latitude) &&
+      !isNaN(longitude) &&
+      latitude >= -90 &&
+      latitude <= 90 &&
+      longitude >= -180 &&
+      longitude <= 180 &&
+      latitude !== 0 &&
+      longitude !== 0
+    ); // Avoid 0,0 coordinates which are often invalid
   }
 }

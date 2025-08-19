@@ -672,6 +672,7 @@
 /* يربط البانل بالزر */
 .notification-container {
   position: relative;
+  direction: rtl;
 }
 
 /* لو البانل جزء من النافبار: */
@@ -717,4 +718,7 @@
 /* يمنع البانل يطلع تحت الهيدر */
 .navbar {
   z-index: 1200;
+}
+* {
+  direction: ltr;
 }

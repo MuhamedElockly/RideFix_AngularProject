@@ -23,7 +23,7 @@ import { IChatSession } from '../../../Interfaces/CurrentChat/ichat-session';
   templateUrl: './current-chat.html',
   styleUrl: './current-chat.css',
 })
-export class CurrentChat implements AfterViewChecked, OnInit {
+export class CurrentChat implements OnInit {
   @ViewChild('bottomOfMessages') bottomOfMessages!: ElementRef;
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
@@ -35,23 +35,23 @@ export class CurrentChat implements AfterViewChecked, OnInit {
   Message: string = '';
 
   // scroll
-  ngAfterViewChecked() {
-    this.scrollToBottomIfNearBottom();
-  }
-  scrollToBottomIfNearBottom(): void {
-    const container = this.scrollContainer?.nativeElement;
-    if (!container) return;
+  // ngAfterViewChecked() {
+  //   this.scrollToBottomIfNearBottom();
+  // }
+  // scrollToBottomIfNearBottom(): void {
+  //   const container = this.scrollContainer?.nativeElement;
+  //   if (!container) return;
 
-    const threshold = 100; // لو أقل من 100px من تحت نعمل سكرول
-    const position = container.scrollTop + container.clientHeight;
-    const height = container.scrollHeight;
+  //   const threshold = 100; // لو أقل من 100px من تحت نعمل سكرول
+  //   const position = container.scrollTop + container.clientHeight;
+  //   const height = container.scrollHeight;
 
-    if (height - position <= threshold) {
-      this.bottomOfMessages.nativeElement.scrollIntoView({
-        behavior: 'smooth',
-      });
-    }
-  }
+  //   if (height - position <= threshold) {
+  //     this.bottomOfMessages.nativeElement.scrollIntoView({
+  //       behavior: 'smooth',
+  //     });
+  //   }
+  // }
   //
 
   ngOnInit(): void {
@@ -65,7 +65,7 @@ export class CurrentChat implements AfterViewChecked, OnInit {
       if (message.applicationId !== this.userId && this.chatDetails?.messages) {
         console.log('📥 Message received:', message);
         this.chatDetails.messages.push(message);
-        this.scrollToBottomIfNearBottom();
+        // this.scrollToBottomIfNearBottom();
       }
     });
 

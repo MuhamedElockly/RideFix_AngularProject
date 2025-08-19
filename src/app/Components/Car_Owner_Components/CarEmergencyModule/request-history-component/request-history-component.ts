@@ -31,8 +31,8 @@ export class RequestHistoryComponent implements OnInit {
         error: (res) => {
           Swal.fire({
             icon: 'error',
-            title: 'تافه!!!!!!',
-            text: 'لا يوجد تاريخ انت تافه',
+            title: 'فارغ',
+            text: 'سجل طلباتك فارغ',
           });
         },
       });
