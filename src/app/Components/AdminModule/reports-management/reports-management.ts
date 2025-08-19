@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../../Services/AdminService/admin.service';
-import { IReport } from '../../../Interfaces/Admin/IReport';
+import { IReport, ReportState } from '../../../Interfaces/Admin/IReport';
 import { IAdminUser } from '../../../Interfaces/Admin/IAdminUser';
 import Swal from 'sweetalert2';
 
@@ -308,7 +308,10 @@ export class ReportsManagementComponent implements OnInit {
 
 
 
-  async resolveReport(reportId: string) {
+  async resolveReport(requestId: number) {
+    console.log('resolveReport called with requestId:', requestId);
+    console.log('selectedReport:', this.selectedReport);
+    
     const result = await Swal.fire({
       title: 'حل البلاغ',
       text: 'هل تريد حل هذا البلاغ؟',
@@ -326,38 +329,44 @@ export class ReportsManagementComponent implements OnInit {
 
     if (result.isConfirmed) {
       try {
-        // Show loading state
         Swal.fire({
           title: 'جاري الحل...',
           text: 'يرجى الانتظار',
           allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          }
+          didOpen: () => Swal.showLoading()
         });
 
-        await this.adminService.updateReportStatus(reportId, 'Resolved').toPromise();
-        
-        // Update local data
-        const report = this.reports.find(r => r.id === reportId);
-        if (report) {
-          report.status = 'Resolved';
-          report.resolutionDate = new Date();
-          report.resolvedBy = 'Admin';
-          this.applyFilters();
-          this.closeReportModal();
-        }
-        
-        // Show success message
-        Swal.fire({
-          title: 'تم الحل بنجاح!',
-          text: 'تم حل البلاغ بنجاح',
-          icon: 'success',
-          confirmButtonColor: '#27ae60',
-          confirmButtonText: 'حسناً'
+        console.log('Calling updateReportStatus with:', { requestId, state: ReportState.Approved });
+        this.adminService.updateReportStatus(requestId, ReportState.Approved).subscribe({
+          next: () => {
+            if (this.selectedReport) {
+              this.selectedReport.status = 'Resolved';
+              this.selectedReport.resolutionDate = new Date();
+              this.selectedReport.resolvedBy = 'Admin';
+              this.applyFilters();
+              this.closeReportModal();
+            }
+            Swal.fire({
+              title: 'تم الحل بنجاح!',
+              text: 'تم حل البلاغ بنجاح',
+              icon: 'success',
+              confirmButtonColor: '#27ae60',
+              confirmButtonText: 'حسناً'
+            });
+          },
+          error: (error) => {
+            console.error('Error resolving report:', error);
+            Swal.fire({
+              title: 'خطأ!',
+              text: 'حدث خطأ أثناء حل البلاغ',
+              icon: 'error',
+              confirmButtonColor: '#e74c3c',
+              confirmButtonText: 'حسناً'
+            });
+          }
         });
       } catch (error) {
-        // Show error message
+        console.error('Error resolving report:', error);
         Swal.fire({
           title: 'خطأ!',
           text: 'حدث خطأ أثناء حل البلاغ',
@@ -369,7 +378,7 @@ export class ReportsManagementComponent implements OnInit {
     }
   }
 
-  async dismissReport(reportId: string) {
+  async dismissReport(requestId: number) {
     const result = await Swal.fire({
       title: 'رفض البلاغ',
       text: 'هل تريد رفض هذا البلاغ؟',
@@ -387,38 +396,43 @@ export class ReportsManagementComponent implements OnInit {
 
     if (result.isConfirmed) {
       try {
-        // Show loading state
         Swal.fire({
           title: 'جاري الرفض...',
           text: 'يرجى الانتظار',
           allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          }
+          didOpen: () => Swal.showLoading()
         });
 
-        await this.adminService.updateReportStatus(reportId, 'Dismissed').toPromise();
-        
-        // Update local data
-        const report = this.reports.find(r => r.id === reportId);
-        if (report) {
-          report.status = 'Dismissed';
-          report.resolutionDate = new Date();
-          report.resolvedBy = 'Admin';
-          this.applyFilters();
-          this.closeReportModal();
-        }
-        
-        // Show success message
-        Swal.fire({
-          title: 'تم الرفض بنجاح!',
-          text: 'تم رفض البلاغ بنجاح',
-          icon: 'success',
-          confirmButtonColor: '#f39c12',
-          confirmButtonText: 'حسناً'
+        this.adminService.updateReportStatus(requestId, ReportState.Rejected).subscribe({
+          next: () => {
+            if (this.selectedReport) {
+              this.selectedReport.status = 'Dismissed';
+              this.selectedReport.resolutionDate = new Date();
+              this.selectedReport.resolvedBy = 'Admin';
+              this.applyFilters();
+              this.closeReportModal();
+            }
+            Swal.fire({
+              title: 'تم الرفض بنجاح!',
+              text: 'تم رفض البلاغ بنجاح',
+              icon: 'success',
+              confirmButtonColor: '#f39c12',
+              confirmButtonText: 'حسناً'
+            });
+          },
+          error: (error) => {
+            console.error('Error dismissing report:', error);
+            Swal.fire({
+              title: 'خطأ!',
+              text: 'حدث خطأ أثناء رفض البلاغ',
+              icon: 'error',
+              confirmButtonColor: '#e74c3c',
+              confirmButtonText: 'حسناً'
+            });
+          }
         });
       } catch (error) {
-        // Show error message
+        console.error('Error dismissing report:', error);
         Swal.fire({
           title: 'خطأ!',
           text: 'حدث خطأ أثناء رفض البلاغ',

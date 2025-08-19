@@ -384,7 +384,7 @@
         <button
           *ngIf="selectedReport.status === 'Pending'"
           class="btn btn-success"
-          (click)="resolveReport(selectedReport.id || '')"
+          (click)="resolveReport(selectedReport.requestId)"
         >
           <i class="fas fa-check"></i>
           حل البلاغ
@@ -393,7 +393,7 @@
         <button
           *ngIf="selectedReport.status === 'Pending'"
           class="btn btn-warning"
-          (click)="dismissReport(selectedReport.id || '')"
+          (click)="dismissReport(selectedReport.requestId)"
         >
           <i class="fas fa-times"></i>
           رفض البلاغ

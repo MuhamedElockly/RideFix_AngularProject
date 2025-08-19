@@ -55,3 +55,16 @@ export interface IReportsResponse {
     reports: IReport[];
   };
 }
+
+// Report State Enum
+export enum ReportState {
+  Waiting = 1,
+  Rejected = 2,
+  Approved = 3
+}
+
+// Update Report DTO
+export interface IUpdateReportDTO {
+  reportId: number;
+  reportState: ReportState;
+}
