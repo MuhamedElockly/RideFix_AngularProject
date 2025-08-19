@@ -7,4 +7,5 @@ export interface IEmergencyRequest {
   latitude: Number;
   longitude: Number;
   pin: Number;
+  attachments: File[]; // << دي اللي تزودها عشان الصور
 }

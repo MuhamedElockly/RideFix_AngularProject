@@ -72,14 +72,31 @@
           يمكنك رفع حتى 5 صور (JPG, PNG, حد أقصى 5MB لكل صورة)
         </div>
         <input
+          #fileInput
           type="file"
           id="imageUpload"
           multiple
           accept="image/*"
+          (change)="onFilesSelected($event)"
           style="display: none"
         />
       </div>
-      <div class="image-preview-grid" id="imagePreviewGrid"></div>
+      <!-- معاينات (اختياري) -->
+      <div class="image-preview-grid" *ngIf="previews.length">
+        <img
+          *ngFor="let p of previews"
+          [src]="p"
+          alt="preview"
+          style="
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            margin: 6px;
+          "
+        />
+      </div>
     </div>
 
     <!-- Submit Button -->
