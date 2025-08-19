@@ -34,7 +34,6 @@ export class TemplateRequestdetails implements OnInit {
 
   ngOnInit(): void {
     this.url = this.router.url;
-
   }
 
   confirmApprovalWithPassword(item: ItechRequect | null) {
@@ -84,7 +83,7 @@ export class TemplateRequestdetails implements OnInit {
         this.techRequestService.putcheck(checkDto).subscribe({
           next: (res) => {
             if (res.success) {
-              this.requestWatchDog.acceptrequest(1);
+              this.requestWatchDog.acceptrequest(item.carOwnerId);
 
               Swal.fire({
                 icon: 'success',
@@ -176,7 +175,6 @@ export class TemplateRequestdetails implements OnInit {
                 title: 'تمت الموافقة',
               }).then(() => {
                 this.router.navigate(['/technician/techservieces']);
-                
               });
             } else {
               Swal.fire({

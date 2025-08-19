@@ -5,6 +5,7 @@ import { TechnicianService } from '../../../../Services/TechnicianService/techni
 import { RequestService } from '../../../../Services/RequestService/request-service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-tech-select',
@@ -18,6 +19,7 @@ export class TechSelect implements OnInit {
   techService = inject(TechnicianService);
   requestService = inject(RequestService);
   pinvalue: Number = 0;
+  url = environment.imgurl;
 
   filteredTech: ITechnician[] = [];
   SelectedTechs: number[] = [];
@@ -80,12 +82,13 @@ export class TechSelect implements OnInit {
   onSubmit() {
     Swal.fire({
       title: 'أدخل رمز PIN',
-      input: 'text',
+      input: 'password',
       inputLabel: 'الرمز السري المكوّن من 4 أرقام',
       inputPlaceholder: '••••',
       inputAttributes: {
         maxlength: '4',
-        pattern: '[0-9]*',
+        inputmode: 'numeric', // يفتح الكيبورد الرقمي على الموبايل
+        pattern: '[0-9]*', // يسمح بأرقام فقط
         autocapitalize: 'off',
         autocorrect: 'off',
       },
@@ -95,7 +98,7 @@ export class TechSelect implements OnInit {
       inputValidator: (value) => {
         if (!value) {
           return 'من فضلك أدخل رمز PIN';
-        } else if (!/^\d{2}$/.test(value)) {
+        } else if (!/^\d{4}$/.test(value)) {
           return 'الرمز يجب أن يكون 4 أرقام فقط';
         }
         return null;

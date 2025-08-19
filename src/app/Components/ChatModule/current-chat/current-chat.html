@@ -1,79 +1,230 @@
-<!-- Chat Messages -->
-<div class="chat-messages-container" #scrollContainer>
-  @if (chatDetails?.messages) {
-    @if(chatDetails?.messages?.length !== 0){
-     @for (message of chatDetails?.messages; track $index) {
-       @if (message.applicationId === userId)
-        {
-  <!-- رسالتي أنا -->
-          <div class="message-group client">
-            <div class="message-content">
-              <div class="message-bubble">
-                {{ message.text }}
-              </div>
-              <div class="message-timestamp">
-                {{ message.sentAt | date : "hh:mm a" }}
-              </div>
-            </div>
-            <div class="message-avatar-container">
-              <div class="role-badge client">
-                <i class="fas fa-user"></i>
-              </div>
-            </div>
+<!-- Chat Window (Wrapper Grid: رسائل 1fr + إنبوت auto) -->
+<div
+  class="chat-window"
+  style="
+    display: grid;
+    grid-template-rows: 1fr auto;
+    height: 520px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  "
+>
+  <!-- Chat Messages (Scrollable) -->
+  <div class="chat-messages-container" style="min-height: 0">
+    <div
+      class="messages-body"
+      #scrollContainer
+      style="
+        overflow-y: auto;
+        min-height: 0;
+        padding: 12px 12px 12px 12px;
+        box-sizing: border-box;
+        margin-left: 20px;
+      "
+    >
+      @if (chatDetails?.messages) { @if (chatDetails?.messages?.length !== 0) {
+      @for (message of chatDetails?.messages; track $index) { @if
+      (message.applicationId === userId) {
+      <!-- رسالتي أنا -->
+      <div
+        class="message-group client"
+        style="
+          display: flex;
+          gap: 8px;
+          justify-content: flex-end;
+          align-items: flex-end;
+          margin: 6px 0;
+        "
+      >
+        <div
+          class="message-content"
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            max-width: 75%;
+          "
+        >
+          <div
+            class="message-bubble"
+            style="
+              background: #e8f0fe;
+              border: 1px solid #dbe6ff;
+              color: #0b3d91;
+              padding: 10px 12px;
+              border-radius: 14px 14px 4px 14px;
+              word-break: break-word;
+            "
+          >
+            {{ message.text }}
           </div>
-        }
-        @else {
-          <!-- رسالة من الطرف التاني -->
-          <div class="message-group technician">
-            <div class="message-avatar-container">
-              <div class="role-badge technician">
-                <i class="fas fa-wrench"></i>
-              </div>
-            </div>
-            <div class="message-content">
-              <div class="message-bubble">
-                {{ message.text }}
-              </div>
-              <div class="message-timestamp">
-                {{ message.sentAt | date : "hh:mm a" }}
-              </div>
-            </div>
+          <div class="message-timestamp" style="font-size: 12px; color: #888">
+            {{ message.sentAt | date : "hh:mm a" }}
           </div>
-        }
-}
- } @else {
-    <div class="no-messages">لا توجد رسائل في طلبك الحالي</div>
-  }
+        </div>
+        <div class="message-avatar-container">
+          <div
+            class="role-badge client"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              background: #0b3d91;
+              color: #fff;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
 
-  <div #bottomOfMessages></div>
+      } @else {
+      <!-- رسالة من الطرف التاني -->
+      <div
+        class="message-group technician"
+        style="
+          display: flex;
+          gap: 8px;
+          justify-content: flex-start;
+          align-items: flex-end;
+          margin: 6px 0;
+        "
+      >
+        <div class="message-avatar-container">
+          <div
+            class="role-badge technician"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              background: #0a6847;
+              color: #fff;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i class="fas fa-wrench"></i>
+          </div>
+        </div>
+        <div
+          class="message-content"
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            max-width: 75%;
+          "
+        >
+          <div
+            class="message-bubble"
+            style="
+              background: #f5f5f5;
+              border: 1px solid #e6e6e6;
+              color: #333;
+              padding: 10px 12px;
+              border-radius: 14px 14px 14px 4px;
+              word-break: break-word;
+            "
+          >
+            {{ message.text }}
+          </div>
+          <div class="message-timestamp" style="font-size: 12px; color: #888">
+            {{ message.sentAt | date : "hh:mm a" }}
+          </div>
+        </div>
+      </div>
+      } } } @else {
+      <div
+        class="no-messages"
+        style="padding: 24px; text-align: center; color: #777"
+      >
+        لا توجد رسائل في طلبك الحالي
+      </div>
+      } } @else {
+      <div
+        class="no-messages"
+        style="padding: 24px; text-align: center; color: #777"
+      >
+        لا يوجد طلب جارى
+      </div>
+      }
 
- <!-- Chat Input -->
-<div class="chat-input-section">
-  <div class="input-container">
-    <button class="attachment-btn camera">
-      <i class="fas fa-camera"></i>
-    </button>
-    <button class="attachment-btn file">
-      <i class="fas fa-paperclip"></i>
-    </button>
-    <div class="message-input-wrapper">
-      <input
-        type="text"
-        placeholder="اكتب رسالة..."
-        class="message-input"
-        [(ngModel)]="Message"
-      />
-      <button class="emoji-btn">
-        <i class="fas fa-smile"></i>
+      <div #bottomOfMessages></div>
+    </div>
+  </div>
+
+  <!-- Chat Input (ثابت تحت داخل نفس الكومبوننت) -->
+  <div
+    class="chat-input-section"
+    style="
+      border-top: 1px solid #eee;
+      background: #fff;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+    "
+  >
+    <div
+      class="input-container"
+      style="display: flex; align-items: center; gap: 8px; width: 100%"
+    >
+      <!-- لو عايز ترجع الأزرار دي فكّ التعليق -->
+      <!--
+      <button class="attachment-btn camera" style="border:none;background:transparent;cursor:pointer;">
+        <i class="fas fa-camera"></i>
+      </button>
+      <button class="attachment-btn file" style="border:none;background:transparent;cursor:pointer;">
+        <i class="fas fa-paperclip"></i>
+      </button>
+      -->
+      <div
+        class="message-input-wrapper"
+        style="flex: 1; display: flex; align-items: center; gap: 6px"
+      >
+        <input
+          type="text"
+          placeholder="اكتب رسالة..."
+          class="message-input"
+          [(ngModel)]="Message"
+          (keydown.enter)="SendMessage()"
+          style="
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 10px 12px;
+            outline: none;
+          "
+        />
+        <!-- <button class="emoji-btn" style="border:none;background:transparent;cursor:pointer;">
+          <i class="fas fa-smile"></i>
+        </button> -->
+      </div>
+      <button
+        class="send-message-btn"
+        (click)="SendMessage()"
+        style="
+          border: none;
+          background: #0b3d91;
+          color: #fff;
+          border-radius: 18px;
+          padding: 10px 14px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        "
+      >
+        <i class="fas fa-paper-plane"></i>
+        <span style="font-size: 14px">إرسال</span>
       </button>
     </div>
-
-    <button class="send-message-btn" (click)="SendMessage()">
-      <i class="fas fa-paper-plane"></i>
-    </button>
   </div>
 </div>
-} @else {
-  <div class="no-messages">لا يوجد طلب جارى</div>
-  }
-</div> 
