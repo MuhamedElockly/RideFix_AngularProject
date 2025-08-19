@@ -4,6 +4,7 @@ import { AdminService } from '../../../Services/AdminService/admin.service';
 import { IUsersCount, IRequestsCount, IDashboardStatistics } from '../../../Interfaces/Admin/IStatistics';
 import { IActivitiesData, IActivity } from '../../../Interfaces/Admin/IActivities';
 import { Router } from '@angular/router';
+import { PDFExportService } from '../../../Services/PDFExportService/pdf-export.service';
 
 @Component({
   selector: 'app-admin-statistics',
@@ -43,7 +44,8 @@ export class AdminStatisticsComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    private router: Router
+    private router: Router,
+    private pdfExportService: PDFExportService
   ) {}
 
   ngOnInit(): void {
@@ -82,7 +84,7 @@ export class AdminStatisticsComponent implements OnInit {
           users: {
             technicians: { count: 59, percent: 71.08 },
             carOwners: { count: 24, percent: 28.92 },
-            newUsers: 0,
+            growth: { thisMonth: 10, lastMonth: 8, difference: 25 },
             rates: 4.56
           },
           requests: {
@@ -247,14 +249,34 @@ export class AdminStatisticsComponent implements OnInit {
     }, 1000);
   }
 
-  exportReports(): void {
+  async exportReports(): Promise<void> {
     this.isActionLoading = true;
     
-    // Simulate export process
-    setTimeout(() => {
-      this.isActionLoading = false;
+    try {
+      if (this.dashboardStatistics) {
+        // Use the new dashboard statistics method for better data
+        await this.pdfExportService.generateDashboardStatisticsReport(
+          this.dashboardStatistics,
+          this.activitiesData,
+          this.recentActivities
+        );
+      } else {
+        // Fallback to the old method if dashboard statistics are not available
+        await this.pdfExportService.generateAdminStatisticsReport(
+          this.usersCount,
+          this.requestsCount,
+          this.activitiesData,
+          this.recentActivities
+        );
+      }
+      
       this.showSuccessNotification('تم تصدير التقرير بنجاح');
-    }, 2000);
+    } catch (error) {
+      console.error('Error exporting report:', error);
+      this.showErrorNotification('فشل في تصدير التقرير. يرجى المحاولة مرة أخرى.');
+    } finally {
+      this.isActionLoading = false;
+    }
   }
 
   // Notification methods
@@ -321,11 +343,40 @@ export class AdminStatisticsComponent implements OnInit {
   }
 
   // New Users and Rates Methods
-  getNewUsersCount(): number {
-    return this.dashboardStatistics?.users?.newUsers || 0;
-  }
-
   getAverageRating(): number {
     return this.dashboardStatistics?.users?.rates || 0;
+  }
+
+  getCompletionRate(): number {
+    if (!this.dashboardStatistics?.requests) return 0;
+    
+    const totalRequests = (this.dashboardStatistics.requests.completed?.count || 0) + 
+                         (this.dashboardStatistics.requests.waiting?.count || 0) + 
+                         (this.dashboardStatistics.requests.active?.count || 0) + 
+                         (this.dashboardStatistics.requests.canceled?.count || 0);
+    
+    if (totalRequests === 0) return 0;
+    
+    const completedRequests = this.dashboardStatistics.requests.completed?.count || 0;
+    return Math.round((completedRequests / totalRequests) * 100);
+  }
+
+  getCompletionRateChange(): number {
+    // Calculate change based on current vs previous period
+    // For now, return a calculated change based on completed vs total requests
+    const completionRate = this.getCompletionRate();
+    const baseRate = 85; // Base completion rate
+    return Math.max(0, completionRate - baseRate);
+  }
+
+  getGrowthRateChange(): number {
+    if (!this.dashboardStatistics?.users?.growth) return 0;
+    
+    const currentGrowth = this.dashboardStatistics.users.growth.difference;
+    const previousGrowth = this.dashboardStatistics.users.growth.lastMonth;
+    
+    if (previousGrowth === 0) return currentGrowth;
+    
+    return Math.round(((currentGrowth - previousGrowth) / previousGrowth) * 100);
   }
 }

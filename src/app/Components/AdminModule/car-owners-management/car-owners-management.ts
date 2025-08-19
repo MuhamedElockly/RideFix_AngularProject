@@ -130,7 +130,6 @@ export class CarOwnersManagementComponent implements OnInit {
         <div class="text-right">
           <p><strong>هل أنت متأكد من حظر صاحب السيارة "${carOwner.name}"؟</strong></p>
           <hr>
-          <p><strong>التقييم الحالي:</strong> <span class="text-danger">${carOwner.rate}/5</span></p>
           <p><strong>البريد الإلكتروني:</strong> ${carOwner.email}</p>
         </div>
       `,

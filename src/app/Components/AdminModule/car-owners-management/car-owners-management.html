@@ -81,7 +81,6 @@
               <th>البريد الإلكتروني</th>
               <th>رقم الهاتف</th>
               <th>الحالة</th>
-              <th>التقييم</th>
               <th>الإجراءات</th>
             </tr>
           </thead>
@@ -113,21 +112,6 @@
                 <span class="status-badge" [ngClass]="carOwner.isActivated ? 'status-active' : 'status-inactive'">
                   {{ carOwner.isActivated ? 'نشط' : 'غير نشط' }}
                 </span>
-              </td>
-              <td>
-                <div class="rating-display">
-                  <span class="rating-value" [ngClass]="{'low-rating': carOwner.rate < 3}">
-                    {{ carOwner.rate }}/5
-                    <i *ngIf="carOwner.rate < 3" class="fas fa-exclamation-triangle text-danger ms-1" 
-                       title="تقييم منخفض - قد يحتاج إلى حظر"></i>
-                  </span>
-                  <div class="rating-stars">
-                    <i *ngFor="let star of [1,2,3,4,5]" 
-                       class="fas fa-star" 
-                       [ngClass]="star <= carOwner.rate ? 'text-warning' : 'text-muted'">
-                    </i>
-                  </div>
-                </div>
               </td>
               <td>
                 <div class="action-buttons">
@@ -274,28 +258,11 @@
                 {{ selectedCarOwner.isActivated ? 'نشط' : 'غير نشط' }}
               </span>
             </div>
-            <div class="info-item">
-              <label>التقييم:</label>
-              <span>{{ selectedCarOwner.rate }}/5</span>
-            </div>
           </div>
 
           <div class="additional-info mt-4">
             <h5>معلومات إضافية</h5>
             <div class="info-grid">
-              <div class="info-card">
-                <i class="fas fa-star"></i>
-                <div>
-                  <strong>التقييم</strong>
-                  <div class="rating-stars-large">
-                    <i *ngFor="let star of [1,2,3,4,5]" 
-                       class="fas fa-star" 
-                       [ngClass]="star <= selectedCarOwner.rate ? 'text-warning' : 'text-muted'">
-                    </i>
-                </div>
-                  <p>{{ selectedCarOwner.rate }}/5</p>
-                </div>
-              </div>
               <div class="info-card">
                 <i class="fas fa-toggle-on" *ngIf="selectedCarOwner.isActivated"></i>
                 <i class="fas fa-toggle-off" *ngIf="!selectedCarOwner.isActivated"></i>

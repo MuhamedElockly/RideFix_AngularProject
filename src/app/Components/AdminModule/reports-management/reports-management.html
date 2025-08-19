@@ -7,25 +7,33 @@
   <!-- Search and Filters -->
   <div class="filters-section">
     <div class="search-box">
-      <input 
-        type="text" 
-        [(ngModel)]="searchTerm" 
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
         (input)="applyFilters()"
         placeholder="البحث في البلاغات..."
         class="search-input"
-      >
+      />
       <i class="fas fa-search search-icon"></i>
     </div>
 
     <div class="filter-controls">
-      <select [(ngModel)]="statusFilter" (change)="applyFilters()" class="filter-select">
+      <select
+        [(ngModel)]="statusFilter"
+        (change)="applyFilters()"
+        class="filter-select"
+      >
         <option value="">جميع الحالات</option>
         <option value="Pending">قيد الانتظار</option>
         <option value="Resolved">تم الحل</option>
         <option value="Dismissed">مرفوض</option>
       </select>
 
-      <select [(ngModel)]="roleFilter" (change)="applyFilters()" class="filter-select">
+      <select
+        [(ngModel)]="roleFilter"
+        (change)="applyFilters()"
+        class="filter-select"
+      >
         <option value="">جميع الأدوار</option>
         <option value="CarOwner">صاحب سيارة</option>
         <option value="Technician">فني</option>
@@ -37,7 +45,9 @@
   <div class="table-container">
     <div class="table-header">
       <h3>قائمة البلاغات</h3>
-      <span class="total-count">إجمالي البلاغات: {{ filteredReports.length }}</span>
+      <span class="total-count"
+        >إجمالي البلاغات: {{ filteredReports.length }}</span
+      >
     </div>
 
     <div class="table-wrapper">
@@ -48,7 +58,7 @@
             <th>دور مقدم البلاغ</th>
             <th>المستخدم المبلغ عنه</th>
             <th>دور المستخدم المبلغ عنه</th>
-            <th>نوع البلاغ</th>
+            <th>وصف البلاغ</th>
             <th>التاريخ</th>
             <th>الحالة</th>
             <th>الإجراءات</th>
@@ -65,8 +75,11 @@
               </div>
             </td>
             <td>
-              <span class="role-badge" [class]="'role-' + report.reporterRole.toLowerCase()">
-                {{ getRoleText(report.reporterRole) }}
+              <span
+                class="role-badge"
+                [class]="'role-' + (report.reporterRole || '').toLowerCase()"
+              >
+                {{ getRoleText(report.reporterRole || "") }}
               </span>
             </td>
             <td>
@@ -78,33 +91,58 @@
               </div>
             </td>
             <td>
-              <span class="role-badge" [class]="'role-' + report.reportedUserRole.toLowerCase()">
-                {{ getRoleText(report.reportedUserRole) }}
+              <span
+                class="role-badge"
+                [class]="
+                  'role-' + (report.reportedUserRole || '').toLowerCase()
+                "
+              >
+                {{ getRoleText(report.reportedUserRole || "") }}
               </span>
             </td>
             <td>
               <div class="report-type">
-                <span class="type-label">{{ report.reportReason }}</span>
+                <span class="type-label">{{
+                  report.description || report.reportReason || "بلاغ مستخدم"
+                }}</span>
               </div>
             </td>
             <td>
-              <span class="date">{{ report.reportDate | date:'short' }}</span>
+              <span class="date">{{
+                getFormattedDate(report.createdAt || report.reportDate)
+              }}</span>
             </td>
             <td>
-              <span class="status-badge" [class]="getStatusClass(report.status)">
-                {{ getStatusText(report.status) }}
+              <span
+                class="status-badge"
+                [class]="getStatusClass(report.status || '')"
+              >
+                {{ getStatusText(report.status || "") }}
               </span>
             </td>
             <td>
               <div class="actions">
-                <button 
-                  class="btn btn-primary btn-sm" 
+                <button
+                  class="btn btn-primary btn-sm"
                   (click)="viewReportDetails(report)"
                   title="عرض التفاصيل"
                 >
                   <i class="fas fa-eye"></i>
                   عرض
                 </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- No reports row -->
+          <tr
+            *ngIf="!isLoading && pagedReports.length === 0"
+            class="no-reports-row"
+          >
+            <td colspan="8" class="no-reports-cell">
+              <div class="no-reports-message">
+                <i class="fas fa-info-circle"></i>
+                <span>لا توجد بلاغات لعرضها</span>
               </div>
             </td>
           </tr>
@@ -118,9 +156,18 @@
       </div>
 
       <!-- Empty State -->
-      <div *ngIf="!isLoading && pagedReports.length === 0" class="empty-state">
+      <div *ngIf="!isLoading && !hasFilteredReports()" class="empty-state">
         <i class="fas fa-inbox"></i>
-        <p>لا توجد بلاغات</p>
+        <p *ngIf="!hasReports()">لا توجد بلاغات</p>
+        <p *ngIf="hasReports() && !hasFilteredReports()">
+          لا توجد بلاغات تطابق معايير البحث
+        </p>
+        <div *ngIf="!hasReports()" class="empty-state-actions">
+          <button class="btn btn-outline-primary" (click)="loadReports()">
+            <i class="fas fa-refresh"></i>
+            إعادة المحاولة
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -131,30 +178,30 @@
       <span>الصفحة {{ currentPage }} من {{ totalPages }}</span>
       <span>إجمالي النتائج: {{ filteredReports.length }}</span>
     </div>
-    
+
     <div class="pagination-controls">
-      <button 
-        class="btn btn-outline-primary" 
+      <button
+        class="btn btn-outline-primary"
         [disabled]="currentPage === 1"
         (click)="previousPage()"
       >
         <i class="fas fa-chevron-right"></i>
         السابق
       </button>
-      
+
       <div class="page-numbers">
-        <button 
-          *ngFor="let page of pageNumbers" 
-          class="btn btn-page" 
+        <button
+          *ngFor="let page of pageNumbers"
+          class="btn btn-page"
           [class.active]="page === currentPage"
           (click)="goToPage(page)"
         >
           {{ page }}
         </button>
       </div>
-      
-      <button 
-        class="btn btn-outline-primary" 
+
+      <button
+        class="btn btn-outline-primary"
         [disabled]="currentPage === totalPages"
         (click)="nextPage()"
       >
@@ -174,7 +221,7 @@
         <i class="fas fa-times"></i>
       </button>
     </div>
-    
+
     <div class="modal-body">
       <div class="report-details">
         <div class="detail-section">
@@ -185,7 +232,9 @@
           </div>
           <div class="detail-row">
             <span class="label">الدور:</span>
-            <span class="value">{{ getRoleText(selectedReport.reporterRole) }}</span>
+            <span class="value">{{
+              getRoleText(selectedReport.reporterRole || "")
+            }}</span>
           </div>
         </div>
 
@@ -197,29 +246,43 @@
           </div>
           <div class="detail-row">
             <span class="label">الدور:</span>
-            <span class="value">{{ getRoleText(selectedReport.reportedUserRole) }}</span>
+            <span class="value">{{
+              getRoleText(selectedReport.reportedUserRole || "")
+            }}</span>
           </div>
         </div>
 
         <div class="detail-section">
           <h4>تفاصيل البلاغ</h4>
           <div class="detail-row">
-            <span class="label">نوع البلاغ:</span>
-            <span class="value">{{ selectedReport.reportReason }}</span>
+            <span class="label">معرف الطلب:</span>
+            <span class="value">{{ selectedReport.requestId }}</span>
           </div>
           <div class="detail-row">
             <span class="label">الوصف:</span>
-            <span class="value description">{{ selectedReport.reportDescription }}</span>
+            <span class="value description">{{
+              selectedReport.description ||
+                selectedReport.reportDescription ||
+                "لا يوجد وصف"
+            }}</span>
           </div>
           <div class="detail-row">
             <span class="label">تاريخ البلاغ:</span>
-            <span class="value">{{ selectedReport.reportDate | date:'full' }}</span>
+            <span class="value">{{
+              getFormattedDate(
+                selectedReport.createdAt || selectedReport.reportDate,
+                "full"
+              )
+            }}</span>
           </div>
           <div class="detail-row">
             <span class="label">الحالة:</span>
             <span class="value">
-              <span class="status-badge" [class]="getStatusClass(selectedReport.status)">
-                {{ getStatusText(selectedReport.status) }}
+              <span
+                class="status-badge"
+                [class]="getStatusClass(selectedReport.status || '')"
+              >
+                {{ getStatusText(selectedReport.status || "") }}
               </span>
             </span>
           </div>
@@ -236,132 +299,164 @@
         <div class="detail-section">
           <div class="chat-section-header">
             <h4>محادثة المستخدمين</h4>
-            <button 
-              class="btn btn-outline-primary btn-sm" 
+            <button
+              class="btn btn-outline-primary btn-sm"
               (click)="toggleChat()"
             >
-              <i class="fas" [class.fa-eye]="!showChat" [class.fa-eye-slash]="showChat"></i>
-              {{ showChat ? 'إخفاء المحادثة' : 'عرض المحادثة' }}
+              <i
+                class="fas"
+                [class.fa-eye]="!showChat"
+                [class.fa-eye-slash]="showChat"
+              ></i>
+              {{ showChat ? "إخفاء المحادثة" : "عرض المحادثة" }}
             </button>
           </div>
-          
+
           <div *ngIf="showChat" class="chat-container">
             <div class="chat-header">
               <div class="chat-participants">
                 <span class="participant">
                   <i class="fas fa-user"></i>
-                  {{ selectedReport.reporterName }} ({{ getRoleText(selectedReport.reporterRole) }})
+                  {{ selectedReport.reporterName || "" }} ({{
+                    getRoleText(selectedReport.reporterRole || "")
+                  }})
                 </span>
                 <span class="chat-separator">↔</span>
                 <span class="participant">
                   <i class="fas fa-user"></i>
-                  {{ selectedReport.reportedUserName }} ({{ getRoleText(selectedReport.reportedUserRole) }})
+                  {{ selectedReport.reportedUserName || "" }} ({{
+                    getRoleText(selectedReport.reportedUserRole || "")
+                  }})
                 </span>
               </div>
             </div>
-            
+
             <div class="chat-messages">
-              <div 
-                *ngFor="let message of getChatMessages()" 
+              <div
+                *ngFor="
+                  let message of selectedReport.messages || []
+                "
                 class="message"
                 [class.own-message]="isOwnMessage(message)"
                 [class.other-message]="!isOwnMessage(message)"
               >
                 <div class="message-header">
                   <span class="sender-name">{{ message.senderName }}</span>
-                  <span class="message-time">{{ message.timestamp | date:'shortTime' }}</span>
+                  <span class="message-time">{{
+                    getFormattedDate(
+                      message.sentAt || $any(message).timestamp,
+                      "shortTime"
+                    )
+                  }}</span>
                 </div>
                 <div class="message-content">
-                  {{ message.message }}
+                  {{ message.text }}
                 </div>
                 <div class="message-role">
-                  <span class="role-badge" [class]="'role-' + message.senderRole.toLowerCase()">
-                    {{ getRoleText(message.senderRole) }}
+                  <span
+                    class="role-badge"
+                    [class]="
+                      'role-' +
+                      ($any(message).senderRole || 'user').toLowerCase()
+                    "
+                  >
+                    {{ getRoleText($any(message).senderRole || "User") }}
                   </span>
                 </div>
               </div>
             </div>
-            
+
             <div class="chat-info">
               <p class="chat-summary">
                 <i class="fas fa-info-circle"></i>
-                إجمالي الرسائل: {{ getChatMessages().length }}
+                إجمالي الرسائل:
+                {{ (selectedReport.messages || []).length }}
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    
-         <div class="modal-footer">
-       <!-- Only show action buttons if report is NOT resolved -->
-       <div *ngIf="selectedReport.status !== 'Resolved'" class="action-buttons">
-         <button 
-           *ngIf="selectedReport.status === 'Pending'"
-           class="btn btn-success" 
-           (click)="resolveReport(selectedReport.id)"
-         >
-           <i class="fas fa-check"></i>
-           حل البلاغ
-         </button>
-         
-         <button 
-           *ngIf="selectedReport.status === 'Pending'"
-           class="btn btn-warning" 
-           (click)="dismissReport(selectedReport.id)"
-         >
-           <i class="fas fa-times"></i>
-           رفض البلاغ
-         </button>
-         
-         <button 
-           *ngIf="selectedReport.reportedUserRole === 'Technician' || selectedReport.reportedUserRole === 'فني'"
-           class="btn btn-danger" 
-           (click)="blockUser(selectedReport.reportedUserId, selectedReport.reportedUserName, 'Technician')"
-         >
-           <i class="fas fa-ban"></i>
-           حظر الفني
-         </button>
-         
-         <button 
-           *ngIf="selectedReport.reportedUserRole === 'CarOwner' || selectedReport.reportedUserRole === 'صاحب سيارة'"
-           class="btn btn-danger" 
-           (click)="blockUser(selectedReport.reportedUserId, selectedReport.reportedUserName, 'CarOwner')"
-         >
-           <i class="fas fa-ban"></i>
-           حظر صاحب السيارة
-         </button>
-         
-         <button 
-           *ngIf="selectedReport.reporterRole === 'Technician' || selectedReport.reporterRole === 'فني'"
-           class="btn btn-warning" 
-           (click)="blockUser(selectedReport.reporterId, selectedReport.reporterName, 'Technician')"
-         >
-           <i class="fas fa-ban"></i>
-           حظر الفني (مقدم البلاغ)
-         </button>
-         
-         <button 
-           *ngIf="selectedReport.reporterRole === 'CarOwner' || selectedReport.reporterRole === 'صاحب سيارة'"
-           class="btn btn-warning" 
-           (click)="blockUser(selectedReport.reporterId, selectedReport.reporterName, 'CarOwner')"
-         >
-           <i class="fas fa-ban"></i>
-           حظر صاحب السيارة (مقدم البلاغ)
-         </button>
-       </div>
-       
-       <!-- Show status info for resolved reports -->
-       <div *ngIf="selectedReport.status === 'Resolved'" class="status-info">
-         <div class="resolved-status">
-           <i class="fas fa-check-circle"></i>
-           <span>تم حل البلاغ بنجاح</span>
-         </div>
-         <div class="resolution-details">
-           <p><strong>تم الحل بواسطة:</strong> {{ selectedReport.resolvedBy || 'الإدارة' }}</p>
-           <p><strong>تاريخ الحل:</strong> {{ selectedReport.resolutionDate | date:'fullDate' }}</p>
-         </div>
-       </div>
-     </div>
+
+    <div class="modal-footer">
+      <!-- Only show action buttons if report is NOT resolved -->
+      <div *ngIf="selectedReport.status !== 'Resolved'" class="action-buttons">
+        <button *ngIf="selectedReport.status === 'Pending'" class="btn btn-success"
+          (click)="resolveReport(selectedReport.reportId || 0)">
+          <i class="fas fa-check"></i>
+          حل البلاغ
+        </button>
+
+        <button *ngIf="selectedReport.status === 'Pending'" class="btn btn-warning"
+          (click)="dismissReport(selectedReport.reportId || 0)">
+          <i class="fas fa-times"></i>
+          رفض البلاغ
+        </button>
+
+        <!-- Block Reported User Buttons -->
+        <button *ngIf="isTechnicianRole(selectedReport.reportedUserRole)" class="btn btn-danger"
+          (click)="blockUser((selectedReport.reportedEntityId || 0).toString() || selectedReport.reportedUserId || '', selectedReport.reportedUserName || '', 'Technician')">
+          <i class="fas fa-ban"></i>
+          حظر الفني
+        </button>
+
+        <button *ngIf="isCarOwnerRole(selectedReport.reportedUserRole)" class="btn btn-danger"
+          (click)="blockUser((selectedReport.reportedEntityId || 0).toString() || selectedReport.reportedUserId || '', selectedReport.reportedUserName || '', 'CarOwner')">
+          <i class="fas fa-ban"></i>
+          حظر صاحب السيارة
+        </button>
+
+        <!-- Block Reporter Buttons -->
+        <button
+          *ngIf="isTechnicianRole(selectedReport.reporterRole)"
+          class="btn btn-warning"
+          (click)="
+            blockUser(
+              (selectedReport.reportingEntityId || 0).toString() ||
+                selectedReport.reporterId || '',
+              selectedReport.reporterName || '',
+              'Technician'
+            )
+          "
+        >
+          <i class="fas fa-ban"></i>
+          حظر الفني (مقدم البلاغ)
+        </button>
+
+        <button
+          *ngIf="isCarOwnerRole(selectedReport.reporterRole)"
+          class="btn btn-warning"
+          (click)="
+            blockUser(
+              (selectedReport.reportingEntityId || 0).toString() ||
+                selectedReport.reporterId || '',
+              selectedReport.reporterName || '',
+              'CarOwner'
+            )
+          "
+        >
+          <i class="fas fa-ban"></i>
+          حظر صاحب السيارة (مقدم البلاغ)
+        </button>
+      </div>
+
+      <!-- Show status info for resolved reports -->
+      <div *ngIf="selectedReport.status === 'Resolved'" class="status-info">
+        <div class="resolved-status">
+          <i class="fas fa-check-circle"></i>
+          <span>تم حل البلاغ بنجاح</span>
+        </div>
+        <div class="resolution-details">
+          <p>
+            <strong>تم الحل بواسطة:</strong>
+            {{ selectedReport.resolvedBy || "الإدارة" }}
+          </p>
+          <p>
+            <strong>تاريخ الحل:</strong>
+            {{ getFormattedDate(selectedReport.resolutionDate, "full") }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

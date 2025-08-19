@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../../Services/AdminService/admin.service';
 import { ITechnician } from '../../../Interfaces/Admin/ITechnician';
+import { IReview } from '../../../Interfaces/Admin/IReview';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,6 +18,12 @@ export class TechniciansManagementComponent implements OnInit {
   filteredTechnicians: ITechnician[] = [];
   selectedTechnician: ITechnician | null = null;
   showUserDetails = false;
+  
+  // Reviews modal
+  showReviewsModal = false;
+  selectedUserReviews: IReview[] = [];
+  selectedUserForReviews: ITechnician | null = null;
+  isLoadingReviews = false;
   
   // Pagination
   currentPage = 1;
@@ -115,6 +122,102 @@ export class TechniciansManagementComponent implements OnInit {
   closeUserDetails(): void {
     this.showUserDetails = false;
     this.selectedTechnician = null;
+  }
+
+  // Reviews modal methods
+  viewUserReviews(technician: ITechnician): void {
+    console.log('Opening reviews for technician:', technician);
+    this.selectedUserForReviews = technician;
+    this.showReviewsModal = true;
+    this.isLoadingReviews = true;
+    
+    // Fetch reviews from API
+    this.adminService.getTechnicianReviews(technician.id).subscribe({
+      next: (reviews) => {
+        console.log('Received reviews:', reviews);
+        this.selectedUserReviews = reviews;
+        this.isLoadingReviews = false;
+      },
+      error: (error) => {
+        console.error('Error fetching technician reviews:', error);
+        this.selectedUserReviews = [];
+        this.isLoadingReviews = false;
+        
+        // Show error message
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ في تحميل التقييمات',
+          text: 'حدث خطأ أثناء تحميل تقييمات الفني. يرجى المحاولة مرة أخرى.',
+          confirmButtonText: 'حسناً',
+          confirmButtonColor: '#e74c3c'
+        });
+      }
+    });
+  }
+
+  closeReviewsModal(): void {
+    this.showReviewsModal = false;
+    this.selectedUserForReviews = null;
+    this.selectedUserReviews = [];
+  }
+
+  // Helper method to format date
+  getFormattedDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('ar-EG', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateString;
+    }
+  }
+
+  private generateTempReviews(technician: ITechnician): IReview[] {
+    const reviews: IReview[] = [];
+    const reviewerNames = ['أحمد محمد', 'فاطمة علي', 'محمد حسن', 'سارة أحمد', 'علي محمود', 'نور الدين', 'مريم سعيد', 'خالد عبدالله'];
+    const comments = [
+      'خدمة ممتازة وسريعة، أنصح بالتعامل معه',
+      'فني محترف وعمل دقيق',
+      'سعر معقول وجودة عالية',
+      'مؤدب ومحترم في التعامل',
+      'عمل سريع ودقيق',
+      'خدمة جيدة ولكن يمكن تحسينها',
+      'فني ماهر ومحترف',
+      'سعر مناسب وجودة ممتازة'
+    ];
+
+    // Generate 3-8 random reviews
+    const numReviews = Math.floor(Math.random() * 6) + 3;
+    
+    for (let i = 0; i < numReviews; i++) {
+      const rating = Math.floor(Math.random() * 3) + 3; // 3-5 stars
+      const reviewDate = new Date();
+      reviewDate.setDate(reviewDate.getDate() - Math.floor(Math.random() * 30)); // Random date within last 30 days
+      
+      reviews.push({
+        id: i + 1,
+        rate: rating,
+        comment: comments[Math.floor(Math.random() * comments.length)],
+        carOwnerName: reviewerNames[Math.floor(Math.random() * reviewerNames.length)],
+        technicianName: technician.name,
+        dateTime: reviewDate.toISOString(),
+        // Legacy fields for backward compatibility
+        reviewerName: reviewerNames[Math.floor(Math.random() * reviewerNames.length)],
+        rating: rating,
+        date: reviewDate.toLocaleDateString('ar-EG'),
+        isVerified: Math.random() > 0.3 // 70% chance of being verified
+      });
+    }
+
+    return reviews.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
   }
 
   onImageError(event: any): void {

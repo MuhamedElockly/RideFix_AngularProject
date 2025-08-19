@@ -853,3 +853,60 @@
 .chat-messages::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.empty-state i {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #dee2e6;
+}
+
+.empty-state p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #6c757d;
+}
+
+.empty-state-actions {
+  margin-top: 20px;
+}
+
+.empty-state-actions .btn {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+/* No Reports Row */
+.no-reports-row {
+  background-color: #f8f9fa;
+}
+
+.no-reports-cell {
+  padding: 40px 20px;
+  text-align: center;
+  border: none;
+}
+
+.no-reports-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #6c757d;
+}
+
+.no-reports-message i {
+  font-size: 24px;
+  color: #dee2e6;
+}
+
+.no-reports-message span {
+  font-size: 16px;
+  font-weight: 500;
+}
