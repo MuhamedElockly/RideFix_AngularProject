@@ -3,7 +3,8 @@ import { Ecomerceservice } from '../../../Services/Ecomerceservice/ecomerceservi
 import { IShoppingCart } from '../../../Interfaces/ishopping-cart';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Icreateorder } from '../../../Interfaces/icreateorder';
-
+import { concatMap, tap } from 'rxjs';
+import { from } from 'rxjs';
 @Component({
   selector: 'app-cart-page-component',
   imports: [RouterModule],
@@ -81,7 +82,57 @@ ngOnInit(): void {
 
     // Navigate to the products page
     console.log("shopping cart", this.shoppingCart);
-    for (let item of this.shoppingCart) {
+
+    // for (let item of this.shoppingCart) {
+    //   const cartItem: IShoppingCart = {
+    //     productId: item.productId,
+    //     quantity: item.quantity,
+    //     productName: item.productName,
+    //     price: item.price,
+    //     imageUrl: item.imageUrl,
+    //     description: item.description,
+    //     totalPrice:item.quantity*item.price,
+    //   };
+
+    //   this.ecomerces.updateQuantity(cartItem).subscribe({
+    //     next: (response) => {
+    //       console.log(`Updated quantity for product ${item.productName}`);
+    //     },
+    //     error: (err) => {
+    //       console.error('Error updating quantity:', err);
+    //     }
+    //   });
+
+    // }
+
+  //    from(this.shoppingCart).pipe(
+  //   concatMap(item => {
+  //     const cartItem: IShoppingCart = {
+  //       productId: item.productId,
+  //       quantity: item.quantity,
+  //       productName: item.productName,
+  //       price: item.price,
+  //       imageUrl: item.imageUrl,
+  //       description: item.description,
+  //       totalPrice: item.quantity * item.price,
+  //     };
+  //     console.log("carItem", cartItem);
+  //     return this.ecomerces.updateQuantity(cartItem).pipe(
+  //       tap(() => console.log(`Updated quantity for product ${item.productName}`))
+  //     );
+  //   })
+  // ).subscribe({
+  //   complete: () => {
+  //     console.log("All items updated ");
+  //     // this.navigateToOrderPage();
+  //   },
+  //   error: (err) => {
+  //     console.error("Error updating:", err);
+  //   }
+  // });
+
+ from(this.shoppingCart).pipe(
+    concatMap(item => {
       const cartItem: IShoppingCart = {
         productId: item.productId,
         quantity: item.quantity,
@@ -89,29 +140,43 @@ ngOnInit(): void {
         price: item.price,
         imageUrl: item.imageUrl,
         description: item.description,
-        totalPrice:item.quantity*item.price,
+        totalPrice: item.quantity * item.price,
       };
+      console.log("carItem", cartItem);
 
-      this.ecomerces.updateQuantity(cartItem).subscribe({
-        next: (response) => {
-          console.log(`Updated quantity for product ${item.productName}`);
-        },
-        error: (err) => {
-          console.error('Error updating quantity:', err);
-        }
-      });
+      return this.ecomerces.updateQuantity(cartItem).pipe(
+        tap(() => console.log(`Updated quantity for product ${item.productName}`))
+      );
+    })
+  ).subscribe({
+    complete: () => {
+      console.log("All items updated successfully");
 
-    }
-
-    const path = this.router.url;
- const parts = path.split('/').filter(p => p);
- if( parts[parts.length - 2] === 'CarOwner')  {
+      // هنا بقى ننقل بعد ما التحديثات كلها تخلص
+      const path = this.router.url;
+      const parts = path.split('/').filter(p => p);
+      if( parts[parts.length - 2] === 'CarOwner')  {
 
    window.location.href = '/CarOwner/AllProducts';
  }else if(parts[parts.length - 2] === 'technician'){
 
     window.location.href = '/technician/AllProducts';
  }
+    },
+    error: (err) => {
+      console.error("Error updating:", err);
+    }
+  });
+
+//     const path = this.router.url;
+//  const parts = path.split('/').filter(p => p);
+//  if( parts[parts.length - 2] === 'CarOwner')  {
+
+//    window.location.href = '/CarOwner/AllProducts';
+//  }else if(parts[parts.length - 2] === 'technician'){
+
+//     window.location.href = '/technician/AllProducts';
+//  }
 
   }
 
@@ -141,7 +206,59 @@ ngOnInit(): void {
 
     console.log("shopping cart", this.shoppingCart);
 
-    for (let item of this.shoppingCart) {
+    // for (let item of this.shoppingCart) {
+    //   const cartItem: IShoppingCart = {
+    //     productId: item.productId,
+    //     quantity: item.quantity,
+    //     productName: item.productName,
+    //     price: item.price,
+    //     imageUrl: item.imageUrl,
+    //     description: item.description,
+    //     totalPrice:item.quantity*item.price,
+
+    //   };
+    //   console.log("carItem",cartItem)
+
+    //   this.ecomerces.updateQuantity(cartItem).subscribe({
+    //     next: (response) => {
+    //       console.log(`Updated quantity for product ${item.productName}`);
+    //     },
+    //     error: (err) => {
+    //       console.error('Error updating quantity:', err);
+    //     }
+    //   });
+
+    // }
+
+  //    from(this.shoppingCart).pipe(
+  //   concatMap(item => {
+  //     const cartItem: IShoppingCart = {
+  //       productId: item.productId,
+  //       quantity: item.quantity,
+  //       productName: item.productName,
+  //       price: item.price,
+  //       imageUrl: item.imageUrl,
+  //       description: item.description,
+  //       totalPrice: item.quantity * item.price,
+  //     };
+  //     console.log("carItem", cartItem);
+  //     return this.ecomerces.updateQuantity(cartItem).pipe(
+  //       tap(() => console.log(`Updated quantity for product ${item.productName}`))
+  //     );
+  //   })
+  // ).subscribe({
+  //   complete: () => {
+  //     console.log("All items updated ✅");
+  //     // this.navigateToOrderPage();
+  //   },
+  //   error: (err) => {
+  //     console.error("Error updating:", err);
+  //   }
+  // });
+
+
+  from(this.shoppingCart).pipe(
+    concatMap(item => {
       const cartItem: IShoppingCart = {
         productId: item.productId,
         quantity: item.quantity,
@@ -149,29 +266,39 @@ ngOnInit(): void {
         price: item.price,
         imageUrl: item.imageUrl,
         description: item.description,
-        totalPrice:item.quantity*item.price,
-
+        totalPrice: item.quantity * item.price,
       };
-      console.log("carItem",cartItem)
+      console.log("carItem", cartItem);
 
-      this.ecomerces.updateQuantity(cartItem).subscribe({
-        next: (response) => {
-          console.log(`Updated quantity for product ${item.productName}`);
-        },
-        error: (err) => {
-          console.error('Error updating quantity:', err);
-        }
-      });
+      return this.ecomerces.updateQuantity(cartItem).pipe(
+        tap(() => console.log(`Updated quantity for product ${item.productName}`))
+      );
+    })
+  ).subscribe({
+    complete: () => {
+      console.log("All items updated successfully");
 
+      // هنا بقى ننقل بعد ما التحديثات كلها تخلص
+      const path = this.router.url;
+      const parts = path.split('/').filter(p => p);
+      if (parts[parts.length - 2] === 'CarOwner') {
+        this.router.navigate(['/CarOwner/orderpage']);
+      } else if (parts[parts.length - 2] === 'technician') {
+        this.router.navigate(['/technician/orderpage']);
+      }
+    },
+    error: (err) => {
+      console.error("Error updating:", err);
     }
+  });
 
-       const path = this.router.url;
-    const parts = path.split('/').filter(p => p);
-    if( parts[parts.length - 2] === 'CarOwner')  {
-      this.router.navigate(['/CarOwner/orderpage']);
-    }else if(parts[parts.length - 2] === 'technician'){
-      this.router.navigate(['/technician/orderpage']);
-    }
+    //    const path = this.router.url;
+    // const parts = path.split('/').filter(p => p);
+    // if( parts[parts.length - 2] === 'CarOwner')  {
+    //   this.router.navigate(['/CarOwner/orderpage']);
+    // }else if(parts[parts.length - 2] === 'technician'){
+    //   this.router.navigate(['/technician/orderpage']);
+    // }
 
   //   const x: Icreateorder = {
   //     location: prompt('Please enter your location:')??"",
