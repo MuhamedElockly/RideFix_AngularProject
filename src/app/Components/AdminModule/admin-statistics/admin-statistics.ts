@@ -4,6 +4,7 @@ import { AdminService } from '../../../Services/AdminService/admin.service';
 import { IUsersCount, IRequestsCount, IDashboardStatistics } from '../../../Interfaces/Admin/IStatistics';
 import { IActivitiesData, IActivity } from '../../../Interfaces/Admin/IActivities';
 import { Router } from '@angular/router';
+import { PDFExportService } from '../../../Services/PDFExportService/pdf-export.service';
 
 @Component({
   selector: 'app-admin-statistics',
@@ -43,7 +44,8 @@ export class AdminStatisticsComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    private router: Router
+    private router: Router,
+    private pdfExportService: PDFExportService
   ) {}
 
   ngOnInit(): void {
@@ -247,14 +249,34 @@ export class AdminStatisticsComponent implements OnInit {
     }, 1000);
   }
 
-  exportReports(): void {
+  async exportReports(): Promise<void> {
     this.isActionLoading = true;
     
-    // Simulate export process
-    setTimeout(() => {
-      this.isActionLoading = false;
+    try {
+      if (this.dashboardStatistics) {
+        // Use the new dashboard statistics method for better data
+        await this.pdfExportService.generateDashboardStatisticsReport(
+          this.dashboardStatistics,
+          this.activitiesData,
+          this.recentActivities
+        );
+      } else {
+        // Fallback to the old method if dashboard statistics are not available
+        await this.pdfExportService.generateAdminStatisticsReport(
+          this.usersCount,
+          this.requestsCount,
+          this.activitiesData,
+          this.recentActivities
+        );
+      }
+      
       this.showSuccessNotification('تم تصدير التقرير بنجاح');
-    }, 2000);
+    } catch (error) {
+      console.error('Error exporting report:', error);
+      this.showErrorNotification('فشل في تصدير التقرير. يرجى المحاولة مرة أخرى.');
+    } finally {
+      this.isActionLoading = false;
+    }
   }
 
   // Notification methods

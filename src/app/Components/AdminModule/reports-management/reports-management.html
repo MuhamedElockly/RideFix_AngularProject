@@ -334,7 +334,7 @@
             <div class="chat-messages">
               <div
                 *ngFor="
-                  let message of selectedReport.messages || getChatMessages()
+                  let message of selectedReport.messages || []
                 "
                 class="message"
                 [class.own-message]="isOwnMessage(message)"
@@ -370,7 +370,7 @@
               <p class="chat-summary">
                 <i class="fas fa-info-circle"></i>
                 إجمالي الرسائل:
-                {{ (selectedReport.messages || getChatMessages()).length }}
+                {{ (selectedReport.messages || []).length }}
               </p>
             </div>
           </div>
@@ -381,53 +381,27 @@
     <div class="modal-footer">
       <!-- Only show action buttons if report is NOT resolved -->
       <div *ngIf="selectedReport.status !== 'Resolved'" class="action-buttons">
-        <button
-          *ngIf="selectedReport.status === 'Pending'"
-          class="btn btn-success"
-          (click)="resolveReport(selectedReport.id || '')"
-        >
+        <button *ngIf="selectedReport.status === 'Pending'" class="btn btn-success"
+          (click)="resolveReport(selectedReport.reportId || 0)">
           <i class="fas fa-check"></i>
           حل البلاغ
         </button>
 
-        <button
-          *ngIf="selectedReport.status === 'Pending'"
-          class="btn btn-warning"
-          (click)="dismissReport(selectedReport.id || '')"
-        >
+        <button *ngIf="selectedReport.status === 'Pending'" class="btn btn-warning"
+          (click)="dismissReport(selectedReport.reportId || 0)">
           <i class="fas fa-times"></i>
           رفض البلاغ
         </button>
 
         <!-- Block Reported User Buttons -->
-        <button
-          *ngIf="isTechnicianRole(selectedReport.reportedUserRole)"
-          class="btn btn-danger"
-          (click)="
-            blockUser(
-              selectedReport.reportedEntityId.toString() ||
-                selectedReport.reportedUserId,
-              selectedReport.reportedUserName || '',
-              'Technician'
-            )
-          "
-        >
+        <button *ngIf="isTechnicianRole(selectedReport.reportedUserRole)" class="btn btn-danger"
+          (click)="blockUser((selectedReport.reportedEntityId || 0).toString() || selectedReport.reportedUserId || '', selectedReport.reportedUserName || '', 'Technician')">
           <i class="fas fa-ban"></i>
           حظر الفني
         </button>
 
-        <button
-          *ngIf="isCarOwnerRole(selectedReport.reportedUserRole)"
-          class="btn btn-danger"
-          (click)="
-            blockUser(
-              selectedReport.reportedEntityId.toString() ||
-                selectedReport.reportedUserId,
-              selectedReport.reportedUserName || '',
-              'CarOwner'
-            )
-          "
-        >
+        <button *ngIf="isCarOwnerRole(selectedReport.reportedUserRole)" class="btn btn-danger"
+          (click)="blockUser((selectedReport.reportedEntityId || 0).toString() || selectedReport.reportedUserId || '', selectedReport.reportedUserName || '', 'CarOwner')">
           <i class="fas fa-ban"></i>
           حظر صاحب السيارة
         </button>

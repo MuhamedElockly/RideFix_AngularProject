@@ -8,7 +8,7 @@ import { ICarOwner } from '../../Interfaces/Admin/ICarOwner';
 import { ITechnician } from '../../Interfaces/Admin/ITechnician';
 import { IActivitiesResponse } from '../../Interfaces/Admin/IActivities';
 import { IDashboardStatisticsResponse } from '../../Interfaces/Admin/IStatistics';
-import { IReport, IReportsResponse, IChatMessage } from '../../Interfaces/Admin/IReport';
+import { IReport, IReportsResponse, IChatMessage, IUpdateReportDTO, ReportState } from '../../Interfaces/Admin/IReport';
 import { IReview, IReviewResponse } from '../../Interfaces/Admin/IReview';
 import { ApiConfigService } from '../api-config.service';
 
@@ -64,11 +64,9 @@ export class AdminService {
 
   // Reports Management Methods
   getReports(): Observable<IReport[]> {
-    console.log('Fetching reports from:', `${this.baseUrl}`);
     
     return this.http.get<IReportsResponse>(`${this.baseUrl}`).pipe(
       map(response => {
-        console.log('Raw API response:', response);
         
         // Handle different response shapes
         let reports: any[] = [];
@@ -86,44 +84,72 @@ export class AdminService {
           }
         }
         
-        console.log('Parsed reports:', reports);
         
-        // Transform API response to match IReport interface
-        return reports.map((report: any): IReport => ({
-          id: `${report.reportingUserId || ''}_${report.reportedUserId || ''}_${report.requestId || ''}`,
-          reporterId: report.reportingUserId,
-          reporterName: report.reportingUserRole === 'CarOwner' ? report.carOwnerName : report.technicianName,
-          reporterRole: report.reportingUserRole,
-          reportedUserName: report.reportedUserRole === 'CarOwner' ? report.carOwnerName : report.technicianName,
-          reportType: 'User Report',
-          reportReason: 'User Report',
-          reportDescription: report.description,
-          reportDate: report.createdAt || report.reportDate,
-          status: 'Pending' as const,
-          chatMessages: (report.messages || []).map((msg: any): IChatMessage => ({
-            id: String(msg.messageId),
-            senderId: msg.senderId,
-            senderName: msg.senderName,
-            senderRole: msg.senderId === report.reportingUserId ? report.reportingUserRole : report.reportedUserRole,
-            message: msg.text,
-            timestamp: msg.sentAt || msg.timestamp,
-            isRead: !!msg.isSeen,
-            messageType: 'text' as const
-          })),
-          // Include other optional properties
-          description: report.description,
-          createdAt: report.createdAt,
-          reportingUserId: report.reportingUserId,
-          reportingUserRole: report.reportingUserRole,
-          reportingEntityId: report.reportingEntityId,
-          reportedUserId: report.reportedUserId,
-          reportedUserRole: report.reportedUserRole,
-          reportedEntityId: report.reportedEntityId,
-          requestId: report.requestId,
-          technicianName: report.technicianName,
-          carOwnerName: report.carOwnerName,
-          messages: report.messages
-        }));
+                 // Transform API response to match IReport interface
+         return reports.map((report: any): IReport => {
+           console.log('Raw report data:', report);
+           console.log('Available fields:', Object.keys(report));
+           console.log('reportId:', report.reportId);
+           console.log('reportState:', report.reportState);
+           
+           // Map reportState to status
+           let status: 'Pending' | 'Resolved' | 'Dismissed' = 'Pending';
+           switch (report.reportState) {
+             case 1: // Waiting
+               status = 'Pending';
+               break;
+             case 2: // Rejected
+               status = 'Dismissed';
+               break;
+             case 3: // Approved
+               status = 'Resolved';
+               break;
+             default:
+               status = 'Pending';
+           }
+           
+           const mappedReport = {
+             id: `${report.reportingUserId || ''}_${report.reportedUserId || ''}_${report.reportId || ''}`,
+             reporterId: report.reportingUserId,
+             reporterName: report.reportingUserRole === 'CarOwner' ? report.carOwnerName : report.technicianName,
+             reporterRole: report.reportingUserRole,
+             reportedUserName: report.reportedUserRole === 'CarOwner' ? report.carOwnerName : report.technicianName,
+             reportType: 'User Report',
+             reportReason: 'User Report',
+             reportDescription: report.description,
+             reportDate: report.createdAt || report.reportDate,
+             status: status,
+             chatMessages: (report.messages || []).map((msg: any): IChatMessage => ({
+               id: String(msg.messageId),
+               senderId: msg.senderId,
+               senderName: msg.senderName,
+               senderRole: msg.senderId === report.reportingUserId ? report.reportingUserRole : report.reportedUserRole,
+               message: msg.text,
+               timestamp: msg.sentAt || msg.timestamp,
+               isRead: !!msg.isSeen,
+               messageType: 'text' as const
+             })),
+             // Include other optional properties
+             description: report.description,
+             createdAt: report.createdAt,
+             reportingUserId: report.reportingUserId,
+             reportingUserRole: report.reportingUserRole,
+             reportingEntityId: report.reportingEntityId,
+             reportedUserId: report.reportedUserId,
+             reportedUserRole: report.reportedUserRole,
+             reportedEntityId: report.reportedEntityId,
+             requestId: report.reportId, // Use reportId as requestId
+             reportId: report.reportId, // Add reportId field
+             technicianName: report.technicianName,
+             carOwnerName: report.carOwnerName,
+             messages: report.messages
+           };
+           
+           console.log('Mapped report:', mappedReport);
+           console.log('Mapped reportId:', mappedReport.reportId);
+           
+           return mappedReport;
+         });
       }),
       catchError((error: HttpErrorResponse) => {
         console.error('Error fetching reports:', error);
@@ -153,13 +179,13 @@ export class AdminService {
     return this.http.get<any>(`${this.baseUrl}/reports/${reportId}`);
   }
 
-  updateReportStatus(reportId: string, status: string, adminNotes?: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/reports/${reportId}/status`, {
-      status,
-      adminNotes,
-      resolvedBy: 'Admin',
-      resolutionDate: new Date()
-    });
+  updateReportStatus(reportId: number, reportState: ReportState): Observable<any> {
+    const updateData: IUpdateReportDTO = {
+      reportId: reportId,
+      reportState: reportState
+    };
+    
+    return this.http.post<any>(`${this.baseUrl}/updateReportState`, updateData);
   }
 
   blockUserAccount(userId: string, reason: string): Observable<any> {
