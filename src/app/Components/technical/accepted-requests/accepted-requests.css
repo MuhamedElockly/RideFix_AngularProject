@@ -3,7 +3,7 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Header Section */
@@ -147,7 +147,7 @@
   color: #667eea;
 }
 
-.section-title  {
+.section-title {
   color: #667eea;
 }
 
@@ -483,4 +483,16 @@
   .request-status {
     align-items: flex-start;
   }
+}
+.btn-cancel {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #c9302c;
 }

@@ -10,11 +10,14 @@ import { Router } from '@angular/router';
 import { IRequestBriefResponse } from '../../Interfaces/Requests/irequest-brief-response';
 import { RequestHistoryResponse } from '../../Interfaces/Requests/request-history-response';
 import { IRequestDetailsResponse } from '../../Interfaces/Requests/irequest-details-response';
+import { ApiConfigService } from '../api-config.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class RequestService {
   clientService = inject(HttpClient);
+  private apiConfig = inject(ApiConfigService);
   public realRequest: IEmergencyRequest;
   public alertBriefRequest: IRequestBrief | null = null;
 
@@ -70,7 +73,7 @@ export class RequestService {
     preRequest: IPreRequest
   ): Observable<HttpResponse<IFilteredTechResponse>> {
     return this.clientService.post<IFilteredTechResponse>(
-      `http://localhost:5038/api/Technician`,
+      this.apiConfig.getApiUrl('Technician'),
       preRequest,
       { observe: 'response' }
     );
@@ -80,7 +83,7 @@ export class RequestService {
     this.realRequest.technicianIDs = techs;
     this.realRequest.pin = pinvalue;
     return this.clientService.post<any>(
-      `http://localhost:5038/api/Request`,
+      this.apiConfig.getApiUrl('Request'),
       this.realRequest,
       { observe: 'response' }
     );
@@ -89,13 +92,13 @@ export class RequestService {
 
   public CancelRequest(ownerId: number): Observable<any> {
     return this.clientService.delete<any>(
-      `http://localhost:5038/api/Request/CancelAll/${ownerId}`
+      `${this.apiConfig.getApiUrl('Request')}/CancelAll/${ownerId}`
     );
   }
 
   public getRequestBrief(ownerId: number): Observable<IRequestBriefResponse> {
     return this.clientService.get<IRequestBriefResponse>(
-      `http://localhost:5038/api/CarOwner?Id=${ownerId}`
+      `${this.apiConfig.getApiUrl('CarOwner')}?Id=${ownerId}`
     );
   }
 
@@ -105,20 +108,21 @@ export class RequestService {
       id: request.id,
       description: request.description,
       technicianName: request.technicianName,
+      status: request.status,
     };
   }
 
   public CompleteRequest(): Observable<any> {
     let id = localStorage.getItem('CurrentRequestId');
     return this.clientService.post<any>(
-      `http://localhost:5038/api/Request/CompleteRequest/${id}`,
+      `${this.apiConfig.getApiUrl('Request')}/CompleteRequest/${id}`,
       null
     );
   }
 
   public getRequestsHistory(Id: Number): Observable<RequestHistoryResponse> {
     return this.clientService.get<RequestHistoryResponse>(
-      `http://localhost:5038/api/Request/RequestBreifDTOs/${Id}`
+      `${this.apiConfig.getApiUrl('Request')}/RequestBreifDTOs/${Id}`
     );
   }
 
@@ -126,7 +130,7 @@ export class RequestService {
     Id: Number
   ): Observable<IRequestDetailsResponse> {
     return this.clientService.get<IRequestDetailsResponse>(
-      `http://localhost:5038/api/Request/RequestDetails/${Id}`
+      `${this.apiConfig.getApiUrl('Request')}/RequestDetails/${Id}`
     );
   }
 }

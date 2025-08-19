@@ -29,7 +29,7 @@
       @for (chat of Chats; track chat.chatsessionid) {
       <div class="message-item" (click)="ShowDetails(chat.chatsessionid)">
         <div class="message-avatar">
-          <img [src]="chat.imgurl" [alt]="chat.name" />
+          <img [src]="url + chat.imgurl" [alt]="chat.name" />
         </div>
         <div class="message-content">
           <div class="message-header">

@@ -248,6 +248,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../Services/AuthService/auth.service';
+import { CategoryService } from '../../../Services/CategoryService/category-service';
+
 import { IRegisterStep1 } from '../../../Interfaces/Account/IRegisterStep1';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -266,7 +268,7 @@ export class RegisterStep1Component {
   isSubmitting = false;
   showCategories = false;
 
-  allCategories: string[] = ['عفشجي', 'فني تصليح سيارات', 'اطارات'];
+  allCategories: string[] = [];
 
   model: IRegisterStep1 = {
     email: '',
@@ -380,7 +382,7 @@ export class RegisterStep1Component {
 
   get pinInvalid(): boolean {
     const pinStr = this.model.pin?.toString() ?? '';
-    const isInvalidLength = pinStr.length !==4;
+    const isInvalidLength = pinStr.length !== 4;
     const isEmpty = pinStr.trim() === '';
 
     return this.validationState.pin && (isEmpty || isInvalidLength);
@@ -390,7 +392,29 @@ export class RegisterStep1Component {
     return !this.model.role && this.validationState.role;
   }
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private categoryService: CategoryService
+  ) {}
+  ngOnInit(): void {
+    this.loadCategories();
+  }
+  loadCategories(): void {
+    this.categoryService.getAllCategories().subscribe({
+      next: (res) => {
+        if (res.success && Array.isArray(res.data)) {
+          this.allCategories = res.data.map((c: any) => c.name);
+        } else {
+          this.allCategories = [];
+        }
+      },
+      error: (err) => {
+        console.error('Error loading categories', err);
+        Swal.fire('خطأ', 'تعذر تحميل التصنيفات', 'error');
+      },
+    });
+  }
 
   validateField(field: keyof typeof this.validationState): void {
     this.validationState[field] = true;

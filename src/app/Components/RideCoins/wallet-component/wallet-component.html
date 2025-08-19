@@ -1,0 +1,178 @@
+<!-- Main Content -->
+<main class="main-content">
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h1 class="text-white"><i class="fas fa-coins"></i> عملاتي</h1>
+      <p class="text-white">استخدم العملات في خدمات رايد فيكس</p>
+    </div>
+
+    <!-- Coins Overview -->
+    <div class="coins-overview">
+      <div class="balance-card">
+        <div class="balance-header">
+          <h2>الرصيد الحالي</h2>
+          <div class="balance-actions">
+            @if (Role == 'CarOwner') {
+            <a class="btn btn-primary" routerLink="/CarOwner/Purshase">
+              <i class="fas fa-plus"></i> شراء عملات </a
+            >} @else {
+            <a class="btn btn-primary" routerLink="/technician/Purshase">
+              <i class="fas fa-plus"></i> شراء عملات
+            </a>
+            }
+          </div>
+        </div>
+        <div class="balance-amount">
+          <div class="coins-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <div class="amount-info">
+            <span class="amount" id="total-coins">{{ myCoins }}</span>
+            <span class="currency">جنيه مصري</span>
+          </div>
+        </div>
+        <!-- <div class="balance-stats">
+          <div class="stat">
+            <span class="stat-label">هذا الشهر</span>
+            <span class="stat-value">-180 عملة</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">إجمالي المشتريات</span>
+            <span class="stat-value">5,000 عملة</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">إجمالي المصروف</span>
+            <span class="stat-value">2,550 عملة</span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3 class="text-white">استخدم عملاتك</h3>
+      <div class="actions-grid">
+        <div class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <h4>التسوق بالعملات</h4>
+          <p>استخدم العملات للحصول على خصومات على قطع الغيار والإكسسوارات</p>
+          <!-- <button class="btn btn-outline">تسوق الآن</button> -->
+        </div>
+        <div class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <h4>دفع ثمن الخدمات</h4>
+          <p>استخدم رصيد العملات لدفع ثمن الخدمات</p>
+          <!-- <button class="btn btn-outline">احجز خدمة</button> -->
+        </div>
+        <div class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-plus"></i>
+          </div>
+          <h4>شراء المزيد من العملات</h4>
+          <p>اشتري عملات إضافية لحسابك</p>
+          <!-- <button
+            class="btn btn-outline"
+            onclick="window.location.href='purchase-coins-static.html'"
+          >
+            شراء عملات
+          </button> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Transaction History
+    <div class="transaction-history">
+      <div class="history-header">
+        <h3>المعاملات الأخيرة</h3>
+        <div class="history-filters">
+          <select id="transaction-filter">
+            <option value="all">جميع المعاملات</option>
+            <option value="purchase">المشتريات</option>
+            <option value="spent">المصروفات</option>
+          </select>
+          <select id="time-filter">
+            <option value="week">هذا الأسبوع</option>
+            <option value="month">هذا الشهر</option>
+            <option value="all">جميع الأوقات</option>
+          </select>
+        </div>
+      </div>
+      <div class="transactions-list">
+        <div class="transaction-item purchase">
+          <div class="transaction-icon">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="transaction-info">
+            <h4>شراء عملات</h4>
+            <p>باقة القيمة - دفع بالبطاقة الائتمانية</p>
+            <span class="transaction-date">اليوم، 2:30 م</span>
+          </div>
+          <div class="transaction-amount">+1,200</div>
+        </div>
+        <div class="transaction-item spent">
+          <div class="transaction-icon">
+            <i class="fas fa-minus-circle"></i>
+          </div>
+          <div class="transaction-info">
+            <h4>شراء منتج</h4>
+            <p>فحمات الفرامل - تم تطبيق خصم 50%</p>
+            <span class="transaction-date">أمس، 4:15 م</span>
+          </div>
+          <div class="transaction-amount">-80</div>
+        </div>
+        <div class="transaction-item spent">
+          <div class="transaction-icon">
+            <i class="fas fa-minus-circle"></i>
+          </div>
+          <div class="transaction-info">
+            <h4>دفع ثمن خدمة</h4>
+            <p>خدمة تغيير الزيت - ورشة أحمد</p>
+            <span class="transaction-date">منذ يومين، 1:20 م</span>
+          </div>
+          <div class="transaction-amount">-150</div>
+        </div>
+        <div class="transaction-item purchase">
+          <div class="transaction-icon">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="transaction-info">
+            <h4>شراء عملات</h4>
+            <p>باقة البداية - STC Pay</p>
+            <span class="transaction-date">منذ 3 أيام، 11:45 ص</span>
+          </div>
+          <div class="transaction-amount">+500</div>
+        </div>
+        <div class="transaction-item spent">
+          <div class="transaction-icon">
+            <i class="fas fa-minus-circle"></i>
+          </div>
+          <div class="transaction-info">
+            <h4>دفع ثمن خدمة</h4>
+            <p>خدمة دوران الإطارات</p>
+            <span class="transaction-date">منذ أسبوع، 10:30 ص</span>
+          </div>
+          <div class="transaction-amount">-120</div>
+        </div>
+        <div class="transaction-item purchase">
+          <div class="transaction-icon">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="transaction-info">
+            <h4>شراء عملات</h4>
+            <p>الباقة المميزة - Apple Pay</p>
+            <span class="transaction-date">منذ أسبوع، 3:00 م</span>
+          </div>
+          <div class="transaction-amount">+3,400</div>
+        </div>
+      </div>
+      <button class="btn btn-outline load-more">
+        تحميل المزيد من المعاملات
+      </button>
+    </div> -->
+  </div>
+</main>

@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <span class="brand-text">RideFix</span>
+      <span class="brand-tagline">حارس الطريق</span>
+    </div>
+    
+    <div class="nav-menu" [class.active]="isMenuOpen">
+      <a href="#" class="nav-link" (click)="scrollToSection('features')">المميزات</a>
+      <a href="#" class="nav-link" (click)="scrollToSection('how-it-works')">كيف يعمل</a>
+      <a href="#" class="nav-link" (click)="scrollToSection('services')">الخدمات</a>
+    </div>
+    
+    <div class="nav-actions">
+      <button class="btn btn-outline" (click)="navigateToLogin()">تسجيل الدخول</button>
+      <button class="btn btn-primary" (click)="navigateToRegister()">ابدأ الآن</button>
+    </div>
+    
+    <div class="nav-toggle" (click)="toggleMenu()">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </div>
+  </div>
+</nav>

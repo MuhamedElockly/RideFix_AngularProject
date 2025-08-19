@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import Swal from 'sweetalert2';
 import { ChatService } from '../../../Services/ChatService/chat-service';
 import { IChatDetails } from '../../../Interfaces/Chat/ichat-details';
@@ -25,6 +26,7 @@ export class ChatDetailsComponent implements OnInit {
   userId: string = '';
   chatService = inject(ChatService);
   authService = inject(AuthService);
+  url = environment.imgurl;
 
   @Output() back = new EventEmitter<void>();
 

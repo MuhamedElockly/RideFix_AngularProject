@@ -4,6 +4,7 @@ import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { ITechnichianDetails } from '../../../../Interfaces/Technichan/ItechnichianDetails';
 import { TechnicianService } from '../../../../Services/TechnicianService/technician-service';
 import { AuthService } from '../../../../Services/AuthService/auth.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-profile-view',
@@ -13,6 +14,8 @@ import { AuthService } from '../../../../Services/AuthService/auth.service';
   encapsulation: ViewEncapsulation.None, // ✨ الحل هنا
 })
 export class ProfileView implements OnInit {
+  url = environment.imgurl;
+
   techService = inject(TechnicianService);
   technician: ITechnichianDetails | null = null;
   authService = inject(AuthService);

@@ -12,11 +12,12 @@
   z-index: 1000;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  direction: ltr;
 }
 
-* {
+/* * {
   direction: rtl;
-}
+} */
 .container-fluid {
   display: flex;
   align-items: center;
@@ -672,6 +673,7 @@
 /* يربط البانل بالزر */
 .notification-container {
   position: relative;
+  direction: rtl;
 }
 
 /* لو البانل جزء من النافبار: */
@@ -718,3 +720,6 @@
 .navbar {
   z-index: 1200;
 }
+/* * {
+  direction: ltr;
+} */

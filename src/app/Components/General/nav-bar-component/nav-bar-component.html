@@ -79,9 +79,17 @@
             <span>سيارتي</span>
           </a>
         </li>
-        }
-        
-        @if(userRole == 'Admin' || userRole == 'مدير'){
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/CarOwner/Wallet"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-wallet"></i>
+            <span>المحفظة</span>
+          </a>
+        </li>
+        } @if(userRole == 'Admin' || userRole == 'مدير'){
         <li class="nav-item">
           <a
             class="nav-link"
@@ -112,6 +120,7 @@
             <span>إدارة أصحاب السيارات</span>
           </a>
         </li>
+
         }
       </ul>
 
@@ -126,12 +135,9 @@
             <div class="user-info">
               <div class="user-name">أهلاً {{ userName }}</div>
               <div class="user-role">
-                @if(userRole == 'CarOwner'){
-                  صاحب سيارة
-                } @else if(userRole == 'Admin' || userRole == 'مدير'){
-                  مدير النظام
-                } @else {
-                  {{ userRole }}
+                @if(userRole == 'CarOwner'){ صاحب سيارة } @else if(userRole ==
+                'Admin' || userRole == 'مدير'){ مدير النظام } @else {
+                {{ userRole }}
                 }
               </div>
             </div>

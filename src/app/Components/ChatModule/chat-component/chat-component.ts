@@ -13,6 +13,7 @@ import { ChatService } from '../../../Services/ChatService/chat-service';
 import { ChatDetailsComponent } from '../chat-details-component/chat-details-component';
 import { LiveChatService } from '../../../Services/SignalRServices/LiveChatService/live-chat-service';
 import { CurrentChat } from '../current-chat/current-chat';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-chat-component',
   imports: [ChatDetailsComponent, CurrentChat],
@@ -21,6 +22,7 @@ import { CurrentChat } from '../current-chat/current-chat';
   encapsulation: ViewEncapsulation.None, // ✨ الحل هنا
 })
 export class ChatComponent implements OnInit, OnDestroy {
+  url = environment.imgurl;
   isRequestAvaliablle: boolean = true;
   isCurrentChat: boolean = true;
   ShowMessage: boolean = false;

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-accepted-requests',
   templateUrl: './accepted-requests.html',
   styleUrls: ['./accepted-requests.css'],
-  imports: [NgClass,DatePipe]
+  imports: [NgClass, DatePipe],
 })
 export class AcceptedRequestsComponent implements OnInit {
   acceptedRequests: Ihistorytech[] = [];
@@ -25,7 +25,6 @@ export class AcceptedRequestsComponent implements OnInit {
   }
 
   loadAcceptedRequests(): void {
-
     this.loading = true;
     //
     this.error = '';
@@ -37,23 +36,23 @@ export class AcceptedRequestsComponent implements OnInit {
         console.log('Accepted requests:', this.acceptedRequests);
       },
       error: (error) => {
-         if (error.status === 500) {
-    this.acceptedRequests = [];
-    this.error = '';
-  } else {
-    this.error = 'حدث خطأ في تحميل الطلبات المقبولة';
-  }
+        if (error.status === 500) {
+          this.acceptedRequests = [];
+          this.error = '';
+        } else {
+          this.error = 'حدث خطأ في تحميل الطلبات المقبولة';
+        }
         // console.error('Error loading accepted requests:', error);
         // this.error = 'حدث خطأ في تحميل الطلبات المقبولة';
         this.loading = false;
-      }
+      },
     });
   }
 
   navigateToRequestDetails(request: Ihistorytech): void {
     // Navigate to request details page with the request data
     this.router.navigate(['/technician/requestdetails'], {
-      state: { data: request }
+      state: { data: request },
     });
   }
 
@@ -89,18 +88,37 @@ export class AcceptedRequestsComponent implements OnInit {
 
   // Helper methods for filtering
   getPendingRequestsCount(): number {
-    return this.acceptedRequests.filter((r: Ihistorytech) => r.requestState === 1).length;
+    return this.acceptedRequests.filter(
+      (r: Ihistorytech) => r.requestState === 1
+    ).length;
   }
 
   getInProgressRequestsCount(): number {
-    return this.acceptedRequests.filter((r: Ihistorytech) => r.requestState === 2).length;
+    return this.acceptedRequests.filter(
+      (r: Ihistorytech) => r.requestState === 2
+    ).length;
   }
 
   getCompletedRequestsCount(): number {
-    return this.acceptedRequests.filter((r: Ihistorytech) => r.requestState === 3).length;
+    return this.acceptedRequests.filter(
+      (r: Ihistorytech) => r.requestState === 3
+    ).length;
   }
 
   getTotalRequestsCount(): number {
     return this.acceptedRequests.length;
+  }
+  cancelRequest(requestId: number): void {
+    // Implement the logic to cancel the request
+    this.techRequestService.cancelRequest(requestId).subscribe({
+      next: () => {
+        this.loadAcceptedRequests(); // Reload the requests after cancellation
+      },
+      error: (error) => {
+        console.error('Error cancelling request:', error);
+        this.error =
+          'لا يمكن إلغاء الطلب في الوقت الحالي - المدة الاقصي للالغاء 10 دقائق بعد القبول';
+      },
+    });
   }
 }
