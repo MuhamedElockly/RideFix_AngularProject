@@ -42,15 +42,16 @@
 
   <div #bottomOfMessages></div>
 
+
+  } @else {
+  <div class="no-messages">لا يوجد طلب جارى</div>
+  }
+</div>
+
+@if (chatDetails?.messages) {
   <!-- Chat Input -->
   <div class="chat-input-section">
     <div class="input-container">
-      <button class="attachment-btn camera">
-        <i class="fas fa-camera"></i>
-      </button>
-      <button class="attachment-btn file">
-        <i class="fas fa-paperclip"></i>
-      </button>
       <div class="message-input-wrapper">
         <input
           type="text"
@@ -68,7 +69,4 @@
       </button>
     </div>
   </div>
-  } @else {
-  <div class="no-messages">لا يوجد طلب جارى</div>
-  }
-</div>
+}
