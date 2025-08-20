@@ -11,6 +11,6 @@ requestState:number | null;
 category: string;
 latitude: number;
 longitude: number;
-requestImageUrl:string;
+attachmentUrl:string;
 city?: string; // Added city property for filtering
 }
